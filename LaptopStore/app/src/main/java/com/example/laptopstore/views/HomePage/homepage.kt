@@ -64,6 +64,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.app_e_commerce.R
 import com.example.app_e_commerce.model.BottomNavItem
 import com.example.app_e_commerce.model.Screems
+import com.example.laptopstore.R
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -128,7 +129,7 @@ fun SearchField() {
         shape = RoundedCornerShape(25.dp)
     )
 }
-
+// menu
 @Composable
 fun MenuBottomNavBar(navController: NavController) {
     val items = listOf(
@@ -170,13 +171,13 @@ fun MenuBottomNavBar(navController: NavController) {
         }
     }
 }
-
+// thêm ảnh có thể tư chuyển động
 @Composable
 fun ImageSlider() {
     val images = listOf(
-        R.drawable.bannergiay,
-        R.drawable.banner2,
-        R.drawable.banner3
+        R.drawable.anh1,
+        R.drawable.anh2,
+        R.drawable.anh2
     )
 
     val pagerState = rememberPagerState { images.size }
