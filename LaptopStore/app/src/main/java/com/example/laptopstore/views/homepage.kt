@@ -177,7 +177,7 @@ fun ImageSlider() {
     val images = listOf(
         R.drawable.anh1,
         R.drawable.anh2,
-        R.drawable.anh2
+        R.drawable.anh3
     )
 
     val pagerState = rememberPagerState { images.size }
