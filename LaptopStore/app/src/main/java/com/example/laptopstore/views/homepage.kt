@@ -24,6 +24,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.SavedSearch
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
@@ -61,10 +62,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.app_e_commerce.R
 import com.example.app_e_commerce.model.BottomNavItem
-import com.example.app_e_commerce.model.Screems
 import com.example.laptopstore.R
+import com.example.laptopstore.models.Screens
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -133,10 +133,10 @@ fun SearchField() {
 @Composable
 fun MenuBottomNavBar(navController: NavController) {
     val items = listOf(
-        BottomNavItem("Home", Icons.Default.Home,Screems.HOMEPAGE.route),
-        BottomNavItem("Categories", Icons.Default.List, Screems.CATAGORIES.route),
-        BottomNavItem("Cart", Icons.Default.ShoppingCart, Screems.CARTSCREENS.route),
-        BottomNavItem("Account", Icons.Default.Person, Screems.ACCOUNTSCREENS.route)
+        BottomNavItem("Home", Icons.Default.Home,Screens.HOMEPAGE.route),
+        BottomNavItem("Categories", Icons.Default.List, Screens.CATAGORIES.route),
+        BottomNavItem("Cart", Icons.Default.ShoppingCart, Screens.CARTSCREENS.route),
+        BottomNavItem("Account", Icons.Default.Person, Screens.ACCOUNTSCREENS.route)
     )
 
     var selectedItem by remember { mutableStateOf(0) }
@@ -163,7 +163,7 @@ fun MenuBottomNavBar(navController: NavController) {
                 onClick = {
                     selectedItem = index
                     navController.navigate(item.route) {
-                        popUpTo(Screems.HOMEPAGE.route) { inclusive = false }
+                        popUpTo(Screens.HOMEPAGE.route) { inclusive = false }
                         launchSingleTop = true
                     }
                 }

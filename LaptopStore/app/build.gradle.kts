@@ -10,8 +10,8 @@ android {
 
     defaultConfig {
         applicationId = "com.example.laptopstore"
-        minSdk = 30
-        targetSdk = 35
+        minSdk = 28
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -60,6 +60,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.runtime.android)
+    implementation(libs.androidx.ui.test.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
