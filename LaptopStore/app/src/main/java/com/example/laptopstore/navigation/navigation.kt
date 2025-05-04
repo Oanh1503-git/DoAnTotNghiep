@@ -1,6 +1,7 @@
 package com.example.laptopstore.navigation
 
 import AccountScreens
+import CartScreen
 import androidx.compose.foundation.interaction.DragInteraction
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHost
@@ -21,9 +22,9 @@ fun NavigationGraph(navHostController: NavHostController){
 //        composable(Screens.CATAGORIES.route) {
 //            Categories(navHostController)
 //        }
-//        composable(Screens.CARTSCREENS.route) {
-//            CartScreen(navHostController)
-//        }
+        composable(Screens.CARTSCREENS.route) {
+            CartScreen(navHostController)
+        }
         composable(Screens.ACCOUNTSCREENS.route) {
             AccountScreens(navHostController)
         }
