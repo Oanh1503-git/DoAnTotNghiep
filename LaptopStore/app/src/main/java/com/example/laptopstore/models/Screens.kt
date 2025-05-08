@@ -5,4 +5,6 @@ package com.example.laptopstore.models
         object CATAGORIES:Screens("categories")
         object CARTSCREENS:Screens("cartscreens")
         object ACCOUNTSCREENS:Screens("account")
+        object PRODUCTDETAIL:Screens("productdetail")
+        object CHECKOUTSCREENS : Screens("checkout/{totalPrice}/{cartItems}")
  }
