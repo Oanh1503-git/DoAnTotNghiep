@@ -7,5 +7,4 @@ package com.example.laptopstore.models
         object ACCOUNTSCREENS:Screens("account")
         object PRODUCTDETAIL:Screens("productdetail")
         object CHECKOUTSCREENS : Screens("checkout/{totalPrice}/{cartItems}")
-
  }

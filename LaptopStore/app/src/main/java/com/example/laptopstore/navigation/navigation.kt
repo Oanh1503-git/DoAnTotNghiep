@@ -8,11 +8,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.laptopstore.models.Screens
 import com.example.laptopstore.views.Categories
-
-
+import com.example.laptopstore.views.ProductDetail
+import com.example.laptopstore.views.CartScreen
+import com.example.laptopstore.views.CheckoutScreen
 
 @Composable
-fun NavigationGraph(navHostController: NavHostController){
+fun NavigationGraph(navHostController: NavHostController) {
     NavHost(navController = navHostController,
         startDestination = Screens.HOMEPAGE.route) {
         composable(Screens.HOMEPAGE.route) {
@@ -21,12 +22,20 @@ fun NavigationGraph(navHostController: NavHostController){
         composable(Screens.CATAGORIES.route) {
             Categories(navHostController)
         }
-//        composable(Screens.CARTSCREENS.route) {
-//            CartScreen(navHostController)
-//        }
+        composable(Screens.CARTSCREENS.route) {
+            CartScreen(navHostController)
+        }
         composable(Screens.ACCOUNTSCREENS.route) {
             AccountScreens(navHostController)
         }
+        composable("product_detail/{productId}") { backStackEntry ->
+            val productId = backStackEntry.arguments?.getString("productId")?.toInt() ?: 0
+            ProductDetail(navController = navHostController, productId = productId)
+        }
+        composable("checkout/{totalPrice}/{cartItems}") { backStackEntry ->
+            val totalPrice = backStackEntry.arguments?.getString("totalPrice")?.toInt() ?: 0
+            val cartItemsJson = backStackEntry.arguments?.getString("cartItems") ?: ""
+            CheckoutScreen(navController = navHostController, totalPrice = totalPrice, cartItemsJson = cartItemsJson)
+        }
     }
-
 }
