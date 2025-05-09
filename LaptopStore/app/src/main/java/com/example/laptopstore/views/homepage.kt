@@ -1,8 +1,8 @@
+package com.example.laptopstore.views
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -13,15 +13,20 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.SavedSearch
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -31,14 +36,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.app_e_commerce.model.BottomNavItem
 import com.example.laptopstore.R
@@ -56,19 +62,27 @@ fun HOMEPAGE(navController: NavHostController) {
             )
         },
         bottomBar = {
+            BottomAppBar() {
                 MenuBottomNavBar(navController)
             }
+        }
     ) { innerPadding ->
         LazyColumn(
             modifier = Modifier
                 .padding(innerPadding)
+                .padding(10.dp)
                 .fillMaxSize()
         ) {
+            item { ImageSlider() }
             item {
                 Text(
+                    text = "Dành riêng cho bạn ",
                     fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(vertical = 8.dp)
                 )
             }
+            item{
 
             }
         }
@@ -77,16 +91,34 @@ fun HOMEPAGE(navController: NavHostController) {
 
 @Composable
 fun SearchField() {
+    var text by remember { mutableStateOf("") }
+    OutlinedTextField(
+        value = text,
+        onValueChange = { text = it },
+        leadingIcon = { Icon(Icons.Default.SavedSearch, contentDescription = "search_tapbar") },
+        placeholder = { Text(text = "Tìm kiếm") },
+        modifier = Modifier.fillMaxWidth(),
+        trailingIcon = {
             Button(
+                onClick = {},
+                modifier = Modifier.padding(6.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.Red,
                     contentColor = Color.White
+                )
             ) {
+                Text(text = "SEARCH", textAlign = TextAlign.Center)
+            }
+        },
+        shape = RoundedCornerShape(25.dp)
     )
 }
+// menu
 @Composable
+fun MenuBottomNavBar(navController: NavController) {
     val items = listOf(
         BottomNavItem("Home", Icons.Default.Home,Screens.HOMEPAGE.route),
+        BottomNavItem("Categories", Icons.Default.List, Screens.CATAGORIES.route),
         BottomNavItem("Cart", Icons.Default.ShoppingCart, Screens.CARTSCREENS.route),
         BottomNavItem("Account", Icons.Default.Person, Screens.ACCOUNTSCREENS.route)
     )
@@ -120,6 +152,40 @@ fun SearchField() {
                     }
                 }
             )
+        }
+    }
+}
+// thêm ảnh có thể tư chuyển động
+@Composable
+fun ImageSlider() {
+    val images = listOf(
+        R.drawable.anh1,
+        R.drawable.anh2,
+        R.drawable.anh3
+    )
+
+    val pagerState = rememberPagerState { images.size }
+
+    Column(
+        modifier = Modifier.fillMaxWidth().background(Color.Transparent)
+    ) {
+        HorizontalPager(
+            state = pagerState,
+            modifier = Modifier.fillMaxWidth().height(180.dp)
+        ) { page ->
+            Image(
+                painter = painterResource(id = images[page]),
+                contentDescription = "Banner $page",
+                modifier = Modifier.fillMaxSize().padding(8.dp),
+                contentScale = ContentScale.Crop
+            )
+        }
+    }
+
+    LaunchedEffect(pagerState) {
+        while (true) {
+            delay(3000)
+            pagerState.animateScrollToPage((pagerState.currentPage + 1) % images.size)
         }
     }
 }
