@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -54,8 +53,6 @@ dependencies {
     implementation ("androidx.compose.foundation:foundation:1.5.0")
     implementation ("io.coil-kt:coil-compose:2.4.0")
     implementation ("androidx.compose.animation:animation:1.5.0")
-    implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
-    implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
