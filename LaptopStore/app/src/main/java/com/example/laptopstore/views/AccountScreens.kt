@@ -12,11 +12,8 @@ import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Details
 import androidx.compose.material.icons.filled.Diversity1
 import androidx.compose.material.icons.filled.Person
-<<<<<<< Updated upstream
-=======
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
->>>>>>> Stashed changes
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
