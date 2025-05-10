@@ -1,78 +1,106 @@
 [
     {
-        "merged": "com.example.laptopstore.app-debug-53:/drawable_anh3.jpg.flat",
-        "source": "com.example.laptopstore.app-main-55:/drawable/anh3.jpg"
+        "merged": "com.example.laptopstore.app-debug-58:/drawable_anh3.jpg.flat",
+        "source": "com.example.laptopstore.app-main-60:/drawable/anh3.jpg"
     },
     {
-        "merged": "com.example.laptopstore.app-debug-53:/mipmap-anydpi_ic_launcher.xml.flat",
-        "source": "com.example.laptopstore.app-main-55:/mipmap-anydpi/ic_launcher.xml"
+        "merged": "com.example.laptopstore.app-debug-58:/mipmap-anydpi_ic_launcher.xml.flat",
+        "source": "com.example.laptopstore.app-main-60:/mipmap-anydpi/ic_launcher.xml"
     },
     {
-        "merged": "com.example.laptopstore.app-debug-53:/drawable_anh2.jpg.flat",
-        "source": "com.example.laptopstore.app-main-55:/drawable/anh2.jpg"
+        "merged": "com.example.laptopstore.app-debug-58:/drawable_anh1.jpg.flat",
+        "source": "com.example.laptopstore.app-main-60:/drawable/anh1.jpg"
     },
     {
-        "merged": "com.example.laptopstore.app-debug-53:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.laptopstore.app-main-55:/mipmap-xxxhdpi/ic_launcher_round.webp"
+        "merged": "com.example.laptopstore.app-debug-58:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "com.example.laptopstore.app-main-60:/mipmap-mdpi/ic_launcher.webp"
     },
     {
-        "merged": "com.example.laptopstore.app-debug-53:/drawable_ic_launcher_background.xml.flat",
-        "source": "com.example.laptopstore.app-main-55:/drawable/ic_launcher_background.xml"
+        "merged": "com.example.laptopstore.app-debug-58:/drawable_msi.png.flat",
+        "source": "com.example.laptopstore.app-main-60:/drawable/msi.png"
     },
     {
-        "merged": "com.example.laptopstore.app-debug-53:/mipmap-hdpi_ic_launcher.webp.flat",
-        "source": "com.example.laptopstore.app-main-55:/mipmap-hdpi/ic_launcher.webp"
+        "merged": "com.example.laptopstore.app-debug-58:/drawable_ic_launcher_background.xml.flat",
+        "source": "com.example.laptopstore.app-main-60:/drawable/ic_launcher_background.xml"
     },
     {
-        "merged": "com.example.laptopstore.app-debug-53:/mipmap-mdpi_ic_launcher.webp.flat",
-        "source": "com.example.laptopstore.app-main-55:/mipmap-mdpi/ic_launcher.webp"
+        "merged": "com.example.laptopstore.app-debug-58:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "com.example.laptopstore.app-main-60:/mipmap-xxxhdpi/ic_launcher.webp"
     },
     {
-        "merged": "com.example.laptopstore.app-debug-53:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.laptopstore.app-main-55:/mipmap-xxhdpi/ic_launcher_round.webp"
+        "merged": "com.example.laptopstore.app-debug-58:/drawable_acer.png.flat",
+        "source": "com.example.laptopstore.app-main-60:/drawable/acer.png"
     },
     {
-        "merged": "com.example.laptopstore.app-debug-53:/mipmap-hdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.laptopstore.app-main-55:/mipmap-hdpi/ic_launcher_round.webp"
+        "merged": "com.example.laptopstore.app-debug-58:/drawable_lenovo.png.flat",
+        "source": "com.example.laptopstore.app-main-60:/drawable/lenovo.png"
     },
     {
-        "merged": "com.example.laptopstore.app-debug-53:/xml_backup_rules.xml.flat",
-        "source": "com.example.laptopstore.app-main-55:/xml/backup_rules.xml"
+        "merged": "com.example.laptopstore.app-debug-58:/mipmap-anydpi_ic_launcher_round.xml.flat",
+        "source": "com.example.laptopstore.app-main-60:/mipmap-anydpi/ic_launcher_round.xml"
     },
     {
-        "merged": "com.example.laptopstore.app-debug-53:/mipmap-mdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.laptopstore.app-main-55:/mipmap-mdpi/ic_launcher_round.webp"
+        "merged": "com.example.laptopstore.app-debug-58:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.laptopstore.app-main-60:/mipmap-mdpi/ic_launcher_round.webp"
     },
     {
-        "merged": "com.example.laptopstore.app-debug-53:/mipmap-xxxhdpi_ic_launcher.webp.flat",
-        "source": "com.example.laptopstore.app-main-55:/mipmap-xxxhdpi/ic_launcher.webp"
+        "merged": "com.example.laptopstore.app-debug-58:/drawable_asus.png.flat",
+        "source": "com.example.laptopstore.app-main-60:/drawable/asus.png"
     },
     {
-        "merged": "com.example.laptopstore.app-debug-53:/xml_data_extraction_rules.xml.flat",
-        "source": "com.example.laptopstore.app-main-55:/xml/data_extraction_rules.xml"
+        "merged": "com.example.laptopstore.app-debug-58:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "com.example.laptopstore.app-main-60:/mipmap-xxhdpi/ic_launcher.webp"
     },
     {
-        "merged": "com.example.laptopstore.app-debug-53:/mipmap-xhdpi_ic_launcher.webp.flat",
-        "source": "com.example.laptopstore.app-main-55:/mipmap-xhdpi/ic_launcher.webp"
+        "merged": "com.example.laptopstore.app-debug-58:/mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "com.example.laptopstore.app-main-60:/mipmap-hdpi/ic_launcher.webp"
     },
     {
-        "merged": "com.example.laptopstore.app-debug-53:/mipmap-xhdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.laptopstore.app-main-55:/mipmap-xhdpi/ic_launcher_round.webp"
+        "merged": "com.example.laptopstore.app-debug-58:/mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.laptopstore.app-main-60:/mipmap-hdpi/ic_launcher_round.webp"
     },
     {
-        "merged": "com.example.laptopstore.app-debug-53:/mipmap-xxhdpi_ic_launcher.webp.flat",
-        "source": "com.example.laptopstore.app-main-55:/mipmap-xxhdpi/ic_launcher.webp"
+        "merged": "com.example.laptopstore.app-debug-58:/drawable_anh2.jpg.flat",
+        "source": "com.example.laptopstore.app-main-60:/drawable/anh2.jpg"
     },
     {
-        "merged": "com.example.laptopstore.app-debug-53:/drawable_ic_launcher_foreground.xml.flat",
-        "source": "com.example.laptopstore.app-main-55:/drawable/ic_launcher_foreground.xml"
+        "merged": "com.example.laptopstore.app-debug-58:/drawable_ap.png.flat",
+        "source": "com.example.laptopstore.app-main-60:/drawable/ap.png"
     },
     {
-        "merged": "com.example.laptopstore.app-debug-53:/drawable_anh1.jpg.flat",
-        "source": "com.example.laptopstore.app-main-55:/drawable/anh1.jpg"
+        "merged": "com.example.laptopstore.app-debug-58:/drawable_hp.png.flat",
+        "source": "com.example.laptopstore.app-main-60:/drawable/hp.png"
     },
     {
-        "merged": "com.example.laptopstore.app-debug-53:/mipmap-anydpi_ic_launcher_round.xml.flat",
-        "source": "com.example.laptopstore.app-main-55:/mipmap-anydpi/ic_launcher_round.xml"
+        "merged": "com.example.laptopstore.app-debug-58:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "com.example.laptopstore.app-main-60:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "com.example.laptopstore.app-debug-58:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.laptopstore.app-main-60:/mipmap-xhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.laptopstore.app-debug-58:/xml_backup_rules.xml.flat",
+        "source": "com.example.laptopstore.app-main-60:/xml/backup_rules.xml"
+    },
+    {
+        "merged": "com.example.laptopstore.app-debug-58:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "com.example.laptopstore.app-main-60:/mipmap-xhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.laptopstore.app-debug-58:/xml_data_extraction_rules.xml.flat",
+        "source": "com.example.laptopstore.app-main-60:/xml/data_extraction_rules.xml"
+    },
+    {
+        "merged": "com.example.laptopstore.app-debug-58:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.laptopstore.app-main-60:/mipmap-xxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.laptopstore.app-debug-58:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.laptopstore.app-main-60:/mipmap-xxxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.laptopstore.app-debug-58:/drawable_dell.png.flat",
+        "source": "com.example.laptopstore.app-main-60:/drawable/dell.png"
     }
 ]

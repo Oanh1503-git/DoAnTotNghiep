@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.laptopstore.app-mergeDebugResources-51:/values-v28/values-v28.xml",
+            "outputFile": "com.example.laptopstore.app-mergeDebugResources-56:/values-v28/values-v28.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\MSI\\.gradle\\caches\\8.10.2\\transforms\\0ea23dbaa8b3c6d3170b2af99afaad7f\\transformed\\core-1.5.0\\res\\values-v28\\values.xml",
+                    "source": "C:\\Users\\MSI\\.gradle\\caches\\8.10.2\\transforms\\2f2049ff5a4cd4f1fa43f73c57b7aacf\\transformed\\core-1.5.0\\res\\values-v28\\values.xml",
                     "from": {
                         "startLines": "4,13",
                         "startColumns": "0,0",
