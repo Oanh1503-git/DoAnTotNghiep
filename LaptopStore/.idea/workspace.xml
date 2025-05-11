@@ -9,9 +9,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4b5c364a-952e-436f-8cc5-fa50e8b8d708" name="Changes" comment="basic acccountScreens.kt">
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/laptopstore/views/AccountScreens.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/laptopstore/views/AccountScreens.kt" afterDir="false" />
-    </list>
+    <list default="true" id="4b5c364a-952e-436f-8cc5-fa50e8b8d708" name="Changes" comment="basic acccountScreens.kt" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
