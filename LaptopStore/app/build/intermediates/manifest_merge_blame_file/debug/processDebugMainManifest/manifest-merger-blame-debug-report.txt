@@ -9,8 +9,8 @@
 9        android:targetSdkVersion="34" />
 10
 11    <uses-permission android:name="android.permission.INTERNET" />
-11-->D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:4:5-66
-11-->D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:4:22-64
+11-->D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:4:5-66
+11-->D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:4:22-64
 12    <uses-permission android:name="android.permission.REORDER_TASKS" />
 12-->[androidx.test:core:1.5.0] C:\Users\MSI\.gradle\caches\8.10.2\transforms\2f2049ff5a4cd4f1fa43f73c57b7aacf\transformed\core-1.5.0\AndroidManifest.xml:24:5-72
 12-->[androidx.test:core:1.5.0] C:\Users\MSI\.gradle\caches\8.10.2\transforms\2f2049ff5a4cd4f1fa43f73c57b7aacf\transformed\core-1.5.0\AndroidManifest.xml:24:22-69
@@ -59,47 +59,47 @@
 31-->[androidx.core:core:1.15.0] C:\Users\MSI\.gradle\caches\8.10.2\transforms\3707fe04bf3c198c143541eefbe56280\transformed\core-1.15.0\AndroidManifest.xml:26:22-94
 32
 33    <application
-33-->D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:5:5-26:19
+33-->D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:5:5-26:19
 34        android:allowBackup="true"
-34-->D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:6:9-35
+34-->D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:6:9-35
 35        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
 35-->[androidx.core:core:1.15.0] C:\Users\MSI\.gradle\caches\8.10.2\transforms\3707fe04bf3c198c143541eefbe56280\transformed\core-1.15.0\AndroidManifest.xml:28:18-86
 36        android:dataExtractionRules="@xml/data_extraction_rules"
-36-->D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:7:9-65
+36-->D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:7:9-65
 37        android:debuggable="true"
 38        android:extractNativeLibs="false"
 39        android:fullBackupContent="@xml/backup_rules"
-39-->D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:8:9-54
+39-->D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:8:9-54
 40        android:icon="@mipmap/ic_launcher"
-40-->D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:9:9-43
+40-->D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:9:9-43
 41        android:label="@string/app_name"
-41-->D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:10:9-41
+41-->D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:10:9-41
 42        android:roundIcon="@mipmap/ic_launcher_round"
-42-->D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:11:9-54
+42-->D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:11:9-54
 43        android:supportsRtl="true"
-43-->D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:12:9-35
+43-->D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:12:9-35
 44        android:testOnly="true"
 45        android:theme="@style/Theme.LaptopStore" >
-45-->D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:13:9-49
+45-->D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:13:9-49
 46        <activity
-46-->D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:15:9-25:20
+46-->D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:15:9-25:20
 47            android:name="com.example.laptopstore.MainActivity"
-47-->D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:16:13-41
+47-->D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:16:13-41
 48            android:exported="true"
-48-->D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:17:13-36
+48-->D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:17:13-36
 49            android:label="@string/app_name"
-49-->D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:18:13-45
+49-->D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:18:13-45
 50            android:theme="@style/Theme.LaptopStore" >
-50-->D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:19:13-53
+50-->D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:19:13-53
 51            <intent-filter>
-51-->D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:20:13-24:29
+51-->D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:20:13-24:29
 52                <action android:name="android.intent.action.MAIN" />
-52-->D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:21:17-69
-52-->D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:21:25-66
+52-->D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:21:17-69
+52-->D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:21:25-66
 53
 54                <category android:name="android.intent.category.LAUNCHER" />
-54-->D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:23:17-77
-54-->D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:23:27-74
+54-->D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:23:17-77
+54-->D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:23:27-74
 55            </intent-filter>
 56        </activity>
 57        <activity
@@ -120,8 +120,8 @@
 64-->[androidx.test:core:1.5.0] C:\Users\MSI\.gradle\caches\8.10.2\transforms\2f2049ff5a4cd4f1fa43f73c57b7aacf\transformed\core-1.5.0\AndroidManifest.xml:31:13-33:29
 64-->[androidx.test:core:1.5.0] C:\Users\MSI\.gradle\caches\8.10.2\transforms\2f2049ff5a4cd4f1fa43f73c57b7aacf\transformed\core-1.5.0\AndroidManifest.xml:31:28-51
 65                <category android:name="android.intent.category.LAUNCHER" />
-65-->D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:23:17-77
-65-->D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:23:27-74
+65-->D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:23:17-77
+65-->D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:23:27-74
 66            </intent-filter>
 67        </activity>
 68        <activity
@@ -136,8 +136,8 @@
 72-->[androidx.test:core:1.5.0] C:\Users\MSI\.gradle\caches\8.10.2\transforms\2f2049ff5a4cd4f1fa43f73c57b7aacf\transformed\core-1.5.0\AndroidManifest.xml:31:13-33:29
 72-->[androidx.test:core:1.5.0] C:\Users\MSI\.gradle\caches\8.10.2\transforms\2f2049ff5a4cd4f1fa43f73c57b7aacf\transformed\core-1.5.0\AndroidManifest.xml:31:28-51
 73                <category android:name="android.intent.category.LAUNCHER" />
-73-->D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:23:17-77
-73-->D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:23:27-74
+73-->D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:23:17-77
+73-->D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:23:27-74
 74            </intent-filter>
 75        </activity>
 76        <activity
@@ -152,8 +152,8 @@
 80-->[androidx.test:core:1.5.0] C:\Users\MSI\.gradle\caches\8.10.2\transforms\2f2049ff5a4cd4f1fa43f73c57b7aacf\transformed\core-1.5.0\AndroidManifest.xml:31:13-33:29
 80-->[androidx.test:core:1.5.0] C:\Users\MSI\.gradle\caches\8.10.2\transforms\2f2049ff5a4cd4f1fa43f73c57b7aacf\transformed\core-1.5.0\AndroidManifest.xml:31:28-51
 81                <category android:name="android.intent.category.LAUNCHER" />
-81-->D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:23:17-77
-81-->D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:23:27-74
+81-->D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:23:17-77
+81-->D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:23:27-74
 82            </intent-filter>
 83        </activity>
 84

@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:2:1-28:12
-INJECTED from D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:2:1-28:12
-INJECTED from D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:2:1-28:12
-INJECTED from D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:2:1-28:12
+ADDED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:2:1-28:12
+INJECTED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:2:1-28:12
+INJECTED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:2:1-28:12
+INJECTED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:2:1-28:12
 MERGED from [io.coil-kt:coil-compose:2.7.0] C:\Users\MSI\.gradle\caches\8.10.2\transforms\c66cfd6f02660b6dac61ba6684b842e0\transformed\coil-compose-2.7.0\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.compose.ui:ui-test-android:1.8.0] C:\Users\MSI\.gradle\caches\8.10.2\transforms\3ae66dbb85f5bb400f655b081a881b7c\transformed\ui-test-release\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.navigation:navigation-common-android:2.9.0-beta01] C:\Users\MSI\.gradle\caches\8.10.2\transforms\2d5ebe815a518bbc1d9941c35c8e32b1\transformed\navigation-common-release\AndroidManifest.xml:17:1-22:12
@@ -94,22 +94,22 @@ MERGED from [androidx.exifinterface:exifinterface:1.3.7] C:\Users\MSI\.gradle\ca
 MERGED from [androidx.arch.core:core-runtime:2.2.0] C:\Users\MSI\.gradle\caches\8.10.2\transforms\4eac5059c52c20e2a60761a5790788cb\transformed\core-runtime-2.2.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.test.espresso:espresso-idling-resource:3.5.0] C:\Users\MSI\.gradle\caches\8.10.2\transforms\050b3c0613e2cfaf0d35a71e5c931a7f\transformed\espresso-idling-resource-3.5.0\AndroidManifest.xml:17:1-24:12
 	package
-		INJECTED from D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml
+		INJECTED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml
 	android:versionName
-		INJECTED from D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml
+		INJECTED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml
 	xmlns:tools
-		ADDED from D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:3:5-51
+		ADDED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:3:5-51
 	android:versionCode
-		INJECTED from D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml
+		INJECTED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml
 	xmlns:android
-		ADDED from D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:2:11-69
+		ADDED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:2:11-69
 uses-permission#android.permission.INTERNET
-ADDED from D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:4:5-66
+ADDED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:4:5-66
 	android:name
-		ADDED from D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:4:22-64
+		ADDED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:4:22-64
 application
-ADDED from D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:5:5-26:19
-INJECTED from D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:5:5-26:19
+ADDED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:5:5-26:19
+INJECTED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:5:5-26:19
 MERGED from [androidx.compose.ui:ui-tooling-android:1.8.0] C:\Users\MSI\.gradle\caches\8.10.2\transforms\b58d35951c24a16700bc55fc073b63ea\transformed\ui-tooling-release\AndroidManifest.xml:22:5-26:19
 MERGED from [androidx.compose.ui:ui-tooling-android:1.8.0] C:\Users\MSI\.gradle\caches\8.10.2\transforms\b58d35951c24a16700bc55fc073b63ea\transformed\ui-tooling-release\AndroidManifest.xml:22:5-26:19
 MERGED from [androidx.test:core:1.5.0] C:\Users\MSI\.gradle\caches\8.10.2\transforms\2f2049ff5a4cd4f1fa43f73c57b7aacf\transformed\core-1.5.0\AndroidManifest.xml:26:5-51:19
@@ -139,51 +139,51 @@ MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\MSI\.gradle\caches
 MERGED from [androidx.room:room-runtime:2.2.5] C:\Users\MSI\.gradle\caches\8.10.2\transforms\998265b493eb321addaaf8ff4a73bb4a\transformed\room-runtime-2.2.5\AndroidManifest.xml:24:5-29:19
 MERGED from [androidx.room:room-runtime:2.2.5] C:\Users\MSI\.gradle\caches\8.10.2\transforms\998265b493eb321addaaf8ff4a73bb4a\transformed\room-runtime-2.2.5\AndroidManifest.xml:24:5-29:19
 	android:extractNativeLibs
-		INJECTED from D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml
+		INJECTED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.15.0] C:\Users\MSI\.gradle\caches\8.10.2\transforms\3707fe04bf3c198c143541eefbe56280\transformed\core-1.15.0\AndroidManifest.xml:28:18-86
 	android:supportsRtl
-		ADDED from D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:12:9-35
+		ADDED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:12:9-35
 	android:label
-		ADDED from D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:10:9-41
+		ADDED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:10:9-41
 	android:fullBackupContent
-		ADDED from D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:8:9-54
+		ADDED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:8:9-54
 	android:roundIcon
-		ADDED from D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:11:9-54
+		ADDED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:11:9-54
 	tools:targetApi
-		ADDED from D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:14:9-29
+		ADDED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:14:9-29
 	android:icon
-		ADDED from D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:9:9-43
+		ADDED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:9:9-43
 	android:allowBackup
-		ADDED from D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:6:9-35
+		ADDED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:6:9-35
 	android:theme
-		ADDED from D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:13:9-49
+		ADDED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:13:9-49
 	android:dataExtractionRules
-		ADDED from D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:7:9-65
+		ADDED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:7:9-65
 activity#com.example.laptopstore.MainActivity
-ADDED from D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:15:9-25:20
+ADDED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:15:9-25:20
 	android:label
-		ADDED from D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:18:13-45
+		ADDED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:18:13-45
 	android:exported
-		ADDED from D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:17:13-36
+		ADDED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:17:13-36
 	android:theme
-		ADDED from D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:19:13-53
+		ADDED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:19:13-53
 	android:name
-		ADDED from D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:16:13-41
+		ADDED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:16:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:20:13-24:29
+ADDED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:20:13-24:29
 action#android.intent.action.MAIN
-ADDED from D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:21:17-69
+ADDED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:21:17-69
 	android:name
-		ADDED from D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:21:25-66
+		ADDED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:21:25-66
 category#android.intent.category.LAUNCHER
-ADDED from D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:23:17-77
+ADDED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:23:17-77
 	android:name
-		ADDED from D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:23:27-74
+		ADDED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:23:27-74
 uses-sdk
-INJECTED from D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml
-INJECTED from D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml
+INJECTED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml
+INJECTED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml
 MERGED from [io.coil-kt:coil-compose:2.7.0] C:\Users\MSI\.gradle\caches\8.10.2\transforms\c66cfd6f02660b6dac61ba6684b842e0\transformed\coil-compose-2.7.0\AndroidManifest.xml:5:5-44
 MERGED from [io.coil-kt:coil-compose:2.7.0] C:\Users\MSI\.gradle\caches\8.10.2\transforms\c66cfd6f02660b6dac61ba6684b842e0\transformed\coil-compose-2.7.0\AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.ui:ui-test-android:1.8.0] C:\Users\MSI\.gradle\caches\8.10.2\transforms\3ae66dbb85f5bb400f655b081a881b7c\transformed\ui-test-release\AndroidManifest.xml:5:5-44
@@ -363,11 +363,11 @@ MERGED from [androidx.arch.core:core-runtime:2.2.0] C:\Users\MSI\.gradle\caches\
 MERGED from [androidx.test.espresso:espresso-idling-resource:3.5.0] C:\Users\MSI\.gradle\caches\8.10.2\transforms\050b3c0613e2cfaf0d35a71e5c931a7f\transformed\espresso-idling-resource-3.5.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.test.espresso:espresso-idling-resource:3.5.0] C:\Users\MSI\.gradle\caches\8.10.2\transforms\050b3c0613e2cfaf0d35a71e5c931a7f\transformed\espresso-idling-resource-3.5.0\AndroidManifest.xml:20:5-22:41
 	android:targetSdkVersion
-		INJECTED from D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml
+		INJECTED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml
 	tools:ignore
 		ADDED from [com.google.accompanist:accompanist-pager-indicators:0.31.3-beta] C:\Users\MSI\.gradle\caches\8.10.2\transforms\bf305ae0ff23c1c5a9f74674c59f029f\transformed\accompanist-pager-indicators-0.31.3-beta\AndroidManifest.xml:23:9-39
 	android:minSdkVersion
-		INJECTED from D:\lap_trinh\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml
+		INJECTED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml
 activity#androidx.compose.ui.tooling.PreviewActivity
 ADDED from [androidx.compose.ui:ui-tooling-android:1.8.0] C:\Users\MSI\.gradle\caches\8.10.2\transforms\b58d35951c24a16700bc55fc073b63ea\transformed\ui-tooling-release\AndroidManifest.xml:23:9-25:39
 	android:exported

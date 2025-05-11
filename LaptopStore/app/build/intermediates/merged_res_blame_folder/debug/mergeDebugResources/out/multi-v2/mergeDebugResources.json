@@ -3808,6 +3808,23 @@
                     }
                 },
                 {
+                    "source": "D:\\DoAn\\DoAnTotNghiep\\LaptopStore\\app\\src\\main\\res\\values\\themes.xml",
+                    "from": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "59",
+                        "endColumns": "88",
+                        "endOffsets": "143"
+                    },
+                    "to": {
+                        "startLines": "229",
+                        "startColumns": "4",
+                        "startOffsets": "14512",
+                        "endColumns": "87",
+                        "endOffsets": "14595"
+                    }
+                },
+                {
                     "source": "C:\\Users\\MSI\\.gradle\\caches\\8.10.2\\transforms\\c354011d07dfaad6fe60f0de051c789d\\transformed\\play-services-basement-18.4.0\\res\\values\\values.xml",
                     "from": {
                         "startLines": "4,7",
@@ -3844,23 +3861,6 @@
                     }
                 },
                 {
-                    "source": "D:\\lap_trinh\\DoAnTotNghiep\\LaptopStore\\app\\src\\main\\res\\values\\colors.xml",
-                    "from": {
-                        "startLines": "7,2,3,4,5,6,8",
-                        "startColumns": "4,4,4,4,4,4,4",
-                        "startOffsets": "293,57,105,153,201,247,336",
-                        "endColumns": "41,46,46,46,44,44,41",
-                        "endOffsets": "330,99,147,195,241,287,373"
-                    },
-                    "to": {
-                        "startLines": "9,14,15,16,17,18,19",
-                        "startColumns": "4,4,4,4,4,4,4",
-                        "startOffsets": "630,935,982,1029,1076,1121,1166",
-                        "endColumns": "41,46,46,46,44,44,41",
-                        "endOffsets": "667,977,1024,1071,1116,1161,1203"
-                    }
-                },
-                {
                     "source": "C:\\Users\\MSI\\.gradle\\caches\\8.10.2\\transforms\\0c284048d115e4262724d787fbcccd38\\transformed\\work-runtime-2.7.0\\res\\values\\values.xml",
                     "from": {
                         "startLines": "2,3,4,5",
@@ -3875,6 +3875,23 @@
                         "startOffsets": "210,275,345,409",
                         "endColumns": "64,69,63,60",
                         "endOffsets": "270,340,404,465"
+                    }
+                },
+                {
+                    "source": "D:\\DoAn\\DoAnTotNghiep\\LaptopStore\\app\\src\\main\\res\\values\\colors.xml",
+                    "from": {
+                        "startLines": "7,2,3,4,5,6,8",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "293,57,105,153,201,247,336",
+                        "endColumns": "41,46,46,46,44,44,41",
+                        "endOffsets": "330,99,147,195,241,287,373"
+                    },
+                    "to": {
+                        "startLines": "9,14,15,16,17,18,19",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "630,935,982,1029,1076,1121,1166",
+                        "endColumns": "41,46,46,46,44,44,41",
+                        "endOffsets": "667,977,1024,1071,1116,1161,1203"
                     }
                 },
                 {
@@ -3986,23 +4003,6 @@
                     }
                 },
                 {
-                    "source": "D:\\lap_trinh\\DoAnTotNghiep\\LaptopStore\\app\\src\\main\\res\\values\\strings.xml",
-                    "from": {
-                        "startLines": "1",
-                        "startColumns": "4",
-                        "startOffsets": "17",
-                        "endColumns": "48",
-                        "endOffsets": "61"
-                    },
-                    "to": {
-                        "startLines": "115",
-                        "startColumns": "4",
-                        "startOffsets": "6875",
-                        "endColumns": "48",
-                        "endOffsets": "6919"
-                    }
-                },
-                {
                     "source": "C:\\Users\\MSI\\.gradle\\caches\\8.10.2\\transforms\\bc04a8efb95e796905015892a119fbca\\transformed\\coil-base-2.7.0\\res\\values\\values.xml",
                     "from": {
                         "startLines": "2",
@@ -4090,20 +4090,20 @@
                     }
                 },
                 {
-                    "source": "D:\\lap_trinh\\DoAnTotNghiep\\LaptopStore\\app\\src\\main\\res\\values\\themes.xml",
+                    "source": "D:\\DoAn\\DoAnTotNghiep\\LaptopStore\\app\\src\\main\\res\\values\\strings.xml",
                     "from": {
-                        "startLines": "3",
+                        "startLines": "1",
                         "startColumns": "4",
-                        "startOffsets": "59",
-                        "endColumns": "88",
-                        "endOffsets": "143"
+                        "startOffsets": "17",
+                        "endColumns": "48",
+                        "endOffsets": "61"
                     },
                     "to": {
-                        "startLines": "229",
+                        "startLines": "115",
                         "startColumns": "4",
-                        "startOffsets": "14512",
-                        "endColumns": "87",
-                        "endOffsets": "14595"
+                        "startOffsets": "6875",
+                        "endColumns": "48",
+                        "endOffsets": "6919"
                     }
                 },
                 {
