@@ -56,7 +56,7 @@ import com.example.laptopstore.models.Screens
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun  git add AccountScreens.kt(navHostController: NavHostController){
+fun AccountScreens(navHostController: NavHostController){
     var isFocused by remember { mutableStateOf(false) }
     Scaffold(
         topBar = {
