@@ -9,7 +9,12 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4b5c364a-952e-436f-8cc5-fa50e8b8d708" name="Changes" comment="basic acccountScreens.kt" />
+    <list default="true" id="4b5c364a-952e-436f-8cc5-fa50e8b8d708" name="Changes" comment="basic acccountScreens.kt">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/laptopstore/RetrofitClient/LaptopStoreRetrofitClient.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/laptopstore/api/KhachHangAPIService.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/laptopstore/models/KhachHang.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -44,8 +49,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Kotlin File" />
         <option value="Kotlin Class" />
+        <option value="Kotlin File" />
       </list>
     </option>
   </component>
@@ -86,14 +91,14 @@
     "cidr.known.project.marker": "true",
     "git-widget-placeholder": "HoangOanh",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/DoAn/DoAnTotNghiep/LaptopStore",
+    "last_opened_file_path": "D:/DoAn/DoAnTotNghiep/LaptopStore/app/src/main/java/com/example/laptopstore/models",
     "settings.editor.selected.configurable": "preferences.language.Kotlin"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\res\drawable" />
       <recent name="D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\java\com\example\laptopstore\models" />
+      <recent name="D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\res\drawable" />
     </key>
   </component>
   <component name="RunManager">
