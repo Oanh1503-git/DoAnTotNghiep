@@ -10,11 +10,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4b5c364a-952e-436f-8cc5-fa50e8b8d708" name="Changes" comment="basic acccountScreens.kt">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/laptopstore/models/Screens.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/laptopstore/models/Screens.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/laptopstore/views/AccountScreens.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/laptopstore/views/AccountScreens.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/laptopstore/views/Categories.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/laptopstore/views/Categories.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/laptopstore/views/homepage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/laptopstore/views/homepage.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,7 +20,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=C:\Users\MSI\.android\avd\Pixel_9_Pro_Fold_API_35.avd)]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -90,7 +86,7 @@
     "RunOnceActivity.readMode.enableVisualFormatting": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "Merging HoangOanh",
+    "git-widget-placeholder": "HoangOanh",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "D:/DoAn/DoAnTotNghiep/LaptopStore",
     "settings.editor.selected.configurable": "preferences.language.Kotlin"
