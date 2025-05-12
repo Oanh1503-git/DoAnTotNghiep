@@ -10,11 +10,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4b5c364a-952e-436f-8cc5-fa50e8b8d708" name="Changes" comment="basic acccountScreens.kt">
-      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/laptopstore/RetrofitClient/LaptopStoreRetrofitClient.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/laptopstore/RetrofitClient/LaptopStoreRetrofitClient.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/laptopstore/api/KhachHangAPIService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/laptopstore/api/KhachHangAPIService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/laptopstore/api/SanPhamAPIService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/laptopstore/api/SanPhamAPIService.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -1,5 +1,6 @@
 import com.example.lapstore.models.KhachHang
 import com.example.lapstore.models.SanPham
+import com.example.laptopstore.api.KhachHangUpdateResponse
 import com.google.gson.annotations.SerializedName
 import retrofit2.Call
 import retrofit2.http.Body
@@ -37,19 +38,15 @@ interface SanPhamAPIService{
         @Query("MaSanPham") MaSanPham: String
     ): SanPham
 
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
-    @GET("SanPham/show.php")
-    suspend fun getSanPhamById(
-        @Query("id") id: String
-    ): SanPham
+
+//    @GET("SanPham/show.php")
+//    suspend fun getSanPhamById(
+//        @Query("id") id: String
+//    ): SanPham
 
     @GET("SanPham/searchTenSanPham.php")
     suspend fun searchTenSanPham(@Query("query") query: String): SeachSanphamResponse
 
->>>>>>> Stashed changes
-=======
     @GET("SanPham/searchSanPham.php")
     suspend fun searchSanPham(@Query("search") search: String): SanPhamResponse
 
@@ -62,5 +59,5 @@ interface SanPhamAPIService{
     suspend fun updateSanPham(
         @Body sanpham: SanPham
     ): KhachHangUpdateResponse
->>>>>>> main
+
 }
