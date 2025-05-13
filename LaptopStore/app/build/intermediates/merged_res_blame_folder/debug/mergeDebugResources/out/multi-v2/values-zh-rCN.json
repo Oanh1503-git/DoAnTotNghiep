@@ -4,24 +4,7 @@
             "outputFile": "com.example.laptopstore.app-mergeDebugResources-56:/values-zh-rCN/values-zh-rCN.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\MSI\\.gradle\\caches\\8.10.2\\transforms\\d030ddcc3e5505aca306a906783415fe\\transformed\\ui-release\\res\\values-zh-rCN\\values-zh-rCN.xml",
-                    "from": {
-                        "startLines": "3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "177,254,330,415,506,583,657,734,812,887,960,1035,1103,1184,1257,1329,1400,1473,1539",
-                        "endColumns": "76,75,84,90,76,73,76,77,74,72,74,67,80,72,71,70,72,65,115",
-                        "endOffsets": "249,325,410,501,578,652,729,807,882,955,1030,1098,1179,1252,1324,1395,1468,1534,1650"
-                    },
-                    "to": {
-                        "startLines": "10,11,13,14,15,16,17,74,75,76,77,78,79,80,81,82,84,85,86",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "840,917,1092,1177,1268,1345,1419,6941,7019,7094,7167,7242,7310,7391,7464,7536,7708,7781,7847",
-                        "endColumns": "76,75,84,90,76,73,76,77,74,72,74,67,80,72,71,70,72,65,115",
-                        "endOffsets": "912,988,1172,1263,1340,1414,1491,7014,7089,7162,7237,7305,7386,7459,7531,7602,7776,7842,7958"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\MSI\\.gradle\\caches\\8.10.2\\transforms\\65718e5b2fec5a652f53a7a0bfb3bf92\\transformed\\material3-release\\res\\values-zh-rCN\\values-zh-rCN.xml",
+                    "source": "G:\\andi\\jbr\\caches\\8.10.2\\transforms\\65718e5b2fec5a652f53a7a0bfb3bf92\\transformed\\material3-release\\res\\values-zh-rCN\\values-zh-rCN.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -38,7 +21,41 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\MSI\\.gradle\\caches\\8.10.2\\transforms\\8aeafdaedb561c8ff6e35aac674dd1a5\\transformed\\foundation-release\\res\\values-zh-rCN\\values-zh-rCN.xml",
+                    "source": "G:\\andi\\jbr\\caches\\8.10.2\\transforms\\d030ddcc3e5505aca306a906783415fe\\transformed\\ui-release\\res\\values-zh-rCN\\values-zh-rCN.xml",
+                    "from": {
+                        "startLines": "3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "177,254,330,415,506,583,657,734,812,887,960,1035,1103,1184,1257,1329,1400,1473,1539",
+                        "endColumns": "76,75,84,90,76,73,76,77,74,72,74,67,80,72,71,70,72,65,115",
+                        "endOffsets": "249,325,410,501,578,652,729,807,882,955,1030,1098,1179,1252,1324,1395,1468,1534,1650"
+                    },
+                    "to": {
+                        "startLines": "10,11,13,14,15,16,17,74,75,76,77,78,79,80,81,82,84,85,86",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "840,917,1092,1177,1268,1345,1419,6941,7019,7094,7167,7242,7310,7391,7464,7536,7708,7781,7847",
+                        "endColumns": "76,75,84,90,76,73,76,77,74,72,74,67,80,72,71,70,72,65,115",
+                        "endOffsets": "912,988,1172,1263,1340,1414,1491,7014,7089,7162,7237,7305,7386,7459,7531,7602,7776,7842,7958"
+                    }
+                },
+                {
+                    "source": "G:\\andi\\jbr\\caches\\8.10.2\\transforms\\c354011d07dfaad6fe60f0de051c789d\\transformed\\play-services-basement-18.4.0\\res\\values-zh-rCN\\values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "199",
+                        "endColumns": "94",
+                        "endOffsets": "293"
+                    },
+                    "to": {
+                        "startLines": "12",
+                        "startColumns": "4",
+                        "startOffsets": "993",
+                        "endColumns": "98",
+                        "endOffsets": "1087"
+                    }
+                },
+                {
+                    "source": "G:\\andi\\jbr\\caches\\8.10.2\\transforms\\8aeafdaedb561c8ff6e35aac674dd1a5\\transformed\\foundation-release\\res\\values-zh-rCN\\values-zh-rCN.xml",
                     "from": {
                         "startLines": "2,3,4",
                         "startColumns": "4,4,4",
@@ -55,7 +72,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\MSI\\.gradle\\caches\\8.10.2\\transforms\\3707fe04bf3c198c143541eefbe56280\\transformed\\core-1.15.0\\res\\values-zh-rCN\\values-zh-rCN.xml",
+                    "source": "G:\\andi\\jbr\\caches\\8.10.2\\transforms\\3707fe04bf3c198c143541eefbe56280\\transformed\\core-1.15.0\\res\\values-zh-rCN\\values-zh-rCN.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",
@@ -69,23 +86,6 @@
                         "startOffsets": "176,268,369,463,557,650,744,7607",
                         "endColumns": "91,100,93,93,92,93,95,100",
                         "endOffsets": "263,364,458,552,645,739,835,7703"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\MSI\\.gradle\\caches\\8.10.2\\transforms\\c354011d07dfaad6fe60f0de051c789d\\transformed\\play-services-basement-18.4.0\\res\\values-zh-rCN\\values.xml",
-                    "from": {
-                        "startLines": "4",
-                        "startColumns": "0",
-                        "startOffsets": "199",
-                        "endColumns": "94",
-                        "endOffsets": "293"
-                    },
-                    "to": {
-                        "startLines": "12",
-                        "startColumns": "4",
-                        "startOffsets": "993",
-                        "endColumns": "98",
-                        "endOffsets": "1087"
                     }
                 }
             ]
