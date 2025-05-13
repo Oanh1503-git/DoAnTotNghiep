@@ -43,6 +43,10 @@ import com.example.laptopstore.models.Product
 import com.example.laptopstore.models.Screens
 
 // Danh sách tạm thời để lưu giỏ hàng (sẽ thay bằng ViewModel hoặc database)
+// thêm nút thêm sản phẩm yêu thích
+// thêm hiện thông tin chi tiết sản phẩm ( hiện thông số )
+//thêm nút mua ngay ( chuyển qua giao diện thanh toán ) có thể làm sau hoàn toàn bộ giao diện rồi tiếp tục
+// hiện bình luận về sản phảm cuối trang ( phần này chưa qua trong có thể làm sau)
 object CartManager {
     var cartItems by mutableStateOf(listOf<CartItem>())
 

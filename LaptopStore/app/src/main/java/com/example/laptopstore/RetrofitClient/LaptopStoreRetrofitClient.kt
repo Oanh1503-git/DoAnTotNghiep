@@ -16,7 +16,7 @@ object Constants {
     const val BASE_URL = "http://10.0.2.2/ten_du_an_api/"  // hoặc địa chỉ XAMPP của bạn
 }
 
-object QuanLyBanLaptopRetrofitClient {
+object LaptopStoreRetrofitClient {
 
     private val retrofit: Retrofit by lazy {
         Retrofit.Builder()
