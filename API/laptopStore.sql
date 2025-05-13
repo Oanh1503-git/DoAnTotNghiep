@@ -213,7 +213,17 @@ CREATE TABLE `khachhang` (
 INSERT INTO `khachhang` (`MaKhachHang`, `HoTen`, `GioiTinh`, `NgaySinh`, `Email`, `SoDienThoai`) VALUES
 (1, 'Nguyễn Văn D', 'Nam', '1990-05-11', 'a.@.gmail.com', '0901234545'),
 (3, 'Nguyễn Thị B', 'Nữ', '0000-00-00', '', '1234567890'),
-(5, 'lamvanc', 'Nam', '1997-03-05', 'lamvanc@gmail.com', '0939049151');
+(5, 'lamvanc', 'Nam', '1997-03-05', 'lamvanc@gmail.com', '0939049151'),
+(6, 'Trần Thị Mai', 'Nữ', '1995-08-21', 'maitran@gmail.com', '0908123456'),
+(7, 'Lê Văn Hùng', 'Nam', '1988-12-10', 'hunglv@gmail.com', '0912345678'),
+(8, 'Phạm Quỳnh Anh', 'Nữ', '1992-07-15', 'quynhanh.pham@gmail.com', '0923456789'),
+(9, 'Ngô Đức Thắng', 'Nam', '1990-01-22', 'thang.ngo@gmail.com', '0934567890'),
+(10, 'Đỗ Thị Hồng', 'Nữ', '1994-06-30', 'hong.do@gmail.com', '0945678901'),
+(11, 'Bùi Minh Nhật', 'Nam', '1996-11-11', 'nhat.bui@gmail.com', '0956789012'),
+(12, 'Hoàng Thị Kim', 'Nữ', '1991-04-18', 'kimhoang@gmail.com', '0967890123'),
+(13, 'Nguyễn Văn Tài', 'Nam', '1987-09-25', 'tai.nguyen@gmail.com', '0978901234'),
+(14, 'Trịnh Mỹ Duyên', 'Nữ', '1993-03-09', 'myduyen.trinh@gmail.com', '0989012345'),
+(15, 'Lâm Quốc Bảo', 'Nam', '1999-12-05', 'baolam@gmail.com', '0990123456');
 
 -- --------------------------------------------------------
 
