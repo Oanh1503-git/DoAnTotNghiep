@@ -5,7 +5,7 @@ class database
     private $servername = "localhost";
     private $username = "root";
     private $password = "";
-    private $database = "quanlybanlaptop";
+    private $database = "laptopstore";
     private $conn;
 
     public function Connect()

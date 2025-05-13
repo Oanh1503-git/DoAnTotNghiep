@@ -313,33 +313,35 @@ data class Category(
 private val products = listOf(
     Product(
         id = 1,
-        name = "Laptop gaming ASUS TUF Gaming F15",
-        price = 29990000,
+        name = "ASUS Vivobook Go 15 E1504FA",
+        price = 12500000,
         imageUrl = "https://i.postimg.cc/KjV6SpNP/asus-vivobook-go15.jpg",
-        discount = 10,
-        specs = "Intel Core i5-11400H, RAM 16GB, SSD 512GB, NVIDIA GTX 1650 4GB"
+        discount = 0,
+        specs = "AMD Ryzen 5 7520U, 16GB LPDDR5, AMD Radeon Graphics, 512GB PCIe NVMe SSD, 15.6 inch FHD (1920x1080)"
     ),
     Product(
         id = 2,
-        name = "Laptop MSI Modern 14",
-        price = 8990000,
-        imageUrl = "https://i.postimg.cc/RVZxD87n/msi-modern-15.jpg",
-        specs = "Intel Core i3-1115G4, RAM 8GB, SSD 256GB, Intel UHD Graphics"
+        name = "Dell Inspiron 15 3520",
+        price = 15000000,
+        imageUrl = "https://i.postimg.cc/Bn0Bm99x/dell-inspiron-15-3520.jpg",
+        discount = 0,
+        specs = "Intel Core i5-1235U, 8GB DDR4, Intel Iris Xe Graphics, 512GB PCIe NVMe SSD, 15.6 inch FHD (1920x1080) 120Hz"
     ),
     Product(
         id = 3,
-        name = "Laptop ASUS Vivobook 16X",
-        price = 17290000,
+        name = "HP 15-fc0085AU R5",
+        price = 11500000,
         imageUrl = "https://i.postimg.cc/DyVrzkzt/hp-15-fc0085au-r5.jpg",
-        discount = 5,
-        specs = "AMD Ryzen 5 5600H, RAM 16GB, SSD 512GB, AMD Radeon Graphics"
+        discount = 0,
+        specs = "AMD Ryzen 5 7520U, 8GB LPDDR5, AMD Radeon Graphics, 512GB PCIe NVMe SSD, 15.6 inch FHD (1920x1080)"
     ),
     Product(
         id = 4,
-        name = "Laptop ASUS Vivobook 14 OLED",
-        price = 17390000,
+        name = "MacBook Air 13 inch M4 (Dự kiến)",
+        price = 32000000,
         imageUrl = "https://i.postimg.cc/52b8wBLg/macbook-air-m4.jpg",
-        specs = "Intel Core i7-1165G7, RAM 8GB, SSD 1TB, Intel Iris Xe"
+        discount = 0,
+        specs = "Apple M4 chip, 8GB unified memory, Apple M4 GPU (dự kiến), 256GB SSD, 13.6 inch Liquid Retina"
     )
 )
 

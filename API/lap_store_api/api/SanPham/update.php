@@ -28,7 +28,6 @@
     $sanpham->Gia = $data->Gia;
     $sanpham->SoLuong = $data->SoLuong;
     $sanpham->MoTa = $data->MoTa;
-    $sanpham->HinhAnh = $data->HinhAnh;
     $sanpham->TrangThai = $data->TrangThai;
 
 
