@@ -1,7 +1,7 @@
 package com.example.laptopstore.api
 
 
-import com.example.lapstore.models.KhachHang
+import com.example.laptopstore.models.KhachHang
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET

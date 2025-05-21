@@ -3,24 +3,34 @@ package com.example.laptopstore.views
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -30,47 +40,55 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import coil.compose.AsyncImage
 import com.example.app_e_commerce.model.BottomNavItem
 import com.example.laptopstore.R
+import com.example.laptopstore.models.SanPham
 import com.example.laptopstore.models.Screens
+import com.example.laptopstore.models.HinhAnh
+import com.example.laptopstore.viewmodels.HinhAnhViewModel
+import com.example.laptopstore.viewmodels.SanPhamViewModel
 import kotlinx.coroutines.delay
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material.icons.automirrored.filled.List
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Card
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.style.TextDecoration
-import coil.compose.AsyncImage
-import com.example.laptopstore.models.Product
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HOMEPAGE(navController: NavHostController) {
+fun HOMEPAGE(navController: NavHostController, sanPhamViewModel: SanPhamViewModel = viewModel(), hinhAnhViewModel: HinhAnhViewModel = viewModel()) {
     var sortOption by remember { mutableStateOf("Phổ biến") }
+    val products by sanPhamViewModel.danhSachAllSanPham.collectAsState(initial = emptyList())
 
+    // Lấy danh sách hình ảnh từ ViewModel
+    var productImages by remember { mutableStateOf<List<HinhAnh>>(emptyList()) }
+    if (sanPhamViewModel.isLoading) {
+        Text("Đang tải...", modifier = Modifier.padding(16.dp))
+    }
+    sanPhamViewModel.errorMessage?.let { error ->
+        Text("Lỗi: $error", color = Color.Red, modifier = Modifier.padding(16.dp))
+    }
+    LaunchedEffect(Unit) {
 
+        sanPhamViewModel.getAllSanPham() // Lấy danh sách sản phẩm từ API
+        val response = hinhAnhViewModel.getAllHinhAnh() // Lấy tất cả hình ảnh
+        productImages = response.hinhanh
+    }
 
     Scaffold(
         topBar = {
@@ -131,23 +149,21 @@ fun HOMEPAGE(navController: NavHostController) {
                     }
                 }
             }
-            items(sortedProducts(sortOption).chunked(2)) { productRow ->
+            items(sortedProducts(products, sortOption).chunked(2)) { productRow ->
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 8.dp), // Thêm padding dọc cho mỗi hàng
-                    horizontalArrangement = Arrangement.spacedBy(16.dp) // Khoảng cách ngang giữa các card
+                        .padding(vertical = 8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     productRow.forEach { product ->
                         ProductCard(
                             product = product,
                             navController = navController,
-                            modifier = Modifier
-                                .weight(1f)
-                                .padding(horizontal = 4.dp) // Padding ngang trong mỗi card
+                            images = productImages.filter { it.MaSanPham == product.MaSanPham },
+                            modifier = Modifier.weight(1f).padding(horizontal = 4.dp)
                         )
                     }
-                    // Nếu chỉ có 1 sản phẩm trong hàng, thêm Spacer để cân đối
                     if (productRow.size == 1) {
                         Spacer(modifier = Modifier.weight(1f))
                     }
@@ -191,50 +207,15 @@ fun BannerSection() {
     }
 }
 
-
 @Composable
-fun CategoryCard(category: Category, navController: NavHostController) {
-    Card(
-        modifier = Modifier
-            .width(100.dp)
-            .clickable {
-                // Điều hướng đến danh mục cụ thể
-                navController.navigate(Screens.CATAGORIES.route)
-            },
-        shape = RoundedCornerShape(8.dp)
-    ) {
-        Column(
-            modifier = Modifier
-                .background(Color.White)
-                .padding(8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            AsyncImage(
-                model = category.imageUrl,
-                contentDescription = category.name,
-                modifier = Modifier
-                    .size(60.dp)
-                    .clip(RoundedCornerShape(8.dp)),
-                contentScale = ContentScale.Crop
-            )
-            Text(
-                text = category.name,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Medium,
-                modifier = Modifier.padding(top = 4.dp)
-            )
-        }
-    }
-}
-
-@Composable
-fun ProductCard(product: Product, navController: NavHostController, modifier: Modifier = Modifier) {
+fun ProductCard(product: SanPham, navController: NavHostController, images: List<HinhAnh>, modifier: Modifier = Modifier) {
+    val defaultImage = images.find { it.MacDinh == 1 }?.DuongDan ?: product.HinhAnh
     Card(
         modifier = modifier
             .shadow(4.dp, RoundedCornerShape(8.dp))
             .clickable {
-                navController.navigate("product_detail/${product.id}")
-                },
+                navController.navigate("product_detail/${product.MaSanPham}")
+            },
         shape = RoundedCornerShape(8.dp)
     ) {
         Column(
@@ -249,30 +230,14 @@ fun ProductCard(product: Product, navController: NavHostController, modifier: Mo
                     .clip(RoundedCornerShape(8.dp))
             ) {
                 AsyncImage(
-                    model = product.imageUrl,
-                    contentDescription = product.name,
+                    model = defaultImage,
+                    contentDescription = product.TenSanPham,
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop
                 )
-                if (product.discount > 0) {
-                    Box(
-                        modifier = Modifier
-                            .align(Alignment.TopStart)
-                            .padding(4.dp)
-                            .background(Color.Red, RoundedCornerShape(4.dp))
-                            .padding(horizontal = 6.dp, vertical = 2.dp)
-                    ) {
-                        Text(
-                            text = "-${product.discount}%",
-                            color = Color.White,
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-                }
             }
             Text(
-                text = product.name,
+                text = product.TenSanPham,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Medium,
                 maxLines = 2,
@@ -285,70 +250,20 @@ fun ProductCard(product: Product, navController: NavHostController, modifier: Mo
                 modifier = Modifier.padding(top = 4.dp)
             ) {
                 Text(
-                    text = "${(product.price-((product.price * product.discount) / 100) )/ 1000}.000 VNĐ",
+                    text = "${product.Gia / 1000}.000 VNĐ",
                     fontSize = 16.sp,
                     color = Color.Red,
                     fontWeight = FontWeight.Bold
                 )
-                if (product.discount > 0) {
-                    Text(
-                        text = "${product.price / 1000}.000 VNĐ",
-                        fontSize = 12.sp,
-                        color = Color.Gray,
-                        textDecoration = TextDecoration.LineThrough
-                    )
-                }
             }
         }
     }
 }
 
-
-
-data class Category(
-    val name: String,
-    val imageUrl: String
-)
-
-private val products = listOf(
-    Product(
-        id = 1,
-        name = "ASUS Vivobook Go 15 E1504FA",
-        price = 12500000,
-        imageUrl = "https://i.postimg.cc/KjV6SpNP/asus-vivobook-go15.jpg",
-        discount = 0,
-        specs = "AMD Ryzen 5 7520U, 16GB LPDDR5, AMD Radeon Graphics, 512GB PCIe NVMe SSD, 15.6 inch FHD (1920x1080)"
-    ),
-    Product(
-        id = 2,
-        name = "Dell Inspiron 15 3520",
-        price = 15000000,
-        imageUrl = "https://i.postimg.cc/Bn0Bm99x/dell-inspiron-15-3520.jpg",
-        discount = 0,
-        specs = "Intel Core i5-1235U, 8GB DDR4, Intel Iris Xe Graphics, 512GB PCIe NVMe SSD, 15.6 inch FHD (1920x1080) 120Hz"
-    ),
-    Product(
-        id = 3,
-        name = "HP 15-fc0085AU R5",
-        price = 11500000,
-        imageUrl = "https://i.postimg.cc/DyVrzkzt/hp-15-fc0085au-r5.jpg",
-        discount = 0,
-        specs = "AMD Ryzen 5 7520U, 8GB LPDDR5, AMD Radeon Graphics, 512GB PCIe NVMe SSD, 15.6 inch FHD (1920x1080)"
-    ),
-    Product(
-        id = 4,
-        name = "MacBook Air 13 inch M4 (Dự kiến)",
-        price = 32000000,
-        imageUrl = "https://i.postimg.cc/52b8wBLg/macbook-air-m4.jpg",
-        discount = 0,
-        specs = "Apple M4 chip, 8GB unified memory, Apple M4 GPU (dự kiến), 256GB SSD, 13.6 inch Liquid Retina"
-    )
-)
-
-private fun sortedProducts(sortOption: String): List<Product> {
+private fun sortedProducts(products: List<SanPham>, sortOption: String): List<SanPham> {
     return when (sortOption) {
-        "Giá thấp đến cao" -> products.sortedBy { (it.price-((it.price * it.discount) / 100) ) }
-        "Giá cao đến thấp" -> products.sortedByDescending { (it.price-((it.price * it.discount) / 100) ) }
+        "Giá thấp đến cao" -> products.sortedBy { it.Gia }
+        "Giá cao đến thấp" -> products.sortedByDescending { it.Gia }
         else -> products
     }
 }
@@ -432,7 +347,7 @@ fun MenuBottomNavBar(navController: NavHostController) {
         BottomNavItem("Account", Icons.Default.Person, Screens.ACCOUNTSCREENS.route)
     )
 
-    var selectedItem by remember { mutableStateOf(0) }
+    var selectedItem by remember { mutableIntStateOf(0) }
 
     NavigationBar(containerColor = Color.White) {
         items.forEachIndexed { index, item ->

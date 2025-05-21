@@ -7,12 +7,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.lapstore.models.ChiTietHoaDonBan
-import com.example.lapstore.models.HinhAnh
-import com.example.lapstore.models.HoaDonBan
 import com.example.laptopstore.RetrofitClient.LaptopStoreRetrofitClient
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 

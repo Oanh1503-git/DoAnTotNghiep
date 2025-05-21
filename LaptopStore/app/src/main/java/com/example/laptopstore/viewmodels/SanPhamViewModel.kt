@@ -1,7 +1,9 @@
+package com.example.laptopstore.viewmodels
+
 import android.util.Log
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.getValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.laptopstore.models.SanPham
@@ -10,11 +12,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch/**/
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class SanPhamViewModel : ViewModel() {
-    var danhSachAllSanPham by mutableStateOf<List<SanPham>>(emptyList())
+    // Chuyển từ mutableStateOf sang StateFlow
+    private val _danhSachAllSanPham = MutableStateFlow<List<SanPham>>(emptyList())
+    val danhSachAllSanPham: StateFlow<List<SanPham>> get() = _danhSachAllSanPham
+
     var danhSachSanPhamTrongHoaDon by mutableStateOf<List<SanPham>>(emptyList())
 
     private val _danhSachSanPhamGaming = MutableStateFlow<List<SanPham>>(emptyList())
@@ -44,7 +49,7 @@ class SanPhamViewModel : ViewModel() {
             errorMessage = null
             try {
                 val response = LaptopStoreRetrofitClient.sanphamAPIService.getAllSanPham()
-                danhSachAllSanPham = response.sanpham
+                _danhSachAllSanPham.value = response.sanpham
             } catch (e: Exception) {
                 errorMessage = e.message
             } finally {
@@ -115,7 +120,7 @@ class SanPhamViewModel : ViewModel() {
         }
     }
 
-    fun getSanPhamSearch(search:String) {
+    fun getSanPhamSearch(search: String) {
         viewModelScope.launch {
             try {
                 val response = withContext(Dispatchers.IO) {

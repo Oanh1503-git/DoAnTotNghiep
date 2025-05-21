@@ -1,5 +1,4 @@
 import com.example.lapstore.models.ChiTietHoaDonBan
-import com.example.lapstore.models.HoaDonBan
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST

@@ -1,4 +1,4 @@
-import com.example.lapstore.models.TaiKhoan
+import com.example.laptopstore.models.TaiKhoan
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST

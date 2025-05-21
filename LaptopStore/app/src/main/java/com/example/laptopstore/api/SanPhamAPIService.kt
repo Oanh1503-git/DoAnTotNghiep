@@ -1,5 +1,6 @@
+package com.example.laptopstore.api
+
 import com.example.laptopstore.models.SanPham
-import com.example.laptopstore.api.KhachHangUpdateResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.PUT
