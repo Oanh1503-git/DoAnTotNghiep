@@ -1,7 +1,5 @@
-package com.example.lapstore.viewmodels
+package com.example.laptopstore.viewmodels
 import DeleteRequest
-import GioHangAPIService
-import UpdateResponse
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -13,7 +11,6 @@ import com.example.laptopstore.RetrofitClient.LaptopStoreRetrofitClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import retrofit2.Response
 
 class GioHangViewModel : ViewModel() {
     var listGioHang by mutableStateOf<List<GioHang>>(emptyList())

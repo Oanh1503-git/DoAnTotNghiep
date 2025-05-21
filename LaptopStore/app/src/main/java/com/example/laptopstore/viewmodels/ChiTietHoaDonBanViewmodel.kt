@@ -1,4 +1,4 @@
-package com.example.lapstore.viewmodels
+package com.example.laptopstore.viewmodels
 
 import android.util.Log
 import androidx.compose.runtime.getValue
