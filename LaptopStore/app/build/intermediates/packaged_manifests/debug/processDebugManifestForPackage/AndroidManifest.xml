@@ -42,7 +42,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:testOnly="true"
-        android:theme="@style/Theme.LaptopStore" >
+        android:theme="@style/Theme.LaptopStore"
+        android:usesCleartextTraffic="true" >
         <activity
             android:name="com.example.laptopstore.MainActivity"
             android:exported="true"

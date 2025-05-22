@@ -1,5 +1,6 @@
 package com.example.laptopstore.views
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -74,27 +75,65 @@ import kotlinx.coroutines.delay
 fun HOMEPAGE(navController: NavHostController, sanPhamViewModel: SanPhamViewModel = viewModel(), hinhAnhViewModel: HinhAnhViewModel = viewModel()) {
     var sortOption by remember { mutableStateOf("Phổ biến") }
     val products by sanPhamViewModel.danhSachAllSanPham.collectAsState(initial = emptyList())
+    val searchResults by sanPhamViewModel.danhSach.collectAsState(initial = emptyList())
+    var searchQuery by remember { mutableStateOf("") }
+    var isSearching by remember { mutableStateOf(false) }
 
     // Lấy danh sách hình ảnh từ ViewModel
     var productImages by remember { mutableStateOf<List<HinhAnh>>(emptyList()) }
-    if (sanPhamViewModel.isLoading) {
-        Text("Đang tải...", modifier = Modifier.padding(16.dp))
-    }
-    sanPhamViewModel.errorMessage?.let { error ->
-        Text("Lỗi: $error", color = Color.Red, modifier = Modifier.padding(16.dp))
-    }
-    LaunchedEffect(Unit) {
 
-        sanPhamViewModel.getAllSanPham() // Lấy danh sách sản phẩm từ API
-        val response = hinhAnhViewModel.getAllHinhAnh() // Lấy tất cả hình ảnh
-        productImages = response.hinhanh
+    // Lấy tham số từ navigation
+    LaunchedEffect(navController.currentBackStackEntry) {
+        // Đợi dữ liệu từ getAllSanPham hoàn tất
+        while (sanPhamViewModel.danhSachAllSanPham.value.isEmpty() && !sanPhamViewModel.isLoading) {
+            delay(100) // Chờ ngắn để tránh vòng lặp vô hạn
+        }
+
+        val search = navController.currentBackStackEntry?.arguments?.getString("searchQuery")
+        val brand = navController.currentBackStackEntry?.arguments?.getString("brand")
+        val price = navController.currentBackStackEntry?.arguments?.getString("price")
+        val usage = navController.currentBackStackEntry?.arguments?.getString("usage")
+        val chip = navController.currentBackStackEntry?.arguments?.getString("chip")
+        val screen = navController.currentBackStackEntry?.arguments?.getString("screen")
+
+        if (!search.isNullOrEmpty()) {
+            isSearching = true
+            searchQuery = search ?: ""
+            performSearch(search, sanPhamViewModel)
+        } else if (brand != null || price != null || usage != null || chip != null || screen != null) {
+            isSearching = true
+            performFilter(sanPhamViewModel, brand, price, usage, chip, screen)
+        } else {
+            isSearching = false
+        }
+
+        val response = hinhAnhViewModel.getAllHinhAnh()
+        productImages = response.hinhanh // Cần sửa lỗi casting trước
     }
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text(text = "") },
-                actions = { SearchField() }
+                actions = {
+                    SearchField(
+                        searchQuery = searchQuery,
+                        onQueryChange = { searchQuery = it },
+                        onSearch = {
+                            if (searchQuery.isNotEmpty()) {
+                                isSearching = true
+                                performSearch(searchQuery, sanPhamViewModel)
+                                navController.navigate("homepage?searchQuery=$searchQuery") {
+                                    popUpTo(navController.graph.startDestinationId)
+                                    launchSingleTop = true
+                                }
+                            } else {
+                                isSearching = false
+                                sanPhamViewModel.clearSanPhamSearch()
+                            }
+                        }
+                    )
+                }
             )
         },
         bottomBar = {
@@ -112,6 +151,14 @@ fun HOMEPAGE(navController: NavHostController, sanPhamViewModel: SanPhamViewMode
                 BannerSection()
             }
             item {
+                if (sanPhamViewModel.isLoading) {
+                    Text("Đang tải...", modifier = Modifier.padding(16.dp))
+                }
+                sanPhamViewModel.errorMessage?.let { error ->
+                    Text("Lỗi: $error", color = Color.Red, modifier = Modifier.padding(16.dp))
+                }
+            }
+            item {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -120,7 +167,7 @@ fun HOMEPAGE(navController: NavHostController, sanPhamViewModel: SanPhamViewMode
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Sản phẩm đề xuất",
+                        text = if (isSearching) "Kết quả tìm kiếm" else "Sản phẩm đề xuất",
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -149,23 +196,35 @@ fun HOMEPAGE(navController: NavHostController, sanPhamViewModel: SanPhamViewMode
                     }
                 }
             }
-            items(sortedProducts(products, sortOption).chunked(2)) { productRow ->
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 8.dp),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    productRow.forEach { product ->
-                        ProductCard(
-                            product = product,
-                            navController = navController,
-                            images = productImages.filter { it.MaSanPham == product.MaSanPham },
-                            modifier = Modifier.weight(1f).padding(horizontal = 4.dp)
-                        )
-                    }
-                    if (productRow.size == 1) {
-                        Spacer(modifier = Modifier.weight(1f))
+            val displayProducts = if (isSearching) searchResults else products
+            if (displayProducts.isEmpty() && !sanPhamViewModel.isLoading) {
+                item {
+                    Text(
+                        text = if (isSearching) "Không tìm thấy sản phẩm nào" else "Không có sản phẩm nào để hiển thị",
+                        modifier = Modifier.padding(16.dp),
+                        color = Color.Gray
+                    )
+                    Log.d("HOMEPAGE", "Displaying products: $displayProducts")
+                }
+            } else {
+                items(sortedProducts(displayProducts, sortOption).chunked(2)) { productRow ->
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        productRow.forEach { product ->
+                            ProductCard(
+                                product = product,
+                                navController = navController,
+                                images = productImages.filter { it.MaSanPham == product.MaSanPham },
+                                modifier = Modifier.weight(1f).padding(horizontal = 4.dp)
+                            )
+                        }
+                        if (productRow.size == 1) {
+                            Spacer(modifier = Modifier.weight(1f))
+                        }
                     }
                 }
             }
@@ -173,6 +232,122 @@ fun HOMEPAGE(navController: NavHostController, sanPhamViewModel: SanPhamViewMode
     }
 }
 
+fun performSearch(query: String, sanPhamViewModel: SanPhamViewModel) {
+    if (query.isNotEmpty()) {
+        sanPhamViewModel.getSanPhamSearch(query)
+    }
+}
+
+fun performFilter(sanPhamViewModel: SanPhamViewModel, brand: String?, price: String?, usage: String?, chip: String?, screen: String?) {
+    val allProducts = sanPhamViewModel.danhSachAllSanPham.value
+    Log.d("HOMEPAGE", "All products: $allProducts")
+    Log.d("HOMEPAGE", "Filter params - Brand: $brand, Price: $price, Usage: $usage, Chip: $chip, Screen: $screen")
+    val filtered = allProducts.filter { product ->
+        val brandMatch = brand == null || product.TenSanPham.contains(brand, ignoreCase = true) // Bỏ split, kiểm tra trực tiếp
+        val priceMatch = price == null || filterByPrice(product.Gia, price)
+        val usageMatch = usage == null || product.MoTa.contains(usage, ignoreCase = true)
+        val chipMatch = chip == null || product.CPU.contains(chip, ignoreCase = true) // Bỏ split, kiểm tra trực tiếp
+        val screenMatch = screen == null || product.ManHinh.contains(screen.replace(" inch", ""), ignoreCase = true)
+        Log.d("HOMEPAGE", "Checking product: ${product.TenSanPham}, Matches: $brandMatch, $priceMatch, $usageMatch, $chipMatch, $screenMatch")
+        brandMatch && priceMatch && usageMatch && chipMatch && screenMatch
+    }
+    sanPhamViewModel.updateFilteredProducts(filtered)
+    Log.d("HOMEPAGE", "Filtered results: $filtered")
+}
+
+fun filterByPrice(gia: Int, priceRange: String): Boolean {
+    return when (priceRange) {
+        "Dưới 10 triệu" -> gia < 10_000_000
+        "Từ 10 - 15 triệu" -> gia in 10_000_000..15_000_000
+        "Từ 15 - 20 triệu" -> gia in 15_000_000..20_000_000
+        "Từ 25 - 30 triệu" -> gia in 25_000_000..30_000_000
+        else -> true
+    }
+}
+
+fun filterByUsage(moTa: String, usage: String): Boolean {
+    return when (usage) {
+        "Văn phòng" -> moTa.contains("văn phòng", ignoreCase = true)
+        "Gaming" -> moTa.contains("gaming", ignoreCase = true)
+        "Mỏng nhẹ" -> moTa.contains("mỏng nhẹ", ignoreCase = true)
+        "Cảm ứng" -> moTa.contains("cảm ứng", ignoreCase = true)
+        "Laptop AI" -> moTa.contains("AI", ignoreCase = true)
+        "Mac CTO - Nâng cấp theo cách của bạn" -> moTa.contains("Mac", ignoreCase = true)
+        else -> true
+    }
+}
+
+@Composable
+fun SearchField(searchQuery: String, onQueryChange: (String) -> Unit, onSearch: () -> Unit) {
+
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(
+            modifier = Modifier
+                .weight(1f)
+                .height(48.dp)
+                .shadow(2.dp, RoundedCornerShape(24.dp))
+                .clip(RoundedCornerShape(24.dp))
+                .background(Color.White)
+                .padding(horizontal = 16.dp),
+            contentAlignment = Alignment.CenterStart
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Search,
+                    contentDescription = "Search Icon",
+                    tint = Color.Gray,
+                    modifier = Modifier.size(24.dp)
+                )
+                BasicTextField(
+                    value = searchQuery,
+                    onValueChange = onQueryChange,
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(start = 8.dp),
+                    textStyle = TextStyle(fontSize = 16.sp, color = Color.Black),
+                    decorationBox = { innerTextField ->
+                        if (searchQuery.isEmpty()) {
+                            Text(
+                                text = "Tìm kiếm sản phẩm",
+                                color = Color.Gray,
+                                fontSize = 16.sp
+                            )
+                        }
+                        innerTextField()
+                    }
+                )
+            }
+        }
+        Button(
+            onClick = {
+                onSearch()
+            },
+            modifier = Modifier
+                .padding(start = 8.dp)
+                .height(48.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color.Red,
+                contentColor = Color.White
+            ),
+            shape = RoundedCornerShape(24.dp)
+        ) {
+            Text(
+                text = "Tìm kiếm",
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Medium
+            )
+        }
+    }
+}
 @Composable
 fun BannerSection() {
     val images = listOf(
@@ -268,75 +443,6 @@ private fun sortedProducts(products: List<SanPham>, sortOption: String): List<Sa
     }
 }
 
-@Composable
-fun SearchField() {
-    var searchText by remember { mutableStateOf("") }
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Box(
-            modifier = Modifier
-                .weight(1f)
-                .height(48.dp)
-                .shadow(2.dp, RoundedCornerShape(24.dp))
-                .clip(RoundedCornerShape(24.dp))
-                .background(Color.White)
-                .padding(horizontal = 16.dp),
-            contentAlignment = Alignment.CenterStart
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Search,
-                    contentDescription = "Search Icon",
-                    tint = Color.Gray,
-                    modifier = Modifier.size(24.dp)
-                )
-                BasicTextField(
-                    value = searchText,
-                    onValueChange = { searchText = it },
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(start = 8.dp),
-                    textStyle = TextStyle(fontSize = 16.sp, color = Color.Black),
-                    decorationBox = { innerTextField ->
-                        if (searchText.isEmpty()) {
-                            Text(
-                                text = "Tìm kiếm sản phẩm",
-                                color = Color.Gray,
-                                fontSize = 16.sp
-                            )
-                        }
-                        innerTextField()
-                    }
-                )
-            }
-        }
-        Button(
-            onClick = { /* Xử lý tìm kiếm */ },
-            modifier = Modifier
-                .padding(start = 8.dp)
-                .height(48.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Red,
-                contentColor = Color.White
-            ),
-            shape = RoundedCornerShape(24.dp)
-        ) {
-            Text(
-                text = "Tìm kiếm",
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Medium
-            )
-        }
-    }
-}
 
 @Composable
 fun MenuBottomNavBar(navController: NavHostController) {
