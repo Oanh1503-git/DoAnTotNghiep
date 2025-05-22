@@ -7,4 +7,6 @@ package com.example.laptopstore.models
         object ACCOUNTSCREENS:Screens("account")
         object PRODUCTDETAIL:Screens("productdetail")
         object CHECKOUTSCREENS : Screens("checkout/{totalPrice}/{cartItems}")
+        object Login_Screens:Screens("Login_Screens")
+        object Register_Screen:Screens("REGISTERSCREEN")
  }

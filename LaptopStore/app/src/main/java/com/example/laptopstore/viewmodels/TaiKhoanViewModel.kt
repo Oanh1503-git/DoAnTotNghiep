@@ -25,22 +25,49 @@ import kotlinx.coroutines.withContext
 
 
 class TaiKhoanViewModel:ViewModel() {
+    // Thông tin tài khoản người dùng sau khi đăng nhập
     var taikhoan: TaiKhoan? by mutableStateOf(null)
         private set
 
+    // Kết quả kiểm tra đăng nhập
     private val _loginResult = mutableStateOf<KiemTraTaiKhoanResponse?>(null)
     val loginResult: State<KiemTraTaiKhoanResponse?> = _loginResult
 
+    // Trạng thái đăng nhập (null: chưa kiểm tra, true/false: kết quả)
+    private val _isLoggedIn = mutableStateOf<Boolean?>(null)
+    val isLoggedIn: State<Boolean?> = _isLoggedIn
+
+    // Kết quả kiểm tra tên tài khoản khi đăng ký
     private val _checkUsernameResult = mutableStateOf<KiemTraTaiKhoanResponse?>(null)
     val checkUsernameResult: State<KiemTraTaiKhoanResponse?> = _checkUsernameResult
 
-    var taikhoanUpdateResult by mutableStateOf("")
-
-    var tentaikhoan: String? = null
-
+    // Biến lưu trạng thái tạo tài khoản mới
     var TaoTaiKhoanResult by mutableStateOf("")
 
+    // Biến lưu trạng thái cập nhật tài khoản
+    var taikhoanUpdateResult by mutableStateOf("")
+
+    // Biến lưu tên tài khoản hiện tại (tạm thời)
+    var tentaikhoan: String? = null
+
+    // Hàm kiểm tra đăng nhập
     fun kiemTraDangNhap(tenTaiKhoan: String, matKhau: String) {
+        viewModelScope.launch {
+            try {
+                val response = withContext(Dispatchers.IO) {
+                    LaptopStoreRetrofitClient.taiKhoanAPIService.kiemTraDangNhap(tenTaiKhoan, matKhau)
+                }
+                _loginResult.value = response
+                _isLoggedIn.value = response.result
+            } catch (e: Exception) {
+                Log.e("TaiKhoanViewModel", "Đã xảy ra lỗi: ${e.message}")
+                _loginResult.value = KiemTraTaiKhoanResponse(result = false, message = e.message)
+                _isLoggedIn.value = false
+            }
+        }
+    }
+
+    fun kiemTraDangNhap1(tenTaiKhoan: String, matKhau: String) {
         viewModelScope.launch {
             try {
                 // Thực hiện yêu cầu API
@@ -49,6 +76,8 @@ class TaiKhoanViewModel:ViewModel() {
                 }
                 // Cập nhật kết quả API vào state
                 _loginResult.value = response
+                _isLoggedIn.value = response.result // true nếu đăng nhập thành công
+
             } catch (e: Exception) {
                 // Xử lý lỗi nếu có
                 Log.e("TaiKhoanViewModel", "Đã xảy ra lỗi: ${e.message}")
