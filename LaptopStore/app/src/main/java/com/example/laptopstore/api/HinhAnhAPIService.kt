@@ -1,23 +1,19 @@
-import com.example.lapstore.models.HinhAnh
-import com.example.lapstore.models.SanPham
-import com.google.gson.annotations.SerializedName
-import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.DELETE
+package com.example.laptopstore.api
+
+import com.example.laptopstore.models.HinhAnh
 import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.PUT
-import retrofit2.http.Path
 import retrofit2.http.Query
 
 data class HinhAnhResponse(
     val hinhanh: List<HinhAnh>
 )
 
-
-interface HinhAnhAPIService{
+interface HinhAnhAPIService {
     @GET("HinhAnh/readhinhanhbymasanpham.php")
     suspend fun getHinhAnhBySanPham(
         @Query("MaSanPham") MaSanPham: Int
     ): HinhAnhResponse
+
+    @GET("HinhAnh/read.php")
+    suspend fun getAllHinhAnh(): HinhAnhResponse
 }

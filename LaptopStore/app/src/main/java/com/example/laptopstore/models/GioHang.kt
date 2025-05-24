@@ -1,4 +1,4 @@
-package com.example.lapstore.models
+package com.example.laptopstore.models
 
 data class GioHang(
     var MaGioHang: Int,

@@ -1,26 +1,23 @@
+package com.example.laptopstore.viewmodels
+
 import android.util.Log
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
-import com.example.lapstore.models.HoaDonBan
-import com.example.lapstore.models.SanPham
+import com.example.laptopstore.models.SanPham
 import com.example.laptopstore.RetrofitClient.LaptopStoreRetrofitClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch/**/
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+
 class SanPhamViewModel : ViewModel() {
-    var danhSachAllSanPham by mutableStateOf<List<SanPham>>(emptyList())
+    // Chuyển từ mutableStateOf sang StateFlow
     var danhSachSanPhamTrongHoaDon by mutableStateOf<List<SanPham>>(emptyList())
 
     private val _danhSachSanPhamGaming = MutableStateFlow<List<SanPham>>(emptyList())
@@ -31,18 +28,29 @@ class SanPhamViewModel : ViewModel() {
 
     var danhSachSanPhamCuaKhachHang by mutableStateOf<List<SanPham>>(emptyList())
         private set
+
+
+    var sanPham by mutableStateOf<SanPham?>(null)
+        private set
+
+
+    private val _danhsachSanPham = MutableStateFlow<List<SanPham>>(emptyList())
+    val danhsachSanPham: StateFlow<List<SanPham>> get() = _danhsachSanPham
+
+    private val _danhSachAllSanPham = MutableStateFlow<List<SanPham>>(emptyList())
+    val danhSachAllSanPham: StateFlow<List<SanPham>> get() = _danhSachAllSanPham
+
+    private val _danhSach = MutableStateFlow<List<SanPham>>(emptyList())
+    val danhSach: StateFlow<List<SanPham>> get() = _danhSach
+
     var isLoading by mutableStateOf(false)
         private set
     var errorMessage by mutableStateOf<String?>(null)
         private set
 
-    var sanPham by mutableStateOf<SanPham?>(null)
-        private set
-
-    var danhSach by mutableStateOf<List<SanPham>>(emptyList())
-
-    private val _danhsachSanPham = MutableStateFlow<List<SanPham>>(emptyList())
-    val danhsachSanPham: StateFlow<List<SanPham>> get() = _danhsachSanPham
+    init {
+        getAllSanPham() // Tải dữ liệu ngay khi ViewModel được khởi tạo
+    }
 
     fun getAllSanPham() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -50,13 +58,38 @@ class SanPhamViewModel : ViewModel() {
             errorMessage = null
             try {
                 val response = LaptopStoreRetrofitClient.sanphamAPIService.getAllSanPham()
-                danhSachAllSanPham = response.sanpham
+                _danhSachAllSanPham.value = response.sanpham
+                Log.d("SanPhamViewModel", "Loaded all products: ${response.sanpham}")
             } catch (e: Exception) {
                 errorMessage = e.message
+                Log.e("SanPhamViewModel", "Error loading products: ${e.message}")
             } finally {
                 isLoading = false
             }
         }
+    }
+
+    fun getSanPhamSearch(search: String) {
+        viewModelScope.launch {
+            try {
+                val response = withContext(Dispatchers.IO) {
+                    LaptopStoreRetrofitClient.sanphamAPIService.searchSanPham(search)
+                }
+                _danhSach.value = response.sanpham
+                Log.d("SanPhamViewModel", "Search results for '$search': ${response.sanpham}")
+            } catch (e: Exception) {
+                Log.e("SanPham Error", "Lỗi khi tìm kiếm sản phẩm: ${e.message}")
+                errorMessage = e.message
+            }
+        }
+    }
+
+    fun clearSanPhamSearch() {
+        _danhSach.value = emptyList()
+    }
+
+    fun updateFilteredProducts(filteredList: List<SanPham>) {
+        _danhSach.value = filteredList
     }
 
     fun getSanPhamTheoLoaiGaming() {
@@ -121,18 +154,6 @@ class SanPhamViewModel : ViewModel() {
         }
     }
 
-    fun getSanPhamSearch(search:String) {
-        viewModelScope.launch {
-            try {
-                val response = withContext(Dispatchers.IO) {
-                    LaptopStoreRetrofitClient.sanphamAPIService.searchSanPham(search)
-                }
-                danhSach = response.sanpham
-            } catch (e: Exception) {
-                Log.e("SanPham Error", "Lỗi khi lấy sản phẩm: ${e.message}")
-            }
-        }
-    }
 
     fun getSanPhamTrongHoaDon(MaHoaDonBan: Int) {
         viewModelScope.launch {
@@ -147,7 +168,4 @@ class SanPhamViewModel : ViewModel() {
         }
     }
 
-    fun clearSanPhamSearch() {
-        danhSach = emptyList()
-    }
 }

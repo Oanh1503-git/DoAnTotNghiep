@@ -59,7 +59,11 @@
 31-->[androidx.core:core:1.15.0] C:\Users\MSI\.gradle\caches\8.10.2\transforms\3707fe04bf3c198c143541eefbe56280\transformed\core-1.15.0\AndroidManifest.xml:26:22-94
 32
 33    <application
+<<<<<<< HEAD
 33-->D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:5:5-26:19
+=======
+33-->G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:5:5-28:19
+>>>>>>> nhan
 34        android:allowBackup="true"
 34-->D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:6:9-35
 35        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
@@ -79,6 +83,7 @@
 43        android:supportsRtl="true"
 43-->D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:12:9-35
 44        android:testOnly="true"
+<<<<<<< HEAD
 45        android:theme="@style/Theme.LaptopStore" >
 45-->D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:13:9-49
 46        <activity
@@ -436,3 +441,364 @@
 228    </application>
 229
 230</manifest>
+=======
+45        android:theme="@style/Theme.LaptopStore"
+45-->G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:13:9-49
+46        android:usesCleartextTraffic="true" >
+46-->G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:14:9-44
+47        <activity
+47-->G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:16:9-27:20
+48            android:name="com.example.laptopstore.MainActivity"
+48-->G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:17:13-41
+49            android:exported="true"
+49-->G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:18:13-36
+50            android:label="@string/app_name"
+50-->G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:19:13-45
+51            android:theme="@style/Theme.LaptopStore" >
+51-->G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:20:13-53
+52            <intent-filter>
+52-->G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:22:13-26:29
+53                <action android:name="android.intent.action.MAIN" />
+53-->G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:23:17-69
+53-->G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:23:25-66
+54
+55                <category android:name="android.intent.category.LAUNCHER" />
+55-->G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:25:17-77
+55-->G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:25:27-74
+56            </intent-filter>
+57        </activity>
+58        <activity
+58-->[androidx.compose.ui:ui-tooling-android:1.8.0] G:\andi\jbr\caches\8.10.2\transforms\b58d35951c24a16700bc55fc073b63ea\transformed\ui-tooling-release\AndroidManifest.xml:23:9-25:39
+59            android:name="androidx.compose.ui.tooling.PreviewActivity"
+59-->[androidx.compose.ui:ui-tooling-android:1.8.0] G:\andi\jbr\caches\8.10.2\transforms\b58d35951c24a16700bc55fc073b63ea\transformed\ui-tooling-release\AndroidManifest.xml:24:13-71
+60            android:exported="true" />
+60-->[androidx.compose.ui:ui-tooling-android:1.8.0] G:\andi\jbr\caches\8.10.2\transforms\b58d35951c24a16700bc55fc073b63ea\transformed\ui-tooling-release\AndroidManifest.xml:25:13-36
+61        <activity
+61-->[androidx.test:core:1.5.0] G:\andi\jbr\caches\8.10.2\transforms\2f2049ff5a4cd4f1fa43f73c57b7aacf\transformed\core-1.5.0\AndroidManifest.xml:27:9-34:20
+62            android:name="androidx.test.core.app.InstrumentationActivityInvoker$BootstrapActivity"
+62-->[androidx.test:core:1.5.0] G:\andi\jbr\caches\8.10.2\transforms\2f2049ff5a4cd4f1fa43f73c57b7aacf\transformed\core-1.5.0\AndroidManifest.xml:28:13-99
+63            android:exported="true"
+63-->[androidx.test:core:1.5.0] G:\andi\jbr\caches\8.10.2\transforms\2f2049ff5a4cd4f1fa43f73c57b7aacf\transformed\core-1.5.0\AndroidManifest.xml:29:13-36
+64            android:theme="@style/WhiteBackgroundTheme" >
+64-->[androidx.test:core:1.5.0] G:\andi\jbr\caches\8.10.2\transforms\2f2049ff5a4cd4f1fa43f73c57b7aacf\transformed\core-1.5.0\AndroidManifest.xml:30:13-56
+65            <intent-filter android:priority="-100" >
+65-->[androidx.test:core:1.5.0] G:\andi\jbr\caches\8.10.2\transforms\2f2049ff5a4cd4f1fa43f73c57b7aacf\transformed\core-1.5.0\AndroidManifest.xml:31:13-33:29
+65-->[androidx.test:core:1.5.0] G:\andi\jbr\caches\8.10.2\transforms\2f2049ff5a4cd4f1fa43f73c57b7aacf\transformed\core-1.5.0\AndroidManifest.xml:31:28-51
+66                <category android:name="android.intent.category.LAUNCHER" />
+66-->G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:25:17-77
+66-->G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:25:27-74
+67            </intent-filter>
+68        </activity>
+69        <activity
+69-->[androidx.test:core:1.5.0] G:\andi\jbr\caches\8.10.2\transforms\2f2049ff5a4cd4f1fa43f73c57b7aacf\transformed\core-1.5.0\AndroidManifest.xml:35:9-42:20
+70            android:name="androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity"
+70-->[androidx.test:core:1.5.0] G:\andi\jbr\caches\8.10.2\transforms\2f2049ff5a4cd4f1fa43f73c57b7aacf\transformed\core-1.5.0\AndroidManifest.xml:36:13-95
+71            android:exported="true"
+71-->[androidx.test:core:1.5.0] G:\andi\jbr\caches\8.10.2\transforms\2f2049ff5a4cd4f1fa43f73c57b7aacf\transformed\core-1.5.0\AndroidManifest.xml:37:13-36
+72            android:theme="@style/WhiteBackgroundTheme" >
+72-->[androidx.test:core:1.5.0] G:\andi\jbr\caches\8.10.2\transforms\2f2049ff5a4cd4f1fa43f73c57b7aacf\transformed\core-1.5.0\AndroidManifest.xml:38:13-56
+73            <intent-filter android:priority="-100" >
+73-->[androidx.test:core:1.5.0] G:\andi\jbr\caches\8.10.2\transforms\2f2049ff5a4cd4f1fa43f73c57b7aacf\transformed\core-1.5.0\AndroidManifest.xml:31:13-33:29
+73-->[androidx.test:core:1.5.0] G:\andi\jbr\caches\8.10.2\transforms\2f2049ff5a4cd4f1fa43f73c57b7aacf\transformed\core-1.5.0\AndroidManifest.xml:31:28-51
+74                <category android:name="android.intent.category.LAUNCHER" />
+74-->G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:25:17-77
+74-->G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:25:27-74
+75            </intent-filter>
+76        </activity>
+77        <activity
+77-->[androidx.test:core:1.5.0] G:\andi\jbr\caches\8.10.2\transforms\2f2049ff5a4cd4f1fa43f73c57b7aacf\transformed\core-1.5.0\AndroidManifest.xml:43:9-50:20
+78            android:name="androidx.test.core.app.InstrumentationActivityInvoker$EmptyFloatingActivity"
+78-->[androidx.test:core:1.5.0] G:\andi\jbr\caches\8.10.2\transforms\2f2049ff5a4cd4f1fa43f73c57b7aacf\transformed\core-1.5.0\AndroidManifest.xml:44:13-103
+79            android:exported="true"
+79-->[androidx.test:core:1.5.0] G:\andi\jbr\caches\8.10.2\transforms\2f2049ff5a4cd4f1fa43f73c57b7aacf\transformed\core-1.5.0\AndroidManifest.xml:45:13-36
+80            android:theme="@style/WhiteBackgroundDialogTheme" >
+80-->[androidx.test:core:1.5.0] G:\andi\jbr\caches\8.10.2\transforms\2f2049ff5a4cd4f1fa43f73c57b7aacf\transformed\core-1.5.0\AndroidManifest.xml:46:13-62
+81            <intent-filter android:priority="-100" >
+81-->[androidx.test:core:1.5.0] G:\andi\jbr\caches\8.10.2\transforms\2f2049ff5a4cd4f1fa43f73c57b7aacf\transformed\core-1.5.0\AndroidManifest.xml:31:13-33:29
+81-->[androidx.test:core:1.5.0] G:\andi\jbr\caches\8.10.2\transforms\2f2049ff5a4cd4f1fa43f73c57b7aacf\transformed\core-1.5.0\AndroidManifest.xml:31:28-51
+82                <category android:name="android.intent.category.LAUNCHER" />
+82-->G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:25:17-77
+82-->G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:25:27-74
+83            </intent-filter>
+84        </activity>
+85
+86        <meta-data
+86-->[com.google.android.gms:play-services-basement:18.4.0] G:\andi\jbr\caches\8.10.2\transforms\c354011d07dfaad6fe60f0de051c789d\transformed\play-services-basement-18.4.0\AndroidManifest.xml:6:9-122
+87            android:name="com.google.android.gms.version"
+87-->[com.google.android.gms:play-services-basement:18.4.0] G:\andi\jbr\caches\8.10.2\transforms\c354011d07dfaad6fe60f0de051c789d\transformed\play-services-basement-18.4.0\AndroidManifest.xml:6:20-65
+88            android:value="@integer/google_play_services_version" />
+88-->[com.google.android.gms:play-services-basement:18.4.0] G:\andi\jbr\caches\8.10.2\transforms\c354011d07dfaad6fe60f0de051c789d\transformed\play-services-basement-18.4.0\AndroidManifest.xml:6:66-119
+89
+90        <provider
+90-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:31:9-39:20
+91            android:name="androidx.startup.InitializationProvider"
+91-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:32:13-67
+92            android:authorities="com.example.laptopstore.androidx-startup"
+92-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:33:13-68
+93            android:exported="false" >
+93-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:34:13-37
+94            <meta-data
+94-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:36:13-38:52
+95                android:name="androidx.work.WorkManagerInitializer"
+95-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:37:17-68
+96                android:value="androidx.startup" />
+96-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:38:17-49
+97            <meta-data
+97-->[androidx.emoji2:emoji2:1.4.0] G:\andi\jbr\caches\8.10.2\transforms\e2592541dbf7964ca3fab755dbd5578d\transformed\emoji2-1.4.0\AndroidManifest.xml:29:13-31:52
+98                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+98-->[androidx.emoji2:emoji2:1.4.0] G:\andi\jbr\caches\8.10.2\transforms\e2592541dbf7964ca3fab755dbd5578d\transformed\emoji2-1.4.0\AndroidManifest.xml:30:17-75
+99                android:value="androidx.startup" />
+99-->[androidx.emoji2:emoji2:1.4.0] G:\andi\jbr\caches\8.10.2\transforms\e2592541dbf7964ca3fab755dbd5578d\transformed\emoji2-1.4.0\AndroidManifest.xml:31:17-49
+100            <meta-data
+100-->[androidx.lifecycle:lifecycle-process:2.9.0-beta01] G:\andi\jbr\caches\8.10.2\transforms\c96814cee19896e988a198bf831c9e47\transformed\lifecycle-process-2.9.0-beta01\AndroidManifest.xml:29:13-31:52
+101                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+101-->[androidx.lifecycle:lifecycle-process:2.9.0-beta01] G:\andi\jbr\caches\8.10.2\transforms\c96814cee19896e988a198bf831c9e47\transformed\lifecycle-process-2.9.0-beta01\AndroidManifest.xml:30:17-78
+102                android:value="androidx.startup" />
+102-->[androidx.lifecycle:lifecycle-process:2.9.0-beta01] G:\andi\jbr\caches\8.10.2\transforms\c96814cee19896e988a198bf831c9e47\transformed\lifecycle-process-2.9.0-beta01\AndroidManifest.xml:31:17-49
+103            <meta-data
+103-->[androidx.profileinstaller:profileinstaller:1.4.0] G:\andi\jbr\caches\8.10.2\transforms\8f0e734676bbbe0c401d9535e45cab85\transformed\profileinstaller-1.4.0\AndroidManifest.xml:29:13-31:52
+104                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+104-->[androidx.profileinstaller:profileinstaller:1.4.0] G:\andi\jbr\caches\8.10.2\transforms\8f0e734676bbbe0c401d9535e45cab85\transformed\profileinstaller-1.4.0\AndroidManifest.xml:30:17-85
+105                android:value="androidx.startup" />
+105-->[androidx.profileinstaller:profileinstaller:1.4.0] G:\andi\jbr\caches\8.10.2\transforms\8f0e734676bbbe0c401d9535e45cab85\transformed\profileinstaller-1.4.0\AndroidManifest.xml:31:17-49
+106        </provider>
+107
+108        <service
+108-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:41:9-46:35
+109            android:name="androidx.work.impl.background.systemalarm.SystemAlarmService"
+109-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:42:13-88
+110            android:directBootAware="false"
+110-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:43:13-44
+111            android:enabled="@bool/enable_system_alarm_service_default"
+111-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:44:13-72
+112            android:exported="false" />
+112-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:45:13-37
+113        <service
+113-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:47:9-53:35
+114            android:name="androidx.work.impl.background.systemjob.SystemJobService"
+114-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:48:13-84
+115            android:directBootAware="false"
+115-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:49:13-44
+116            android:enabled="@bool/enable_system_job_service_default"
+116-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:50:13-70
+117            android:exported="true"
+117-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:51:13-36
+118            android:permission="android.permission.BIND_JOB_SERVICE" />
+118-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:52:13-69
+119        <service
+119-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:54:9-59:35
+120            android:name="androidx.work.impl.foreground.SystemForegroundService"
+120-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:55:13-81
+121            android:directBootAware="false"
+121-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:56:13-44
+122            android:enabled="@bool/enable_system_foreground_service_default"
+122-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:57:13-77
+123            android:exported="false" />
+123-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:58:13-37
+124
+125        <receiver
+125-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:61:9-66:35
+126            android:name="androidx.work.impl.utils.ForceStopRunnable$BroadcastReceiver"
+126-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:62:13-88
+127            android:directBootAware="false"
+127-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:63:13-44
+128            android:enabled="true"
+128-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:64:13-35
+129            android:exported="false" />
+129-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:65:13-37
+130        <receiver
+130-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:67:9-77:20
+131            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryChargingProxy"
+131-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:68:13-106
+132            android:directBootAware="false"
+132-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:69:13-44
+133            android:enabled="false"
+133-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:70:13-36
+134            android:exported="false" >
+134-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:71:13-37
+135            <intent-filter>
+135-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:73:13-76:29
+136                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+136-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:74:17-87
+136-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:74:25-84
+137                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+137-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:75:17-90
+137-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:75:25-87
+138            </intent-filter>
+139        </receiver>
+140        <receiver
+140-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:78:9-88:20
+141            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryNotLowProxy"
+141-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:79:13-104
+142            android:directBootAware="false"
+142-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:80:13-44
+143            android:enabled="false"
+143-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:81:13-36
+144            android:exported="false" >
+144-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:82:13-37
+145            <intent-filter>
+145-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:84:13-87:29
+146                <action android:name="android.intent.action.BATTERY_OKAY" />
+146-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:85:17-77
+146-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:85:25-74
+147                <action android:name="android.intent.action.BATTERY_LOW" />
+147-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:86:17-76
+147-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:86:25-73
+148            </intent-filter>
+149        </receiver>
+150        <receiver
+150-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:89:9-99:20
+151            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$StorageNotLowProxy"
+151-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:90:13-104
+152            android:directBootAware="false"
+152-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:91:13-44
+153            android:enabled="false"
+153-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:92:13-36
+154            android:exported="false" >
+154-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:93:13-37
+155            <intent-filter>
+155-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:95:13-98:29
+156                <action android:name="android.intent.action.DEVICE_STORAGE_LOW" />
+156-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:96:17-83
+156-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:96:25-80
+157                <action android:name="android.intent.action.DEVICE_STORAGE_OK" />
+157-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:97:17-82
+157-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:97:25-79
+158            </intent-filter>
+159        </receiver>
+160        <receiver
+160-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:100:9-109:20
+161            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$NetworkStateProxy"
+161-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:101:13-103
+162            android:directBootAware="false"
+162-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:102:13-44
+163            android:enabled="false"
+163-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:103:13-36
+164            android:exported="false" >
+164-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:104:13-37
+165            <intent-filter>
+165-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:106:13-108:29
+166                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+166-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:107:17-79
+166-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:107:25-76
+167            </intent-filter>
+168        </receiver>
+169        <receiver
+169-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:110:9-121:20
+170            android:name="androidx.work.impl.background.systemalarm.RescheduleReceiver"
+170-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:111:13-88
+171            android:directBootAware="false"
+171-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:112:13-44
+172            android:enabled="false"
+172-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:113:13-36
+173            android:exported="false" >
+173-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:114:13-37
+174            <intent-filter>
+174-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:116:13-120:29
+175                <action android:name="android.intent.action.BOOT_COMPLETED" />
+175-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:117:17-79
+175-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:117:25-76
+176                <action android:name="android.intent.action.TIME_SET" />
+176-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:118:17-73
+176-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:118:25-70
+177                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+177-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:119:17-81
+177-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:119:25-78
+178            </intent-filter>
+179        </receiver>
+180        <receiver
+180-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:122:9-131:20
+181            android:name="androidx.work.impl.background.systemalarm.ConstraintProxyUpdateReceiver"
+181-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:123:13-99
+182            android:directBootAware="false"
+182-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:124:13-44
+183            android:enabled="@bool/enable_system_alarm_service_default"
+183-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:125:13-72
+184            android:exported="false" >
+184-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:126:13-37
+185            <intent-filter>
+185-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:128:13-130:29
+186                <action android:name="androidx.work.impl.background.systemalarm.UpdateProxies" />
+186-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:129:17-98
+186-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:129:25-95
+187            </intent-filter>
+188        </receiver>
+189        <receiver
+189-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:132:9-142:20
+190            android:name="androidx.work.impl.diagnostics.DiagnosticsReceiver"
+190-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:133:13-78
+191            android:directBootAware="false"
+191-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:134:13-44
+192            android:enabled="true"
+192-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:135:13-35
+193            android:exported="true"
+193-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:136:13-36
+194            android:permission="android.permission.DUMP" >
+194-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:137:13-57
+195            <intent-filter>
+195-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:139:13-141:29
+196                <action android:name="androidx.work.diagnostics.REQUEST_DIAGNOSTICS" />
+196-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:140:17-88
+196-->[androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:140:25-85
+197            </intent-filter>
+198        </receiver>
+199
+200        <activity
+200-->[androidx.compose.ui:ui-test-manifest:1.8.0] G:\andi\jbr\caches\8.10.2\transforms\3db175da0c3ebf299cb758ca17b878c8\transformed\ui-test-manifest-1.8.0\AndroidManifest.xml:23:9-26:79
+201            android:name="androidx.activity.ComponentActivity"
+201-->[androidx.compose.ui:ui-test-manifest:1.8.0] G:\andi\jbr\caches\8.10.2\transforms\3db175da0c3ebf299cb758ca17b878c8\transformed\ui-test-manifest-1.8.0\AndroidManifest.xml:24:13-63
+202            android:exported="true"
+202-->[androidx.compose.ui:ui-test-manifest:1.8.0] G:\andi\jbr\caches\8.10.2\transforms\3db175da0c3ebf299cb758ca17b878c8\transformed\ui-test-manifest-1.8.0\AndroidManifest.xml:25:13-36
+203            android:theme="@android:style/Theme.Material.Light.NoActionBar" />
+203-->[androidx.compose.ui:ui-test-manifest:1.8.0] G:\andi\jbr\caches\8.10.2\transforms\3db175da0c3ebf299cb758ca17b878c8\transformed\ui-test-manifest-1.8.0\AndroidManifest.xml:26:13-76
+204
+205        <receiver
+205-->[androidx.profileinstaller:profileinstaller:1.4.0] G:\andi\jbr\caches\8.10.2\transforms\8f0e734676bbbe0c401d9535e45cab85\transformed\profileinstaller-1.4.0\AndroidManifest.xml:34:9-52:20
+206            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+206-->[androidx.profileinstaller:profileinstaller:1.4.0] G:\andi\jbr\caches\8.10.2\transforms\8f0e734676bbbe0c401d9535e45cab85\transformed\profileinstaller-1.4.0\AndroidManifest.xml:35:13-76
+207            android:directBootAware="false"
+207-->[androidx.profileinstaller:profileinstaller:1.4.0] G:\andi\jbr\caches\8.10.2\transforms\8f0e734676bbbe0c401d9535e45cab85\transformed\profileinstaller-1.4.0\AndroidManifest.xml:36:13-44
+208            android:enabled="true"
+208-->[androidx.profileinstaller:profileinstaller:1.4.0] G:\andi\jbr\caches\8.10.2\transforms\8f0e734676bbbe0c401d9535e45cab85\transformed\profileinstaller-1.4.0\AndroidManifest.xml:37:13-35
+209            android:exported="true"
+209-->[androidx.profileinstaller:profileinstaller:1.4.0] G:\andi\jbr\caches\8.10.2\transforms\8f0e734676bbbe0c401d9535e45cab85\transformed\profileinstaller-1.4.0\AndroidManifest.xml:38:13-36
+210            android:permission="android.permission.DUMP" >
+210-->[androidx.profileinstaller:profileinstaller:1.4.0] G:\andi\jbr\caches\8.10.2\transforms\8f0e734676bbbe0c401d9535e45cab85\transformed\profileinstaller-1.4.0\AndroidManifest.xml:39:13-57
+211            <intent-filter>
+211-->[androidx.profileinstaller:profileinstaller:1.4.0] G:\andi\jbr\caches\8.10.2\transforms\8f0e734676bbbe0c401d9535e45cab85\transformed\profileinstaller-1.4.0\AndroidManifest.xml:40:13-42:29
+212                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+212-->[androidx.profileinstaller:profileinstaller:1.4.0] G:\andi\jbr\caches\8.10.2\transforms\8f0e734676bbbe0c401d9535e45cab85\transformed\profileinstaller-1.4.0\AndroidManifest.xml:41:17-91
+212-->[androidx.profileinstaller:profileinstaller:1.4.0] G:\andi\jbr\caches\8.10.2\transforms\8f0e734676bbbe0c401d9535e45cab85\transformed\profileinstaller-1.4.0\AndroidManifest.xml:41:25-88
+213            </intent-filter>
+214            <intent-filter>
+214-->[androidx.profileinstaller:profileinstaller:1.4.0] G:\andi\jbr\caches\8.10.2\transforms\8f0e734676bbbe0c401d9535e45cab85\transformed\profileinstaller-1.4.0\AndroidManifest.xml:43:13-45:29
+215                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+215-->[androidx.profileinstaller:profileinstaller:1.4.0] G:\andi\jbr\caches\8.10.2\transforms\8f0e734676bbbe0c401d9535e45cab85\transformed\profileinstaller-1.4.0\AndroidManifest.xml:44:17-85
+215-->[androidx.profileinstaller:profileinstaller:1.4.0] G:\andi\jbr\caches\8.10.2\transforms\8f0e734676bbbe0c401d9535e45cab85\transformed\profileinstaller-1.4.0\AndroidManifest.xml:44:25-82
+216            </intent-filter>
+217            <intent-filter>
+217-->[androidx.profileinstaller:profileinstaller:1.4.0] G:\andi\jbr\caches\8.10.2\transforms\8f0e734676bbbe0c401d9535e45cab85\transformed\profileinstaller-1.4.0\AndroidManifest.xml:46:13-48:29
+218                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+218-->[androidx.profileinstaller:profileinstaller:1.4.0] G:\andi\jbr\caches\8.10.2\transforms\8f0e734676bbbe0c401d9535e45cab85\transformed\profileinstaller-1.4.0\AndroidManifest.xml:47:17-88
+218-->[androidx.profileinstaller:profileinstaller:1.4.0] G:\andi\jbr\caches\8.10.2\transforms\8f0e734676bbbe0c401d9535e45cab85\transformed\profileinstaller-1.4.0\AndroidManifest.xml:47:25-85
+219            </intent-filter>
+220            <intent-filter>
+220-->[androidx.profileinstaller:profileinstaller:1.4.0] G:\andi\jbr\caches\8.10.2\transforms\8f0e734676bbbe0c401d9535e45cab85\transformed\profileinstaller-1.4.0\AndroidManifest.xml:49:13-51:29
+221                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+221-->[androidx.profileinstaller:profileinstaller:1.4.0] G:\andi\jbr\caches\8.10.2\transforms\8f0e734676bbbe0c401d9535e45cab85\transformed\profileinstaller-1.4.0\AndroidManifest.xml:50:17-95
+221-->[androidx.profileinstaller:profileinstaller:1.4.0] G:\andi\jbr\caches\8.10.2\transforms\8f0e734676bbbe0c401d9535e45cab85\transformed\profileinstaller-1.4.0\AndroidManifest.xml:50:25-92
+222            </intent-filter>
+223        </receiver>
+224
+225        <service
+225-->[androidx.room:room-runtime:2.2.5] G:\andi\jbr\caches\8.10.2\transforms\998265b493eb321addaaf8ff4a73bb4a\transformed\room-runtime-2.2.5\AndroidManifest.xml:25:9-28:40
+226            android:name="androidx.room.MultiInstanceInvalidationService"
+226-->[androidx.room:room-runtime:2.2.5] G:\andi\jbr\caches\8.10.2\transforms\998265b493eb321addaaf8ff4a73bb4a\transformed\room-runtime-2.2.5\AndroidManifest.xml:26:13-74
+227            android:directBootAware="true"
+227-->[androidx.room:room-runtime:2.2.5] G:\andi\jbr\caches\8.10.2\transforms\998265b493eb321addaaf8ff4a73bb4a\transformed\room-runtime-2.2.5\AndroidManifest.xml:27:13-43
+228            android:exported="false" />
+228-->[androidx.room:room-runtime:2.2.5] G:\andi\jbr\caches\8.10.2\transforms\998265b493eb321addaaf8ff4a73bb4a\transformed\room-runtime-2.2.5\AndroidManifest.xml:28:13-37
+229    </application>
+230
+231</manifest>
+>>>>>>> nhan

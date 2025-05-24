@@ -1,4 +1,4 @@
-package com.example.lapstore.models
+package com.example.laptopstore.models
 
 import com.google.gson.annotations.SerializedName
 
@@ -6,6 +6,7 @@ data class SanPham(
     @SerializedName("MaSanPham") var MaSanPham: Int,
     @SerializedName("TenSanPham") var TenSanPham: String,
     @SerializedName("MaLoaiSanPham") var MaLoaiSanPham: Int,
+    @SerializedName("mathuonghieu") var mathuonghieu: Int, // Thêm trường thương hiệu
     @SerializedName("CPU") var CPU: String,
     @SerializedName("RAM") var RAM: String,
     @SerializedName("CardManHinh") var CardManHinh: String,
@@ -18,4 +19,3 @@ data class SanPham(
     @SerializedName("HinhAnh") var HinhAnh: String,
     @SerializedName("TrangThai") var TrangThai: Int,
 )
-

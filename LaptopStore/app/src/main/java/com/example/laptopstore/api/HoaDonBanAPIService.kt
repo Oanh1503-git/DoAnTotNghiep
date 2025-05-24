@@ -1,6 +1,5 @@
 
-import com.example.lapstore.models.DiaChi
-import com.example.lapstore.models.HoaDonBan
+import com.example.laptopstore.models.HoaDonBan
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET

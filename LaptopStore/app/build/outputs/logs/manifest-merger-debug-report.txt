@@ -1,5 +1,6 @@
 -- Merging decision tree log ---
 manifest
+<<<<<<< HEAD
 ADDED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:2:1-28:12
 INJECTED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:2:1-28:12
 INJECTED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:2:1-28:12
@@ -93,6 +94,101 @@ MERGED from [androidx.sqlite:sqlite:2.1.0] C:\Users\MSI\.gradle\caches\8.10.2\tr
 MERGED from [androidx.exifinterface:exifinterface:1.3.7] C:\Users\MSI\.gradle\caches\8.10.2\transforms\c4568699b4da5a5cfb5aaaf9201a1638\transformed\exifinterface-1.3.7\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.arch.core:core-runtime:2.2.0] C:\Users\MSI\.gradle\caches\8.10.2\transforms\4eac5059c52c20e2a60761a5790788cb\transformed\core-runtime-2.2.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.test.espresso:espresso-idling-resource:3.5.0] C:\Users\MSI\.gradle\caches\8.10.2\transforms\050b3c0613e2cfaf0d35a71e5c931a7f\transformed\espresso-idling-resource-3.5.0\AndroidManifest.xml:17:1-24:12
+=======
+ADDED from G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:2:1-30:12
+INJECTED from G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:2:1-30:12
+INJECTED from G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:2:1-30:12
+INJECTED from G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:2:1-30:12
+MERGED from [io.coil-kt:coil-compose:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\c66cfd6f02660b6dac61ba6684b842e0\transformed\coil-compose-2.7.0\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-test-android:1.8.0] G:\andi\jbr\caches\8.10.2\transforms\3ae66dbb85f5bb400f655b081a881b7c\transformed\ui-test-release\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.navigation:navigation-common-android:2.9.0-beta01] G:\andi\jbr\caches\8.10.2\transforms\2d5ebe815a518bbc1d9941c35c8e32b1\transformed\navigation-common-release\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.navigation:navigation-compose-android:2.9.0-beta01] G:\andi\jbr\caches\8.10.2\transforms\a94fcd644840eb6d331d8aba7ba50097\transformed\navigation-compose-release\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.navigation:navigation-runtime-android:2.9.0-beta01] G:\andi\jbr\caches\8.10.2\transforms\3015b0929549337449c147f1ea8ff659\transformed\navigation-runtime-release\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.compose.material:material-icons-extended-android:1.7.5] G:\andi\jbr\caches\8.10.2\transforms\bbde49bb21f88455d7d381e94ed1d27a\transformed\material-icons-extended-release\AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.accompanist:accompanist-pager-indicators:0.31.3-beta] G:\andi\jbr\caches\8.10.2\transforms\bf305ae0ff23c1c5a9f74674c59f029f\transformed\accompanist-pager-indicators-0.31.3-beta\AndroidManifest.xml:17:1-25:12
+MERGED from [androidx.compose.material3:material3-android:1.2.1] G:\andi\jbr\caches\8.10.2\transforms\65718e5b2fec5a652f53a7a0bfb3bf92\transformed\material3-release\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.compose.material:material-ripple-android:1.6.6] G:\andi\jbr\caches\8.10.2\transforms\da4f707b87f977a4cd65d2a2a033f4be\transformed\material-ripple-release\AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.accompanist:accompanist-pager:0.31.3-beta] G:\andi\jbr\caches\8.10.2\transforms\3798ff8e0d9bd13967ecc24916eb7371\transformed\accompanist-pager-0.31.3-beta\AndroidManifest.xml:17:1-25:12
+MERGED from [dev.chrisbanes.snapper:snapper:0.2.2] G:\andi\jbr\caches\8.10.2\transforms\edd278edcabb50e7da284d2c42a6518d\transformed\snapper-0.2.2\AndroidManifest.xml:17:1-24:12
+MERGED from [io.coil-kt:coil-compose-base:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\97cbd14908f0cc9168bb5ded6146de1c\transformed\coil-compose-base-2.7.0\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.foundation:foundation-android:1.8.0] G:\andi\jbr\caches\8.10.2\transforms\8aeafdaedb561c8ff6e35aac674dd1a5\transformed\foundation-release\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.foundation:foundation-layout-android:1.8.0] G:\andi\jbr\caches\8.10.2\transforms\aea26fe53682e26c4384f7678a6ca5c9\transformed\foundation-layout-release\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.animation:animation-core-android:1.8.0] G:\andi\jbr\caches\8.10.2\transforms\4360f9f645666e219fd8671076a286c3\transformed\animation-core-release\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.animation:animation-android:1.8.0] G:\andi\jbr\caches\8.10.2\transforms\aba7468fd6a583795926d1568e619cb5\transformed\animation\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-tooling-data-android:1.8.0] G:\andi\jbr\caches\8.10.2\transforms\d88c24612b1fa72114f2826448835dc4\transformed\ui-tooling-data\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-geometry-android:1.8.0] G:\andi\jbr\caches\8.10.2\transforms\5ade4872209f923b123063af166418da\transformed\ui-geometry\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-unit-android:1.8.0] G:\andi\jbr\caches\8.10.2\transforms\9e7315db93cf268b888581f596522b65\transformed\ui-unit-release\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-util-android:1.8.0] G:\andi\jbr\caches\8.10.2\transforms\b9ae1be18664be22c3adfb12ed2d731e\transformed\ui-util-release\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-tooling-preview-android:1.8.0] G:\andi\jbr\caches\8.10.2\transforms\07aa88716baaf4963e78144b39bf0e3f\transformed\ui-tooling-preview\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.compose.ui:ui-text-android:1.8.0] G:\andi\jbr\caches\8.10.2\transforms\a5cd4eb00d20da99d52d1d4c7cc08a5a\transformed\ui-text-release\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-graphics-android:1.8.0] G:\andi\jbr\caches\8.10.2\transforms\66a4941961992656514966ab1c888dd0\transformed\ui-graphics-release\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-tooling-android:1.8.0] G:\andi\jbr\caches\8.10.2\transforms\b58d35951c24a16700bc55fc073b63ea\transformed\ui-tooling-release\AndroidManifest.xml:17:1-28:12
+MERGED from [androidx.compose.material:material-android:1.6.6] G:\andi\jbr\caches\8.10.2\transforms\cb1219f3ebc50dfa7e217f07c067ef74\transformed\material-release\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.material:material-icons-core-android:1.7.5] G:\andi\jbr\caches\8.10.2\transforms\09674cf8cd4e903fa5d1cfcd5348b92e\transformed\material-icons-core-release\AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.accompanist:accompanist-drawablepainter:0.32.0] G:\andi\jbr\caches\8.10.2\transforms\18449ed95eabea40ff1b570f9c989cd5\transformed\accompanist-drawablepainter-0.32.0\AndroidManifest.xml:17:1-23:12
+MERGED from [androidx.test.espresso:espresso-core:3.5.0] G:\andi\jbr\caches\8.10.2\transforms\dd6231636dd1ed4c2ac251b92d5b092d\transformed\espresso-core-3.5.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.test:core:1.5.0] G:\andi\jbr\caches\8.10.2\transforms\2f2049ff5a4cd4f1fa43f73c57b7aacf\transformed\core-1.5.0\AndroidManifest.xml:17:1-53:12
+MERGED from [com.google.android.engage:engage-core:1.5.8] G:\andi\jbr\caches\8.10.2\transforms\e920984e1fd673b57c87380c83ab1a73\transformed\engage-core-1.5.8\AndroidManifest.xml:2:1-13:12
+MERGED from [com.google.android.gms:play-services-tasks:18.2.0] G:\andi\jbr\caches\8.10.2\transforms\cf451de16f7e2433b9c5052cfc636637\transformed\play-services-tasks-18.2.0\AndroidManifest.xml:2:1-5:12
+MERGED from [com.google.android.gms:play-services-basement:18.4.0] G:\andi\jbr\caches\8.10.2\transforms\c354011d07dfaad6fe60f0de051c789d\transformed\play-services-basement-18.4.0\AndroidManifest.xml:2:1-9:12
+MERGED from [androidx.fragment:fragment:1.1.0] G:\andi\jbr\caches\8.10.2\transforms\a2f2b94a116b650f29a20b425e1260b8\transformed\fragment-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.loader:loader:1.0.0] G:\andi\jbr\caches\8.10.2\transforms\3310f4dde62a86e23d9739f7c86b7361\transformed\loader-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:17:1-145:12
+MERGED from [io.coil-kt:coil:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\61eacda54c8334fd82cd0c1646b28c0e\transformed\coil-2.7.0\AndroidManifest.xml:2:1-7:12
+MERGED from [io.coil-kt:coil-base:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\bc04a8efb95e796905015892a119fbca\transformed\coil-base-2.7.0\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.appcompat:appcompat-resources:1.6.1] G:\andi\jbr\caches\8.10.2\transforms\c3c44cdc26b02ce35d3cdbf6b68a44d2\transformed\appcompat-resources-1.6.1\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.autofill:autofill:1.0.0] G:\andi\jbr\caches\8.10.2\transforms\97816306534c35992a26191d8421dc5f\transformed\autofill-1.0.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.graphics:graphics-path:1.0.1] G:\andi\jbr\caches\8.10.2\transforms\394caa32d19620747d563f5d3e57d072\transformed\graphics-path-1.0.1\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.emoji2:emoji2:1.4.0] G:\andi\jbr\caches\8.10.2\transforms\e2592541dbf7964ca3fab755dbd5578d\transformed\emoji2-1.4.0\AndroidManifest.xml:17:1-35:12
+MERGED from [androidx.viewpager:viewpager:1.0.0] G:\andi\jbr\caches\8.10.2\transforms\955b842d896ec656065a2208c3aeb192\transformed\viewpager-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] G:\andi\jbr\caches\8.10.2\transforms\65f7ce9aa96d1c17a94f96e99c6fd5b4\transformed\vectordrawable-animated-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] G:\andi\jbr\caches\8.10.2\transforms\65702371ee509fa9b7b7e6e226a2b2a9\transformed\vectordrawable-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.customview:customview:1.0.0] G:\andi\jbr\caches\8.10.2\transforms\c25bd9e24a846c80a01b52e2b3573eaa\transformed\customview-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.core:core:1.15.0] G:\andi\jbr\caches\8.10.2\transforms\3707fe04bf3c198c143541eefbe56280\transformed\core-1.15.0\AndroidManifest.xml:17:1-30:12
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx-android:2.9.0-beta01] G:\andi\jbr\caches\8.10.2\transforms\500e77ed32806e2268c688f30e235cc3\transformed\lifecycle-runtime-ktx\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core-ktx:2.9.0-beta01] G:\andi\jbr\caches\8.10.2\transforms\1581062df245be96228b1de768d0ee98\transformed\lifecycle-livedata-core-ktx-2.9.0-beta01\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.9.0-beta01] G:\andi\jbr\caches\8.10.2\transforms\dc3b8c976633bcd7935af60394df4284\transformed\lifecycle-livedata-core-2.9.0-beta01\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.0-beta01] G:\andi\jbr\caches\8.10.2\transforms\f3090642b029d226fee3c4d43d26ef18\transformed\lifecycle-viewmodel-ktx-2.9.0-beta01\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.lifecycle:lifecycle-service:2.9.0-beta01] G:\andi\jbr\caches\8.10.2\transforms\f90ea171775da97045635f316ea3baec\transformed\lifecycle-service-2.9.0-beta01\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.lifecycle:lifecycle-process:2.9.0-beta01] G:\andi\jbr\caches\8.10.2\transforms\c96814cee19896e988a198bf831c9e47\transformed\lifecycle-process-2.9.0-beta01\AndroidManifest.xml:17:1-35:12
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.9.0-beta01] G:\andi\jbr\caches\8.10.2\transforms\b011a24f33d92523605dde2d09c018fa\transformed\lifecycle-livedata-2.9.0-beta01\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-runtime-android:2.9.0-beta01] G:\andi\jbr\caches\8.10.2\transforms\8f2f90d975e3d0ce851c35290edb69dd\transformed\lifecycle-runtime-release\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-runtime-compose-android:2.9.0-beta01] G:\andi\jbr\caches\8.10.2\transforms\d6dc04b84004c64d961b55753fed801a\transformed\lifecycle-runtime-compose-release\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate-android:2.9.0-beta01] G:\andi\jbr\caches\8.10.2\transforms\986e7c5b3ba758be95feb8710ffa225e\transformed\lifecycle-viewmodel-savedstate-release\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.9.0-beta01] G:\andi\jbr\caches\8.10.2\transforms\da76b8445e283c973d54371d78663e89\transformed\lifecycle-viewmodel-2.9.0-beta01\AndroidManifest.xml:2:1-5:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-android:2.9.0-beta01] G:\andi\jbr\caches\8.10.2\transforms\c14f669c42dfae444fd8cfdbcf33ebe7\transformed\lifecycle-viewmodel-release\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.savedstate:savedstate-compose-android:1.3.0-beta01] G:\andi\jbr\caches\8.10.2\transforms\60acf08e3255aedf44e8f0bbd0ad9d8c\transformed\savedstate-compose-release\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.savedstate:savedstate-ktx:1.3.0-beta01] G:\andi\jbr\caches\8.10.2\transforms\6657f3296e2368e222009e08d6e49295\transformed\savedstate-ktx-1.3.0-beta01\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.savedstate:savedstate-android:1.3.0-beta01] G:\andi\jbr\caches\8.10.2\transforms\1996dc27de2ad751f46089343b1203fd\transformed\savedstate-release\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-compose-android:2.9.0-beta01] G:\andi\jbr\caches\8.10.2\transforms\f02d0522d3ea57d71b5f51e629360d10\transformed\lifecycle-viewmodel-compose-release\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-android:1.8.0] G:\andi\jbr\caches\8.10.2\transforms\d030ddcc3e5505aca306a906783415fe\transformed\ui-release\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-test-manifest:1.8.0] G:\andi\jbr\caches\8.10.2\transforms\3db175da0c3ebf299cb758ca17b878c8\transformed\ui-test-manifest-1.8.0\AndroidManifest.xml:17:1-29:12
+MERGED from [androidx.activity:activity:1.10.1] G:\andi\jbr\caches\8.10.2\transforms\ba216a749e57dfad101b7d76cccd3f73\transformed\activity-1.10.1\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.activity:activity-ktx:1.10.1] G:\andi\jbr\caches\8.10.2\transforms\971fa9bb32c9ae09301174bf790d4594\transformed\activity-ktx-1.10.1\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.activity:activity-compose:1.10.1] G:\andi\jbr\caches\8.10.2\transforms\4bfeb638a811e8187913d26d6184835c\transformed\activity-compose-1.10.1\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] G:\andi\jbr\caches\8.10.2\transforms\d0c59a37ba4aa2f9f0de4ccd6dea3fc9\transformed\customview-poolingcontainer-1.0.0\AndroidManifest.xml:17:1-23:12
+MERGED from [androidx.core:core-ktx:1.15.0] G:\andi\jbr\caches\8.10.2\transforms\e14ac09fa3dde68f4c2c6c7b1ddbe884\transformed\core-ktx-1.15.0\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.test:runner:1.5.0] G:\andi\jbr\caches\8.10.2\transforms\cc23c4bbd9af1883865a8f337c89cbbb\transformed\runner-1.5.0\AndroidManifest.xml:17:1-32:12
+MERGED from [androidx.test.services:storage:1.4.2] G:\andi\jbr\caches\8.10.2\transforms\5ed5d327c197b5dfdb932aba4aa0944b\transformed\storage-1.4.2\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.test:monitor:1.6.1] G:\andi\jbr\caches\8.10.2\transforms\7e626e597666684e36788c61d51d6d11\transformed\monitor-1.6.1\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.test:annotation:1.0.1] G:\andi\jbr\caches\8.10.2\transforms\f42ba5f5cc70074a02a22721d8ba3752\transformed\annotation-1.0.1\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.compose.runtime:runtime-saveable-android:1.8.0] G:\andi\jbr\caches\8.10.2\transforms\d050c65c489ae49387e44d7d0e89cbb6\transformed\runtime-saveable-release\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.runtime:runtime-android:1.8.0] G:\andi\jbr\caches\8.10.2\transforms\51da7b125e70badef48a838c55782df9\transformed\runtime-release\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.annotation:annotation-experimental:1.4.1] G:\andi\jbr\caches\8.10.2\transforms\39ec0d3155be78e6da9daa66cc15f6f5\transformed\annotation-experimental-1.4.1\AndroidManifest.xml:2:1-7:12
+MERGED from [io.github.aakira:napier-android-debug:1.4.1] G:\andi\jbr\caches\8.10.2\transforms\d7fa4cd559a27d8729049a6318f39f65\transformed\napier-debug\AndroidManifest.xml:2:1-11:12
+MERGED from [androidx.core:core-viewtree:1.0.0] G:\andi\jbr\caches\8.10.2\transforms\32753c6b3008a74cfb6be119aca3ca6e\transformed\core-viewtree-1.0.0\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] G:\andi\jbr\caches\8.10.2\transforms\939738e71baddf55d11971b590f64e4c\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:17:1-27:12
+MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] G:\andi\jbr\caches\8.10.2\transforms\8f0e734676bbbe0c401d9535e45cab85\transformed\profileinstaller-1.4.0\AndroidManifest.xml:17:1-55:12
+MERGED from [androidx.interpolator:interpolator:1.0.0] G:\andi\jbr\caches\8.10.2\transforms\56d189a0facbf47dc203a73f58343495\transformed\interpolator-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.startup:startup-runtime:1.1.1] G:\andi\jbr\caches\8.10.2\transforms\84be738f3c0d2de3d40e38353e2d7595\transformed\startup-runtime-1.1.1\AndroidManifest.xml:17:1-33:12
+MERGED from [androidx.tracing:tracing:1.2.0] G:\andi\jbr\caches\8.10.2\transforms\436920ceb5bc948dbbb0268ff4e632ed\transformed\tracing-1.2.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.room:room-runtime:2.2.5] G:\andi\jbr\caches\8.10.2\transforms\998265b493eb321addaaf8ff4a73bb4a\transformed\room-runtime-2.2.5\AndroidManifest.xml:17:1-31:12
+MERGED from [androidx.sqlite:sqlite-framework:2.1.0] G:\andi\jbr\caches\8.10.2\transforms\488a27a22952371ed26bf94e1f692868\transformed\sqlite-framework-2.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.sqlite:sqlite:2.1.0] G:\andi\jbr\caches\8.10.2\transforms\84a3cd335477df7a5e0bde18c87dc1ef\transformed\sqlite-2.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.exifinterface:exifinterface:1.3.7] G:\andi\jbr\caches\8.10.2\transforms\c4568699b4da5a5cfb5aaaf9201a1638\transformed\exifinterface-1.3.7\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.arch.core:core-runtime:2.2.0] G:\andi\jbr\caches\8.10.2\transforms\4eac5059c52c20e2a60761a5790788cb\transformed\core-runtime-2.2.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.test.espresso:espresso-idling-resource:3.5.0] G:\andi\jbr\caches\8.10.2\transforms\050b3c0613e2cfaf0d35a71e5c931a7f\transformed\espresso-idling-resource-3.5.0\AndroidManifest.xml:17:1-24:12
+>>>>>>> nhan
 	package
 		INJECTED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml
 	android:versionName
@@ -108,6 +204,7 @@ ADDED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:4:
 	android:name
 		ADDED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:4:22-64
 application
+<<<<<<< HEAD
 ADDED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:5:5-26:19
 INJECTED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:5:5-26:19
 MERGED from [androidx.compose.ui:ui-tooling-android:1.8.0] C:\Users\MSI\.gradle\caches\8.10.2\transforms\b58d35951c24a16700bc55fc073b63ea\transformed\ui-tooling-release\AndroidManifest.xml:22:5-26:19
@@ -138,6 +235,38 @@ MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\MSI\.gradle\caches
 MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\MSI\.gradle\caches\8.10.2\transforms\84be738f3c0d2de3d40e38353e2d7595\transformed\startup-runtime-1.1.1\AndroidManifest.xml:25:5-31:19
 MERGED from [androidx.room:room-runtime:2.2.5] C:\Users\MSI\.gradle\caches\8.10.2\transforms\998265b493eb321addaaf8ff4a73bb4a\transformed\room-runtime-2.2.5\AndroidManifest.xml:24:5-29:19
 MERGED from [androidx.room:room-runtime:2.2.5] C:\Users\MSI\.gradle\caches\8.10.2\transforms\998265b493eb321addaaf8ff4a73bb4a\transformed\room-runtime-2.2.5\AndroidManifest.xml:24:5-29:19
+=======
+ADDED from G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:5:5-28:19
+INJECTED from G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:5:5-28:19
+MERGED from [androidx.compose.ui:ui-tooling-android:1.8.0] G:\andi\jbr\caches\8.10.2\transforms\b58d35951c24a16700bc55fc073b63ea\transformed\ui-tooling-release\AndroidManifest.xml:22:5-26:19
+MERGED from [androidx.compose.ui:ui-tooling-android:1.8.0] G:\andi\jbr\caches\8.10.2\transforms\b58d35951c24a16700bc55fc073b63ea\transformed\ui-tooling-release\AndroidManifest.xml:22:5-26:19
+MERGED from [androidx.test:core:1.5.0] G:\andi\jbr\caches\8.10.2\transforms\2f2049ff5a4cd4f1fa43f73c57b7aacf\transformed\core-1.5.0\AndroidManifest.xml:26:5-51:19
+MERGED from [androidx.test:core:1.5.0] G:\andi\jbr\caches\8.10.2\transforms\2f2049ff5a4cd4f1fa43f73c57b7aacf\transformed\core-1.5.0\AndroidManifest.xml:26:5-51:19
+MERGED from [com.google.android.gms:play-services-tasks:18.2.0] G:\andi\jbr\caches\8.10.2\transforms\cf451de16f7e2433b9c5052cfc636637\transformed\play-services-tasks-18.2.0\AndroidManifest.xml:4:5-20
+MERGED from [com.google.android.gms:play-services-tasks:18.2.0] G:\andi\jbr\caches\8.10.2\transforms\cf451de16f7e2433b9c5052cfc636637\transformed\play-services-tasks-18.2.0\AndroidManifest.xml:4:5-20
+MERGED from [com.google.android.gms:play-services-basement:18.4.0] G:\andi\jbr\caches\8.10.2\transforms\c354011d07dfaad6fe60f0de051c789d\transformed\play-services-basement-18.4.0\AndroidManifest.xml:5:5-7:19
+MERGED from [com.google.android.gms:play-services-basement:18.4.0] G:\andi\jbr\caches\8.10.2\transforms\c354011d07dfaad6fe60f0de051c789d\transformed\play-services-basement-18.4.0\AndroidManifest.xml:5:5-7:19
+MERGED from [androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:30:5-143:19
+MERGED from [androidx.work:work-runtime:2.7.0] G:\andi\jbr\caches\8.10.2\transforms\0c284048d115e4262724d787fbcccd38\transformed\work-runtime-2.7.0\AndroidManifest.xml:30:5-143:19
+MERGED from [androidx.emoji2:emoji2:1.4.0] G:\andi\jbr\caches\8.10.2\transforms\e2592541dbf7964ca3fab755dbd5578d\transformed\emoji2-1.4.0\AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.emoji2:emoji2:1.4.0] G:\andi\jbr\caches\8.10.2\transforms\e2592541dbf7964ca3fab755dbd5578d\transformed\emoji2-1.4.0\AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.core:core:1.15.0] G:\andi\jbr\caches\8.10.2\transforms\3707fe04bf3c198c143541eefbe56280\transformed\core-1.15.0\AndroidManifest.xml:28:5-89
+MERGED from [androidx.core:core:1.15.0] G:\andi\jbr\caches\8.10.2\transforms\3707fe04bf3c198c143541eefbe56280\transformed\core-1.15.0\AndroidManifest.xml:28:5-89
+MERGED from [androidx.lifecycle:lifecycle-process:2.9.0-beta01] G:\andi\jbr\caches\8.10.2\transforms\c96814cee19896e988a198bf831c9e47\transformed\lifecycle-process-2.9.0-beta01\AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.lifecycle:lifecycle-process:2.9.0-beta01] G:\andi\jbr\caches\8.10.2\transforms\c96814cee19896e988a198bf831c9e47\transformed\lifecycle-process-2.9.0-beta01\AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.compose.ui:ui-test-manifest:1.8.0] G:\andi\jbr\caches\8.10.2\transforms\3db175da0c3ebf299cb758ca17b878c8\transformed\ui-test-manifest-1.8.0\AndroidManifest.xml:22:5-27:19
+MERGED from [androidx.compose.ui:ui-test-manifest:1.8.0] G:\andi\jbr\caches\8.10.2\transforms\3db175da0c3ebf299cb758ca17b878c8\transformed\ui-test-manifest-1.8.0\AndroidManifest.xml:22:5-27:19
+MERGED from [androidx.test:runner:1.5.0] G:\andi\jbr\caches\8.10.2\transforms\cc23c4bbd9af1883865a8f337c89cbbb\transformed\runner-1.5.0\AndroidManifest.xml:30:5-20
+MERGED from [androidx.test:runner:1.5.0] G:\andi\jbr\caches\8.10.2\transforms\cc23c4bbd9af1883865a8f337c89cbbb\transformed\runner-1.5.0\AndroidManifest.xml:30:5-20
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] G:\andi\jbr\caches\8.10.2\transforms\939738e71baddf55d11971b590f64e4c\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] G:\andi\jbr\caches\8.10.2\transforms\939738e71baddf55d11971b590f64e4c\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] G:\andi\jbr\caches\8.10.2\transforms\8f0e734676bbbe0c401d9535e45cab85\transformed\profileinstaller-1.4.0\AndroidManifest.xml:23:5-53:19
+MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] G:\andi\jbr\caches\8.10.2\transforms\8f0e734676bbbe0c401d9535e45cab85\transformed\profileinstaller-1.4.0\AndroidManifest.xml:23:5-53:19
+MERGED from [androidx.startup:startup-runtime:1.1.1] G:\andi\jbr\caches\8.10.2\transforms\84be738f3c0d2de3d40e38353e2d7595\transformed\startup-runtime-1.1.1\AndroidManifest.xml:25:5-31:19
+MERGED from [androidx.startup:startup-runtime:1.1.1] G:\andi\jbr\caches\8.10.2\transforms\84be738f3c0d2de3d40e38353e2d7595\transformed\startup-runtime-1.1.1\AndroidManifest.xml:25:5-31:19
+MERGED from [androidx.room:room-runtime:2.2.5] G:\andi\jbr\caches\8.10.2\transforms\998265b493eb321addaaf8ff4a73bb4a\transformed\room-runtime-2.2.5\AndroidManifest.xml:24:5-29:19
+MERGED from [androidx.room:room-runtime:2.2.5] G:\andi\jbr\caches\8.10.2\transforms\998265b493eb321addaaf8ff4a73bb4a\transformed\room-runtime-2.2.5\AndroidManifest.xml:24:5-29:19
+>>>>>>> nhan
 	android:extractNativeLibs
 		INJECTED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml
 	android:appComponentFactory
@@ -151,7 +280,11 @@ MERGED from [androidx.room:room-runtime:2.2.5] C:\Users\MSI\.gradle\caches\8.10.
 	android:roundIcon
 		ADDED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:11:9-54
 	tools:targetApi
+<<<<<<< HEAD
 		ADDED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:14:9-29
+=======
+		ADDED from G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:15:9-29
+>>>>>>> nhan
 	android:icon
 		ADDED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:9:9-43
 	android:allowBackup
@@ -159,6 +292,7 @@ MERGED from [androidx.room:room-runtime:2.2.5] C:\Users\MSI\.gradle\caches\8.10.
 	android:theme
 		ADDED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:13:9-49
 	android:dataExtractionRules
+<<<<<<< HEAD
 		ADDED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:7:9-65
 activity#com.example.laptopstore.MainActivity
 ADDED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:15:9-25:20
@@ -180,6 +314,31 @@ category#android.intent.category.LAUNCHER
 ADDED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:23:17-77
 	android:name
 		ADDED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:23:27-74
+=======
+		ADDED from G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:7:9-65
+	android:usesCleartextTraffic
+		ADDED from G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:14:9-44
+activity#com.example.laptopstore.MainActivity
+ADDED from G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:16:9-27:20
+	android:label
+		ADDED from G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:19:13-45
+	android:exported
+		ADDED from G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:18:13-36
+	android:theme
+		ADDED from G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:20:13-53
+	android:name
+		ADDED from G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:17:13-41
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:22:13-26:29
+action#android.intent.action.MAIN
+ADDED from G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:23:17-69
+	android:name
+		ADDED from G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:23:25-66
+category#android.intent.category.LAUNCHER
+ADDED from G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:25:17-77
+	android:name
+		ADDED from G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml:25:27-74
+>>>>>>> nhan
 uses-sdk
 INJECTED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\AndroidManifest.xml

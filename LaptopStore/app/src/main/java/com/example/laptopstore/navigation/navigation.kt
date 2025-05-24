@@ -9,6 +9,7 @@ import androidx.navigation.NavHostController
 import com.example.laptopstore.views.HOMEPAGE
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.example.laptopstore.models.Screens
 import com.example.laptopstore.viewmodels.KhachHangViewModels
 import com.example.laptopstore.viewmodels.TaiKhoanViewModel
@@ -29,6 +30,19 @@ fun NavigationGraph(
     NavHost(navController = navHostController,
         startDestination = Screens.HOMEPAGE.route) {
         composable(Screens.HOMEPAGE.route) {
+            HOMEPAGE(navHostController)
+        }
+        composable(
+            "homepage?searchQuery={searchQuery}&brand={brand}&price={price}&usage={usage}&chip={chip}&screen={screen}",
+            arguments = listOf(
+                navArgument("searchQuery") { defaultValue = "" },
+                navArgument("brand") { defaultValue = "" },
+                navArgument("price") { defaultValue = "" },
+                navArgument("usage") { defaultValue = "" },
+                navArgument("chip") { defaultValue = "" },
+                navArgument("screen") { defaultValue = "" }
+            )
+        ) { backStackEntry ->
             HOMEPAGE(navHostController)
         }
         composable(Screens.CATAGORIES.route) {

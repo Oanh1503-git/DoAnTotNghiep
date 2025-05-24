@@ -8,7 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
-import com.example.lapstore.models.KhachHang
+import com.example.laptopstore.models.KhachHang
 import com.example.laptopstore.RetrofitClient.LaptopStoreRetrofitClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

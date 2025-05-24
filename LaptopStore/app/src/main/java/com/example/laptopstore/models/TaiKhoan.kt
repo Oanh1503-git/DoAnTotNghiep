@@ -1,4 +1,4 @@
-package com.example.lapstore.models
+package com.example.laptopstore.models
 
 import com.google.gson.annotations.SerializedName
 import android.content.Context

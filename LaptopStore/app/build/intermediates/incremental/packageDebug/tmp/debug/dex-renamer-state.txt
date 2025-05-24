@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #Thu May 22 18:49:14 ICT 2025
 base.0=D\:\\DoAn\\DoAnTotNghiep\\LaptopStore\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
 base.1=D\:\\DoAn\\DoAnTotNghiep\\LaptopStore\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
@@ -10,6 +11,20 @@ base.6=D\:\\DoAn\\DoAnTotNghiep\\LaptopStore\\app\\build\\intermediates\\dex\\de
 base.7=D\:\\DoAn\\DoAnTotNghiep\\LaptopStore\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\6\\classes.dex
 base.8=D\:\\DoAn\\DoAnTotNghiep\\LaptopStore\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\9\\classes.dex
 base.9=D\:\\DoAn\\DoAnTotNghiep\\LaptopStore\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes2.dex
+=======
+#Thu May 22 17:42:34 ICT 2025
+path.4=2/classes.dex
+path.3=1/classes.dex
+path.2=15/classes.dex
+renamed.9=classes10.dex
+path.1=0/classes.dex
+renamed.8=classes9.dex
+path.8=9/classes.dex
+path.7=6/classes.dex
+path.6=5/classes.dex
+path.5=4/classes.dex
+renamed.10=classes11.dex
+>>>>>>> nhan
 path.0=classes.dex
 path.1=0/classes.dex
 path.10=classes3.dex

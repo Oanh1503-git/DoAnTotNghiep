@@ -3,9 +3,9 @@ package com.example.laptopstore.RetrofitClient
 import ChiTietHoaDonBanAPIService
 import DiaChiAPIService
 import GioHangAPIService
-import HinhAnhAPIService
+import com.example.laptopstore.api.HinhAnhAPIService
 import HoaDonBanAPIService
-import SanPhamAPIService
+import com.example.laptopstore.api.SanPhamAPIService
 import TaiKhoanAPIService
 import com.example.laptopstore.api.KhachHangAPIService
 import com.google.gson.GsonBuilder
@@ -13,7 +13,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object Constants {
-    const val BASE_URL = "http://10.0.2.2/ten_du_an_api/"  // hoặc địa chỉ XAMPP của bạn
+    const val BASE_URL = "http://10.0.2.2/lap_store_api/api/"  // hoặc địa chỉ XAMPP của bạn
 }
 
 object LaptopStoreRetrofitClient {

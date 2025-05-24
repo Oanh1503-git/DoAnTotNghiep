@@ -1,5 +1,6 @@
 package com.example.laptopstore.views
 
+import android.util.Log
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -35,24 +36,38 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.laptopstore.R
+import com.example.laptopstore.viewmodels.SanPhamViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Categories(navController: NavHostController) {
+fun Categories(navController: NavHostController, sanPhamViewModel: SanPhamViewModel = viewModel()) {
     var selectedBrand by remember { mutableStateOf("") }
     var selectedPriceRange by remember { mutableStateOf("") }
     var selectedUsage by remember { mutableStateOf("") }
     var selectedChip by remember { mutableStateOf("") }
     var selectedScreenSize by remember { mutableStateOf("") }
+    var searchQuery by remember { mutableStateOf("") }
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text(text = "") },
-                actions = { SearchField() }
+                actions = {
+                    SearchField(
+                        searchQuery = searchQuery,
+                        onQueryChange = { searchQuery = it },
+                        onSearch = {
+                            if (searchQuery.isNotEmpty()) {
+                                performSearch(searchQuery, sanPhamViewModel)
+                                navController.navigate("homepage?searchQuery=$searchQuery")
+                            }
+                        }
+                    )
+                }
             )
         },
         bottomBar = {
@@ -67,37 +82,62 @@ fun Categories(navController: NavHostController) {
             contentPadding = PaddingValues(16.dp)
         ) {
             item {
+                Log.d("Categories", "Selected filters - Brand: $selectedBrand, Price: $selectedPriceRange, Usage: $selectedUsage, Chip: $selectedChip, Screen: $selectedScreenSize")
+
                 BrandFilterSection(
                     selectedBrand = selectedBrand,
-                    onBrandSelected = { selectedBrand = it }
+                    onBrandSelected = { brand ->
+                        selectedBrand = brand
+                        applyFiltersAndNavigate(navController, selectedBrand, selectedPriceRange, selectedUsage, selectedChip, selectedScreenSize)                    }
                 )
             }
             item {
+                Log.d("Categories", "Selected filters - Brand: $selectedBrand, Price: $selectedPriceRange, Usage: $selectedUsage, Chip: $selectedChip, Screen: $selectedScreenSize")
                 PriceRangeFilterSection(
                     selectedPriceRange = selectedPriceRange,
-                    onPriceRangeSelected = { selectedPriceRange = it }
+                    onPriceRangeSelected = { range ->
+                        selectedPriceRange = range
+                        applyFiltersAndNavigate(navController, selectedBrand, selectedPriceRange, selectedUsage, selectedChip, selectedScreenSize)                    }
                 )
             }
             item {
                 UsageFilterSection(
                     selectedUsage = selectedUsage,
-                    onUsageSelected = { selectedUsage = it }
+                    onUsageSelected = { usage ->
+                        selectedUsage = usage
+                        applyFiltersAndNavigate(navController, selectedBrand, selectedPriceRange, selectedUsage, selectedChip, selectedScreenSize)                    }
                 )
             }
             item {
                 ChipFilterSection(
                     selectedChip = selectedChip,
-                    onChipSelected = { selectedChip = it }
+                    onChipSelected = { chip ->
+                        selectedChip = chip
+                        applyFiltersAndNavigate(navController, selectedBrand, selectedPriceRange, selectedUsage, selectedChip, selectedScreenSize)                    }
                 )
             }
             item {
                 ScreenSizeFilterSection(
                     selectedScreenSize = selectedScreenSize,
-                    onScreenSizeSelected = { selectedScreenSize = it }
+                    onScreenSizeSelected = { size ->
+                        selectedScreenSize = size
+                        applyFiltersAndNavigate(navController, selectedBrand, selectedPriceRange, selectedUsage, selectedChip, selectedScreenSize)                    }
                 )
             }
         }
     }
+}
+
+fun applyFiltersAndNavigate(navController: NavHostController, selectedBrand: String?, selectedPrice: String?, selectedUsage: String?, selectedChip: String?, selectedScreen: String?) {
+    val queryParams = mutableListOf<String>()
+    selectedBrand?.let { queryParams.add("brand=$it") }
+    selectedPrice?.let { queryParams.add("price=$it") }
+    selectedUsage?.let { queryParams.add("usage=$it") }
+    selectedChip?.let { queryParams.add("chip=$it") }
+    selectedScreen?.let { queryParams.add("screen=$it") }
+    val queryString = queryParams.joinToString("&")
+    Log.d("Categories", "Navigating with query: $queryString")
+    navController.navigate("homepage?$queryString")
 }
 
 @Composable

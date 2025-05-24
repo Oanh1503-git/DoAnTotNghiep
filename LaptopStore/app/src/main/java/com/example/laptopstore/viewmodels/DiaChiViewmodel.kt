@@ -7,9 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.lapstore.models.DiaChi
-import com.example.lapstore.models.GioHang
-import com.example.lapstore.models.SanPham
+import com.example.laptopstore.models.DiaChi
 import com.example.laptopstore.RetrofitClient.LaptopStoreRetrofitClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -85,7 +83,7 @@ class DiaChiViewmodel:ViewModel() {
         }
     }
 
-    fun addDiaChi(diachi:DiaChi) {
+    fun addDiaChi(diachi: DiaChi) {
         viewModelScope.launch {
             try {
                 // Gọi API để thêm sản phẩm vào giỏ hàng trên server

@@ -1,19 +1,16 @@
-package com.example.lapstore.viewmodels
+package com.example.laptopstore.viewmodels
 import DeleteRequest
-import GioHangAPIService
-import UpdateResponse
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.lapstore.models.GioHang
+import com.example.laptopstore.models.GioHang
 import com.example.laptopstore.RetrofitClient.LaptopStoreRetrofitClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import retrofit2.Response
 
 class GioHangViewModel : ViewModel() {
     var listGioHang by mutableStateOf<List<GioHang>>(emptyList())
@@ -95,7 +92,7 @@ class GioHangViewModel : ViewModel() {
         }
     }
 
-    fun addToCart(giohang:GioHang) {
+    fun addToCart(giohang: GioHang) {
         viewModelScope.launch {
             try {
                 // Gọi API để thêm sản phẩm vào giỏ hàng trên server
