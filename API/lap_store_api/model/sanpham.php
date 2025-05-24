@@ -102,7 +102,14 @@ class SanPham
         $stmt->execute();
         return $stmt;
     }
-
+    public function SearchSanPham($search) {
+        $query = "SELECT * FROM sanpham s LEFT JOIN hinhanh h ON s.MaSanPham = h.MaSanPham WHERE s.TenSanPham LIKE :search AND h.MacDinh = 1";
+        $stmt = $this->conn->prepare($query);
+        $search = "%$search%";
+        $stmt->bindParam(':search', $search);
+        $stmt->execute();
+        return $stmt;
+    }
 
     public function GetSanPhamByLoai()
     {
