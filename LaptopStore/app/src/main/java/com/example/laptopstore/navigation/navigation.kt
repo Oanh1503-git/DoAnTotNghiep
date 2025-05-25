@@ -1,9 +1,7 @@
 package com.example.laptopstore.navigation
 
 import AccountScreens
-import HinhAnhViewModel
 import Login_Screens
-import SanPhamViewModel
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import com.example.laptopstore.views.HOMEPAGE
@@ -11,7 +9,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.laptopstore.models.Screens
+import com.example.laptopstore.viewmodels.HinhAnhViewModel
 import com.example.laptopstore.viewmodels.KhachHangViewModels
+import com.example.laptopstore.viewmodels.SanPhamViewModel
 import com.example.laptopstore.viewmodels.TaiKhoanViewModel
 import com.example.laptopstore.views.Categories
 import com.example.laptopstore.views.ProductDetail
@@ -64,7 +64,7 @@ fun NavigationGraph(
             CheckoutScreen(navController = navHostController, totalPrice = totalPrice, cartItemsJson = cartItemsJson)
         }
         composable(Screens.Login_Screens.route) {
-            Login_Screens(navHostController)
+            Login_Screens(navHostController,taiKhoanViewModel,khachHangViewModel)
         }
         composable(Screens.Register_Screen.route) {
             Register_Screen(navController = navHostController,

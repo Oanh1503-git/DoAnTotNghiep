@@ -1,8 +1,7 @@
 package com.example.laptopstore
 
 
-import HinhAnhViewModel
-import SanPhamViewModel
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -14,7 +13,8 @@ import com.example.laptopstore.ui.theme.LaptopStoreTheme
 import com.example.laptopstore.viewmodels.KhachHangViewModels
 import com.example.laptopstore.viewmodels.TaiKhoanViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
-
+import com.example.laptopstore.viewmodels.HinhAnhViewModel
+import com.example.laptopstore.viewmodels.SanPhamViewModel
 
 
 class MainActivity : ComponentActivity() {

@@ -30,9 +30,7 @@ class TaiKhoanViewModel:ViewModel() {
     private val _isLoggedIn = mutableStateOf<Boolean?>(null)
     val isLoggedIn: State<Boolean?> = _isLoggedIn
 
-    // Kết quả kiểm tra tên tài khoản khi đăng ký
-    private val _checkUsernameResult = mutableStateOf<KiemTraTaiKhoanResponse?>(null)
-    val checkUsernameResult: State<KiemTraTaiKhoanResponse?> = _checkUsernameResult
+
 
     // Biến lưu trạng thái tạo tài khoản mới
     var TaoTaiKhoanResult by mutableStateOf("")
@@ -60,6 +58,10 @@ class TaiKhoanViewModel:ViewModel() {
         }
     }
 
+    fun resetLoginResult() {
+        _loginResult.value = null
+    }
+
     fun kiemTraDangNhap1(tenTaiKhoan: String, matKhau: String) {
         viewModelScope.launch {
             try {
@@ -79,20 +81,31 @@ class TaiKhoanViewModel:ViewModel() {
         }
     }
 
-    fun kiemTraTrungUsername(tenTaiKhoan: String) {
-        viewModelScope.launch {
-            try {
-                // Thực hiện yêu cầu API
-                val response = withContext(Dispatchers.IO) {
-                    LaptopStoreRetrofitClient.taiKhoanAPIService.kiemTraTrunUsername(tenTaiKhoan)
-                }
-                // Cập nhật kết quả API vào state
-                _checkUsernameResult.value = response
-            } catch (e: Exception) {
-                // Xử lý lỗi nếu có
-                Log.e("TaiKhoanViewModel", "Đã xảy ra lỗi: ${e.message}")
-                _checkUsernameResult.value = KiemTraTaiKhoanResponse(result = false, message = e.message)
+//    fun kiemTraTrungUsername(tenTaiKhoan: String) {
+//        viewModelScope.launch {
+//            try {
+//                // Thực hiện yêu cầu API
+//                val response = withContext(Dispatchers.IO) {
+//                    LaptopStoreRetrofitClient.taiKhoanAPIService.kiemTraTrunUsername(tenTaiKhoan)
+//                }
+//                // Cập nhật kết quả API vào state
+//                _checkUsernameResult.value = response
+//            } catch (e: Exception) {
+//                // Xử lý lỗi nếu có
+//                Log.e("TaiKhoanViewModel", "Đã xảy ra lỗi: ${e.message}")
+//                _checkUsernameResult.value = KiemTraTaiKhoanResponse(result = false, message = e.message)
+//            }
+//        }
+//    }
+    suspend fun kiemTraTrungUsernameBool(tenTaiKhoan: String): Boolean {
+        return try {
+            val response = withContext(Dispatchers.IO) {
+                LaptopStoreRetrofitClient.taiKhoanAPIService.kiemTraTrunUsername(tenTaiKhoan)
             }
+            response.result == true
+        } catch (e: Exception) {
+            Log.e("TaiKhoanViewModel", "Đã xảy ra lỗi: ${e.message}")
+            false // lỗi thì coi như không trùng để không chặn đăng ký
         }
     }
 
@@ -123,6 +136,24 @@ class TaiKhoanViewModel:ViewModel() {
                 Log.e("GioHang Error", "Lỗi khi cập nhật giỏ hàng: ${e.message}")
             }
         }
+    }
+    private val _checkUsernameResult = mutableStateOf<KiemTraTaiKhoanResponse?>(null)
+    val checkUsernameResult: State<KiemTraTaiKhoanResponse?> = _checkUsernameResult
+
+    fun kiemTraTrungUsername(tenTaiKhoan: String) {
+        viewModelScope.launch {
+            try {
+                val response = withContext(Dispatchers.IO) {
+                    LaptopStoreRetrofitClient.taiKhoanAPIService.kiemTraTrunUsername(tenTaiKhoan)
+                }
+                _checkUsernameResult.value = response
+            } catch (e: Exception) {
+                _checkUsernameResult.value = KiemTraTaiKhoanResponse(result = false, message = e.message)
+            }
+        }
+    }
+    fun resetCheckResult() {
+        _checkUsernameResult.value = null
     }
 
     fun TaoTaiKhoan(taikhoan: TaiKhoan) {

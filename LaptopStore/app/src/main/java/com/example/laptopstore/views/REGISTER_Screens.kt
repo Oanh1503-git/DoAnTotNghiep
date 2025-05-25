@@ -41,9 +41,9 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.example.lapstore.models.KhachHang
-import com.example.lapstore.models.TaiKhoan
+import com.example.laptopstore.models.KhachHang
 import com.example.laptopstore.models.Screens
+import com.example.laptopstore.models.TaiKhoan
 import com.example.laptopstore.viewmodels.KhachHangViewModels
 import com.example.laptopstore.viewmodels.TaiKhoanViewModel
 import kotlinx.coroutines.launch
@@ -65,6 +65,7 @@ fun Register_Screen(
     val dialogMessage = remember { mutableStateOf("") }
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
+    val checkResult = taiKhoanViewModel.checkUsernameResult.value
 
 
     Scaffold(
@@ -138,19 +139,6 @@ fun Register_Screen(
 
                 Spacer(modifier = Modifier.height(15.dp))
 
-                OutlinedTextField(
-                    value = email,
-                    onValueChange = { email = it },
-                    label = { Text("Nhập email") },
-                    shape = RoundedCornerShape(17.dp),
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = Color.Red,
-                        unfocusedBorderColor = Color.Red,
-                        focusedLabelColor = Color.Red
-                    )
-                )
-
-                Spacer(modifier = Modifier.height(20.dp))
 
                 Row(
                     horizontalArrangement = Arrangement.Center
@@ -174,9 +162,6 @@ fun Register_Screen(
                              comfirmatkhau.isEmpty()->{
                                  scope.launch { snackbarHostState.showSnackbar("Nhập lại Mật khẩu không được để trống")  }
                              }
-                             email.isEmpty()->{
-                                 scope.launch { snackbarHostState.showSnackbar("email không được để trống")  }
-                             }
                              matkhau !=comfirmatkhau->{
                                  scope.launch { snackbarHostState.showSnackbar("Mật khẩu và nhập lại mật khẩu không trùng khớp")  }
                              }
@@ -189,38 +174,52 @@ fun Register_Screen(
                              matkhau.contains("1234")->{
                                  scope.launch{ snackbarHostState.showSnackbar("Mật khẩu có ký tự đơn giãn dễ bị phát hiện ")}
                              }
-                             !email.contains("@gmail.com")->{
-                                 scope.launch { snackbarHostState.showSnackbar("Vui long nhập đúng ý mail") }
-                             }
-                             else->{
-                                 val newkhachhang = KhachHang(
-                                     MaKhachHang = 0,
-                                     HoTen = tentaikhoan,
-                                     GioiTinh = "Nam",
-                                     NgaySinh = "",
-                                     Email = email,
-                                     SoDienThoai = ""
-                                 )
-                                 khachHangViewModel.themkhachhang(newkhachhang)
-                              val newTaiKhoan= TaiKhoan(
-                                  TenTaiKhoan = tentaikhoan,
-                                  MaKhachHang = 0,
-                                  MatKhau = comfirmatkhau,
-                                  LoaiTaiKhoan = 0,
-                                  TrangThai = 1
-                              )
-                                 taiKhoanViewModel.TaoTaiKhoan(newTaiKhoan)
-                                 dialogMessage.value= " Đăng ký thành công"
-                                 openDialog.value=true
-                                 issuccess = true
-                             }
 
+                             else->{
+                                 taiKhoanViewModel.kiemTraTrungUsername(tentaikhoan)
+                             }
                          }
                     }) {
                         Text("Đăng Ký")
                     }
                 }
             }
+        }
+    }
+    LaunchedEffect(checkResult) {
+        checkResult?.let {
+            if (it.result) {
+                scope.launch {
+                    snackbarHostState.showSnackbar("Tên tài khoản đã tồn tại")
+                }
+            } else {
+                // Tiến hành tạo tài khoản
+                val newkhachhang = KhachHang(
+                    MaKhachHang = 0,
+                    HoTen = tentaikhoan,
+                    GioiTinh = "Nam",
+                    NgaySinh = "",
+                    Email = email,
+                    SoDienThoai = ""
+                )
+                khachHangViewModel.themkhachhang(newkhachhang)
+
+                val newTaiKhoan = TaiKhoan(
+                    TenTaiKhoan = tentaikhoan,
+                    MaKhachHang = 0,
+                    MatKhau = comfirmatkhau,
+                    LoaiTaiKhoan = 0,
+                    TrangThai = 1
+                )
+                taiKhoanViewModel.TaoTaiKhoan(newTaiKhoan)
+
+                dialogMessage.value = "Đăng ký thành công"
+                openDialog.value = true
+                issuccess = true
+            }
+
+            // Reset lại sau khi xử lý xong
+            taiKhoanViewModel.resetCheckResult()
         }
     }
 

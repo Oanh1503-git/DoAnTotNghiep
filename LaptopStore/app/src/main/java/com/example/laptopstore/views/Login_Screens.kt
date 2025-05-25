@@ -9,6 +9,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -16,6 +17,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,18 +26,22 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.laptopstore.models.Screens
+import com.example.laptopstore.viewmodels.KhachHangViewModels
 import com.example.laptopstore.viewmodels.TaiKhoanViewModel
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Login_Screens(navController: NavHostController ) {
-//    taiKhoanViewModel: TaiKhoanViewModel = viewModel())
-//    val loginResult by taiKhoanViewModel.loginResult
-//    val isLoggedIn by taiKhoanViewModel.isLoggedIn
+fun Login_Screens(
+    navController: NavHostController,
+    taiKhoanViewModel: TaiKhoanViewModel,
+    khachHangViewModels: KhachHangViewModels
+) {
+    val loginResult by taiKhoanViewModel.loginResult
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-
-
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
 
     Scaffold(
         topBar = {
@@ -66,8 +72,16 @@ fun Login_Screens(navController: NavHostController ) {
 
             Button(
                 onClick = {
-                    if (username.isNotBlank() && password.isNotBlank()) {
-//                        taiKhoanViewModel.kiemTraDangNhap(username, password)
+                    when {
+                        username.isEmpty() -> {
+                            scope.launch { snackbarHostState.showSnackbar("Tên tài khoản không được để trống") }
+                        }
+                        password.isEmpty() -> {
+                            scope.launch { snackbarHostState.showSnackbar("Mật khẩu không được để trống") }
+                        }
+                        else -> {
+                            taiKhoanViewModel.kiemTraDangNhap(username, password)
+                        }
                     }
                 },
                 modifier = Modifier.fillMaxWidth()
@@ -75,6 +89,19 @@ fun Login_Screens(navController: NavHostController ) {
                 Text("Đăng nhập")
             }
 
+            // Lắng nghe kết quả đăng nhập
+            LaunchedEffect(loginResult) {
+                loginResult?.let {
+                    if (it.result) {
+                        navController.navigate(Screens.ACCOUNTSCREENS.route)
+                    } else {
+                        scope.launch {
+                            snackbarHostState.showSnackbar(it.message ?: "Đăng nhập thất bại")
+                        }
+                    }
+                    taiKhoanViewModel.resetLoginResult()
+                }
+            }
 
             Spacer(modifier = Modifier.height(20.dp))
 
