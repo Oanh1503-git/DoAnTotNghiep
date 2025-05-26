@@ -66,6 +66,11 @@ fun ProductDetail(
     val customerId = 1 // Thay bằng SharedPreferences
     val context = LocalContext.current
 
+    // State cho form bình luận
+    var commentText by remember { mutableStateOf("") }
+    var rating by remember { mutableStateOf(5) }
+    var isSubmitting by remember { mutableStateOf(false) }
+
     LaunchedEffect(giohangAddResult) {
         if (giohangAddResult.isNotEmpty()) {
             Toast.makeText(context, giohangAddResult, Toast.LENGTH_SHORT).show()
@@ -141,7 +146,7 @@ fun ProductDetail(
                     }) {
                         Icon(
                             imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
-                            contentDescription = "Yêu thích",
+                            contentDescription = if (isFavorite) "Bỏ yêu thích" else "Yêu thích",
                             tint = if (isFavorite) Color.Red else Color.Gray
                         )
                     }
@@ -310,7 +315,7 @@ fun ProductDetail(
                     ) {
                         tabs.forEachIndexed { index, title ->
                             Tab(
-                                selected = selectedTabIndex == index, // Sửa lỗi type mismatch
+                                selected = selectedTabIndex == index,
                                 onClick = { selectedTabIndex = index },
                                 text = { Text(text = title, fontSize = 16.sp) }
                             )
@@ -347,6 +352,82 @@ fun ProductDetail(
                                     fontWeight = FontWeight.Bold
                                 )
                                 Spacer(modifier = Modifier.height(8.dp))
+                                // Form thêm bình luận
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .background(Color(0xFFF5F5F5), RoundedCornerShape(8.dp))
+                                        .padding(12.dp)
+                                ) {
+                                    Text(
+                                        text = "Thêm đánh giá của bạn",
+                                        fontSize = 16.sp,
+                                        fontWeight = FontWeight.Medium
+                                    )
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    Row(
+                                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                                        modifier = Modifier.fillMaxWidth()
+                                    ) {
+                                        (1..5).forEach { star ->
+                                            Icon(
+                                                imageVector = Icons.Default.Star,
+                                                contentDescription = "Sao $star",
+                                                tint = if (star <= rating) Color(0xFFFFD700) else Color.Gray,
+                                                modifier = Modifier
+                                                    .size(24.dp)
+                                                    .clickable { rating = star }
+                                            )
+                                        }
+                                    }
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    OutlinedTextField(
+                                        value = commentText,
+                                        onValueChange = { commentText = it },
+                                        label = { Text("Nhập bình luận") },
+                                        modifier = Modifier.fillMaxWidth(),
+                                        maxLines = 3
+                                    )
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    Button(
+                                        onClick = {
+                                            if (commentText.isNotBlank() && !isSubmitting) {
+                                                isSubmitting = true
+                                                val review = BinhLuanDanhGia(
+                                                    MaBinhLuan = 1,
+                                                    MaKhachHang = customerId,
+                                                    MaSanPham = productId,
+                                                    MaHoaDonBan = 19, // Giả định chưa có hóa đơn
+                                                    SoSao = rating,
+                                                    NoiDung = commentText,
+                                                    NgayDanhGia = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date()),
+                                                    TrangThai = 1
+                                                )
+                                                binhLuanViewModel.createReview(review)
+                                                commentText = ""
+                                                rating = 5
+                                                Toast.makeText(context, "Đã gửi bình luận", Toast.LENGTH_SHORT).show()
+                                                isSubmitting = false
+                                            } else if (commentText.isBlank()) {
+                                                Toast.makeText(context, "Vui lòng nhập bình luận", Toast.LENGTH_SHORT).show()
+                                            }
+                                        },
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .height(48.dp),
+                                        colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
+                                        shape = RoundedCornerShape(8.dp),
+                                        enabled = !isSubmitting
+                                    ) {
+                                        Text(
+                                            text = "Gửi đánh giá",
+                                            color = Color.White,
+                                            fontSize = 16.sp
+                                        )
+                                    }
+                                }
+                                Spacer(modifier = Modifier.height(16.dp))
+                                // Danh sách bình luận
                                 if (reviews.isEmpty()) {
                                     Text(
                                         text = "Chưa có đánh giá nào cho sản phẩm này.",

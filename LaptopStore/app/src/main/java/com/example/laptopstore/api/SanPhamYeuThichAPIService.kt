@@ -28,7 +28,7 @@ interface SanPhamYeuThichAPIService {
         @Body yeuThich: SanPhamYeuThich
     ): CreateResponse
 
-    @DELETE("SanPhamYeuThich/delete.php")
+    @POST("SanPhamYeuThich/delete.php")
     suspend fun removeFavorite(
         @Body yeuThich: SanPhamYeuThich
     ): CreateResponse
