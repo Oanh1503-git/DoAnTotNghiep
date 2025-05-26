@@ -1,21 +1,23 @@
 package com.example.laptopstore.models
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class SanPham(
-    @SerializedName("MaSanPham") var MaSanPham: Int,
-    @SerializedName("TenSanPham") var TenSanPham: String,
-    @SerializedName("MaLoaiSanPham") var MaLoaiSanPham: Int,
-    @SerializedName("mathuonghieu") var mathuonghieu: Int, // Thêm trường thương hiệu
-    @SerializedName("CPU") var CPU: String,
-    @SerializedName("RAM") var RAM: String,
-    @SerializedName("CardManHinh") var CardManHinh: String,
-    @SerializedName("SSD") var SSD: String,
-    @SerializedName("ManHinh") var ManHinh: String,
-    @SerializedName("MaMauSac") var MaMauSac: Int,
-    @SerializedName("Gia") var Gia: Int,
-    @SerializedName("SoLuong") var SoLuong: Int,
-    @SerializedName("MoTa") var MoTa: String,
-    @SerializedName("HinhAnh") var HinhAnh: String,
-    @SerializedName("TrangThai") var TrangThai: Int,
+    @SerialName("MaSanPham") val MaSanPham: Int,
+    @SerialName("TenSanPham") val TenSanPham: String,
+    @SerialName("MaLoaiSanPham") val MaLoaiSanPham: Int,
+    @SerialName("mathuonghieu") val mathuonghieu: Int,
+    @SerialName("CPU") val CPU: String,
+    @SerialName("RAM") val RAM: String,
+    @SerialName("CardManHinh") val CardManHinh: String,
+    @SerialName("SSD") val SSD: String,
+    @SerialName("ManHinh") val ManHinh: String,
+    @SerialName("MaMauSac") val MaMauSac: Int,
+    @SerialName("Gia") val Gia: Int,
+    @SerialName("SoLuong") val SoLuong: Int,
+    @SerialName("MoTa") val MoTa: String,
+    @SerialName("HinhAnh") val HinhAnh: String,
+    @SerialName("TrangThai") val TrangThai: Int
 )

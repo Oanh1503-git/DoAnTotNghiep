@@ -14,16 +14,22 @@ import kotlinx.coroutines.withContext
 
 class HinhAnhViewModel : ViewModel() {
     var danhSachHinhAnhTheoSanPham by mutableStateOf<List<HinhAnh>>(emptyList())
-
+    var isLoading by mutableStateOf(false)
+    var errorMessage by mutableStateOf<String?>(null)
     fun getHinhAnhTheoSanPham(MaSanPham: Int) {
         viewModelScope.launch {
+            isLoading = true
+            errorMessage = null
             try {
                 val response = withContext(Dispatchers.IO) {
                     LaptopStoreRetrofitClient.hinhAnhAPIService.getHinhAnhBySanPham(MaSanPham)
                 }
                 danhSachHinhAnhTheoSanPham = response.hinhanh
             } catch (e: Exception) {
+                errorMessage = "Lỗi khi lấy hình ảnh: ${e.message}"
                 Log.e("HinhAnhError", "Lỗi khi lấy hình ảnh: ${e.message}")
+            } finally {
+                isLoading = false
             }
         }
     }

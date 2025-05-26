@@ -3,6 +3,7 @@ package com.example.laptopstore.navigation
 import AccountScreens
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import com.example.laptopstore.views.HOMEPAGE
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -10,8 +11,8 @@ import androidx.navigation.navArgument
 import com.example.laptopstore.models.Screens
 import com.example.laptopstore.views.Categories
 import com.example.laptopstore.views.ProductDetail
-import com.example.laptopstore.views.CartScreen
-import com.example.laptopstore.views.CheckoutScreen
+//import com.example.laptopstore.views.CartScreen
+//import com.example.laptopstore.views.CheckoutScreen
 
 @Composable
 fun NavigationGraph(navHostController: NavHostController) {
@@ -36,20 +37,24 @@ fun NavigationGraph(navHostController: NavHostController) {
         composable(Screens.CATAGORIES.route) {
             Categories(navHostController)
         }
-        composable(Screens.CARTSCREENS.route) {
-            CartScreen(navHostController)
-        }
+  //      composable(Screens.CARTSCREENS.route) {
+ //           CartScreen(navHostController)
+//        }
         composable(Screens.ACCOUNTSCREENS.route) {
             AccountScreens(navHostController)
         }
-        composable("product_detail/{productId}") { backStackEntry ->
-            val productId = backStackEntry.arguments?.getString("productId")?.toInt() ?: 0
+        composable(
+            route = "product_detail/{productId}",
+            arguments = listOf(navArgument("productId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            val productId = backStackEntry.arguments?.getInt("productId") ?: 0
             ProductDetail(navController = navHostController, productId = productId)
         }
-        composable("checkout/{totalPrice}/{cartItems}") { backStackEntry ->
-            val totalPrice = backStackEntry.arguments?.getString("totalPrice")?.toInt() ?: 0
-            val cartItemsJson = backStackEntry.arguments?.getString("cartItems") ?: ""
-            CheckoutScreen(navController = navHostController, totalPrice = totalPrice, cartItemsJson = cartItemsJson)
-        }
+
+//        composable("checkout/{totalPrice}/{cartItems}") { backStackEntry ->
+//            val totalPrice = backStackEntry.arguments?.getString("totalPrice")?.toInt() ?: 0
+//            val cartItemsJson = backStackEntry.arguments?.getString("cartItems") ?: ""
+ //           CheckoutScreen(navController = navHostController, totalPrice = totalPrice, cartItemsJson = cartItemsJson)
+//        }
     }
 }

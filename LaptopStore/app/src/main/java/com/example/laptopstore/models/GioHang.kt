@@ -1,9 +1,11 @@
 package com.example.laptopstore.models
 
+import com.google.gson.annotations.SerializedName
+
 data class GioHang(
-    var MaGioHang: Int,
-    var MaKhachHang:Int,
-    var MaSanPham:Int,
-    var SoLuong:Int,
-    var TrangThai:Int,
+    @SerializedName("MaGioHang") val MaGioHang: Int,
+    @SerializedName("MaKhachHang") val MaKhachHang: Int,
+    @SerializedName("MaSanPham") val MaSanPham: Int,
+    @SerializedName("SoLuong") val SoLuong: Int,
+    @SerializedName("TrangThai") val TrangThai: Int
 )
