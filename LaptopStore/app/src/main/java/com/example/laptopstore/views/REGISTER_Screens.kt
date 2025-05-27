@@ -165,7 +165,7 @@ fun Register_Screen(
                              matkhau !=comfirmatkhau->{
                                  scope.launch { snackbarHostState.showSnackbar("Mật khẩu và nhập lại mật khẩu không trùng khớp")  }
                              }
-                             tentaikhoan.length>15->{
+                             tentaikhoan.length>=15->{
                                  scope.launch { snackbarHostState.showSnackbar("Tên đăng nhập quá dài, tối đa 15 ký tự") }
                              }
                              tentaikhoan == matkhau ->{
@@ -173,6 +173,30 @@ fun Register_Screen(
                              }
                              matkhau.contains("1234")->{
                                  scope.launch{ snackbarHostState.showSnackbar("Mật khẩu có ký tự đơn giãn dễ bị phát hiện ")}
+                             }
+                             !tentaikhoan.any{it.isDigit()}->{
+                                 scope.launch { snackbarHostState.showSnackbar("tên tài khoản phải có số") }
+                             }
+                             tentaikhoan.length<8->{
+                                 scope.launch { snackbarHostState.showSnackbar("Tên tài khoản phải nhiều hơn 8 ký tự ") }
+                             }
+                             !tentaikhoan.any{it.isUpperCase()}->{
+                                 scope.launch { snackbarHostState.showSnackbar("Tên tài khoản phải có ký tự viết hoa") }
+                             }
+                             !tentaikhoan.any{it.isLowerCase()}->{
+                                 scope.launch { snackbarHostState.showSnackbar("Tên tài khoản Phải có ký tự thường") }
+                             }
+                             !matkhau.any { it.isLetterOrDigit() }->{
+                                 scope.launch { snackbarHostState.showSnackbar("Mật khẩu phải có ký tự đặc biệt ") }
+                             }
+                             !matkhau.any { it.isUpperCase() }->{
+                                 scope.launch { snackbarHostState.showSnackbar("mật khẩu phải có ký tự viết hoa") }
+                             }
+                             !matkhau.any { it.isDigit() }->{
+                                 scope.launch { snackbarHostState.showSnackbar("Mật khẩu phải có số ") }
+                             }
+                             matkhau.length<8->{
+                                 scope.launch { snackbarHostState.showSnackbar("Mật khẩu phải dài từ 8 ký tự trở lên ") }
                              }
 
                              else->{

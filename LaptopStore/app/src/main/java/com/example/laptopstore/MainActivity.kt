@@ -2,6 +2,7 @@ package com.example.laptopstore
 
 
 
+import TaiKhoanAPIService
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -13,8 +14,10 @@ import com.example.laptopstore.ui.theme.LaptopStoreTheme
 import com.example.laptopstore.viewmodels.KhachHangViewModels
 import com.example.laptopstore.viewmodels.TaiKhoanViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.laptopstore.RetrofitClient.LaptopStoreRetrofitClient
 import com.example.laptopstore.viewmodels.HinhAnhViewModel
 import com.example.laptopstore.viewmodels.SanPhamViewModel
+import com.example.laptopstore.viewmodels.TaiKhoanViewsModelsFactory
 
 
 class MainActivity : ComponentActivity() {
@@ -24,6 +27,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             LaptopStoreTheme {
+
+
                 val navController = rememberNavController()
 
 
@@ -31,7 +36,7 @@ class MainActivity : ComponentActivity() {
                 val sanPhamViewModel: SanPhamViewModel = viewModel()
                 val hinhAnhViewModel: HinhAnhViewModel = viewModel()
                 val khachHangViewModel: KhachHangViewModels = viewModel()
-                val taiKhoanViewModel: TaiKhoanViewModel = viewModel()
+                val taiKhoanViewModel: TaiKhoanViewModel = viewModel( )
 
                 NavigationGraph(
                     navHostController = navController,

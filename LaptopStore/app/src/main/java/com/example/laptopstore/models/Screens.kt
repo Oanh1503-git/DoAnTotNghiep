@@ -9,4 +9,7 @@ package com.example.laptopstore.models
         object CHECKOUTSCREENS : Screens("checkout/{totalPrice}/{cartItems}")
         object Login_Screens:Screens("Login_Screens")
         object Register_Screen:Screens("REGISTERSCREEN")
+        object ACCOUNTDETAIL : Screens("account_detail/{maKhachHang}") {
+         fun createRoute(maKhachHang: String) = "account_detail/$maKhachHang"
+     }
  }

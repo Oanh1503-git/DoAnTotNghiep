@@ -1,8 +1,9 @@
 package com.example.laptopstore.navigation
 
 import AccountScreens
-import Login_Screens
+import LoginScreen
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import com.example.laptopstore.views.HOMEPAGE
 import androidx.navigation.compose.NavHost
@@ -32,6 +33,9 @@ fun NavigationGraph(
         composable(Screens.HOMEPAGE.route) {
             HOMEPAGE(navHostController)
         }
+        composable(Screens.ACCOUNTSCREENS.route) {
+            AccountScreens(navHostController,taiKhoanViewModel,khachHangViewModel)
+        }
         composable(
             "homepage?searchQuery={searchQuery}&brand={brand}&price={price}&usage={usage}&chip={chip}&screen={screen}",
             arguments = listOf(
@@ -51,9 +55,7 @@ fun NavigationGraph(
         composable(Screens.CARTSCREENS.route) {
             CartScreen(navHostController)
         }
-        composable(Screens.ACCOUNTSCREENS.route) {
-            AccountScreens(navHostController)
-        }
+
         composable("product_detail/{productId}") { backStackEntry ->
             val productId = backStackEntry.arguments?.getString("productId")?.toInt() ?: 0
             ProductDetail(navController = navHostController, productId = productId)
@@ -63,8 +65,9 @@ fun NavigationGraph(
             val cartItemsJson = backStackEntry.arguments?.getString("cartItems") ?: ""
             CheckoutScreen(navController = navHostController, totalPrice = totalPrice, cartItemsJson = cartItemsJson)
         }
+
         composable(Screens.Login_Screens.route) {
-            Login_Screens(navHostController,taiKhoanViewModel,khachHangViewModel)
+            LoginScreen(navHostController)
         }
         composable(Screens.Register_Screen.route) {
             Register_Screen(navController = navHostController,
@@ -72,5 +75,18 @@ fun NavigationGraph(
                 khachHangViewModel= khachHangViewModel
             )
         }
+        composable(
+            route = Screens.ACCOUNTDETAIL.route,
+            arguments = listOf(navArgument("maKhachHang") { defaultValue = "" })
+        ) { backStackEntry ->
+            val maKhachHang = backStackEntry.arguments?.getString("maKhachHang") ?: ""
+            com.example.laptopstore.views.AccountDetails(
+                navHostController = navHostController,
+                khachHangViewModel = khachHangViewModel,
+                maKhachHang = maKhachHang
+            )
+        }
+
+
     }
 }
