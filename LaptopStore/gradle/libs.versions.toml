@@ -11,7 +11,8 @@ composeBom = "2024.04.01"
 navigationRuntimeAndroid = "2.9.0-beta01"
 uiTestAndroid = "1.8.0"
 engageCore = "1.5.8"
-serialization = "1.6.2" # Thêm phiên bản cho kotlinx-serialization-json, khớp với Kotlin 2.0.0
+serialization = "1.6.2"
+roomRuntimeAndroid = "2.7.1" # Thêm phiên bản cho kotlinx-serialization-json, khớp với Kotlin 2.0.0
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -31,7 +32,8 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 androidx-navigation-runtime-android = { group = "androidx.navigation", name = "navigation-runtime-android", version.ref = "navigationRuntimeAndroid" }
 androidx-ui-test-android = { group = "androidx.compose.ui", name = "ui-test-android", version.ref = "uiTestAndroid" }
 engage-core = { group = "com.google.android.engage", name = "engage-core", version.ref = "engageCore" }
-kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization" } # Thêm dependency
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization" }
+androidx-room-runtime-android = { group = "androidx.room", name = "room-runtime-android", version.ref = "roomRuntimeAndroid" } # Thêm dependency
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

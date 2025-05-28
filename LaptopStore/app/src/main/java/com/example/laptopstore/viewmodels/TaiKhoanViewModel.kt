@@ -105,7 +105,9 @@ class TaiKhoanViewModel : ViewModel {
             apply()
         }
     }
-
+    fun setIsLoggedIn(value: Boolean) {
+        _isLoggedIn.value = value
+    }
     fun logout() {
         viewModelScope.launch {
             dataStore.clearLoginState()

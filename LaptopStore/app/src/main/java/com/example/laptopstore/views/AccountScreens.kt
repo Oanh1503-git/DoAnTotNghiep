@@ -59,23 +59,80 @@ fun AccountScreens(
             )
         }
     ) { innerPadding ->
-        LazyColumn(modifier = Modifier.padding(innerPadding)) {
-            item {
-                // Phần header hiển thị thông tin người dùng
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        if (!isLoggedIn) {
+            // Hiển thị giao diện khi chưa đăng nhập
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Icon(
+                    Icons.Default.AccountCircle,
+                    contentDescription = null,
+                    modifier = Modifier.size(100.dp),
+                    tint = Color.Gray
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = "Vui lòng đăng nhập để xem thông tin tài khoản",
+                    fontSize = 16.sp,
+                    color = Color.Gray,
+                    textAlign = TextAlign.Center
+                )
+                Spacer(modifier = Modifier.height(24.dp))
+                Button(
+                    onClick = {
+                        try {
+                            navHostController.navigate("Login_Screens") {
+                                launchSingleTop = true
+                            }
+                        } catch (e: Exception) {
+                            // Log lỗi nếu có
+                            e.printStackTrace()
+                        }
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
+                    modifier = Modifier.fillMaxWidth(0.7f)
                 ) {
-                    Column(
+                    Text("Đăng nhập")
+                }
+                Spacer(modifier = Modifier.height(12.dp))
+                OutlinedButton(
+                    onClick = {
+                        try {
+                            navHostController.navigate("REGISTERSCREEN") {
+                                launchSingleTop = true
+                            }
+                        } catch (e: Exception) {
+                            // Log lỗi nếu có
+                            e.printStackTrace()
+                        }
+                    },
+                    colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.Red),
+                    modifier = Modifier.fillMaxWidth(0.7f)
+                ) {
+                    Text("Đăng ký")
+                }
+            }
+        } else {
+            // Hiển thị giao diện khi đã đăng nhập
+            LazyColumn(modifier = Modifier.padding(innerPadding)) {
+                item {
+                    Card(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(16.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
+                        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
                     ) {
-                        if (isLoggedIn) {
-                            // Hiển thị thông tin khi đã đăng nhập
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
                             Icon(
                                 Icons.Default.AccountCircle,
                                 contentDescription = null,
@@ -96,7 +153,6 @@ fun AccountScreens(
                             )
                             Spacer(modifier = Modifier.height(16.dp))
 
-                            // Nút đăng xuất
                             OutlinedButton(
                                 onClick = { showLogoutDialog = true },
                                 colors = ButtonDefaults.outlinedButtonColors(
@@ -107,52 +163,10 @@ fun AccountScreens(
                                 Spacer(modifier = Modifier.width(8.dp))
                                 Text("Đăng xuất")
                             }
-                        } else {
-                            // Hiển thị nút đăng nhập/đăng ký khi chưa đăng nhập
-                            Icon(
-                                Icons.Default.AccountCircle,
-                                contentDescription = null,
-                                modifier = Modifier.size(64.dp),
-                                tint = Color.Gray
-                            )
-                            Spacer(modifier = Modifier.height(8.dp))
-                            Text(
-                                text = "Chưa đăng nhập",
-                                fontSize = 16.sp,
-                                color = Color.Gray
-                            )
-                            Spacer(modifier = Modifier.height(16.dp))
-
-                            Row(
-                                horizontalArrangement = Arrangement.spacedBy(8.dp)
-                            ) {
-                                Button(
-                                    onClick = {
-                                        navHostController.navigate(Screens.Login_Screens.route)
-                                    },
-                                    colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
-                                ) {
-                                    Text("Đăng nhập")
-                                }
-
-                                OutlinedButton(
-                                    onClick = {
-                                        navHostController.navigate(Screens.Register_Screen.route)
-                                    },
-                                    colors = ButtonDefaults.outlinedButtonColors(
-                                        contentColor = Color.Red
-                                    )
-                                ) {
-                                    Text("Đăng ký")
-                                }
-                            }
                         }
                     }
                 }
-            }
 
-            // Các mục menu chỉ hiển thị khi đã đăng nhập
-            if (isLoggedIn) {
                 item {
                     Spacer(modifier = Modifier.height(8.dp))
                 }
