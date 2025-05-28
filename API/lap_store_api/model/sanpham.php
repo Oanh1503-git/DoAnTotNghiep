@@ -7,6 +7,7 @@ class SanPham
     public $MaSanPham;
     public $TenSanPham;
     public $MaLoaiSanPham;
+    public $mathuonghieu;
     public $CPU;
     public $RAM;
     public $CardManHinh;
@@ -43,20 +44,23 @@ class SanPham
 
     public function GetSanPhamById()
     {
-        $query = "SELECT sp.*, ha.DuongDan FROM SanPham sp 
-              JOIN hinhanh ha ON sp.MaSanPham = ha.MaSanPham
-              WHERE ha.MacDinh = 1 and sp.MaSanPham = ? LIMIT 1";
+    $query = "SELECT sp.*, ha.DuongDan 
+              FROM SanPham sp 
+              LEFT JOIN hinhanh ha ON sp.MaSanPham = ha.MaSanPham AND ha.MacDinh = 1 
+              WHERE sp.MaSanPham = ? 
+              LIMIT 1";
+    try {
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(1, $this->MaSanPham);
+        $stmt->bindParam(1, $this->MaSanPham, PDO::PARAM_INT);
         $stmt->execute();
 
-        // Lấy kết quả
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($row) {
-            // Gán giá trị từ kết quả vào các thuộc tính của đối tượng
+            // Gán giá trị từ kết quả vào các thuộc tính
             $this->TenSanPham = $row['TenSanPham'] ?? null;
             $this->MaLoaiSanPham = $row['MaLoaiSanPham'] ?? null;
+            $this->mathuonghieu = $row['mathuonghieu'] ?? null;
             $this->CPU = $row['CPU'] ?? null;
             $this->RAM = $row['RAM'] ?? null;
             $this->CardManHinh = $row['CardManHinh'] ?? null;
@@ -68,14 +72,14 @@ class SanPham
             $this->MoTa = $row['MoTa'] ?? null;
             $this->HinhAnh = $row['DuongDan'] ?? null;
             $this->TrangThai = $row['TrangThai'] ?? null;
-        } else {
-            // Không tìm thấy sản phẩm, có thể thông báo lỗi
-            echo "Sản phẩm không tồn tại.";
-            return false;
+            return true;
         }
-
-        // Giải phóng bộ nhớ
-        unset($row);
+        return false;
+    } catch (PDOException $e) {
+        // Ghi log lỗi thay vì in trực tiếp
+        error_log("Lỗi khi lấy sản phẩm: " . $e->getMessage());
+        return false;
+    }
     }
 
     public function GetSanPhamBySearch($searchTerm)
@@ -102,7 +106,14 @@ class SanPham
         $stmt->execute();
         return $stmt;
     }
-
+    public function SearchSanPham($search) {
+        $query = "SELECT * FROM sanpham s LEFT JOIN hinhanh h ON s.MaSanPham = h.MaSanPham WHERE s.TenSanPham LIKE :search AND h.MacDinh = 1";
+        $stmt = $this->conn->prepare($query);
+        $search = "%$search%";
+        $stmt->bindParam(':search', $search);
+        $stmt->execute();
+        return $stmt;
+    }
 
     public function GetSanPhamByLoai()
     {

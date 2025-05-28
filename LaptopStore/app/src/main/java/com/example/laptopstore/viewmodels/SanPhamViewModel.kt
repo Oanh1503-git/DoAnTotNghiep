@@ -83,6 +83,20 @@ class SanPhamViewModel : ViewModel() {
             }
         }
     }
+    fun getSanPhamById(id: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            isLoading = true
+            errorMessage = null
+            try {
+                sanPham = LaptopStoreRetrofitClient.sanphamAPIService.getSanPhamById(id)
+            } catch (e: Exception) {
+                errorMessage = "Lỗi khi lấy sản phẩm: ${e.message}"
+                Log.e("SanPhamViewModel", "Error getting SanPham", e)
+            } finally {
+                isLoading = false
+            }
+        }
+    }
 
     fun clearSanPhamSearch() {
         _danhSach.value = emptyList()
@@ -133,15 +147,7 @@ class SanPhamViewModel : ViewModel() {
         }
     }
 
-    fun getSanPhamById(id: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                sanPham = LaptopStoreRetrofitClient.sanphamAPIService.getSanPhamById(id)
-            } catch (e: Exception) {
-                Log.e("SanPhamViewModel", "Error getting SanPham", e)
-            }
-        }
-    }
+
 
     fun getSanPhamById2(id: String) {
         viewModelScope.launch(Dispatchers.IO) {
