@@ -17,7 +17,7 @@ import com.example.laptopstore.viewmodels.SanPhamViewModel
 import com.example.laptopstore.viewmodels.TaiKhoanViewModel
 import com.example.laptopstore.views.Categories
 import com.example.laptopstore.views.ProductDetail
-import com.example.laptopstore.views.CheckoutScreen
+
 import com.example.laptopstore.views.Register_Screen
 
 @Composable
@@ -59,11 +59,6 @@ fun NavigationGraph(
         composable("product_detail/{productId}") { backStackEntry ->
             val productId = backStackEntry.arguments?.getString("productId")?.toInt() ?: 0
             ProductDetail(navController = navHostController, productId = productId)
-        }
-        composable("checkout/{totalPrice}/{cartItems}") { backStackEntry ->
-            val totalPrice = backStackEntry.arguments?.getString("totalPrice")?.toInt() ?: 0
-            val cartItemsJson = backStackEntry.arguments?.getString("cartItems") ?: ""
-            CheckoutScreen(navController = navHostController, totalPrice = totalPrice, cartItemsJson = cartItemsJson)
         }
 
         composable(Screens.Login_Screens.route) {

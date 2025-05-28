@@ -62,43 +62,6 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-object CartManager {
-    var cartItems by mutableStateOf(listOf<CartItem>())
-
-    fun addToCart(product: Product) {
-        val existingItem = cartItems.find { it.product.id == product.id }
-        if (existingItem != null) {
-            cartItems = cartItems.map {
-                if (it.product.id == product.id) {
-                    it.copy(quantity = it.quantity + 1)
-                } else {
-                    it
-                }
-            }
-        } else {
-            cartItems = cartItems + CartItem(product, 1)
-        }
-    }
-}
-
-object FavoriteManager {
-    var favoriteItems by mutableStateOf(listOf<Int>())
-
-    fun toggleFavorite(productId: Int, customerId: Int) {
-        if (favoriteItems.contains(productId)) {
-            favoriteItems = favoriteItems - productId
-            // Xóa khỏi bảng Sanphamyeuthich trong database (cần thêm API call)
-        } else {
-            favoriteItems = favoriteItems + productId
-            // Thêm vào bảng Sanphamyeuthich trong database (cần thêm API call)
-        }
-    }
-
-    fun isFavorite(productId: Int): Boolean {
-        return favoriteItems.contains(productId)
-    }
-}
-
 data class ProductImage(
     val id: Int,
     val url: String,
