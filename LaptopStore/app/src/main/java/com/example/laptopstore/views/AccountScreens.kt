@@ -196,7 +196,12 @@ fun AccountScreens(
                     AccountItem(
                         icon = Icons.Default.AddLocation,
                         text = "Sổ Địa Chỉ",
-                        onClick = { navHostController.navigate(Screens.HOMEPAGE.route) }
+                        onClick = { 
+                            val maKhachHang = taiKhoanViewModel.taikhoan?.MaKhachHang
+                            if (maKhachHang != null) {
+                                navHostController.navigate(Screens.ADDRESS.createRoute(maKhachHang))
+                            }
+                        }
                     )
                 }
 

@@ -202,7 +202,7 @@ fun LoginScreen(
                 Row {
                     Text("Bạn chưa có tài khoản?", fontSize = 15.sp, fontWeight = FontWeight.Bold)
                     TextButton(onClick = {
-                        navController.navigate(Screens.Register_Screen.route)
+                        navController.navigate(Screens.REGISTERSCREEN.route)
                     }) {
                         Text("Đăng ký ngay!", fontSize = 15.sp, fontWeight = FontWeight.Bold, color = Color.Blue)
                     }
