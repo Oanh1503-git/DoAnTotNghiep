@@ -1,7 +1,7 @@
 package com.example.laptopstore.navigation
 
 import AccountScreens
-import CartScreen
+
 import LoginScreen
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
@@ -16,8 +16,11 @@ import com.example.laptopstore.viewmodels.HinhAnhViewModel
 import com.example.laptopstore.viewmodels.KhachHangViewModels
 import com.example.laptopstore.viewmodels.SanPhamViewModel
 import com.example.laptopstore.viewmodels.TaiKhoanViewModel
+import com.example.laptopstore.views.CartScreen
 import com.example.laptopstore.views.Categories
 import com.example.laptopstore.views.ProductDetail
+import com.example.laptopstore.views.Register_Screen
+
 //import com.example.laptopstore.views.CartScreen
 //import com.example.laptopstore.views.CheckoutScreen
 @Composable
@@ -89,7 +92,7 @@ fun NavigationGraph(
  //           CartScreen(navHostController)
 //        }
         composable(Screens.ACCOUNTSCREENS.route) {
-            AccountScreens(navHostController)
+            AccountScreens(navHostController,taiKhoanViewModel ,khachHangViewModel)
         }
         composable(
             route = "product_detail/{productId}",

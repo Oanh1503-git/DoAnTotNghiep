@@ -66,13 +66,19 @@ class TaiKhoanViewModel : ViewModel {
         this.context = context
         prefs = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
         dataStore = DataStoreManager(context)
-
+        
+        Log.d("TaiKhoanViewModel", "Initializing with context")
         viewModelScope.launch {
-            _isLoggedIn.value = dataStore.isLoggedIn.first()
-            val savedUsername = dataStore.username.first()
-            if (_isLoggedIn.value && savedUsername != null) {
-                tentaikhoan = savedUsername
-                getTaiKhoanByTentaikhoan(savedUsername)
+            try {
+                _isLoggedIn.value = dataStore.isLoggedIn.first()
+                val savedUsername = dataStore.username.first()
+                Log.d("TaiKhoanViewModel", "Initial login state: ${_isLoggedIn.value}, username: $savedUsername")
+                if (_isLoggedIn.value && savedUsername != null) {
+                    tentaikhoan = savedUsername
+                    getTaiKhoanByTentaikhoan(savedUsername)
+                }
+            } catch (e: Exception) {
+                Log.e("TaiKhoanViewModel", "Error initializing login state", e)
             }
         }
     }
@@ -82,21 +88,22 @@ class TaiKhoanViewModel : ViewModel {
             try {
                 val response = LaptopStoreRetrofitClient.taiKhoanAPIService.kiemTraDangNhap(tendangnhap, matkhau)
                 if (response.result) {
+                    Log.d("TaiKhoanViewModel", "Đăng nhập thành công: $tendangnhap")
                     _loginResult.value = LoginResult(true, "Đăng nhập thành công")
                     dataStore.saveLoginState(tendangnhap)
                     _isLoggedIn.value = true
                     saveLoginState(true, tendangnhap)
-                    // Không có data nên không gán taiKhoan
+                    Log.d("TaiKhoanViewModel", "Đã cập nhật isLoggedIn = true")
                 } else {
+                    Log.d("TaiKhoanViewModel", "Đăng nhập thất bại: ${response.message}")
                     _loginResult.value = LoginResult(false, response.message ?: "Sai thông tin đăng nhập")
                 }
             } catch (e: Exception) {
+                Log.e("TaiKhoanViewModel", "Lỗi đăng nhập", e)
                 _loginResult.value = LoginResult(false, "Lỗi: ${e.message}")
             }
         }
     }
-
-
 
     private fun saveLoginState(isLoggedIn: Boolean, username: String? = null) {
         prefs.edit().apply {

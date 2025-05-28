@@ -45,7 +45,7 @@ import java.text.SimpleDateFormat
 
 import java.util.Date
 import java.util.Locale
-
+import java.util.*
 data class ProductImage(
     val id: Int,
     val url: String,
@@ -60,7 +60,7 @@ data class Review(
     val date: String
 )
 
-import java.util.*
+
 
 
 @OptIn(ExperimentalMaterial3Api::class)

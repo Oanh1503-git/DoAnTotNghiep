@@ -69,12 +69,13 @@ fun CartScreen(
                 }
                 
                 // Sau đó load giỏ hàng với mã khách hàng
-                taikhoan?.MaKhachHang?.let { maKH ->
-                    gioHangViewModel.getGioHangByKhachHang(maKH)
-                    hasLoadedCart = true
-                } ?: run {
-                    errorMessage = "Không tìm thấy thông tin tài khoản"
-                }
+                val makh=taikhoan?.MaKhachHang
+               if(makh != null){
+                   gioHangViewModel.getGioHangByKhachHang(makh)
+               }
+                else{
+                   errorMessage = "Không tìm thấy thông tin tài khoản"
+               }
             } catch (e: Exception) {
                 errorMessage = "Lỗi khi tải giỏ hàng: ${e.message}"
                 Log.e("CartScreen", "Error loading cart", e)
@@ -93,14 +94,11 @@ fun CartScreen(
 
     // Effect để theo dõi thay đổi của taikhoan
     LaunchedEffect(taikhoan) {
-        if (isLoggedIn && !hasLoadedCart && taikhoan?.MaKhachHang != null) {
-            try {
-                gioHangViewModel.getGioHangByKhachHang(taikhoan.MaKhachHang)
-                hasLoadedCart = true
-            } catch (e: Exception) {
-                errorMessage = "Lỗi khi tải giỏ hàng: ${e.message}"
-            }
-        }
+        val makh=taikhoan?.MaKhachHang
+     if (isLoggedIn && !hasLoadedCart && makh !=null){
+         gioHangViewModel.getGioHangByKhachHang(makh)
+         hasLoadedCart =true
+     }
     }
 
     // Tính tổng tiền từ giỏ hàng

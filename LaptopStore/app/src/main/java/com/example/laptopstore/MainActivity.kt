@@ -36,7 +36,9 @@ class MainActivity : ComponentActivity() {
                 val sanPhamViewModel: SanPhamViewModel = viewModel()
                 val hinhAnhViewModel: HinhAnhViewModel = viewModel()
                 val khachHangViewModel: KhachHangViewModels = viewModel()
-                val taiKhoanViewModel: TaiKhoanViewModel = viewModel( )
+                val taiKhoanViewModel: TaiKhoanViewModel = viewModel(
+                    factory = TaiKhoanViewsModelsFactory(this)
+                )
 
                 NavigationGraph(
                     navHostController = navController,
