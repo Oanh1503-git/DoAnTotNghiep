@@ -42,6 +42,7 @@ android {
 
 dependencies {
 
+    implementation ("androidx.datastore:datastore-preferences:1.0.0")
     implementation("androidx.compose.material3:material3:1.1.2")
     implementation ("com.google.accompanist:accompanist-pager:0.31.3-beta")
     implementation ("com.google.accompanist:accompanist-pager-indicators:0.31.3-beta")
@@ -70,6 +71,7 @@ dependencies {
     implementation(libs.androidx.navigation.runtime.android)
     implementation(libs.androidx.ui.test.android)
     implementation(libs.engage.core)
+    implementation(libs.androidx.room.runtime.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
