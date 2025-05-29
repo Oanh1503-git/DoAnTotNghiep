@@ -7,8 +7,8 @@ class DiaChi{
     public $MaKhachHang;
     public $ThongTinDiaChi;
     public $TenNguoiNhan;
-    public$SoDienThoai;
-    public$MacDinh;
+    public $SoDienThoai;
+    public $MacDinh;
     //connect db
 
     public function __construct($database){

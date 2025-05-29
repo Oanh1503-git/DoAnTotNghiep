@@ -15,29 +15,32 @@ import com.example.laptopstore.viewmodels.HinhAnhViewModel
 import com.example.laptopstore.viewmodels.KhachHangViewModels
 import com.example.laptopstore.viewmodels.SanPhamViewModel
 import com.example.laptopstore.viewmodels.TaiKhoanViewModel
-import com.example.laptopstore.views.*
 import com.example.lapstore.viewmodels.DiaChiViewmodel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.laptopstore.AddressScreens
+import com.example.laptopstore.views.*
 
-//import com.example.laptopstore.views.CartScreen
-//import com.example.laptopstore.views.CheckoutScreen
 @Composable
 fun NavigationGraph(
-    navHostController: NavHostController, // tên tham số đúng là navHostController
+    navHostController: NavHostController,
     sanphamViewModel: SanPhamViewModel,
     hinhAnhViewModel: HinhAnhViewModel,
     khachHangViewModel: KhachHangViewModels,
     taiKhoanViewModel: TaiKhoanViewModel,
     diaChiViewModel: DiaChiViewmodel = viewModel()
 ) {
-    NavHost(navController = navHostController,
-        startDestination = Screens.HOMEPAGE.route) {
+    NavHost(
+        navController = navHostController,
+        startDestination = Screens.HOMEPAGE.route
+    ) {
         composable(Screens.HOMEPAGE.route) {
             HOMEPAGE(navHostController)
         }
+
         composable(Screens.ACCOUNTSCREENS.route) {
-            AccountScreens(navHostController,taiKhoanViewModel,khachHangViewModel)
+            AccountScreens(navHostController, taiKhoanViewModel, khachHangViewModel)
         }
+
         composable(
             "homepage?searchQuery={searchQuery}&brand={brand}&price={price}&usage={usage}&chip={chip}&screen={screen}",
             arguments = listOf(
@@ -51,6 +54,7 @@ fun NavigationGraph(
         ) { backStackEntry ->
             HOMEPAGE(navHostController)
         }
+
         composable(Screens.CATAGORIES.route) {
             Categories(navHostController)
         }
@@ -59,26 +63,32 @@ fun NavigationGraph(
             CartScreen(navHostController)
         }
 
-        composable("product_detail/{productId}") { backStackEntry ->
-            val productId = backStackEntry.arguments?.getString("productId")?.toInt() ?: 0
+        composable(
+            route = "product_detail/{productId}",
+            arguments = listOf(navArgument("productId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            val productId = backStackEntry.arguments?.getInt("productId") ?: 0
             ProductDetail(navController = navHostController, productId = productId)
         }
 
         composable(Screens.Login_Screens.route) {
             LoginScreen(navHostController)
         }
+
         composable(Screens.REGISTERSCREEN.route) {
-            Register_Screen(navController = navHostController,
+            Register_Screen(
+                navController = navHostController,
                 taiKhoanViewModel = taiKhoanViewModel,
-                khachHangViewModel= khachHangViewModel
+                khachHangViewModel = khachHangViewModel
             )
         }
+
         composable(
             route = Screens.ACCOUNTDETAIL.route,
             arguments = listOf(navArgument("maKhachHang") { defaultValue = "" })
         ) { backStackEntry ->
             val maKhachHang = backStackEntry.arguments?.getString("maKhachHang") ?: ""
-            com.example.laptopstore.views.AccountDetails(
+            AccountDetails(
                 navHostController = navHostController,
                 khachHangViewModel = khachHangViewModel,
                 maKhachHang = maKhachHang
@@ -93,44 +103,8 @@ fun NavigationGraph(
         ) { backStackEntry ->
             val maKhachHang = backStackEntry.arguments?.getInt("maKhachHang") ?: return@composable
             AddressScreens(
-                navHostController = navHostController,
-                diaChiViewModel = diaChiViewModel,
-                maKhachHang = maKhachHang
+                navHostController,diaChiViewModel,maKhachHang
             )
         }
-
-  //      composable(Screens.CARTSCREENS.route) {
- //           CartScreen(navHostController)
-//        }
-        composable(Screens.ACCOUNTSCREENS.route) {
-            AccountScreens(navHostController,taiKhoanViewModel ,khachHangViewModel)
-        }
-        composable(
-            route = "product_detail/{productId}",
-            arguments = listOf(navArgument("productId") { type = NavType.IntType })
-        ) { backStackEntry ->
-            val productId = backStackEntry.arguments?.getInt("productId") ?: 0
-            ProductDetail(navController = navHostController, productId = productId)
-        }
-
-//        composable("checkout/{totalPrice}/{cartItems}") { backStackEntry ->
-//            val totalPrice = backStackEntry.arguments?.getString("totalPrice")?.toInt() ?: 0
-//            val cartItemsJson = backStackEntry.arguments?.getString("cartItems") ?: ""
- //           CheckoutScreen(navController = navHostController, totalPrice = totalPrice, cartItemsJson = cartItemsJson)
-//        }
-        composable(
-            route = Screens.ADDRESS.route,
-            arguments = listOf(
-                navArgument("maKhachHang") { type = NavType.IntType }
-            )
-        ) { backStackEntry ->
-            val maKhachHang = backStackEntry.arguments?.getInt("maKhachHang") ?: return@composable
-            AddressScreens(
-                navHostController = navHostController,
-                diaChiViewModel = diaChiViewModel,
-                maKhachHang = maKhachHang
-            )
-        }
-
     }
 }

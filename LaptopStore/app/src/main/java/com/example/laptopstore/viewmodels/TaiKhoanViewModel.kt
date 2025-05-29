@@ -89,10 +89,14 @@ class TaiKhoanViewModel : ViewModel {
                 val response = LaptopStoreRetrofitClient.taiKhoanAPIService.kiemTraDangNhap(tendangnhap, matkhau)
                 if (response.result) {
                     Log.d("TaiKhoanViewModel", "Đăng nhập thành công: $tendangnhap")
-                    _loginResult.value = LoginResult(true, "Đăng nhập thành công")
-                    dataStore.saveLoginState(tendangnhap)
                     _isLoggedIn.value = true
+                    dataStore.saveLoginState(tendangnhap)
                     saveLoginState(true, tendangnhap)
+                    
+                    getTaiKhoanByTentaikhoan(tendangnhap)
+                    
+                    _loginResult.value = LoginResult(true, "Đăng nhập thành công")
+                    
                     Log.d("TaiKhoanViewModel", "Đã cập nhật isLoggedIn = true")
                 } else {
                     Log.d("TaiKhoanViewModel", "Đăng nhập thất bại: ${response.message}")
@@ -106,15 +110,19 @@ class TaiKhoanViewModel : ViewModel {
     }
 
     private fun saveLoginState(isLoggedIn: Boolean, username: String? = null) {
-        prefs.edit().apply {
-            putBoolean("is_logged_in", isLoggedIn)
-            username?.let { putString("username", it) }
-            apply()
+        viewModelScope.launch {
+            prefs.edit().apply {
+                putBoolean("is_logged_in", isLoggedIn)
+                username?.let { putString("username", it) }
+                apply()
+            }
         }
     }
+
     fun setIsLoggedIn(value: Boolean) {
         _isLoggedIn.value = value
     }
+
     fun logout() {
         viewModelScope.launch {
             dataStore.clearLoginState()
@@ -202,9 +210,13 @@ class TaiKhoanViewModel : ViewModel {
 
     fun getTaiKhoanByTentaikhoan(tentaikhoan: String) {
         this.tentaikhoan = tentaikhoan
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             try {
-                taikhoan = LaptopStoreRetrofitClient.taiKhoanAPIService.getTaiKhoanByTentaikhoan(tentaikhoan)
+                val taiKhoanInfo = withContext(Dispatchers.IO) {
+                    LaptopStoreRetrofitClient.taiKhoanAPIService.getTaiKhoanByTentaikhoan(tentaikhoan)
+                }
+                taikhoan = taiKhoanInfo
+                Log.d("TaiKhoanViewModel", "Lấy thông tin tài khoản thành công: $taiKhoanInfo")
             } catch (e: Exception) {
                 Log.e("TaiKhoanViewModel", "Lỗi lấy tài khoản: ${e.message}")
             }

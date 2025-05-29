@@ -1,43 +1,59 @@
-package com.example.laptopstore.api
 
 import com.example.laptopstore.models.DiaChi
-import com.example.laptopstore.models.DiaChiResponse
-import com.example.laptopstore.models.DiaChiUpdateResponse
-import retrofit2.http.*
+import retrofit2.Response
+import retrofit2.http.Body
+import retrofit2.http.GET
+import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Query
+
+data class DiaChiResponse(
+    val diachi: List<DiaChi>
+)
+
+data class addDiaChiResponse(
+    val success: Boolean,
+    val message: String
+)
 
 data class DeleteDiaChiRequest(
     val MaDiaChi: Int
 )
 
-interface DiaChiAPIService {
-    @GET("DiaChi/getByMaKhachHang.php")
-    suspend fun getDiaChiByMaKhachHang(
-        @Query("MaKhachHang") maKhachHang: Int
-    ): DiaChiResponse
-
-    @GET("DiaChi/getByMaDiaChi.php")
+interface DiaChiAPIService{
+    @GET("DiaChi/show.php")
     suspend fun getDiaChiByMaDiaChi(
-        @Query("MaDiaChi") maDiaChi: Int
-    ): DiaChiResponse
+        @Query("id") MaDiaChi: Int
+    ): DiaChi
 
-    @GET("DiaChi/getMacDinh.php")
+    @GET("DiaChi/laydiachimacdinh.php")
     suspend fun getDiaChiMacDinh(
         @Query("MaKhachHang") MaKhachHang: Int,
         @Query("MacDinh") MacDinh: Int
+    ): DiaChi
+
+    @GET("DiaChi/getdiachibykhachhang.php")
+    suspend fun getDiaChiByMaKhachHang(
+        @Query("MaKhachHang") MaKhachHang: Int?
     ): DiaChiResponse
 
     @POST("DiaChi/create.php")
-    suspend fun themDiaChi(
-        @Body diaChi: DiaChi
-    ): DiaChiUpdateResponse
+    suspend fun addDiaChi(
+        @Body diachi: DiaChi
+    ): addDiaChiResponse
 
-    @PUT("DiaChi/setDefault.php")
-    suspend fun setDefaultAddress(
-        @Query("MaDiaChi") maDiaChi: Int
-    ): DiaChiUpdateResponse
+    @PUT("DiaChi/update.php")
+    suspend fun updateDiaChi(
+        @Body diachi: DiaChi
+    ): addDiaChiResponse
 
-    @HTTP(method = "DELETE", path = "DiaChi/delete.php", hasBody = true)
+    @PUT("DiaChi/updatediachimacdinh.php")
+    suspend fun updateDiaChiMacDinh(
+        @Body makhachhang: Int
+    ): addDiaChiResponse
+
+    @POST("DiaChi/delete.php")
     suspend fun deleteDiaChi(
-        @Body request: DeleteDiaChiRequest
-    ): DiaChiUpdateResponse
+        @Body MaDiaChi: DeleteDiaChiRequest
+    ): Response<ApiResponse>
 }

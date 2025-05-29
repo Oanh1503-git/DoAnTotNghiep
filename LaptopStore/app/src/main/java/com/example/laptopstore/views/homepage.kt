@@ -59,7 +59,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import coil.compose.AsyncImage
 import com.example.app_e_commerce.model.BottomNavItem
 import com.example.laptopstore.R
@@ -453,8 +455,9 @@ fun MenuBottomNavBar(navController: NavHostController) {
         BottomNavItem("Account", Icons.Default.Person, Screens.ACCOUNTSCREENS.route)
     )
 
-    var selectedItem by remember { mutableIntStateOf(0) }
-
+    // Theo dõi route hiện tại
+    val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
+    
     NavigationBar(containerColor = Color.White) {
         items.forEachIndexed { index, item ->
             NavigationBarItem(
@@ -463,22 +466,29 @@ fun MenuBottomNavBar(navController: NavHostController) {
                         imageVector = item.icon,
                         contentDescription = item.title,
                         modifier = Modifier.size(24.dp),
-                        tint = if (selectedItem == index) Color.Black else Color.Gray
+                        tint = if (currentRoute == item.route) Color.Black else Color.Gray
                     )
                 },
                 label = {
                     Text(
                         text = item.title,
                         fontSize = 12.sp,
-                        color = if (selectedItem == index) Color.Black else Color.Gray
+                        color = if (currentRoute == item.route) Color.Black else Color.Gray
                     )
                 },
-                selected = selectedItem == index,
+                selected = currentRoute == item.route,
                 onClick = {
-                    selectedItem = index
-                    navController.navigate(item.route) {
-                        popUpTo(Screens.HOMEPAGE.route) { inclusive = false }
-                        launchSingleTop = true
+                    if (currentRoute != item.route) {
+                        navController.navigate(item.route) {
+                            // Tránh tạo nhiều bản sao của cùng một màn hình
+                            launchSingleTop = true
+                            // Khôi phục state khi quay lại
+                            restoreState = true
+                            // Chỉ pop đến root khi đang ở root
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                        }
                     }
                 }
             )

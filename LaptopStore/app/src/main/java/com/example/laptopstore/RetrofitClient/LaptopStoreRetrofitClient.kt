@@ -1,13 +1,13 @@
 package com.example.laptopstore.RetrofitClient
 
 import ChiTietHoaDonBanAPIService
+import DiaChiAPIService
 import GioHangAPIService
 import com.example.laptopstore.api.HinhAnhAPIService
 import HoaDonBanAPIService
 import com.example.laptopstore.api.SanPhamAPIService
 import TaiKhoanAPIService
 import com.example.laptopstore.api.BinhLuanAPIService
-import com.example.laptopstore.api.DiaChiAPIService
 import com.example.laptopstore.api.KhachHangAPIService
 import com.example.laptopstore.api.SanPhamYeuThichAPIService
 import com.google.gson.GsonBuilder

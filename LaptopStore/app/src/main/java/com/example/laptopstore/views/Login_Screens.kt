@@ -54,14 +54,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.LocalContext
+import android.app.Activity
+import android.content.Intent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
     navController: NavHostController
 ) {
+    val context = LocalContext.current
+    val activity = context as? Activity
+    
     val taiKhoanViewModel: TaiKhoanViewModel = viewModel(
-        factory = TaiKhoanViewsModelsFactory(LocalContext.current)
+        factory = TaiKhoanViewsModelsFactory(context)
     )
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
@@ -69,22 +74,38 @@ fun LoginScreen(
     var tendangnhap by remember { mutableStateOf("") }
     var matkhau by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
+    var shouldReload by remember { mutableStateOf(false) }
 
     val loginResult by taiKhoanViewModel.loginResult.collectAsState()
     val isLoggedIn by taiKhoanViewModel.isLoggedIn.collectAsState()
     var openDialog by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf("") }
 
-    // Nếu đã đăng nhập, chuyển đến trang Account
-    LaunchedEffect(isLoggedIn) {
-        if (isLoggedIn) {
-            navController.navigate(Screens.ACCOUNTSCREENS.route) {
-                popUpTo(Screens.Login_Screens.route) { inclusive = true }
+    // Kiểm tra xem có đến từ màn hình giỏ hàng không
+    val isFromCart = remember {
+        navController.previousBackStackEntry?.destination?.route == Screens.CARTSCREENS.route
+    }
+
+    // Xử lý reload trang khi đăng nhập thành công
+    LaunchedEffect(shouldReload) {
+        if (shouldReload) {
+            // Reset state
+            shouldReload = false
+            
+            // Điều hướng đến màn hình hiện tại để reload
+            if (isFromCart) {
+                navController.navigate(Screens.CARTSCREENS.route) {
+                    popUpTo(Screens.CARTSCREENS.route) { inclusive = true }
+                }
+            } else {
+                navController.navigate(Screens.ACCOUNTSCREENS.route) {
+                    popUpTo(Screens.ACCOUNTSCREENS.route) { inclusive = true }
+                }
             }
         }
     }
 
-    // Lắng nghe kết quả đăng nhập
+    // Xử lý kết quả đăng nhập
     LaunchedEffect(loginResult) {
         loginResult?.let { result ->
             if (result.result == true) {
@@ -92,15 +113,30 @@ fun LoginScreen(
                 scope.launch {
                     snackbarHostState.showSnackbar("Đăng nhập thành công")
                 }
-                taiKhoanViewModel.resetLoginResult()
-                // Navigate to Account screen
-                navController.navigate(Screens.ACCOUNTSCREENS.route) {
-                    popUpTo(Screens.Login_Screens.route) { inclusive = true }
+                
+                // Restart app
+                activity?.let { act ->
+                    val intent = act.packageManager.getLaunchIntentForPackage(act.packageName)
+                    intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    intent?.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    act.startActivity(intent)
+                    act.finish()
                 }
+                
+                // Reset login result
+                taiKhoanViewModel.resetLoginResult()
             } else {
                 errorMessage = "Tài khoản hoặc mật khẩu không chính xác"
                 openDialog = true
             }
+        }
+    }
+
+    // Kiểm tra trạng thái đăng nhập
+    LaunchedEffect(isLoggedIn) {
+        if (isLoggedIn) {
+            // Trigger reload
+            shouldReload = true
         }
     }
 

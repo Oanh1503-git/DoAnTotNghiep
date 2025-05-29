@@ -1,11 +1,11 @@
 package com.example.laptopstore.models
 
+
 data class DiaChi(
-    val MaDiaChi: Int,
+    val MaDiaChi: Int = 0,
     val MaKhachHang: Int,
+    val ThongTinDiaChi: String,
     val TenNguoiNhan: String,
     val SoDienThoai: String,
-    val DiaChi: String,
-    val MacDinh: Int // 1 = mặc định, 0 = không mặc định
+    val MacDinh: Int
 )
-
