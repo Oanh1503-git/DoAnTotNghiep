@@ -55,19 +55,26 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.LocalContext
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import androidx.compose.foundation.layout.Box
+import androidx.compose.material3.CircularProgressIndicator
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
     navController: NavHostController
 ) {
+    var isLoading by remember { mutableStateOf(false) }
+    var loadingMessage by remember { mutableStateOf("") }
     val context = LocalContext.current
     val activity = context as? Activity
     
     val taiKhoanViewModel: TaiKhoanViewModel = viewModel(
         factory = TaiKhoanViewsModelsFactory(context)
     )
+    val taikhoan by taiKhoanViewModel.taikhoan.collectAsState()
+    var makhachhang by remember { mutableStateOf<String?> (null) }
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
@@ -86,6 +93,16 @@ fun LoginScreen(
         navController.previousBackStackEntry?.destination?.route == Screens.CARTSCREENS.route
     }
 
+    LaunchedEffect (taikhoan){
+        Log.d("LoginScreen", "TaiKhoan State Changed: $taikhoan")
+        taikhoan?.MaKhachHang?.let {
+            makh ->
+            if(makh.isNullOrEmpty()){
+                makhachhang=makh
+                Log.d("LoginScreen", "MaKhachHang retrieved: $makh")
+            }
+        }
+    }
     // Xử lý reload trang khi đăng nhập thành công
     LaunchedEffect(shouldReload) {
         if (shouldReload) {
@@ -110,11 +127,19 @@ fun LoginScreen(
         loginResult?.let { result ->
             if (result.result == true) {
                 taiKhoanViewModel.setIsLoggedIn(true)
-                scope.launch {
-                    snackbarHostState.showSnackbar("Đăng nhập thành công")
+
+                // Lấy và lưu MaKhachHang
+                taikhoan?.MaKhachHang?.let { makh ->
+                    if (makh.isNotEmpty()) {
+                        // Lưu vào SharedPreferences
+                        context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+                            .edit()
+                            .putString("MaKhachHang", makh)
+                            .apply()
+
+                        Log.d("LoginScreen", "Saved MaKhachHang: $makh")
+                    }
                 }
-                
-                // Restart app
                 activity?.let { act ->
                     val intent = act.packageManager.getLaunchIntentForPackage(act.packageName)
                     intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -122,7 +147,24 @@ fun LoginScreen(
                     act.startActivity(intent)
                     act.finish()
                 }
-                
+                scope.launch {
+                    snackbarHostState.showSnackbar("Đăng nhập thành công")
+                }
+
+                // Kiểm tra điều hướng dựa trên MaKhachHang
+                when {
+                    isFromCart -> {
+                        navController.navigate(Screens.CARTSCREENS.route) {
+                            popUpTo(Screens.Login_Screens.route) { inclusive = true }
+                        }
+                    }
+                    else -> {
+                        navController.navigate(Screens.HOMEPAGE.route) {
+                            popUpTo(Screens.Login_Screens.route) { inclusive = true }
+                        }
+                    }
+                }
+
                 // Reset login result
                 taiKhoanViewModel.resetLoginResult()
             } else {
@@ -241,6 +283,20 @@ fun LoginScreen(
                         navController.navigate(Screens.REGISTERSCREEN.route)
                     }) {
                         Text("Đăng ký ngay!", fontSize = 15.sp, fontWeight = FontWeight.Bold, color = Color.Blue)
+                    }
+                }
+            }
+            if (isLoading) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        CircularProgressIndicator(color = Color.Red)
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(loadingMessage)
                     }
                 }
             }

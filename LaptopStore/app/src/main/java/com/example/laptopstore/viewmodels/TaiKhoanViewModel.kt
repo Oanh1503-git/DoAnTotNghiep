@@ -249,4 +249,22 @@ class TaiKhoanViewModel : ViewModel {
             }
         }
     }
+    private fun saveMaKhachHang(maKhachHang: String) {
+        context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+            .edit()
+            .putString("MaKhachHang", maKhachHang)
+            .apply()
+    }
+
+    private fun getMaKhachHangFromPrefs(): String? {
+        return context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+            .getString("MaKhachHang", null)
+    }
+
+    fun clearMaKhachHang() {
+        context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+            .edit()
+            .remove("MaKhachHang")
+            .apply()
+    }
 }
