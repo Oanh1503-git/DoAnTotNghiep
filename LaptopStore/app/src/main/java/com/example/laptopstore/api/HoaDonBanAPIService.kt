@@ -33,7 +33,7 @@ interface HoaDonBanAPIService{
 
     @GET("HoaDonBan/getHoaDonBanByKhachHang.php")
     suspend fun getHoaDoByKhachHang(
-        @Query("MaKhachHang") MaKhachHang: Int,
+        @Query("MaKhachHang") MaKhachHang: String,
         @Query("TrangThai") TrangThai: Int
     ): HoaDonBanResponse
 

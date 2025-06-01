@@ -16,10 +16,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
@@ -38,40 +41,116 @@ import java.nio.charset.StandardCharsets
 @Composable
 fun CartScreen(
     navController: NavHostController,
-    gioHangViewModel: GioHangViewModel = viewModel(),
-    sanPhamViewModel: SanPhamViewModel = viewModel(),
-    taiKhoanViewModel: TaiKhoanViewModel = viewModel()
+    gioHangViewModel: GioHangViewModel,
+    sanPhamViewModel: SanPhamViewModel,
+    taiKhoanViewModel: TaiKhoanViewModel,
+    savedStateHandle: SavedStateHandle
 ) {
-    val isLoggedIn by taiKhoanViewModel.isLoggedIn.collectAsState()
-    val taikhoan = taiKhoanViewModel.taikhoan
+    val context = LocalContext.current
+    val taikhoan by taiKhoanViewModel.taikhoan.collectAsState()
     val cartItems by gioHangViewModel.listGioHang.collectAsState()
     val allProducts by sanPhamViewModel.danhSachAllSanPham.collectAsState()
-
+    val loginState by savedStateHandle.getStateFlow("login_state", false).collectAsState()
+    
     // Loading và error states
     var isLoading by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
     var key by remember { mutableStateOf(0) }
+    // Thêm log chi tiết
+    LaunchedEffect(taikhoan) {
+        Log.d("CartScreen", "TaiKhoan State: ${taikhoan != null}")
+        Log.d("CartScreen", "MaKhachHang: ${taikhoan?.MaKhachHang}")
+        Log.d("CartScreen", "TenTaiKhoan: ${taikhoan?.TenTaiKhoan}")
+        
+        if (taikhoan?.MaKhachHang.isNullOrEmpty()) {
+            Log.w("CartScreen", "MaKhachHang is null or empty")
+        }
+    }
 
-    // Force recomposition when login state changes
-    LaunchedEffect(isLoggedIn) {
-        key += 1
+    // Kiểm tra đăng nhập
+    val isLoggedIn = remember(taikhoan) {
+        !taikhoan?.MaKhachHang.isNullOrEmpty()
+    }
+
+    if (!isLoggedIn) {
+        Dialog(
+            onDismissRequest = {
+                navController.popBackStack()
+            }
+        ) {
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                shape = RoundedCornerShape(16.dp),
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Icon(
+                        Icons.Default.ShoppingCart,
+                        contentDescription = null,
+                        modifier = Modifier.size(64.dp),
+                        tint = Color.Gray
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        text = "Vui lòng đăng nhập để xem giỏ hàng",
+                        fontSize = 16.sp,
+                        textAlign = TextAlign.Center
+                    )
+                    Spacer(modifier = Modifier.height(24.dp))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceEvenly
+                    ) {
+                        Button(
+                            onClick = { navController.popBackStack() },
+                            colors = ButtonDefaults.buttonColors(containerColor = Color.Gray)
+                        ) {
+                            Text("Quay lại")
+                        }
+                        Button(
+                            onClick = { 
+                                navController.navigate(Screens.Login_Screens.route) {
+                                    popUpTo("cart_screen") { inclusive = true }
+                                }
+                            },
+                            colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
+                        ) {
+                            Text("Đăng nhập")
+                        }
+                    }
+                }
+            }
+        }
+        return
     }
 
     // Load dữ liệu khi đã đăng nhập
-    LaunchedEffect(key, isLoggedIn, taikhoan) {
-        if (isLoggedIn && taikhoan != null) {
+    LaunchedEffect(key, loginState, taikhoan) {
+        if (loginState && taikhoan != null) {
             try {
                 isLoading = true
-                // Load sản phẩm
-                sanPhamViewModel.getAllSanPham()
-                
-                // Load giỏ hàng
-                taikhoan.MaKhachHang?.let { maKhachHang ->
-                    gioHangViewModel.getGioHangByKhachHang(maKhachHang)
+                val maKhachHang = taikhoan?.MaKhachHang
+                if (maKhachHang.isNullOrEmpty()) {
+                    Log.w("CartScreen", "Token may be expired, MaKhachHang is null")
+                    navController.navigate(Screens.Login_Screens.route) {
+                        popUpTo("cart_screen") { inclusive = true }
+                    }
+                    return@LaunchedEffect
                 }
+                
+                // Load data
+                sanPhamViewModel.getAllSanPham()
+                gioHangViewModel.getGioHangByKhachHang(maKhachHang)
+                
             } catch (e: Exception) {
-                errorMessage = "Lỗi khi tải dữ liệu: ${e.message}"
                 Log.e("CartScreen", "Error loading data", e)
+                errorMessage = "Lỗi khi tải dữ liệu: ${e.message}"
             } finally {
                 isLoading = false
             }
@@ -81,7 +160,6 @@ fun CartScreen(
     // Xử lý chuyển đến trang thanh toán
     fun navigateToCheckout(cartItems: List<GioHang>, totalPrice: Int) {
         try {
-            // Chỉ lấy thông tin cần thiết từ giỏ hàng
             val simplifiedCartItems = cartItems.map { gioHang ->
                 mapOf(
                     "MaGioHang" to gioHang.MaGioHang,
@@ -90,16 +168,13 @@ fun CartScreen(
                 )
             }
             
-            // Chuyển đổi thành JSON và encode
             val cartItemsJson = Json.encodeToString(simplifiedCartItems)
             val encodedCartItems = URLEncoder.encode(cartItemsJson, StandardCharsets.UTF_8.toString())
             
-            // Kiểm tra kích thước dữ liệu
-            if (encodedCartItems.length > 500000) { // Giới hạn kích thước dữ liệu
+            if (encodedCartItems.length > 500000) {
                 throw Exception("Dữ liệu giỏ hàng quá lớn")
             }
             
-            // Navigate với dữ liệu đã được tối ưu
             navController.navigate("checkout/${totalPrice}/${encodedCartItems}")
         } catch (e: Exception) {
             Log.e("CartScreen", "Error navigating to checkout: ${e.message}")
@@ -135,9 +210,48 @@ fun CartScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            key(key) {
-                if (!isLoggedIn) {
-                    // Hiển thị giao diện khi chưa đăng nhập
+            when {
+                isLoading -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator(color = Color.Red)
+                    }
+                }
+                errorMessage != null -> {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(16.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Icon(
+                            Icons.Default.Error,
+                            contentDescription = null,
+                            modifier = Modifier.size(48.dp),
+                            tint = Color.Red
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Text(
+                            text = errorMessage ?: "Đã xảy ra lỗi",
+                            color = Color.Red,
+                            textAlign = TextAlign.Center
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Button(
+                            onClick = { 
+                                errorMessage = null
+                                key += 1
+                            },
+                            colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
+                        ) {
+                            Text("Thử lại")
+                        }
+                    }
+                }
+                cartItems.isEmpty() -> {
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
@@ -153,161 +267,84 @@ fun CartScreen(
                         )
                         Spacer(modifier = Modifier.height(16.dp))
                         Text(
-                            text = "Vui lòng đăng nhập để xem giỏ hàng",
+                            text = "Giỏ hàng của bạn đang trống",
                             fontSize = 16.sp,
-                            color = Color.Gray,
-                            textAlign = TextAlign.Center
+                            color = Color.Gray
                         )
                         Spacer(modifier = Modifier.height(24.dp))
                         Button(
-                            onClick = {
-                                navController.navigate(Screens.Login_Screens.route)
-                            },
-                            colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
-                            modifier = Modifier.fillMaxWidth(0.7f)
+                            onClick = { navController.navigate(Screens.HOMEPAGE.route) },
+                            colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
                         ) {
-                            Text("Đăng nhập")
+                            Text("Tiếp tục mua sắm")
                         }
                     }
-                } else {
-                    // Hiển thị nội dung giỏ hàng khi đã đăng nhập
-                    when {
-                        isLoading -> {
-                            CircularProgressIndicator(
-                                modifier = Modifier.align(Alignment.Center)
-                            )
-                        }
-                        errorMessage != null -> {
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(16.dp),
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                verticalArrangement = Arrangement.Center
-                            ) {
-                                Icon(
-                                    Icons.Default.Error,
-                                    contentDescription = null,
-                                    modifier = Modifier.size(48.dp),
-                                    tint = Color.Red
-                                )
-                                Spacer(modifier = Modifier.height(16.dp))
-                                Text(
-                                    text = errorMessage ?: "Đã xảy ra lỗi",
-                                    color = Color.Red,
-                                    textAlign = TextAlign.Center
-                                )
-                                Spacer(modifier = Modifier.height(16.dp))
-                                Button(
-                                    onClick = { 
-                                        errorMessage = null
-                                        key += 1
-                                    },
-                                    colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
-                                ) {
-                                    Text("Thử lại")
-                                }
-                            }
-                        }
-                        cartItems.isEmpty() -> {
-                            // Hiển thị giỏ hàng trống
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(16.dp),
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                verticalArrangement = Arrangement.Center
-                            ) {
-                                Icon(
-                                    Icons.Default.ShoppingCart,
-                                    contentDescription = null,
-                                    modifier = Modifier.size(100.dp),
-                                    tint = Color.Gray
-                                )
-                                Spacer(modifier = Modifier.height(16.dp))
-                                Text(
-                                    text = "Giỏ hàng của bạn đang trống",
-                                    fontSize = 16.sp,
-                                    color = Color.Gray
-                                )
-                                Spacer(modifier = Modifier.height(24.dp))
-                                Button(
-                                    onClick = { navController.navigate(Screens.HOMEPAGE.route) },
-                                    colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
-                                ) {
-                                    Text("Tiếp tục mua sắm")
-                                }
-                            }
-                        }
-                        else -> {
-                            // Hiển thị danh sách sản phẩm trong giỏ hàng
-                            Column {
-                                LazyColumn(
-                                    modifier = Modifier
-                                        .weight(1f)
-                                        .padding(horizontal = 16.dp),
-                                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                                ) {
-                                    items(cartItems) { gioHang ->
-                                        val sanPham = allProducts.find { it.MaSanPham == gioHang.MaSanPham }
-                                        if (sanPham != null) {
-                                            CartItemCard(
-                                                gioHang = gioHang,
-                                                sanPham = sanPham,
-                                                onQuantityChange = { newQuantity ->
-                                                    if (newQuantity <= 0) {
-                                                        gioHangViewModel.deleteGioHang(gioHang.MaGioHang)
-                                                    } else if (newQuantity <= sanPham.SoLuong) {
-                                                        val updatedGioHang = gioHang.copy(SoLuong = newQuantity)
-                                                        gioHangViewModel.updateGioHang(updatedGioHang)
-                                                    }
-                                                }
-                                            )
+                }
+                else -> {
+                    Column {
+                        LazyColumn(
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(horizontal = 16.dp),
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            items(cartItems) { gioHang ->
+                                val sanPham = allProducts.find { it.MaSanPham == gioHang.MaSanPham }
+                                if (sanPham != null) {
+                                    CartItemCard(
+                                        gioHang = gioHang,
+                                        sanPham = sanPham,
+                                        onQuantityChange = { newQuantity ->
+                                            if (newQuantity <= 0) {
+                                                gioHangViewModel.deleteGioHang(gioHang.MaGioHang)
+                                            } else if (newQuantity <= sanPham.SoLuong) {
+                                                val updatedGioHang = gioHang.copy(SoLuong = newQuantity)
+                                                gioHangViewModel.updateGioHang(updatedGioHang)
+                                            }
                                         }
-                                    }
+                                    )
                                 }
+                            }
+                        }
 
-                                // Phần tổng tiền và nút thanh toán
-                                val totalPrice = cartItems.sumOf { gioHang ->
-                                    val sanPham = allProducts.find { it.MaSanPham == gioHang.MaSanPham }
-                                    val gia = sanPham?.Gia ?: 0
-                                    gia * gioHang.SoLuong
-                                }
+                        val totalPrice = cartItems.sumOf { gioHang ->
+                            val sanPham = allProducts.find { it.MaSanPham == gioHang.MaSanPham }
+                            val gia = sanPham?.Gia ?: 0
+                            gia * gioHang.SoLuong
+                        }
 
-                                Column(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(16.dp)
-                                ) {
-                                    Row(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        horizontalArrangement = Arrangement.SpaceBetween
-                                    ) {
-                                        Text(
-                                            text = "Tổng tiền:",
-                                            fontSize = 18.sp,
-                                            fontWeight = FontWeight.Bold
-                                        )
-                                        Text(
-                                            text = "${totalPrice / 1000}.000 VNĐ",
-                                            fontSize = 18.sp,
-                                            fontWeight = FontWeight.Bold,
-                                            color = Color.Red
-                                        )
-                                    }
-                                    Spacer(modifier = Modifier.height(16.dp))
-                                    Button(
-                                        onClick = {
-                                            navigateToCheckout(cartItems, totalPrice)
-                                        },
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .height(56.dp),
-                                        colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
-                                    ) {
-                                        Text("Thanh toán")
-                                    }
-                                }
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp)
+                        ) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Text(
+                                    text = "Tổng tiền:",
+                                    fontSize = 18.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                                Text(
+                                    text = "${totalPrice / 1000}.000 VNĐ",
+                                    fontSize = 18.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.Red
+                                )
+                            }
+                            Spacer(modifier = Modifier.height(16.dp))
+                            Button(
+                                onClick = {
+                                    navigateToCheckout(cartItems, totalPrice)
+                                },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(56.dp),
+                                colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
+                            ) {
+                                Text("Thanh toán")
                             }
                         }
                     }

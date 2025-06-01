@@ -28,13 +28,13 @@ interface DiaChiAPIService{
 
     @GET("DiaChi/laydiachimacdinh.php")
     suspend fun getDiaChiMacDinh(
-        @Query("MaKhachHang") MaKhachHang: Int,
+        @Query("MaKhachHang") MaKhachHang: String,
         @Query("MacDinh") MacDinh: Int
     ): DiaChi
 
     @GET("DiaChi/getdiachibykhachhang.php")
     suspend fun getDiaChiByMaKhachHang(
-        @Query("MaKhachHang") MaKhachHang: Int?
+        @Query("MaKhachHang") MaKhachHang: String?
     ): DiaChiResponse
 
     @POST("DiaChi/create.php")
@@ -49,7 +49,7 @@ interface DiaChiAPIService{
 
     @PUT("DiaChi/updatediachimacdinh.php")
     suspend fun updateDiaChiMacDinh(
-        @Body makhachhang: Int
+        @Body makhachhang: String
     ): addDiaChiResponse
 
     @POST("DiaChi/delete.php")

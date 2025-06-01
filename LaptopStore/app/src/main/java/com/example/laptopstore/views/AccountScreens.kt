@@ -1,3 +1,4 @@
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -14,22 +15,41 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.laptopstore.models.Screens
 import com.example.laptopstore.viewmodels.KhachHangViewModels
 import com.example.laptopstore.viewmodels.TaiKhoanViewModel
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AccountScreens(
     navHostController: NavHostController,
     taiKhoanViewModel: TaiKhoanViewModel,
-    khachHangViewModels: KhachHangViewModels
+    khachHangViewModels: KhachHangViewModels,
+    savedStateHandle : SavedStateHandle
 ) {
-    val context = LocalContext.current
     val isLoggedIn by taiKhoanViewModel.isLoggedIn.collectAsState()
-    val tentaikhoan = taiKhoanViewModel.tentaikhoan
+    val taikhoan by taiKhoanViewModel.taikhoan.collectAsState()
+    val tentaikhoan by taiKhoanViewModel.tentaikhoan.collectAsState()
+    
+    // Get MaKhachHang safely
+    val maKhachHang = taikhoan?.MaKhachHang
+    
+    taiKhoanViewModel.setTempAccountLogin(isLoggedIn)
+
+    // Debug logging
+    LaunchedEffect(taikhoan) {
+        Log.d("AccountScreen", "TaiKhoan changed: $taikhoan")
+        Log.d("AccountScreen", "TenTaiKhoan: ${taikhoan?.TenTaiKhoan}")
+        Log.d("AccountScreen", "MaKhachHang: ${taikhoan?.MaKhachHang}")
+    }
+
+    LaunchedEffect(isLoggedIn) {
+        savedStateHandle["login_state"] = isLoggedIn
+        Log.d("AccountScreen", "Saved login state: $isLoggedIn")
+        taiKhoanViewModel.setTempAccountLogin(isLoggedIn)
+    }
 
     // Dialog xác nhận đăng xuất
     var showLogoutDialog by remember { mutableStateOf(false) }
@@ -141,7 +161,7 @@ fun AccountScreens(
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             Text(
-                                text = "Xin chào, ${tentaikhoan ?: "Người dùng"}!",
+                                text = "Xin chào, ${taikhoan?.TenTaiKhoan ?: "Người dùng"}!",
                                 fontSize = 18.sp,
                                 fontWeight = FontWeight.Bold
                             )
@@ -186,8 +206,12 @@ fun AccountScreens(
                         icon = Icons.Default.Person,
                         text = "Thông Tin Khách Hàng",
                         onClick = {
-                            val maKhachHang = tentaikhoan ?: return@AccountItem
-                            navHostController.navigate(Screens.ACCOUNTDETAIL.createRoute(maKhachHang))
+                            val currentMaKH = taikhoan?.MaKhachHang
+                            if (!currentMaKH.isNullOrEmpty()) {
+                                navHostController.navigate(Screens.ACCOUNTDETAIL.createRoute(currentMaKH))
+                            } else {
+                                Log.d("AccountScreen", "MaKhachHang is null or empty")
+                            }
                         }
                     )
                 }
@@ -197,9 +221,11 @@ fun AccountScreens(
                         icon = Icons.Default.AddLocation,
                         text = "Sổ Địa Chỉ",
                         onClick = { 
-                            val maKhachHang = taiKhoanViewModel.taikhoan?.MaKhachHang
-                            if (maKhachHang != null) {
-                                navHostController.navigate(Screens.ADDRESS.createRoute(maKhachHang))
+                            val currentMaKH = taikhoan?.MaKhachHang
+                            if (!currentMaKH.isNullOrEmpty()) {
+                                navHostController.navigate(Screens.ADDRESS.createRoute(currentMaKH))
+                            } else {
+                                Log.d("AccountScreen", "MaKhachHang is null or empty")
                             }
                         }
                     )

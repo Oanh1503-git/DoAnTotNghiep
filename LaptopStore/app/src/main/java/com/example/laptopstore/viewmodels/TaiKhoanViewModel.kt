@@ -26,33 +26,33 @@ class TaiKhoanViewModel : ViewModel {
     private lateinit var prefs: SharedPreferences
     private lateinit var dataStore: DataStoreManager
 
-    // State
+    // State management using StateFlow
     private val _loginResult = MutableStateFlow<LoginResult?>(null)
     val loginResult: StateFlow<LoginResult?> = _loginResult
 
     private val _isLoggedIn = MutableStateFlow(false)
     val isLoggedIn: StateFlow<Boolean> = _isLoggedIn
 
-    var taikhoan: TaiKhoan? by mutableStateOf(null)
-        private set
+    private val _taikhoan = MutableStateFlow<TaiKhoan?>(null)
+    val taikhoan: StateFlow<TaiKhoan?> = _taikhoan
 
-    var taiKhoan by mutableStateOf<TaiKhoan?>(null)
-        private set
+    private val _khachHang = MutableStateFlow<KhachHang?>(null)
+    val khachHang: StateFlow<KhachHang?> = _khachHang
 
-    var khachHang by mutableStateOf<KhachHang?>(null)
-        private set
+    private val _isThongTinDayDu = MutableStateFlow<Boolean?>(null)
+    val isThongTinDayDu: StateFlow<Boolean?> = _isThongTinDayDu
 
-    var isThongTinDayDu by mutableStateOf<Boolean?>(null)
-        private set
+    private val _tempAccountLogin = MutableStateFlow(false)
+    val tempAccountLogin: StateFlow<Boolean> = _tempAccountLogin
+
+    private val _tentaikhoan = MutableStateFlow<String?>(null)
+    val tentaikhoan: StateFlow<String?> = _tentaikhoan
+
+    private val _checkUsernameResult = MutableStateFlow<KiemTraTaiKhoanResponse?>(null)
+    val checkUsernameResult: StateFlow<KiemTraTaiKhoanResponse?> = _checkUsernameResult
 
     var TaoTaiKhoanResult by mutableStateOf("")
     var taikhoanUpdateResult by mutableStateOf("")
-
-    var tentaikhoan: String? = null
-        private set
-
-    private val _checkUsernameResult = mutableStateOf<KiemTraTaiKhoanResponse?>(null)
-    val checkUsernameResult: State<KiemTraTaiKhoanResponse?> = _checkUsernameResult
 
     // Constructor không tham số (bắt buộc cho Jetpack Compose)
     constructor() : super()
@@ -74,11 +74,54 @@ class TaiKhoanViewModel : ViewModel {
                 val savedUsername = dataStore.username.first()
                 Log.d("TaiKhoanViewModel", "Initial login state: ${_isLoggedIn.value}, username: $savedUsername")
                 if (_isLoggedIn.value && savedUsername != null) {
-                    tentaikhoan = savedUsername
+                    _tentaikhoan.value = savedUsername
                     getTaiKhoanByTentaikhoan(savedUsername)
                 }
             } catch (e: Exception) {
                 Log.e("TaiKhoanViewModel", "Error initializing login state", e)
+            }
+        }
+    }
+
+    fun setTempAccountLogin(value: Boolean) {
+        _tempAccountLogin.value = value
+    }
+
+    fun getTaiKhoanByTentaikhoan(tentaikhoan: String) {
+        viewModelScope.launch {
+            try {
+                val taiKhoanInfo = withContext(Dispatchers.IO) {
+                    LaptopStoreRetrofitClient.taiKhoanAPIService.getTaiKhoanByTentaikhoan(tentaikhoan)
+                }
+                _taikhoan.value = taiKhoanInfo
+                Log.d("TaiKhoanViewModel", "Lấy thông tin tài khoản thành công: $taiKhoanInfo")
+                Log.d("TaiKhoanViewModel", "MaKhachHang: ${taiKhoanInfo?.MaKhachHang}")
+                
+                // Nếu có MaKhachHang, lấy thông tin khách hàng
+                taiKhoanInfo?.MaKhachHang?.let { maKH ->
+                    kiemTraThongTinKhachHang(maKH)
+                }
+            } catch (e: Exception) {
+                Log.e("TaiKhoanViewModel", "Lỗi lấy tài khoản: ${e.message}")
+            }
+        }
+    }
+
+    private fun kiemTraThongTinKhachHang(maKH: String) {
+        viewModelScope.launch {
+            try {
+                val kh = LaptopStoreRetrofitClient.khachHangAPIService.getKhachHangById(maKH)
+                _khachHang.value = kh
+                _isThongTinDayDu.value = listOf(
+                    kh.HoTen,
+                    kh.GioiTinh,
+                    kh.NgaySinh,
+                    kh.Email,
+                    kh.SoDienThoai
+                ).all { it.isNotBlank() && it.lowercase() != "null" }
+            } catch (e: Exception) {
+                _isThongTinDayDu.value = false
+                Log.e("TaiKhoanViewModel", "Lỗi kiểm tra thông tin khách hàng: ${e.message}")
             }
         }
     }
@@ -128,11 +171,10 @@ class TaiKhoanViewModel : ViewModel {
             dataStore.clearLoginState()
             prefs.edit().clear().apply()
             _isLoggedIn.value = false
-            taikhoan = null
-            taiKhoan = null
-            khachHang = null
-            tentaikhoan = null
-            isThongTinDayDu = null
+            _taikhoan.value = null
+            _khachHang.value = null
+            _tentaikhoan.value = null
+            _isThongTinDayDu.value = null
             _loginResult.value = null
         }
     }
@@ -142,26 +184,8 @@ class TaiKhoanViewModel : ViewModel {
     }
 
     fun loginThanhCong(taiKhoanMoi: TaiKhoan) {
-        taiKhoan = taiKhoanMoi
+        _taikhoan.value = taiKhoanMoi
         taiKhoanMoi.MaKhachHang?.let { kiemTraThongTinKhachHang(it) }
-    }
-
-    private fun kiemTraThongTinKhachHang(maKH: Int) {
-        viewModelScope.launch {
-            try {
-                val kh = LaptopStoreRetrofitClient.khachHangAPIService.getKhachHangById(maKH.toString())
-                khachHang = kh
-                isThongTinDayDu = listOf(
-                    kh.HoTen,
-                    kh.GioiTinh,
-                    kh.NgaySinh,
-                    kh.Email,
-                    kh.SoDienThoai
-                ).all { it.isNotBlank() && it.lowercase() != "null" }
-            } catch (e: Exception) {
-                isThongTinDayDu = false
-            }
-        }
     }
 
     suspend fun kiemTraTrungUsernameBool(tenTaiKhoan: String): Boolean {
@@ -204,21 +228,6 @@ class TaiKhoanViewModel : ViewModel {
                 }
             } catch (e: Exception) {
                 Log.e("TaoTaiKhoan", "Lỗi: ${e.message}")
-            }
-        }
-    }
-
-    fun getTaiKhoanByTentaikhoan(tentaikhoan: String) {
-        this.tentaikhoan = tentaikhoan
-        viewModelScope.launch {
-            try {
-                val taiKhoanInfo = withContext(Dispatchers.IO) {
-                    LaptopStoreRetrofitClient.taiKhoanAPIService.getTaiKhoanByTentaikhoan(tentaikhoan)
-                }
-                taikhoan = taiKhoanInfo
-                Log.d("TaiKhoanViewModel", "Lấy thông tin tài khoản thành công: $taiKhoanInfo")
-            } catch (e: Exception) {
-                Log.e("TaiKhoanViewModel", "Lỗi lấy tài khoản: ${e.message}")
             }
         }
     }

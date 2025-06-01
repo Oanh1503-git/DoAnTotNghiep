@@ -14,7 +14,9 @@ import com.example.laptopstore.ui.theme.LaptopStoreTheme
 import com.example.laptopstore.viewmodels.KhachHangViewModels
 import com.example.laptopstore.viewmodels.TaiKhoanViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.lapstore.viewmodels.DiaChiViewmodel
 import com.example.laptopstore.RetrofitClient.LaptopStoreRetrofitClient
+import com.example.laptopstore.viewmodels.GioHangViewModel
 import com.example.laptopstore.viewmodels.HinhAnhViewModel
 import com.example.laptopstore.viewmodels.SanPhamViewModel
 import com.example.laptopstore.viewmodels.TaiKhoanViewsModelsFactory
@@ -39,13 +41,16 @@ class MainActivity : ComponentActivity() {
                 val taiKhoanViewModel: TaiKhoanViewModel = viewModel(
                     factory = TaiKhoanViewsModelsFactory(this)
                 )
-
+                val diaChiViewmodel:DiaChiViewmodel= viewModel()
+                val gioHangViewModel:GioHangViewModel= viewModel()
                 NavigationGraph(
                     navHostController = navController,
                     sanphamViewModel = sanPhamViewModel,
                     hinhAnhViewModel = hinhAnhViewModel,
                     khachHangViewModel = khachHangViewModel,
-                    taiKhoanViewModel = taiKhoanViewModel
+                    taiKhoanViewModel = taiKhoanViewModel,
+                    diaChiViewModel = diaChiViewmodel,
+                    gioHangViewModel=gioHangViewModel
                 )
             }
         }

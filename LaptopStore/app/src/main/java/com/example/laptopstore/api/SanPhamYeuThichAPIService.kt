@@ -20,7 +20,7 @@ interface SanPhamYeuThichAPIService {
     @GET("SanPhamYeuThich/check.php")
     suspend fun checkFavorite(
         @Query("MaSanPham") MaSanPham: Int,
-        @Query("MaKhachHang") MaKhachHang: Int
+        @Query("MaKhachHang") MaKhachHang: String
     ): CheckFavoriteResponse
 
     @POST("SanPhamYeuThich/create.php")
@@ -35,6 +35,6 @@ interface SanPhamYeuThichAPIService {
 
     @GET("SanPhamYeuThich/readByKhachHang.php")
     suspend fun getFavoritesByKhachHang(
-        @Query("MaKhachHang") MaKhachHang: Int
+        @Query("MaKhachHang") MaKhachHang: String
     ): SanPhamYeuThichResponse
 }

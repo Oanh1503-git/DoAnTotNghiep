@@ -18,6 +18,7 @@ import com.example.laptopstore.viewmodels.TaiKhoanViewModel
 import com.example.lapstore.viewmodels.DiaChiViewmodel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.laptopstore.AddressScreens
+import com.example.laptopstore.viewmodels.GioHangViewModel
 import com.example.laptopstore.views.*
 
 @Composable
@@ -27,7 +28,8 @@ fun NavigationGraph(
     hinhAnhViewModel: HinhAnhViewModel,
     khachHangViewModel: KhachHangViewModels,
     taiKhoanViewModel: TaiKhoanViewModel,
-    diaChiViewModel: DiaChiViewmodel = viewModel()
+    diaChiViewModel: DiaChiViewmodel = viewModel(),
+    gioHangViewModel: GioHangViewModel
 ) {
     NavHost(
         navController = navHostController,
@@ -37,8 +39,12 @@ fun NavigationGraph(
             HOMEPAGE(navHostController)
         }
 
-        composable(Screens.ACCOUNTSCREENS.route) {
-            AccountScreens(navHostController, taiKhoanViewModel, khachHangViewModel)
+        composable(Screens.ACCOUNTSCREENS.route) {backStackEntry->
+            val savedStateHandle = backStackEntry.savedStateHandle
+            AccountScreens(navHostController,
+                taiKhoanViewModel,
+                khachHangViewModel,
+                savedStateHandle = backStackEntry.savedStateHandle)
         }
 
         composable(
@@ -59,8 +65,10 @@ fun NavigationGraph(
             Categories(navHostController)
         }
 
-        composable(Screens.CARTSCREENS.route) {
-            CartScreen(navHostController)
+        composable(Screens.CARTSCREENS.route) {backStackEntry->
+            val savedStateHandle = backStackEntry.savedStateHandle
+            CartScreen(navHostController,gioHangViewModel,sanphamViewModel,taiKhoanViewModel,
+                savedStateHandle = backStackEntry.savedStateHandle )
         }
 
         composable(
@@ -101,7 +109,7 @@ fun NavigationGraph(
                 navArgument("maKhachHang") { type = NavType.IntType }
             )
         ) { backStackEntry ->
-            val maKhachHang = backStackEntry.arguments?.getInt("maKhachHang") ?: return@composable
+            val maKhachHang = backStackEntry.arguments?.getString("maKhachHang") ?: return@composable
             AddressScreens(
                 navHostController,diaChiViewModel,maKhachHang
             )

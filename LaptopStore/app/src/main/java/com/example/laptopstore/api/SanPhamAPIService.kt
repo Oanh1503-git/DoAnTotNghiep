@@ -25,7 +25,7 @@ interface SanPhamAPIService{
 
     @GET("SanPham/getproductCardCuaKhachHang.php")
     suspend fun getSanPhamByGioHang(
-        @Query("MaKhachHang") MaKhachHang: Int
+        @Query("MaKhachHang") MaKhachHang: String
     ): SanPhamResponse
 
     @GET("SanPham/show.php")

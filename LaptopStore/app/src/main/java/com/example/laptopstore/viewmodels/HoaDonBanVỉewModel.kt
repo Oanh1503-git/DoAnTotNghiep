@@ -32,7 +32,7 @@ class HoaDonBanVỉewModel: ViewModel() {
         private set
 
     // Lấy hóa đơn theo khách hàng
-    fun getHoaDonTheoKhachHang(MaKhachHang: Int, TrangThai: Int) {
+    fun getHoaDonTheoKhachHang(MaKhachHang: String, TrangThai: Int) {
         viewModelScope.launch {
             try {
                 val response = withContext(Dispatchers.IO) {

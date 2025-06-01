@@ -50,7 +50,7 @@ class DiaChiViewmodel:ViewModel() {
 //        }
 //    }
 
-    fun getDiaChiKhachHang(MaKhachHang: Int?) {
+    fun getDiaChiKhachHang(MaKhachHang: String?) {
         viewModelScope.launch {
             try {
                 val response = withContext(Dispatchers.IO) {
@@ -64,7 +64,7 @@ class DiaChiViewmodel:ViewModel() {
         }
     }
 
-    fun getDiaChiMacDinh(maKhachHang: Int?, macDinh: Int?) {
+    fun getDiaChiMacDinh(maKhachHang: String?, macDinh: Int?) {
         if (maKhachHang == null || macDinh == null) {
             Log.e("DiaChiViewModel", "Tham số MaKhachHang hoặc MacDinh bị null")
             return // Ngừng xử lý nếu tham số null
@@ -117,7 +117,7 @@ class DiaChiViewmodel:ViewModel() {
         }
     }
 
-    fun updateDiaChiMacDinh(MaKhachHang: Int) {
+    fun updateDiaChiMacDinh(MaKhachHang: String) {
         viewModelScope.launch {
             try {
                 val response = withContext(Dispatchers.IO) {

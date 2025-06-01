@@ -134,7 +134,7 @@ class SanPhamViewModel : ViewModel() {
         }
     }
 
-    fun getSanPhamTheoGioHang(MaKhachHang: Int) {
+    fun getSanPhamTheoGioHang(MaKhachHang: String) {
         viewModelScope.launch {
             try {
                 val response = withContext(Dispatchers.IO) {

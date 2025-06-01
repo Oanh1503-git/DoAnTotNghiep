@@ -34,11 +34,14 @@ import com.example.laptopstore.models.BinhLuanDanhGia
 import com.example.laptopstore.models.GioHang
 import com.example.laptopstore.models.HinhAnh
 import com.example.laptopstore.models.SanPham
+import com.example.laptopstore.models.Screens
 import com.example.laptopstore.viewmodels.BinhLuanViewModel
 import com.example.laptopstore.viewmodels.GioHangViewModel
 import com.example.laptopstore.viewmodels.HinhAnhViewModel
+import com.example.laptopstore.viewmodels.KhachHangViewModels
 import com.example.laptopstore.viewmodels.SanPhamViewModel
 import com.example.laptopstore.viewmodels.SanPhamYeuThichViewModel
+import com.example.laptopstore.viewmodels.TaiKhoanViewModel
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
@@ -72,17 +75,27 @@ fun ProductDetail(
     hinhAnhViewModel: HinhAnhViewModel = viewModel(),
     binhLuanViewModel: BinhLuanViewModel = viewModel(),
     sanPhamYeuThichViewModel: SanPhamYeuThichViewModel = viewModel(),
-    gioHangViewModel: GioHangViewModel = viewModel()
+    gioHangViewModel: GioHangViewModel = viewModel(),
+    taiKhoanViewModel: TaiKhoanViewModel = viewModel(),
 ) {
     val product by sanPhamViewModel::sanPham
     val images by hinhAnhViewModel::danhSachHinhAnhTheoSanPham
-    val reviews by binhLuanViewModel.reviewsByProductId.collectAsState()
-    val isFavorite by sanPhamYeuThichViewModel.isFavorite.collectAsState()
-    val giohangAddResult by gioHangViewModel.giohangAddResult.collectAsState()
+    val reviews by binhLuanViewModel.reviewsByProductId.collectAsState(initial = emptyList())
+    val isFavorite by sanPhamYeuThichViewModel.isFavorite.collectAsState(initial = false)
+    val giohangAddResult by gioHangViewModel.giohangAddResult.collectAsState(initial = "")
+    
+    // Collect StateFlow values
+    val taikhoan by taiKhoanViewModel.taikhoan.collectAsState()
+    val isLoggedIn by taiKhoanViewModel.isLoggedIn.collectAsState()
+    val khachHang by taiKhoanViewModel.khachHang.collectAsState()
+
+    // Get MaKhachHang safely
+    val maKhachHang = taikhoan?.MaKhachHang
+
 
     var isLoading by remember { mutableStateOf(true) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
-    val customerId = 1 // Thay bằng SharedPreferences
+    var showLoginDialog by remember { mutableStateOf(false) }
     val context = LocalContext.current
 
     // State cho form bình luận
@@ -90,24 +103,29 @@ fun ProductDetail(
     var rating by remember { mutableStateOf(5) }
     var isSubmitting by remember { mutableStateOf(false) }
 
-    LaunchedEffect(giohangAddResult) {
-        if (giohangAddResult.isNotEmpty()) {
-            Toast.makeText(context, giohangAddResult, Toast.LENGTH_SHORT).show()
-            if (giohangAddResult.startsWith("Thêm vào giỏ hàng thành công")) {
-                navController.navigate("cartScreen")
-            }
-        }
+    // Debug logging
+    LaunchedEffect(taikhoan) {
+        Log.d("ProductDetail", "TaiKhoan changed: $taikhoan")
+        Log.d("ProductDetail", "MaKhachHang: $maKhachHang")
     }
 
-    LaunchedEffect(productId) {
+    // Load initial data
+    LaunchedEffect(productId, maKhachHang) {
         isLoading = true
         errorMessage = null
         try {
             sanPhamViewModel.getSanPhamById(productId.toString())
             hinhAnhViewModel.getHinhAnhTheoSanPham(productId)
             binhLuanViewModel.getReviewsByProductId(productId)
-            sanPhamYeuThichViewModel.checkFavorite(productId, customerId)
-            gioHangViewModel.getGioHangByKhachHang(customerId)
+            
+            // Only attempt to access MaKhachHang when it's not null
+            if (!maKhachHang.isNullOrEmpty()) {
+                Log.d("ProductDetail", "Loading data for MaKhachHang: $maKhachHang")
+                sanPhamYeuThichViewModel.checkFavorite(productId, maKhachHang)
+                gioHangViewModel.getGioHangByKhachHang(maKhachHang)
+            } else {
+                Log.d("ProductDetail", "MaKhachHang is null or empty")
+            }
         } catch (e: Exception) {
             errorMessage = "Lỗi khi tải dữ liệu: ${e.message}"
             Log.e("ProductDetail", "Error: ${e.message}")
@@ -140,6 +158,60 @@ fun ProductDetail(
     val pagerState = rememberPagerState { productImages.size }
     val coroutineScope = rememberCoroutineScope()
 
+    // Dialog yêu cầu đăng nhập
+    if (showLoginDialog) {
+        AlertDialog(
+            onDismissRequest = { showLoginDialog = false },
+            title = { Text("Thông báo") },
+            text = { 
+                Column {
+                    Text("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng")
+                    if (!maKhachHang.isNullOrEmpty()) {
+                        Text(
+                            text = "Đã đăng nhập với tài khoản: ${taikhoan?.TenTaiKhoan}",
+                            color = Color.Green,
+                            modifier = Modifier.padding(top = 8.dp)
+                        )
+                    }
+                }
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        if (maKhachHang.isNullOrEmpty()) {
+                            showLoginDialog = false
+                            navController.navigate(Screens.Login_Screens.route)
+                        } else {
+                            showLoginDialog = false
+                        }
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = if (maKhachHang.isNullOrEmpty()) Color.Red else Color.Green
+                    )
+                ) {
+                    Text(if (maKhachHang.isNullOrEmpty()) "Đăng nhập" else "Đã đăng nhập")
+                }
+            },
+            dismissButton = {
+                Button(
+                    onClick = { showLoginDialog = false },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Gray)
+                ) {
+                    Text("Đóng")
+                }
+            }
+        )
+    }
+
+    LaunchedEffect(giohangAddResult) {
+        if (giohangAddResult.isNotEmpty()) {
+            Toast.makeText(context, giohangAddResult, Toast.LENGTH_SHORT).show()
+            if (giohangAddResult.startsWith("Thêm vào giỏ hàng thành công")) {
+                navController.navigate("cartScreen")
+            }
+        }
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -161,7 +233,7 @@ fun ProductDetail(
                 },
                 actions = {
                     IconButton(onClick = {
-                        sanPhamYeuThichViewModel.toggleFavorite(productId, customerId)
+                        sanPhamYeuThichViewModel.toggleFavorite(productId, maKhachHang ?: "")
                     }) {
                         Icon(
                             imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
@@ -282,14 +354,20 @@ fun ProductDetail(
                     ) {
                         Button(
                             onClick = {
-                                val gioHang = GioHang(
-                                    MaGioHang = 0,
-                                    MaSanPham = productOrDefault.MaSanPham,
-                                    MaKhachHang = customerId,
-                                    SoLuong = 1,
-                                    TrangThai = 1
-                                )
-                                gioHangViewModel.addToCart(gioHang)
+                                if (maKhachHang.isNullOrEmpty()) {
+                                    showLoginDialog = true
+                                    Log.d("ProductDetail", "Showing login dialog - MaKhachHang is null or empty")
+                                } else {
+                                    Log.d("ProductDetail", "Adding to cart with MaKhachHang: $maKhachHang")
+                                    val gioHang = GioHang(
+                                        MaGioHang = 0,
+                                        MaSanPham = productOrDefault.MaSanPham,
+                                        MaKhachHang = maKhachHang,
+                                        SoLuong = 1,
+                                        TrangThai = 1
+                                    )
+                                    gioHangViewModel.addToCart(gioHang)
+                                }
                             },
                             modifier = Modifier
                                 .weight(1f)
@@ -307,7 +385,11 @@ fun ProductDetail(
                         }
                         Button(
                             onClick = {
-                                navController.navigate("checkoutScreen/${productOrDefault.Gia}")
+                                if (maKhachHang.isNullOrEmpty()) {
+                                    showLoginDialog = true
+                                } else {
+                                    navController.navigate("checkoutScreen/${productOrDefault.Gia}")
+                                }
                             },
                             modifier = Modifier
                                 .weight(1f)
@@ -414,7 +496,7 @@ fun ProductDetail(
                                                 isSubmitting = true
                                                 val review = BinhLuanDanhGia(
                                                     MaBinhLuan = 1,
-                                                    MaKhachHang = customerId,
+                                                    MaKhachHang = maKhachHang ?: "",
                                                     MaSanPham = productId,
                                                     MaHoaDonBan = 19, // Giả định chưa có hóa đơn
                                                     SoSao = rating,

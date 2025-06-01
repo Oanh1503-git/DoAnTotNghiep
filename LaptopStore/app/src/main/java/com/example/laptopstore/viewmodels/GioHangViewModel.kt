@@ -23,8 +23,8 @@ class GioHangViewModel : ViewModel() {
     private val _giohangAddResult = MutableStateFlow("")
     val giohangAddResult: StateFlow<String> = _giohangAddResult.asStateFlow()
 
-    fun getGioHangByKhachHang(MaKhachHang: Int) {
-        if (MaKhachHang <= 0) {
+    fun getGioHangByKhachHang(MaKhachHang: String) {
+        if (MaKhachHang.isNullOrBlank()) {
             _giohangUpdateResult.value = "MaKhachHang không hợp lệ"
             return
         }
@@ -125,7 +125,7 @@ class GioHangViewModel : ViewModel() {
     }
 
     fun addToCart(gioHang: GioHang) {
-        if (gioHang.MaSanPham <= 0 || gioHang.MaKhachHang <= 0 || gioHang.SoLuong <= 0 || gioHang.TrangThai < 0) {
+        if (gioHang.MaSanPham <= 0 || gioHang.MaKhachHang.isNullOrBlank() || gioHang.SoLuong <= 0 || gioHang.TrangThai < 0) {
             _giohangAddResult.value = "Dữ liệu giỏ hàng không hợp lệ"
             return
         }
@@ -144,6 +144,7 @@ class GioHangViewModel : ViewModel() {
                 _giohangAddResult.value = "Lỗi khi thêm vào giỏ hàng: ${e.message}"
                 Log.e("GioHangError", "Lỗi khi thêm vào giỏ hàng: ${e.message}")
             }
+
         }
     }
 }

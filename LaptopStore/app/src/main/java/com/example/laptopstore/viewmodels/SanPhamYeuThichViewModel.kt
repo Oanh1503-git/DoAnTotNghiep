@@ -20,7 +20,7 @@ class SanPhamYeuThichViewModel : ViewModel() {
     private val _errorMessage = MutableStateFlow<String?>(null)
     val errorMessage: StateFlow<String?> = _errorMessage.asStateFlow()
 
-    fun checkFavorite(productId: Int, customerId: Int) {
+    fun checkFavorite(productId: Int, customerId: String) {
         viewModelScope.launch {
             try {
                 val response = LaptopStoreRetrofitClient.sanPhamYeuThichAPIService.checkFavorite(productId, customerId)
@@ -33,7 +33,7 @@ class SanPhamYeuThichViewModel : ViewModel() {
         }
     }
 
-    fun toggleFavorite(productId: Int, customerId: Int) {
+    fun toggleFavorite(productId: Int, customerId: String) {
         viewModelScope.launch {
             try {
                 if (_isFavorite.value) {
@@ -67,7 +67,7 @@ class SanPhamYeuThichViewModel : ViewModel() {
         }
     }
 
-    fun getFavoritesByKhachHang(customerId: Int) {
+    fun getFavoritesByKhachHang(customerId: String) {
         viewModelScope.launch {
             try {
                 val response = LaptopStoreRetrofitClient.sanPhamYeuThichAPIService.getFavoritesByKhachHang(customerId)

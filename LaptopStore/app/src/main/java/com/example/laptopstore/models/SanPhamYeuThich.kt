@@ -5,5 +5,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class SanPhamYeuThich(
     val MaSanPham: Int,
-    val MaKhachHang: Int
+    val MaKhachHang: String
 )

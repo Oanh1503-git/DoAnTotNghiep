@@ -2,7 +2,7 @@ package com.example.laptopstore.models
 
 data class HoaDonBan(
     val MaHoaDonBan: Int,
-    val MaKhachHang: Int,
+    val MaKhachHang: String,
     val NgayDatHang: String,
     val MaDiaChi: Int,
     val TongTien: Int,

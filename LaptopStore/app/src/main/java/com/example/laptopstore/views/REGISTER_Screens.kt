@@ -219,7 +219,7 @@ fun Register_Screen(
             } else {
                 // Tiến hành tạo tài khoản
                 val newkhachhang = KhachHang(
-                    MaKhachHang = 0,
+                    MaKhachHang = "",
                     HoTen = tentaikhoan,
                     GioiTinh = "Nam",
                     NgaySinh = "",
@@ -230,7 +230,7 @@ fun Register_Screen(
 
                 val newTaiKhoan = TaiKhoan(
                     TenTaiKhoan = tentaikhoan,
-                    MaKhachHang = 0,
+                    MaKhachHang = "",
                     MatKhau = comfirmatkhau,
                     LoaiTaiKhoan = 0,
                     TrangThai = 1

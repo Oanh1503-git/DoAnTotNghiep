@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class BinhLuanDanhGia(
     val MaBinhLuan: Int,
-    val MaKhachHang: Int,
+    val MaKhachHang: String,
     val MaSanPham: Int,
     val MaHoaDonBan: Int,
     val SoSao: Int,
