@@ -90,7 +90,7 @@ fun ProductDetail(
     val khachHang by taiKhoanViewModel.khachHang.collectAsState()
 
     // Get MaKhachHang safely
-    val maKhachHang = taikhoan?.MaKhachHang
+    val maKhachHang = khachHang?.MaKhachHang
 
 
     var isLoading by remember { mutableStateOf(true) }

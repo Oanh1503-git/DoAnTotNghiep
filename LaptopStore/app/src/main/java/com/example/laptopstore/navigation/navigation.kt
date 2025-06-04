@@ -97,9 +97,7 @@ fun NavigationGraph(
         ) { backStackEntry ->
             val maKhachHang = backStackEntry.arguments?.getString("maKhachHang") ?: ""
             AccountDetails(
-                navHostController = navHostController,
-                khachHangViewModel = khachHangViewModel,
-                maKhachHang = maKhachHang
+            navHostController,khachHangViewModel,maKhachHang
             )
         }
 

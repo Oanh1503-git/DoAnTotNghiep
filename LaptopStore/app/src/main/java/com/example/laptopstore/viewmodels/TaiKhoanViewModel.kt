@@ -11,6 +11,7 @@ import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.laptopstore.RetrofitClient.LaptopStoreRetrofitClient
+import com.example.laptopstore.models.CustomerIDGenerator
 import com.example.laptopstore.models.KhachHang
 import com.example.laptopstore.models.TaiKhoan
 import kotlinx.coroutines.Dispatchers
@@ -27,6 +28,12 @@ class TaiKhoanViewModel : ViewModel {
     private lateinit var dataStore: DataStoreManager
 
     // State management using StateFlow
+    var isLoading = mutableStateOf(false)
+        private set
+
+    private val _themKhachHangResult = MutableStateFlow<String?>(null)
+    val themKhachHangResult: StateFlow<String?> = _themKhachHangResult
+
     private val _loginResult = MutableStateFlow<LoginResult?>(null)
     val loginResult: StateFlow<LoginResult?> = _loginResult
 
@@ -54,6 +61,8 @@ class TaiKhoanViewModel : ViewModel {
     var TaoTaiKhoanResult by mutableStateOf("")
     var taikhoanUpdateResult by mutableStateOf("")
 
+    private val _taiKhoan = MutableStateFlow<TaiKhoan?>(null)
+    val taiKhoan: StateFlow<TaiKhoan?> = _taiKhoan
     // Constructor không tham số (bắt buộc cho Jetpack Compose)
     constructor() : super()
 
@@ -62,11 +71,30 @@ class TaiKhoanViewModel : ViewModel {
         initWithContext(context)
     }
 
+    fun themkhachhang(khachhang: KhachHang)
+    {
+        viewModelScope.launch {
+            try{
+                val response=LaptopStoreRetrofitClient.khachHangAPIService.ThemKhachHang(khachhang)
+                _themKhachHangResult.value = if(response.success)
+                {
+                    "Đăng ký thành công: ${response.message}"
+                }else{
+                    "Đăng ký không thành công: ${response.message}"
+                }
+            }catch (e:Exception){
+                _themKhachHangResult.value = "Lỗi kết nối: ${e.message}"
+                Log.e("Thêm tài khoản", "Lỗi kết nối: ${e.message}")
+            }
+        }
+    }
+
+
     private fun initWithContext(context: Context) {
         this.context = context
         prefs = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
         dataStore = DataStoreManager(context)
-        
+
         Log.d("TaiKhoanViewModel", "Initializing with context")
         viewModelScope.launch {
             try {
@@ -96,7 +124,7 @@ class TaiKhoanViewModel : ViewModel {
                 _taikhoan.value = taiKhoanInfo
                 Log.d("TaiKhoanViewModel", "Lấy thông tin tài khoản thành công: $taiKhoanInfo")
                 Log.d("TaiKhoanViewModel", "MaKhachHang: ${taiKhoanInfo?.MaKhachHang}")
-                
+
                 // Nếu có MaKhachHang, lấy thông tin khách hàng
                 taiKhoanInfo?.MaKhachHang?.let { maKH ->
                     kiemTraThongTinKhachHang(maKH)
@@ -110,22 +138,39 @@ class TaiKhoanViewModel : ViewModel {
     private fun kiemTraThongTinKhachHang(maKH: String) {
         viewModelScope.launch {
             try {
-                val kh = LaptopStoreRetrofitClient.khachHangAPIService.getKhachHangById(maKH)
-                _khachHang.value = kh
-                _isThongTinDayDu.value = listOf(
-                    kh.HoTen,
-                    kh.GioiTinh,
-                    kh.NgaySinh,
-                    kh.Email,
-                    kh.SoDienThoai
+                Log.d("TaiKhoanViewModel", "Bắt đầu kiểm tra thông tin khách hàng: $maKH")
+
+                val response = LaptopStoreRetrofitClient.khachHangAPIService.getKhachHangById(maKH)
+                // Lấy data từ response
+                val khachHang = response.data
+
+                if (khachHang == null) {
+                    Log.e("TaiKhoanViewModel", "Không tìm thấy thông tin khách hàng")
+                    _isThongTinDayDu.value = false
+                    _khachHang.value = null
+                    return@launch
+                }
+
+                _khachHang.value = khachHang
+
+                val isValid = listOf(
+                    khachHang.HoTen,
+                    khachHang.GioiTinh,
+                    khachHang.NgaySinh,
+                    khachHang.Email,
+                    khachHang.SoDienThoai
                 ).all { it.isNotBlank() && it.lowercase() != "null" }
+
+                _isThongTinDayDu.value = isValid
+                Log.d("TaiKhoanViewModel", "Kiểm tra thông tin đầy đủ: $isValid")
+
             } catch (e: Exception) {
-                _isThongTinDayDu.value = false
                 Log.e("TaiKhoanViewModel", "Lỗi kiểm tra thông tin khách hàng: ${e.message}")
+                _isThongTinDayDu.value = false
+                _khachHang.value = null
             }
         }
     }
-
     fun kiemTraDangNhap(tendangnhap: String, matkhau: String) {
         viewModelScope.launch {
             try {
@@ -135,11 +180,11 @@ class TaiKhoanViewModel : ViewModel {
                     _isLoggedIn.value = true
                     dataStore.saveLoginState(tendangnhap)
                     saveLoginState(true, tendangnhap)
-                    
+
                     getTaiKhoanByTentaikhoan(tendangnhap)
-                    
+
                     _loginResult.value = LoginResult(true, "Đăng nhập thành công")
-                    
+
                     Log.d("TaiKhoanViewModel", "Đã cập nhật isLoggedIn = true")
                 } else {
                     Log.d("TaiKhoanViewModel", "Đăng nhập thất bại: ${response.message}")
@@ -267,4 +312,5 @@ class TaiKhoanViewModel : ViewModel {
             .remove("MaKhachHang")
             .apply()
     }
+
 }

@@ -1,28 +1,36 @@
 package com.example.laptopstore.viewmodels
 
 import android.util.Log
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
-import com.example.laptopstore.models.KhachHang
 import com.example.laptopstore.RetrofitClient.LaptopStoreRetrofitClient
+import com.example.laptopstore.models.KhachHang
+import com.example.laptopstore.models.CustomerIDGenerator
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class KhachHangViewModels: ViewModel(){
-    var khachhang by mutableStateOf<KhachHang?>(null)
-        private set
+class KhachHangViewModels : ViewModel() {
 
-    var khachhangUpdateResult by mutableStateOf("")
-        private set
+    // ✅ Hiển thị thông tin khách hàng cụ thể
 
-    var ThemKhachHangResult by mutableStateOf("")
+    // ✅ Trạng thái cập nhật khách hàng
+    var khachhangUpdateResult = MutableStateFlow<String?>(null)
 
+    // ✅ Trạng thái thêm khách hàng mới (success / fail / error)
+    private val _themKhachHangResult = MutableStateFlow<String?>(null)
+    val themKhachHangMoiResult: StateFlow<String?> = _themKhachHangResult
+
+    private val _khachhang = MutableStateFlow<KhachHang?>(null)
+    val khachhang: StateFlow<KhachHang?> = _khachhang
+
+    private val _makhachhang = MutableStateFlow<String?>(null)
+    val makhachhang: StateFlow<String?> = _makhachhang
+    // ✅ Load tất cả khách hàng (LiveData)
     val allKhachHang: LiveData<List<KhachHang>> = liveData(Dispatchers.IO) {
         try {
             val response = LaptopStoreRetrofitClient.khachHangAPIService.getAllKhachHang().execute()
@@ -35,46 +43,104 @@ class KhachHangViewModels: ViewModel(){
             emit(emptyList())
         }
     }
-    fun getKhachHangById(id: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+    fun getMaKhachHangTuAPI() {
+        viewModelScope.launch {
             try {
-                khachhang = LaptopStoreRetrofitClient.khachHangAPIService.getKhachHangById(id)
+                val response = LaptopStoreRetrofitClient.khachHangAPIService.taoMaKhachHang()
+                if (response.success) {
+                    _makhachhang.value = response.ma_khach_hang
+                    Log.d("KhachHang", "Mã khách hàng từ API: ${response.ma_khach_hang}")
+                } else {
+                    _makhachhang.value = null
+                    Log.e("KhachHang", "API trả lỗi: ${response}")
+                }
             } catch (e: Exception) {
-                Log.e("KhachHangViewModel", "Error getting khachhang", e)
+                Log.e("KhachHang", "Lỗi kết nối API mã KH: ${e.message}")
+                _makhachhang.value = null
             }
         }
     }
+
+
+    // ✅ Lấy khách hàng theo mã
+    fun getKhachHangById(id: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val response = LaptopStoreRetrofitClient.khachHangAPIService.getKhachHangById(id)
+                if (response.success) {
+                    _khachhang.value = response.data
+                    Log.d("KhachHangViewModel", "Lấy thông tin khách hàng thành công: ${response.data}")
+                } else {
+                    Log.e("KhachHangViewModel", "Lỗi: ${response.message}")
+                    _khachhang.value = null
+                }
+            } catch (e: Exception) {
+                Log.e("KhachHangViewModel", "Error getting khachhang", e)
+                _khachhang.value = null
+            }
+        }
+    }
+
+
+    // ✅ Cập nhật khách hàng
     fun updateKhachHang(khachhang: KhachHang) {
         viewModelScope.launch {
             try {
                 val response = withContext(Dispatchers.IO) {
                     LaptopStoreRetrofitClient.khachHangAPIService.updateKhachHang(khachhang)
                 }
-                khachhangUpdateResult = if (response.success) {
+                khachhangUpdateResult.value = if (response.success) {
                     "Cập nhật thành công: ${response.message}"
                 } else {
                     "Cập nhật thất bại: ${response.message}"
                 }
             } catch (e: Exception) {
-                khachhangUpdateResult = "Lỗi khi cập nhật khách hàng: ${e.message}"
-                Log.e("GioHang Error", "Lỗi khi cập nhật khách hàng: ${e.message}")
+                khachhangUpdateResult.value = "Lỗi khi cập nhật khách hàng: ${e.message}"
+                Log.e("KhachHang", "Lỗi khi cập nhật khách hàng", e)
             }
         }
     }
-    fun themkhachhang(khachhang: KhachHang)
-    {
+
+    // ✅ Thêm khách hàng mới
+    fun themkhachhang(khachhang: KhachHang) {
         viewModelScope.launch {
-            try{
-                val response=LaptopStoreRetrofitClient.khachHangAPIService.ThemKhachHang(khachhang)
-                ThemKhachHangResult=if(response.success)
-                {
-                    "Đăng ký thành công: ${response.message}"
-                }else{
-                    "Đăng ký không thành công: ${response.message}"
+            try {
+                val response = LaptopStoreRetrofitClient.khachHangAPIService.ThemKhachHang(khachhang)
+                _themKhachHangResult.value = if (response.success) {
+                    Log.d("KhachHang", "Tạo khách hàng thành công")
+                    "success"
+                } else {
+                    Log.e("KhachHang", "Tạo thất bại: ${response.message}")
+                    "fail"
                 }
-            }catch (e:Exception){
-                Log.e("Thêm tài khoản", "Lỗi kết nối: ${e.message}")
+            } catch (e: Exception) {
+                _themKhachHangResult.value = "error"
+                Log.e("KhachHang", "Lỗi tạo khách hàng: ${e.message}")
             }
         }
+    }
+
+    // ✅ Reset kết quả sau khi sử dụng xong
+    fun resetThemKhachHangResult() {
+        _themKhachHangResult.value = null
+    }
+
+    // ✅ Lấy số lượng khách hàng từ API
+    private suspend fun getCustomerCount(): Int {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = LaptopStoreRetrofitClient.khachHangAPIService.getSoLuongKhachHang()
+                if (response.success) response.so_luong else 0
+            } catch (e: Exception) {
+                Log.e("KhachHang", "Lỗi khi lấy số lượng khách hàng", e)
+                0
+            }
+        }
+    }
+
+    // ✅ Tạo mã khách hàng mới tự động
+    suspend fun generateNewCustomerId(): String {
+        val customerCount = getCustomerCount()
+        return CustomerIDGenerator.generateCustomerId(customerCount)
     }
 }

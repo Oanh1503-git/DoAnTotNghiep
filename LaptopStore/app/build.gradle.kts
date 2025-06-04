@@ -76,6 +76,8 @@ dependencies {
     implementation(libs.engage.core)
     implementation(libs.androidx.room.runtime.android)
     implementation(libs.play.services.analytics.impl)
+    implementation(libs.androidx.animation.core.android)
+    implementation(libs.androidx.animation.core.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

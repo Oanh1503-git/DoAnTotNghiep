@@ -34,11 +34,6 @@ interface SanPhamAPIService{
     ): SanPham
 
 
-//    @GET("SanPham/show.php")
-//    suspend fun getSanPhamById(
-//        @Query("id") id: String
-//    ): SanPham
-
     @GET("SanPham/searchTenSanPham.php")
     suspend fun searchTenSanPham(@Query("query") query: String): SeachSanphamResponse
 
@@ -53,6 +48,6 @@ interface SanPhamAPIService{
     @PUT("SanPham/update.php")
     suspend fun updateSanPham(
         @Body sanpham: SanPham
-    ): KhachHangUpdateResponse
+    ): BaseResponse
 
 }

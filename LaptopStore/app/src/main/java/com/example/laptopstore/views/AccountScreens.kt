@@ -30,30 +30,29 @@ fun AccountScreens(
     savedStateHandle : SavedStateHandle
 ) {
     val isLoggedIn by taiKhoanViewModel.isLoggedIn.collectAsState()
-    val taikhoan by taiKhoanViewModel.taikhoan.collectAsState()
-    val tentaikhoan by taiKhoanViewModel.tentaikhoan.collectAsState()
-    
-    // Get MaKhachHang safely
-    val maKhachHang = taikhoan?.MaKhachHang
-    
+    val tentaikhoan = taiKhoanViewModel.tentaikhoan
     taiKhoanViewModel.setTempAccountLogin(isLoggedIn)
+    val tenTaiKhoan by taiKhoanViewModel.tentaikhoan.collectAsState()
+    val maKhachHang = taiKhoanViewModel.taikhoan.collectAsState().value?.MaKhachHang
 
-    // Debug logging
-    LaunchedEffect(taikhoan) {
-        Log.d("AccountScreen", "TaiKhoan changed: $taikhoan")
-        Log.d("AccountScreen", "TenTaiKhoan: ${taikhoan?.TenTaiKhoan}")
-        Log.d("AccountScreen", "MaKhachHang: ${taikhoan?.MaKhachHang}")
+    LaunchedEffect(tenTaiKhoan) {
+        Log.d("AccountScreen", "Tên tài khoản hiện tại: $tenTaiKhoan")
     }
 
     LaunchedEffect(isLoggedIn) {
         savedStateHandle["login_state"] = isLoggedIn
         Log.d("AccountScreen", "Saved login state: $isLoggedIn")
-        taiKhoanViewModel.setTempAccountLogin(isLoggedIn)
     }
-
+    LaunchedEffect(taiKhoanViewModel.taikhoan) {
+        val maKhachHang = taiKhoanViewModel.taikhoan?.value
+        Log.d("AccountScreen", "MaKhachHang: $maKhachHang")
+    }
     // Dialog xác nhận đăng xuất
     var showLogoutDialog by remember { mutableStateOf(false) }
-
+    LaunchedEffect(isLoggedIn) {
+         taiKhoanViewModel.setTempAccountLogin(isLoggedIn)
+        Log.d("account", "$isLoggedIn")
+    }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -161,7 +160,7 @@ fun AccountScreens(
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             Text(
-                                text = "Xin chào, ${taikhoan?.TenTaiKhoan ?: "Người dùng"}!",
+                                text = "Xin chào, ${tenTaiKhoan ?: "Người dùng"}!",
                                 fontSize = 18.sp,
                                 fontWeight = FontWeight.Bold
                             )
@@ -206,11 +205,8 @@ fun AccountScreens(
                         icon = Icons.Default.Person,
                         text = "Thông Tin Khách Hàng",
                         onClick = {
-                            val currentMaKH = taikhoan?.MaKhachHang
-                            if (!currentMaKH.isNullOrEmpty()) {
-                                navHostController.navigate(Screens.ACCOUNTDETAIL.createRoute(currentMaKH))
-                            } else {
-                                Log.d("AccountScreen", "MaKhachHang is null or empty")
+                            maKhachHang?.let {
+                                navHostController.navigate(Screens.ACCOUNTDETAIL.createRoute(it))
                             }
                         }
                     )
@@ -220,12 +216,9 @@ fun AccountScreens(
                     AccountItem(
                         icon = Icons.Default.AddLocation,
                         text = "Sổ Địa Chỉ",
-                        onClick = { 
-                            val currentMaKH = taikhoan?.MaKhachHang
-                            if (!currentMaKH.isNullOrEmpty()) {
-                                navHostController.navigate(Screens.ADDRESS.createRoute(currentMaKH))
-                            } else {
-                                Log.d("AccountScreen", "MaKhachHang is null or empty")
+                        onClick = {
+                            maKhachHang?.let {
+                                navHostController.navigate(Screens.ADDRESS.createRoute(it))
                             }
                         }
                     )

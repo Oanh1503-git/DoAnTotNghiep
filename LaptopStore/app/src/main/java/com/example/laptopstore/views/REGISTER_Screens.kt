@@ -1,7 +1,8 @@
 package com.example.laptopstore.views
 
-
+import kotlinx.coroutines.flow.collect
 import android.icu.text.CaseMap.Title
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -27,6 +28,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -40,12 +42,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.laptopstore.RetrofitClient.LaptopStoreRetrofitClient
 import com.example.laptopstore.models.KhachHang
 import com.example.laptopstore.models.Screens
 import com.example.laptopstore.models.TaiKhoan
 import com.example.laptopstore.viewmodels.KhachHangViewModels
 import com.example.laptopstore.viewmodels.TaiKhoanViewModel
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -60,13 +65,16 @@ fun Register_Screen(
     var matkhau by remember { mutableStateOf("") }
     var comfirmatkhau by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
-
     val openDialog = remember { mutableStateOf(false) }
     val dialogMessage = remember { mutableStateOf("") }
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
-    val checkResult = taiKhoanViewModel.checkUsernameResult.value
-
+    var hoTen by remember { mutableStateOf("") }
+    var gioiTinh by remember { mutableStateOf("") }
+    var ngaySinh by remember { mutableStateOf("") }
+    var soDienThoai by remember { mutableStateOf("") }
+    val themKhachHangResult by taiKhoanViewModel.themKhachHangResult.collectAsState()
+    val checkResult by taiKhoanViewModel.checkUsernameResult.collectAsState()
 
     Scaffold(
         containerColor = Color.White,
@@ -136,6 +144,65 @@ fun Register_Screen(
                         focusedLabelColor = Color.Red
                     )
                 )
+                Spacer(modifier = Modifier.padding(15.dp))
+                Text("Nhập thông tin cá nhân")
+                Spacer(modifier = Modifier.height(15.dp))
+
+                OutlinedTextField(
+                    value = hoTen,
+                    onValueChange = { hoTen = it },
+                    label = { Text("Họ tên") },
+                    shape = RoundedCornerShape(17.dp),
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = Color.Red,
+                        unfocusedBorderColor = Color.Red,
+                        focusedLabelColor = Color.Red
+                    )
+                )
+                Spacer(modifier = Modifier.height(15.dp))
+
+                OutlinedTextField(
+                    value = gioiTinh,
+                    onValueChange = { gioiTinh = it },
+                    label = { Text("Giới tính (Nam/Nữ)") },
+                    shape = RoundedCornerShape(17.dp),
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = Color.Red,
+                        unfocusedBorderColor = Color.Red,
+                        focusedLabelColor = Color.Red
+                    )
+                )
+                Spacer(modifier = Modifier.height(15.dp))
+
+                OutlinedTextField(
+                    value = ngaySinh,
+                    onValueChange = { ngaySinh = it },
+                    label = { Text("Ngày sinh (YYYY-MM-DD)") },
+                    shape = RoundedCornerShape(17.dp),
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = Color.Red,
+                        unfocusedBorderColor = Color.Red,
+                        focusedLabelColor = Color.Red
+                    )
+                )
+                Spacer(modifier = Modifier.height(15.dp))
+
+                OutlinedTextField(
+                    value = soDienThoai,
+                    onValueChange = { soDienThoai = it },
+                    label = { Text("Số điện thoại") },
+                    shape = RoundedCornerShape(17.dp),
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = Color.Red,
+                        unfocusedBorderColor = Color.Red,
+                        focusedLabelColor = Color.Red
+                    )
+                )
+                Spacer(modifier = Modifier.height(15.dp))
 
                 Spacer(modifier = Modifier.height(15.dp))
 
@@ -161,6 +228,33 @@ fun Register_Screen(
                              }
                              comfirmatkhau.isEmpty()->{
                                  scope.launch { snackbarHostState.showSnackbar("Nhập lại Mật khẩu không được để trống")  }
+                             }
+                             hoTen.isEmpty() -> {
+                                 scope.launch { snackbarHostState.showSnackbar("Họ tên không được để trống") }
+                             }
+                             gioiTinh.isEmpty() -> {
+                                 scope.launch { snackbarHostState.showSnackbar("Giới tính không được để trống") }
+                             }
+                             !gioiTinh.equals("Nam", ignoreCase = true) && !gioiTinh.equals("Nữ", ignoreCase = true) -> {
+                                 scope.launch { snackbarHostState.showSnackbar("Giới tính phải là Nam hoặc Nữ") }
+                             }
+                             ngaySinh.isEmpty() -> {
+                                 scope.launch { snackbarHostState.showSnackbar("Ngày sinh không được để trống") }
+                             }
+                             !ngaySinh.matches(Regex("^\\d{4}-\\d{2}-\\d{2}$")) -> {
+                                 scope.launch { snackbarHostState.showSnackbar("Ngày sinh phải đúng định dạng YYYY-MM-DD") }
+                             }
+                             soDienThoai.isEmpty() -> {
+                                 scope.launch { snackbarHostState.showSnackbar("Số điện thoại không được để trống") }
+                             }
+                             !soDienThoai.matches(Regex("^0\\d{9}$")) -> {
+                                 scope.launch { snackbarHostState.showSnackbar("Số điện thoại phải bắt đầu bằng số 0 và có 10 chữ số") }
+                             }
+                             email.isEmpty() -> {
+                                 scope.launch { snackbarHostState.showSnackbar("Email không được để trống") }
+                             }
+                             !email.matches(Regex("^[A-Za-z0-9+_.-]+@(.+)$")) -> {
+                                 scope.launch { snackbarHostState.showSnackbar("Email không đúng định dạng") }
                              }
                              matkhau !=comfirmatkhau->{
                                  scope.launch { snackbarHostState.showSnackbar("Mật khẩu và nhập lại mật khẩu không trùng khớp")  }
@@ -212,40 +306,66 @@ fun Register_Screen(
     }
     LaunchedEffect(checkResult) {
         checkResult?.let {
-            if (it.result) {
-                scope.launch {
-                    snackbarHostState.showSnackbar("Tên tài khoản đã tồn tại")
-                }
+            if (it.result == false ) {
+                snackbarHostState.showSnackbar("Tên tài khoản đã tồn tại")
             } else {
-                // Tiến hành tạo tài khoản
-                val newkhachhang = KhachHang(
-                    MaKhachHang = "",
-                    HoTen = tentaikhoan,
-                    GioiTinh = "Nam",
-                    NgaySinh = "",
-                    Email = email,
-                    SoDienThoai = ""
-                )
-                khachHangViewModel.themkhachhang(newkhachhang)
+                try {
+                    val maKhachHang = LaptopStoreRetrofitClient.khachHangAPIService.taoMaKhachHang().ma_khach_hang
 
-                val newTaiKhoan = TaiKhoan(
-                    TenTaiKhoan = tentaikhoan,
-                    MaKhachHang = "",
-                    MatKhau = comfirmatkhau,
-                    LoaiTaiKhoan = 0,
-                    TrangThai = 1
-                )
-                taiKhoanViewModel.TaoTaiKhoan(newTaiKhoan)
+                    val newkhachhang = KhachHang(
+                        MaKhachHang = maKhachHang,
+                        HoTen = hoTen,
+                        GioiTinh = gioiTinh,
+                        NgaySinh = ngaySinh,
+                        Email = email,
+                        SoDienThoai = soDienThoai
+                    )
 
-                dialogMessage.value = "Đăng ký thành công"
-                openDialog.value = true
-                issuccess = true
+                    val newTaiKhoan = TaiKhoan(
+                        TenTaiKhoan = tentaikhoan,
+                        MaKhachHang = maKhachHang,
+                        MatKhau = comfirmatkhau,
+                        LoaiTaiKhoan = 0,
+                        TrangThai = 1
+                    )
+
+                    // Gửi yêu cầu tạo khách hàng
+                    khachHangViewModel.themkhachhang(newkhachhang)
+
+                    // Thu thập kết quả trong coroutine
+                    scope.launch {
+                        khachHangViewModel.themKhachHangMoiResult.collect{ result: String? ->
+                            when (result) {
+                                "success" -> {
+                                    taiKhoanViewModel.TaoTaiKhoan(newTaiKhoan)
+                                    Log.d("Đăng ký", "Tạo tài khoản sau khi KH thành công")
+                                    dialogMessage.value = "Đăng ký thành công"
+                                    openDialog.value = true
+                                    issuccess = true
+                                }
+                                "fail" -> {
+                                    Log.e("Đăng ký", "Tạo khách hàng thất bại từ API")
+                                }
+                                "error" -> {
+                                    Log.e("Đăng ký", "Lỗi khi gọi API tạo khách hàng")
+                                }
+                                else -> {
+                                    Log.e("Đăng ký", "Trạng thái không xác định")
+                                }
+                            }
+                        }
+                    }
+
+                } catch (e: Exception) {
+                    Log.e("Đăng ký", "Lỗi khi đăng ký: ${e.message}")
+                    snackbarHostState.showSnackbar("Đăng ký thất bại: ${e.message}")
+                }
             }
 
-            // Reset lại sau khi xử lý xong
             taiKhoanViewModel.resetCheckResult()
         }
     }
+
 
     if (openDialog.value) {
         AlertDialog(
