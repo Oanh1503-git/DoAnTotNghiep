@@ -17,7 +17,8 @@ import com.example.laptopstore.viewmodels.SanPhamViewModel
 import com.example.laptopstore.viewmodels.TaiKhoanViewModel
 import com.example.lapstore.viewmodels.DiaChiViewmodel
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.laptopstore.AddressScreens
+import com.example.laptopstore.AddressScreen
+
 import com.example.laptopstore.viewmodels.GioHangViewModel
 import com.example.laptopstore.views.*
 
@@ -76,7 +77,12 @@ fun NavigationGraph(
             arguments = listOf(navArgument("productId") { type = NavType.IntType })
         ) { backStackEntry ->
             val productId = backStackEntry.arguments?.getInt("productId") ?: 0
-            ProductDetail(navController = navHostController, productId = productId)
+            ProductDetail(
+                navController = navHostController,
+                productId = productId,
+                taiKhoanViewModel = taiKhoanViewModel,
+                // bạn nên truyền thêm các ViewModel khác nếu ProductDetail cần
+            )
         }
 
         composable(Screens.Login_Screens.route) {
@@ -97,19 +103,13 @@ fun NavigationGraph(
         ) { backStackEntry ->
             val maKhachHang = backStackEntry.arguments?.getString("maKhachHang") ?: ""
             AccountDetails(
-            navHostController,khachHangViewModel,maKhachHang
+            navHostController,khachHangViewModel,taiKhoanViewModel
             )
         }
 
-        composable(
-            route = Screens.ADDRESS.route,
-            arguments = listOf(
-                navArgument("maKhachHang") { type = NavType.IntType }
-            )
-        ) { backStackEntry ->
-            val maKhachHang = backStackEntry.arguments?.getString("maKhachHang") ?: return@composable
-            AddressScreens(
-                navHostController,diaChiViewModel,maKhachHang
+        composable(Screens.ADDRESS.route) {
+            AddressScreen(
+                navHostController, diaChiViewModel, taiKhoanViewModel
             )
         }
     }

@@ -15,17 +15,23 @@ import androidx.navigation.NavHostController
 import com.example.laptopstore.models.KhachHang
 import com.example.laptopstore.models.Screens
 import com.example.laptopstore.viewmodels.KhachHangViewModels
+import com.example.laptopstore.viewmodels.TaiKhoanViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AccountDetails(
     navController: NavHostController,
     khachHangViewModels: KhachHangViewModels,
-    maKhachHang: String
+    taiKhoanViewModel: TaiKhoanViewModel
 ) {
+    // Lấy mã khách hàng từ ViewModel dùng chung
+    val taiKhoan by taiKhoanViewModel.taikhoan.collectAsState()
+    val maKhachHang = taiKhoan?.MaKhachHang.orEmpty()
 
+    // Lấy thông tin khách hàng chi tiết từ ViewModel
     val khachHang by khachHangViewModels.khachhang.collectAsState()
-    var maKhachHangState by remember { mutableStateOf("") }
+
+    // State cho form
     var hoTen by remember { mutableStateOf("") }
     var sdt by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
@@ -35,15 +41,14 @@ fun AccountDetails(
     var isEditing by remember { mutableStateOf(false) }
     var isLoading by remember { mutableStateOf(false) }
     var error by remember { mutableStateOf<String?>(null) }
+
+    // Khi có mã khách hàng, load thông tin khách hàng
     LaunchedEffect(maKhachHang) {
-        Log.d("KhachHang", "mã khách hàng on accoutdetals $maKhachHang")
         if (maKhachHang.isNotEmpty()) {
             isLoading = true
             try {
-                Log.d("KhachHang", "Đang tải thông tin khách hàng: $maKhachHang")
                 khachHangViewModels.getKhachHangById(maKhachHang)
             } catch (e: Exception) {
-                Log.e("KhachHang", "Lỗi khi tải thông tin: ${e.message}")
                 error = "Không thể tải thông tin khách hàng"
             } finally {
                 isLoading = false
@@ -51,17 +56,14 @@ fun AccountDetails(
         }
     }
 
-    // Cập nhật state khi có dữ liệu khách hàng mới
+    // Khi dữ liệu khách hàng thay đổi, cập nhật form
     LaunchedEffect(khachHang) {
-        Log.d("KhachHang", "Dữ liệu khách hàng nhận được: $khachHang")
         khachHang?.let {
-            maKhachHangState = maKhachHang
             hoTen = it.HoTen
             sdt = it.SoDienThoai
             email = it.Email
             gioiTinh = it.GioiTinh
             ngaySinh = it.NgaySinh
-            Log.d("KhachHang", "Đã cập nhật thông tin: Họ tên=$hoTen, SDT=$sdt")
         }
     }
 
@@ -77,9 +79,7 @@ fun AccountDetails(
                     }
                 },
                 actions = {
-                    IconButton(onClick = {
-                        isEditing = !isEditing
-                    }) {
+                    IconButton(onClick = { isEditing = !isEditing }) {
                         Icon(Icons.Default.Edit, contentDescription = "Chỉnh sửa")
                     }
                 }
@@ -132,7 +132,7 @@ fun AccountDetails(
                 Button(
                     onClick = {
                         val updatedKhachHang = KhachHang(
-                            MaKhachHang = maKhachHangState,
+                            MaKhachHang = maKhachHang,
                             HoTen = hoTen,
                             SoDienThoai = sdt,
                             Email = email,
@@ -157,4 +157,3 @@ fun AccountDetails(
         }
     }
 }
-

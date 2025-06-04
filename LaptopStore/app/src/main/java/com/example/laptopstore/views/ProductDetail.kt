@@ -63,9 +63,6 @@ data class Review(
     val date: String
 )
 
-
-
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductDetail(
@@ -325,6 +322,7 @@ fun ProductDetail(
                                         }
                                 ) {
                                     AsyncImage(
+
                                         model = productImages[index].DuongDan,
                                         contentDescription = "Hình thu nhỏ ${index + 1}",
                                         modifier = Modifier.fillMaxSize(),

@@ -1,6 +1,7 @@
 package com.example.lapstore.viewmodels
 
 import DeleteDiaChiRequest
+import UpdateMacDinhRequest
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -12,150 +13,176 @@ import com.example.laptopstore.models.DiaChi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class DiaChiViewmodel:ViewModel() {
+class DiaChiViewmodel : ViewModel() {
 
-    var listDiacHi by mutableStateOf<List<DiaChi>>(emptyList())
+    // StateFlow quản lý danh sách địa chỉ phục vụ cho UI Compose auto update
+    private val _listDiaChi = MutableStateFlow<List<DiaChi>>(emptyList())
+    val listDiaChi: StateFlow<List<DiaChi>> get() = _listDiaChi
 
-    var diachi by mutableStateOf<DiaChi?>(null)
+    // Địa chỉ đang thao tác (xem/sửa)
+    var diaChi by mutableStateOf<DiaChi?>(null)
         private set
 
-    var diachiAddResult by mutableStateOf("")
-    var diachiUpdateResult by mutableStateOf("")
+    // Kết quả thêm/sửa địa chỉ
+    var diaChiAddResult by mutableStateOf("")
+    var diaChiUpdateResult by mutableStateOf("")
 
-    private val _danhsachDiaChi = MutableStateFlow<List<DiaChi>>(emptyList())
-    val danhsachDiaChi: StateFlow<List<DiaChi>> get() = _danhsachDiaChi
-
-    fun getDiaChiByMaDiaChi(madiachi: Int) {
+    // Lấy địa chỉ theo mã địa chỉ
+    fun getDiaChiByMaDiaChi(maDiaChi: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                diachi = LaptopStoreRetrofitClient.diaChiAPIService.getDiaChiByMaDiaChi(madiachi)
+                val result = LaptopStoreRetrofitClient.diaChiAPIService.getDiaChiByMaDiaChi(maDiaChi)
+                diaChi = result
             } catch (e: Exception) {
-                Log.e("Dia Chi ViewModel", "Error getting Dia Chi", e)
+                Log.e("DiaChiViewmodel", "Error getting DiaChi by ID: ${e.message}")
             }
         }
     }
 
-//    fun getDiaChiByMaDiaChi2(madiachi: Int) {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            try {
-//                val diachi = LaptopStoreRetrofitClient.diaChiAPIService.getDiaChiByMaDiaChi(madiachi)
-//                _danhsachDiaChi.update { currentList -> currentList + diachi }
-//            } catch (e: Exception) {
-//                Log.e("SanPhamViewModel", "Error getting SanPham", e)
-//            }
-//        }
-//    }
-
-    fun getDiaChiKhachHang(MaKhachHang: String?) {
+    // Lấy danh sách địa chỉ theo mã khách hàng
+    fun getDiaChiKhachHang(maKhachHang: String?) {
         viewModelScope.launch {
             try {
                 val response = withContext(Dispatchers.IO) {
-                    LaptopStoreRetrofitClient.diaChiAPIService.getDiaChiByMaKhachHang(MaKhachHang)
+                    LaptopStoreRetrofitClient.diaChiAPIService.getDiaChiByMaKhachHang(maKhachHang)
                 }
-                listDiacHi = response.diachi ?: emptyList() // Gán giá trị mảng rỗng nếu response.diachi null
+                _listDiaChi.value = response
             } catch (e: Exception) {
-                Log.e("Dia Chi Error", "Lỗi khi lấy dia chi: ${e.message}")
-                listDiacHi = emptyList()
+                Log.e("DiaChiViewmodel", "Lỗi khi lấy danh sách địa chỉ: ${e.message}")
+                _listDiaChi.value = emptyList()
             }
         }
     }
 
+    // Làm mới danh sách địa chỉ (gọi lại API)
+    fun refreshDiaChiKhachHang(maKhachHang: String?) {
+        getDiaChiKhachHang(maKhachHang)
+    }
+
+    // Lấy địa chỉ mặc định theo mã khách hàng
     fun getDiaChiMacDinh(maKhachHang: String?, macDinh: Int?) {
         if (maKhachHang == null || macDinh == null) {
-            Log.e("DiaChiViewModel", "Tham số MaKhachHang hoặc MacDinh bị null")
-            return // Ngừng xử lý nếu tham số null
+            Log.e("DiaChiViewmodel", "Tham số MaKhachHang hoặc MacDinh bị null")
+            return
         }
-
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                diachi = LaptopStoreRetrofitClient.diaChiAPIService.getDiaChiMacDinh(
+                val result = LaptopStoreRetrofitClient.diaChiAPIService.getDiaChiMacDinh(
                     MaKhachHang = maKhachHang,
                     MacDinh = macDinh
                 )
-                Log.d("DiaChiViewModel", "Đã lấy địa chỉ thành công: $diachi")
+                diaChi = result
             } catch (e: Exception) {
-                Log.e("DiaChiViewModel", "Lỗi khi lấy địa chỉ mặc định", e)
+                Log.e("DiaChiViewmodel", "Lỗi khi lấy địa chỉ mặc định: ${e.message}")
             }
         }
     }
 
-    fun addDiaChi(diachi:DiaChi) {
+    // Đặt một địa chỉ là mặc định
+    fun setDiaChiMacDinh(maKhachHang: String?, maDiaChi: Int) {
         viewModelScope.launch {
             try {
-                // Gọi API để thêm sản phẩm vào giỏ hàng trên server
-                val response = LaptopStoreRetrofitClient.diaChiAPIService.addDiaChi(diachi)
-                diachiAddResult = if (response.success) {
+                val request = UpdateMacDinhRequest(maKhachHang ?: "", maDiaChi)
+                val response = withContext(Dispatchers.IO) {
+                    LaptopStoreRetrofitClient.diaChiAPIService.updateDiaChiMacDinh(request)
+                }
+                if (response.success) {
+                    getDiaChiKhachHang(maKhachHang)
+                }
+            } catch (e: Exception) {
+                Log.e("DiaChiViewmodel", "Lỗi khi đặt địa chỉ mặc định: ${e.message}")
+            }
+        }
+    }
+
+    // Thêm địa chỉ mới
+    fun addDiaChi(diaChi: DiaChi, maKhachHang: String) {
+        viewModelScope.launch {
+            try {
+                val response = LaptopStoreRetrofitClient.diaChiAPIService.addDiaChi(diaChi)
+                diaChiAddResult = if (response.success) {
+                    getDiaChiKhachHang(maKhachHang)
                     "Cập nhật thành công: ${response.message}"
                 } else {
                     "Cập nhật thất bại: ${response.message}"
                 }
             } catch (e: Exception) {
-                Log.e("Add Dia Chi", "Lỗi kết nối: ${e.message}")
+                diaChiAddResult = "Lỗi kết nối: ${e.message}"
+                Log.e("DiaChiViewmodel", "Lỗi khi thêm địa chỉ: ${e.message}")
             }
         }
     }
 
-    fun updateDiaChi(diachi: DiaChi) {
+    // Sửa địa chỉ
+    fun updateDiaChi(diaChi: DiaChi, maKhachHang: String) {
         viewModelScope.launch {
             try {
                 val response = withContext(Dispatchers.IO) {
-                    LaptopStoreRetrofitClient.diaChiAPIService.updateDiaChi(diachi)
+                    LaptopStoreRetrofitClient.diaChiAPIService.updateDiaChi(diaChi)
                 }
-                diachiUpdateResult = if (response.success) {
+                diaChiUpdateResult = if (response.success) {
+                    getDiaChiKhachHang(maKhachHang)
                     "Cập nhật thành công: ${response.message}"
                 } else {
                     "Cập nhật thất bại: ${response.message}"
                 }
             } catch (e: Exception) {
-                diachiUpdateResult = "Lỗi khi cập nhật giỏ hàng: ${e.message}"
-                Log.e("GioHang Error", "Lỗi khi cập nhật giỏ hàng: ${e.message}")
+                diaChiUpdateResult = "Lỗi khi cập nhật địa chỉ: ${e.message}"
+                Log.e("DiaChiViewmodel", "Lỗi khi cập nhật địa chỉ: ${e.message}")
             }
         }
     }
 
-    fun updateDiaChiMacDinh(MaKhachHang: String) {
+    // Xóa địa chỉ
+    fun deleteDiaChi(maDiaChi: Int, maKhachHang: String) {
         viewModelScope.launch {
             try {
-                val response = withContext(Dispatchers.IO) {
-                    LaptopStoreRetrofitClient.diaChiAPIService.updateDiaChiMacDinh(MaKhachHang)
-                }
-                diachiUpdateResult = if (response.success) {
-                    "Cập nhật thành công: ${response.message}"
-                } else {
-                    "Cập nhật thất bại: ${response.message}"
-                }
-            } catch (e: Exception) {
-                diachiUpdateResult = "Lỗi khi cập nhật giỏ hàng: ${e.message}"
-                Log.e("GioHang Error", "Lỗi khi cập nhật giỏ hàng: ${e.message}")
-            }
-        }
-    }
-
-    fun deleteDiaChi(madiachi: Int) {
-        viewModelScope.launch {
-            try {
-                val deleteRequest = DeleteDiaChiRequest(madiachi)
+                val deleteRequest = DeleteDiaChiRequest(maDiaChi)
                 val response = LaptopStoreRetrofitClient.diaChiAPIService.deleteDiaChi(deleteRequest)
                 if (response.isSuccessful) {
                     val apiResponse = response.body()
                     if (apiResponse?.message == "Dia chi Deleted") {
-                        // Cập nhật lại giỏ hàng trong ViewModel
-                        listDiacHi = listDiacHi.filter { it.MaDiaChi != madiachi }
-                        Log.d("DiaChiViewModel", "Dia chi đã được xóa")
+                        getDiaChiKhachHang(maKhachHang)
+                        Log.d("DiaChiViewmodel", "Địa chỉ đã được xóa")
                     } else {
-                        Log.e("DiaChiViewModel", "Lỗi: ${apiResponse?.message}")
+                        Log.e("DiaChiViewmodel", "Lỗi: ${apiResponse?.message}")
                     }
                 } else {
-                    Log.e("DiaChiViewModel", "Error: ${response.message()}")
+                    Log.e("DiaChiViewmodel", "Error: ${response.message()}")
                 }
             } catch (e: Exception) {
-                Log.e("DiaChiViewModel", "Exception: ${e.message}")
+                Log.e("DiaChiViewmodel", "Exception: ${e.message}")
             }
         }
     }
 
+    // Kiểm tra địa chỉ đã tồn tại (trùng lặp)
+    fun isDiaChiDuplicated(soDienThoai: String, thongTinDiaChi: String): Boolean {
+        return _listDiaChi.value.any {
+            it.SoDienThoai == soDienThoai && it.ThongTinDiaChi == thongTinDiaChi
+        }
+    }
+
+    // Xóa toàn bộ trạng thái kết quả, thường gọi khi mở form mới
+    fun clearDiaChiResult() {
+        diaChiAddResult = ""
+        diaChiUpdateResult = ""
+    }
+
+    // Tìm kiếm địa chỉ theo tên người nhận hoặc số điện thoại
+    fun searchDiaChi(query: String): List<DiaChi> {
+        val lowerQuery = query.trim().lowercase()
+        return _listDiaChi.value.filter {
+            it.TenNguoiNhan.lowercase().contains(lowerQuery) ||
+                    it.SoDienThoai.contains(lowerQuery)
+        }
+    }
+
+    // Lấy địa chỉ mặc định duy nhất (nếu có)
+    fun getOnlyMacDinh(): DiaChi? {
+        return _listDiaChi.value.find { it.MacDinh == 1 }
+    }
 }

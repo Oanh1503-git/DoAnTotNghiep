@@ -19,6 +19,10 @@ data class addDiaChiResponse(
 data class DeleteDiaChiRequest(
     val MaDiaChi: Int
 )
+data class UpdateMacDinhRequest(
+    val MaKhachHang: String,
+    val MaDiaChi: Int
+)
 
 interface DiaChiAPIService{
     @GET("DiaChi/show.php")
@@ -35,23 +39,18 @@ interface DiaChiAPIService{
     @GET("DiaChi/getdiachibykhachhang.php")
     suspend fun getDiaChiByMaKhachHang(
         @Query("MaKhachHang") MaKhachHang: String?
-    ): DiaChiResponse
+    ): List<DiaChi>
 
     @POST("DiaChi/create.php")
     suspend fun addDiaChi(
         @Body diachi: DiaChi
     ): addDiaChiResponse
 
+    suspend fun updateDiaChiMacDinh(@Body request: UpdateMacDinhRequest): addDiaChiResponse
     @PUT("DiaChi/update.php")
     suspend fun updateDiaChi(
         @Body diachi: DiaChi
     ): addDiaChiResponse
-
-    @PUT("DiaChi/updatediachimacdinh.php")
-    suspend fun updateDiaChiMacDinh(
-        @Body makhachhang: String
-    ): addDiaChiResponse
-
     @POST("DiaChi/delete.php")
     suspend fun deleteDiaChi(
         @Body MaDiaChi: DeleteDiaChiRequest
