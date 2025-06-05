@@ -80,7 +80,8 @@ fun ProductDetail(
     val reviews by binhLuanViewModel.reviewsByProductId.collectAsState(initial = emptyList())
     val isFavorite by sanPhamYeuThichViewModel.isFavorite.collectAsState(initial = false)
     val giohangAddResult by gioHangViewModel.giohangAddResult.collectAsState(initial = "")
-    
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
     // Collect StateFlow values
     val taikhoan by taiKhoanViewModel.taikhoan.collectAsState()
     val isLoggedIn by taiKhoanViewModel.isLoggedIn.collectAsState()
@@ -88,18 +89,15 @@ fun ProductDetail(
 
     // Get MaKhachHang safely
     val maKhachHang = khachHang?.MaKhachHang
-
+    var isAddingToCart by remember { mutableStateOf(false) }
 
     var isLoading by remember { mutableStateOf(true) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
     var showLoginDialog by remember { mutableStateOf(false) }
-    val context = LocalContext.current
-
     // State cho form bình luận
     var commentText by remember { mutableStateOf("") }
     var rating by remember { mutableStateOf(5) }
     var isSubmitting by remember { mutableStateOf(false) }
-
     // Debug logging
     LaunchedEffect(taikhoan) {
         Log.d("ProductDetail", "TaiKhoan changed: $taikhoan")
@@ -202,10 +200,8 @@ fun ProductDetail(
 
     LaunchedEffect(giohangAddResult) {
         if (giohangAddResult.isNotEmpty()) {
-            Toast.makeText(context, giohangAddResult, Toast.LENGTH_SHORT).show()
-            if (giohangAddResult.startsWith("Thêm vào giỏ hàng thành công")) {
-                navController.navigate("cartScreen")
-            }
+            isAddingToCart = false
+            Toast.makeText(context, "Thêm thành công", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -356,7 +352,7 @@ fun ProductDetail(
                                     showLoginDialog = true
                                     Log.d("ProductDetail", "Showing login dialog - MaKhachHang is null or empty")
                                 } else {
-                                    Log.d("ProductDetail", "Adding to cart with MaKhachHang: $maKhachHang")
+                                    Log.d("", "Adding to cart with MaKhachHang: $maKhachHang")
                                     val gioHang = GioHang(
                                         MaGioHang = 0,
                                         MaSanPham = productOrDefault.MaSanPham,

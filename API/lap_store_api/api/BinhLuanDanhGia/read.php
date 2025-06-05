@@ -28,7 +28,7 @@ if ($num > 0) {
             'MaBinhLuan' => $MaBinhLuan,
             'MaKhachHang' => $MaKhachHang,
             'MaSanPham' => $MaSanPham,
-            'MaHoaDonBan' => $MaHoaDonBan,
+            'MaDonHang' => $MaDonHang,
             'SoSao' => $SoSao,
             'NoiDung' => $NoiDung,
             'NgayDanhGia' => $NgayDanhGia,

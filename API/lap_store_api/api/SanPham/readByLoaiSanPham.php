@@ -28,21 +28,20 @@ if ($numSanPhamTheoLoai > 0) {
         extract($row);
     
         $sanpham_item = array(
-            'MaSanPham' => $MaSanPham,
-            'TenSanPham' => $TenSanPham,
-            'MaLoaiSanPham' => $MaLoaiSanPham,
-            'mathuonghieu' => $mathuonghieu, // Thêm trường thương hiệu
-            'CPU' => $CPU,
-            'RAM' => $RAM,
-            'CardManHinh' => $CardManHinh,
-            'SSD' => $SSD,
-            'ManHinh' => $ManHinh,
-            'MaMauSac' => $MaMauSac,
-            'Gia' => $Gia,
-            'SoLuong' => $SoLuong,
-            'MoTa' => $MoTa,
-            'HinhAnh' => $DuongDan,
-            'TrangThai' => $TrangThai,
+            'MaSanPham'=> $MaSanPham,
+            'TenSanPham'=> $TenSanPham,
+            'MaLoaiSanPham'=> $MaLoaiSanPham,
+            'CPU'=> $CPU,
+            'RAM'=> $RAM,
+            'CardManHinh'=> $CardManHinh,
+            'SSD'=> $SSD,
+            'ManHinh'=> $ManHinh,
+            'MaMauSac'=> $MaMauSac,
+            'Gia'=> $Gia,
+            'SoLuong'=> $SoLuong,
+            'MoTa'=> $MoTa,
+            'HinhAnh'=> $DuongDan,
+            'TrangThai'=> $TrangThai,
         );
         array_push($sanphamtheoloai_array['sanpham'], $sanpham_item);
     }

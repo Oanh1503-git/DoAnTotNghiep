@@ -10,16 +10,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4b5c364a-952e-436f-8cc5-fa50e8b8d708" name="Changes" comment="basic acccountScreens.kt">
+      <change beforePath="$PROJECT_DIR$/../API/lap_store_api/api/BinhLuanDanhGia/create.php" beforeDir="false" afterPath="$PROJECT_DIR$/../API/lap_store_api/api/BinhLuanDanhGia/create.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../API/lap_store_api/api/BinhLuanDanhGia/read.php" beforeDir="false" afterPath="$PROJECT_DIR$/../API/lap_store_api/api/BinhLuanDanhGia/read.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../API/lap_store_api/api/GioHang/getgiohangtheomakhachhang.php" beforeDir="false" afterPath="$PROJECT_DIR$/../API/lap_store_api/api/GioHang/getgiohangtheomakhachhang.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../API/lap_store_api/api/HinhAnh/read.php" beforeDir="false" afterPath="$PROJECT_DIR$/../API/lap_store_api/api/HinhAnh/read.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../API/lap_store_api/api/SanPham/read.php" beforeDir="false" afterPath="$PROJECT_DIR$/../API/lap_store_api/api/SanPham/read.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../API/lap_store_api/api/SanPham/readByLoaiSanPham.php" beforeDir="false" afterPath="$PROJECT_DIR$/../API/lap_store_api/api/SanPham/readByLoaiSanPham.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../API/lap_store_api/api/SanPham/searchSanPham.php" beforeDir="false" afterPath="$PROJECT_DIR$/../API/lap_store_api/api/SanPham/searchSanPham.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../API/lap_store_api/api/SanPham/show.php" beforeDir="false" afterPath="$PROJECT_DIR$/../API/lap_store_api/api/SanPham/show.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../API/lap_store_api/model/binhluandanhgia.php" beforeDir="false" afterPath="$PROJECT_DIR$/../API/lap_store_api/model/binhluandanhgia.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../API/lap_store_api/model/diachi.php" beforeDir="false" afterPath="$PROJECT_DIR$/../API/lap_store_api/model/diachi.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../API/lap_store_api/model/khachhang.php" beforeDir="false" afterPath="$PROJECT_DIR$/../API/lap_store_api/model/khachhang.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../API/lap_store_api/model/sanpham.php" beforeDir="false" afterPath="$PROJECT_DIR$/../API/lap_store_api/model/sanpham.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.10.2/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.10.2/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.10.2/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.10.2/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.10.2/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.10.2/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/apk/debug/app-debug.apk" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/apk/debug/app-debug.apk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/laptopstore/api/DiaChiAPIService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/laptopstore/api/DiaChiAPIService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/laptopstore/navigation/navigation.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/laptopstore/navigation/navigation.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/laptopstore/viewmodels/DiaChiViewmodel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/laptopstore/viewmodels/DiaChiViewmodel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/laptopstore/api/GioHangAPIService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/laptopstore/api/GioHangAPIService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/laptopstore/views/ProductDetail.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/laptopstore/views/ProductDetail.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -24,62 +24,34 @@ class Khachhang{
         $stmt->execute();
         return $stmt; // Trả về PDOStatement
     }
-    public function GetKhachHangById() {
-        $query = "SELECT * FROM khachhang WHERE MaKhachHang = ? LIMIT 1"; 
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(1,$this->MaKhachHang);
-        $stmt->execute();
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+ public function GetKhachHangById() {
+    $query = "SELECT * FROM khachhang WHERE MaKhachHang = ? LIMIT 1"; 
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(1,$this->MaKhachHang);
+    $stmt->execute();
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($row) {
         $this->HoTen = $row['HoTen'];
         $this->GioiTinh = $row['GioiTinh'];
         $this->NgaySinh = $row['NgaySinh'];
         $this->Email = $row['Email'];
         $this->SoDienThoai = $row['SoDienThoai'];
-    } 
-
-    public function generateCustomerCode() {
-        // Lấy số lượng khách hàng hiện tại
-        $query = "SELECT COUNT(*) as total FROM khachhang";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        $customerCount = $row['total'] + 1;
-
-        // Lấy thông tin thời gian hiện tại
-        $currentMonth = date('m');
-        $currentDayOfWeek = date('D'); // Thu in English (Mon, Tue, Wed, etc.)
-        $currentMinute = date('i');
-
-        // Lấy 2 chữ cái đầu của thứ trong tiếng Anh
-        $dayPrefix = substr($currentDayOfWeek, 0, 2);
-
-        // Tạo mã khách hàng
-        $customerCode = sprintf("KH%03d%02d%s%02d", 
-            $customerCount,
-            $currentMonth,
-            $dayPrefix,
-            $currentMinute
-        );
-
-        return $customerCode;
     }
+}
 
     public function AddKhachHang(){
-        // Tạo mã khách hàng mới
-        $this->MaKhachHang = $this->generateCustomerCode();
-
-        $query = "INSERT INTO khachhang SET MaKhachHang =:MaKhachHang, HoTen =:HoTen, GioiTinh =:GioiTinh, NgaySinh =:NgaySinh, Email =:Email, SoDienThoai =:SoDienThoai";
+        $query = "INSERT INTO khachhang SET HoTen =:HoTen ,GioiTinh =:GioiTinh, NgaySinh =:NgaySinh, Email =:Email, SoDienThoai =:SoDienThoai";
 
         $stmt = $this->conn->prepare($query);
 
-        $this->MaKhachHang = htmlspecialchars(strip_tags($this->MaKhachHang));
         $this->HoTen = htmlspecialchars(strip_tags($this->HoTen));
         $this->GioiTinh = htmlspecialchars(strip_tags($this->GioiTinh));
         $this->NgaySinh = htmlspecialchars(strip_tags($this->NgaySinh));
         $this->Email = htmlspecialchars(strip_tags($this->Email));
         $this->SoDienThoai = htmlspecialchars(strip_tags($this->SoDienThoai));
 
-        $stmt->bindParam(':MaKhachHang', $this->MaKhachHang);
+
         $stmt->bindParam(':HoTen',$this->HoTen);
         $stmt->bindParam(':GioiTinh',$this->GioiTinh);
         $stmt->bindParam(':NgaySinh',$this->NgaySinh);
@@ -93,6 +65,24 @@ class Khachhang{
         return false;
     }
 
+public function generateCustomerCode() {
+    $query = "SELECT COUNT(*) as total FROM khachhang";
+    $stmt = $this->conn->prepare($query);
+    $stmt->execute();
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    $customerCount = $row['total'] + 1;
+
+    $currentMonth = date('m');
+    $currentDayOfWeek = date('D');
+    $currentMinute = date('i');
+    $dayPrefix = substr($currentDayOfWeek, 0, 2);
+
+    return sprintf("KH%03d%02d%s%02d", 
+        $customerCount, $currentMonth, $dayPrefix, $currentMinute
+    );
+}
+
+    
     public function UpdateKhachHang(){
         $query = "UPDATE khachhang SET HoTen =:HoTen, GioiTinh =:GioiTinh, NgaySinh =:NgaySinh,  Email =:Email, SoDienThoai =:SoDienThoai  WHERE MaKhachHang=:MaKhachHang";
 
@@ -141,5 +131,17 @@ class Khachhang{
         printf("Error %s.\n",$stmt->error);
         return false;
     }
+    public function DemKhachHang() {
+    try {
+        $query = "SELECT COUNT(*) AS tong_so FROM khachhang";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['tong_so'];
+    } catch (PDOException $e) {
+        return false;
+    }
+}
 }
 ?>

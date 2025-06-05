@@ -1,45 +1,40 @@
 <?php
-// BinhLuan/create.php
-header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: POST");
-header("Access-Control-Max-Age: 3600");
-header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+    // Cấu hình header
+    header('Access-Control-Allow-Origin: *');
+    header('Content-Type: application/json');
+    header('Access-Control-Allow-Methods: POST');
+    header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
 
-include_once('../../config/database.php');
-include_once('../../model/BinhLuanDanhGia.php');
+    // Kết nối đến database và model
+    include_once('../../config/database.php');
+    include_once('../../model/binhluandanhgia.php');
 
-$database = new Database();
-$db = $database->Connect();
+    // Tạo đối tượng database và kết nối
+    $database = new Database();
+    $conn = $database->Connect(); // Lấy kết nối PDO
 
-$binhluan = new BinhLuanDanhGia($db);
+    // Khởi tạo lớp BinhLuanDanhGia với kết nối PDO
+    $binhluan = new BinhLuanDanhGia($conn);
 
-$data = json_decode(file_get_contents("php://input"));
+    // Lấy dữ liệu JSON được gửi từ client
+    $data = json_decode(file_get_contents("php://input"));
 
-if (
-    !empty($data->MaKhachHang) &&
-    !empty($data->MaSanPham) &&
-    !empty($data->MaHoaDonBan) &&
-    !empty($data->SoSao) &&
-    !empty($data->NoiDung)
-) {
+    // Gán dữ liệu cho các thuộc tính của đối tượng
+    $binhluan->MaBinhLuan = $data->MaBinhLuan;
     $binhluan->MaKhachHang = $data->MaKhachHang;
     $binhluan->MaSanPham = $data->MaSanPham;
-    $binhluan->MaHoaDonBan = $data->MaHoaDonBan;
+    $binhluan->MaDonHang = $data->MaDonHang;
     $binhluan->SoSao = $data->SoSao;
     $binhluan->NoiDung = $data->NoiDung;
-    $binhluan->NgayDanhGia = date('Y-m-d H:i:s');
-    $binhluan->TrangThai = isset($data->TrangThai) ? $data->TrangThai : 1;
+    $binhluan->NgayDanhGia = $data->NgayDanhGia;
+    $binhluan->TrangThai = $data->TrangThai;
 
-    if ($binhluan->create()) {
-        http_response_code(201);
-        echo json_encode(array("message" => "Comment created successfully."));
+    // Gọi hàm thêm mới bình luận đánh giá
+    if ($binhluan->AddBinhLuanDanhGia()) {
+        // Nếu thêm thành công
+        echo json_encode(array('message' => 'Binhluan create.'));
     } else {
-        http_response_code(503);
-        echo json_encode(array("message" => "Unable to create comment."));
+        // Nếu thêm thất bại
+        echo json_encode(array('message' => 'binhluan not create'));
     }
-} else {
-    http_response_code(400);
-    echo json_encode(array("message" => "Incomplete data."));
-}
 ?>

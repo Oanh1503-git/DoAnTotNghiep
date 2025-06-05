@@ -1,44 +1,36 @@
 <?php
-header('Access-Control-Allow-Origin: *'); // Cho phép truy cập từ mọi nguồn
-header('Content-Type: application/json'); // Định dạng trả về JSON
+header('Access-Control-Allow-Origin:*');
+header('Content-Type: application/json');
 
-// Include file cấu hình và model
 include_once('../../config/database.php');
 include_once('../../model/hinhanh.php');
 
 // Tạo đối tượng database và kết nối
-$database = new Database();
-$conn = $database->Connect();
+$database = new database();
+$conn = $database->Connect(); // Lấy kết nối PDO
 
-// Khởi tạo lớp HinhAnh với kết nối PDO
+// Khởi tạo lớp Khachhang với kết nối PDO
 $hinhanh = new HinhAnh($conn);
 
-// Lấy tất cả hình ảnh
-$stmt = $hinhanh->GetAllHinhAnh(); // Giả định hàm này tồn tại trong model
+// Lấy tất cả khách hàng
+$getAllHinhAnh = $hinhanh->GetAllHinhAnh();
 
-$num = $stmt->rowCount();
+$num = $getAllHinhAnh->rowCount();
 
-if ($num > 0) {
-    $hinhanh_array = [];
-    $hinhanh_array['hinhanh'] = [];
+if($num>0){
+    $hinhanhh_array =[];
+    $hinhanhh_array['hinhanh'] =[];
 
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    while($row = $getAllHinhAnh->fetch(PDO::FETCH_ASSOC)){
         extract($row);
 
         $hinhanh_item = array(
-            'MaHinhAnh' => (int)$MaHinhAnh,
-            'DuongDan' => $DuongDan,
-            'MaSanPham' => (int)$MaSanPham,
-            'MacDinh' => (int)$MacDinh // Đảm bảo MacDinh là kiểu int
+            'MaHinhAnh'=> $MaHinhAnh,
+            'DuongDan'=> $DuongDan,
+            'MaSanPham'=> $MaSanPham
         );
-
-        array_push($hinhanh_array['hinhanh'], $hinhanh_item);
+        array_push($hinhanhh_array['hinhanh'],$hinhanh_item);
     }
-
-    // Trả về JSON với định dạng đúng
-    echo json_encode($hinhanh_array, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-} else {
-    // Trả về mảng rỗng nếu không có dữ liệu
-    echo json_encode(['hinhanh' => []], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+    echo json_encode($hinhanhh_array, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
 }
 ?>
