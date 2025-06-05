@@ -46,12 +46,27 @@ class DiaChiViewmodel : ViewModel() {
     fun getDiaChiKhachHang(maKhachHang: String?) {
         viewModelScope.launch {
             try {
+                if (maKhachHang.isNullOrBlank()) {
+                    Log.e("DiaChiViewmodel", "MaKhachHang is null or blank")
+                    return@launch
+                }
+
+                Log.d("DiaChiViewmodel", "Fetching addresses for customer: $maKhachHang")
                 val response = withContext(Dispatchers.IO) {
                     LaptopStoreRetrofitClient.diaChiAPIService.getDiaChiByMaKhachHang(maKhachHang)
                 }
-                _listDiaChi.value = response
+                response.diachi?.let {addresses->
+                    _listDiaChi.value=addresses
+                    Log.d("DiaChiViewmodel","Received ${addresses.size} addresses")
+
+                } ?: run {
+                    Log.e("DiaChiViewmodel", "No addresses found or null response")
+                    _listDiaChi.value = emptyList()
+                }// Lúc này mới dùng .data
+
             } catch (e: Exception) {
-                Log.e("DiaChiViewmodel", "Lỗi khi lấy danh sách địa chỉ: ${e.message}")
+                Log.e("DiaChiViewmodel", "Error fetching addresses: ${e.message}")
+                // Don't clear the list on error
                 _listDiaChi.value = emptyList()
             }
         }

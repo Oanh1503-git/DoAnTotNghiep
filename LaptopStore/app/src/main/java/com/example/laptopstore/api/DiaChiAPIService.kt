@@ -8,7 +8,8 @@ import retrofit2.http.PUT
 import retrofit2.http.Query
 
 data class DiaChiResponse(
-    val diachi: List<DiaChi>
+    val diachi: List<DiaChi>? = null,
+    val message: String? = null
 )
 
 data class addDiaChiResponse(
@@ -39,7 +40,7 @@ interface DiaChiAPIService{
     @GET("DiaChi/getdiachibykhachhang.php")
     suspend fun getDiaChiByMaKhachHang(
         @Query("MaKhachHang") MaKhachHang: String?
-    ): List<DiaChi>
+    ): DiaChiResponse
 
     @POST("DiaChi/create.php")
     suspend fun addDiaChi(

@@ -107,9 +107,15 @@ fun NavigationGraph(
             )
         }
 
-        composable(Screens.ADDRESS.route) {
+        composable(
+            route = Screens.ADDRESS.route,
+            arguments = listOf(navArgument("maKhachHang") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val maKhachHang = backStackEntry.arguments?.getString("maKhachHang") ?: ""
             AddressScreen(
-                navHostController, diaChiViewModel, taiKhoanViewModel
+                navHostController,
+                diaChiViewModel,
+                taiKhoanViewModel
             )
         }
     }
