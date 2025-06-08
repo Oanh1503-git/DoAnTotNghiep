@@ -61,7 +61,8 @@ fun CartScreen(
         Log.d("CartScreen", "TaiKhoan State: ${taikhoan != null}")
         Log.d("CartScreen", "MaKhachHang: ${taikhoan?.MaKhachHang}")
         Log.d("CartScreen", "TenTaiKhoan: ${taikhoan?.TenTaiKhoan}")
-        
+        Log.d("CartScreen", "Số lượng sản phẩm: ${allProducts.size}, Danh sách: $allProducts")
+        taikhoan?.MaKhachHang?.let { gioHangViewModel.getGioHangByKhachHang(it) }
         if (taikhoan?.MaKhachHang.isNullOrEmpty()) {
             Log.w("CartScreen", "MaKhachHang is null or empty")
         }

@@ -33,6 +33,7 @@ class GioHangViewModel : ViewModel() {
                 val response = withContext(Dispatchers.IO) {
                     LaptopStoreRetrofitClient.giohangAPIService.getGioHangByKhachHang(MaKhachHang)
                 }
+                Log.d("GioHangViewModel", "Danh sách giỏ hàng: $response")
                 _listGioHang.value = response.giohang
             } catch (e: Exception) {
                 _giohangUpdateResult.value = "Lỗi khi lấy giỏ hàng: ${e.message}"
