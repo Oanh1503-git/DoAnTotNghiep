@@ -1919,6 +1919,23 @@
                     }
                 },
                 {
+                    "source": "D:\\DoAn\\DoAnTotNghiep\\LaptopStore\\app\\src\\main\\res\\values\\themes.xml",
+                    "from": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "59",
+                        "endColumns": "88",
+                        "endOffsets": "143"
+                    },
+                    "to": {
+                        "startLines": "254",
+                        "startColumns": "4",
+                        "startOffsets": "17349",
+                        "endColumns": "87",
+                        "endOffsets": "17432"
+                    }
+                },
+                {
                     "source": "C:\\Users\\MSI\\.gradle\\caches\\8.10.2\\transforms\\fec920892c61451ac95457188472a843\\transformed\\core-1.5.0\\res\\values\\values.xml",
                     "from": {
                         "startLines": "4,11",
@@ -1935,23 +1952,6 @@
                         "endLines": "261,268",
                         "endColumns": "8,8",
                         "endOffsets": "17804,18174"
-                    }
-                },
-                {
-                    "source": "D:\\c++\\DoAnTotNghiep\\LaptopStore\\app\\src\\main\\res\\values\\strings.xml",
-                    "from": {
-                        "startLines": "1",
-                        "startColumns": "4",
-                        "startOffsets": "17",
-                        "endColumns": "48",
-                        "endOffsets": "61"
-                    },
-                    "to": {
-                        "startLines": "123",
-                        "startColumns": "4",
-                        "startOffsets": "7546",
-                        "endColumns": "48",
-                        "endOffsets": "7590"
                     }
                 },
                 {
@@ -1993,20 +1993,20 @@
                     }
                 },
                 {
-                    "source": "D:\\c++\\DoAnTotNghiep\\LaptopStore\\app\\src\\main\\res\\values\\themes.xml",
+                    "source": "D:\\DoAn\\DoAnTotNghiep\\LaptopStore\\app\\src\\main\\res\\values\\colors.xml",
                     "from": {
-                        "startLines": "3",
-                        "startColumns": "4",
-                        "startOffsets": "59",
-                        "endColumns": "88",
-                        "endOffsets": "143"
+                        "startLines": "7,2,3,4,5,6,8",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "293,57,105,153,201,247,336",
+                        "endColumns": "41,46,46,46,44,44,41",
+                        "endOffsets": "330,99,147,195,241,287,373"
                     },
                     "to": {
-                        "startLines": "254",
-                        "startColumns": "4",
-                        "startOffsets": "17349",
-                        "endColumns": "87",
-                        "endOffsets": "17432"
+                        "startLines": "9,22,23,24,25,26,27",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "630,1606,1653,1700,1747,1792,1837",
+                        "endColumns": "41,46,46,46,44,44,41",
+                        "endOffsets": "667,1648,1695,1742,1787,1832,1874"
                     }
                 },
                 {
@@ -2026,23 +2026,6 @@
                         "endLines": "293,299,309,507,511",
                         "endColumns": "24,24,24,24,24",
                         "endOffsets": "19042,19220,19504,26162,26289"
-                    }
-                },
-                {
-                    "source": "D:\\c++\\DoAnTotNghiep\\LaptopStore\\app\\src\\main\\res\\values\\colors.xml",
-                    "from": {
-                        "startLines": "7,2,3,4,5,6,8",
-                        "startColumns": "4,4,4,4,4,4,4",
-                        "startOffsets": "293,57,105,153,201,247,336",
-                        "endColumns": "41,46,46,46,44,44,41",
-                        "endOffsets": "330,99,147,195,241,287,373"
-                    },
-                    "to": {
-                        "startLines": "9,22,23,24,25,26,27",
-                        "startColumns": "4,4,4,4,4,4,4",
-                        "startOffsets": "630,1606,1653,1700,1747,1792,1837",
-                        "endColumns": "41,46,46,46,44,44,41",
-                        "endOffsets": "667,1648,1695,1742,1787,1832,1874"
                     }
                 },
                 {
@@ -2145,6 +2128,23 @@
                         "startOffsets": "7168",
                         "endColumns": "53",
                         "endOffsets": "7217"
+                    }
+                },
+                {
+                    "source": "D:\\DoAn\\DoAnTotNghiep\\LaptopStore\\app\\src\\main\\res\\values\\strings.xml",
+                    "from": {
+                        "startLines": "1",
+                        "startColumns": "4",
+                        "startOffsets": "17",
+                        "endColumns": "48",
+                        "endOffsets": "61"
+                    },
+                    "to": {
+                        "startLines": "123",
+                        "startColumns": "4",
+                        "startOffsets": "7546",
+                        "endColumns": "48",
+                        "endOffsets": "7590"
                     }
                 },
                 {

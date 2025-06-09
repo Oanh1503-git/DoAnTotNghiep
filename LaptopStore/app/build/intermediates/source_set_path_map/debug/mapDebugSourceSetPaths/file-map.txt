@@ -58,10 +58,10 @@ com.example.laptopstore.app-profileinstaller-1.4.0-56 C:\Users\MSI\.gradle\cache
 com.example.laptopstore.app-navigation-runtime-release-57 C:\Users\MSI\.gradle\caches\8.10.2\transforms\fb940477b3094ff7a2a9012d5c74b21e\transformed\navigation-runtime-release\res
 com.example.laptopstore.app-ui-util-release-58 C:\Users\MSI\.gradle\caches\8.10.2\transforms\fe4acf48dcf714e00037f9ec7debdf08\transformed\ui-util-release\res
 com.example.laptopstore.app-core-1.5.0-59 C:\Users\MSI\.gradle\caches\8.10.2\transforms\fec920892c61451ac95457188472a843\transformed\core-1.5.0\res
-com.example.laptopstore.app-pngs-60 D:\c++\DoAnTotNghiep\LaptopStore\app\build\generated\res\pngs\debug
-com.example.laptopstore.app-resValues-61 D:\c++\DoAnTotNghiep\LaptopStore\app\build\generated\res\resValues\debug
-com.example.laptopstore.app-packageDebugResources-62 D:\c++\DoAnTotNghiep\LaptopStore\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
-com.example.laptopstore.app-packageDebugResources-63 D:\c++\DoAnTotNghiep\LaptopStore\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
-com.example.laptopstore.app-debug-64 D:\c++\DoAnTotNghiep\LaptopStore\app\build\intermediates\merged_res\debug\mergeDebugResources
-com.example.laptopstore.app-debug-65 D:\c++\DoAnTotNghiep\LaptopStore\app\src\debug\res
-com.example.laptopstore.app-main-66 D:\c++\DoAnTotNghiep\LaptopStore\app\src\main\res
+com.example.laptopstore.app-pngs-60 D:\DoAn\DoAnTotNghiep\LaptopStore\app\build\generated\res\pngs\debug
+com.example.laptopstore.app-resValues-61 D:\DoAn\DoAnTotNghiep\LaptopStore\app\build\generated\res\resValues\debug
+com.example.laptopstore.app-packageDebugResources-62 D:\DoAn\DoAnTotNghiep\LaptopStore\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
+com.example.laptopstore.app-packageDebugResources-63 D:\DoAn\DoAnTotNghiep\LaptopStore\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
+com.example.laptopstore.app-debug-64 D:\DoAn\DoAnTotNghiep\LaptopStore\app\build\intermediates\merged_res\debug\mergeDebugResources
+com.example.laptopstore.app-debug-65 D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\debug\res
+com.example.laptopstore.app-main-66 D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\res

@@ -30,7 +30,7 @@ data class addtocartResponse(
 )
 
 interface GioHangAPIService {
-    @GET("GioHang/getCartbyid.php")
+    @GET("GioHang/getgiohangtheomakhachhang.php")
     suspend fun getGioHangByKhachHang(
         @Query("MaKhachHang") MaKhachHang: String
     ): GioHangResponse

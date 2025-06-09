@@ -62,6 +62,7 @@ fun CartScreen(
         Log.d("CartScreen", "MaKhachHang: ${taikhoan?.MaKhachHang}")
         Log.d("CartScreen", "TenTaiKhoan: ${taikhoan?.TenTaiKhoan}")
         Log.d("CartScreen", "Số lượng sản phẩm: ${allProducts.size}, Danh sách: $allProducts")
+        Log.d("CartScreen", "Số lượng sản phẩm: ${cartItems.size}, Danh sách: $cartItems")
         taikhoan?.MaKhachHang?.let { gioHangViewModel.getGioHangByKhachHang(it) }
         if (taikhoan?.MaKhachHang.isNullOrEmpty()) {
             Log.w("CartScreen", "MaKhachHang is null or empty")
@@ -168,6 +169,7 @@ fun CartScreen(
                     "SoLuong" to gioHang.SoLuong
                 )
             }
+
             
             val cartItemsJson = Json.encodeToString(simplifiedCartItems)
             val encodedCartItems = URLEncoder.encode(cartItemsJson, StandardCharsets.UTF_8.toString())

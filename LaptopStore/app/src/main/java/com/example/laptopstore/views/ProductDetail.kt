@@ -36,6 +36,7 @@ import com.example.laptopstore.models.HinhAnh
 import com.example.laptopstore.models.SanPham
 import com.example.laptopstore.models.Screens
 import com.example.laptopstore.viewmodels.BinhLuanViewModel
+import com.example.laptopstore.viewmodels.DataStoreManager
 import com.example.laptopstore.viewmodels.GioHangViewModel
 import com.example.laptopstore.viewmodels.HinhAnhViewModel
 import com.example.laptopstore.viewmodels.KhachHangViewModels
@@ -88,7 +89,7 @@ fun ProductDetail(
     val khachHang by taiKhoanViewModel.khachHang.collectAsState()
 
     // Get MaKhachHang safely
-    val maKhachHang = khachHang?.MaKhachHang
+
     var isAddingToCart by remember { mutableStateOf(false) }
 
     var isLoading by remember { mutableStateOf(true) }
@@ -99,11 +100,22 @@ fun ProductDetail(
     var rating by remember { mutableStateOf(5) }
     var isSubmitting by remember { mutableStateOf(false) }
     // Debug logging
+    val dataStoreManager = remember { DataStoreManager(context) }
+    val customerId by dataStoreManager.customerId.collectAsState(initial = null)
+    val maKhachHang = customerId
     LaunchedEffect(taikhoan) {
         Log.d("ProductDetail", "TaiKhoan changed: $taikhoan")
         Log.d("ProductDetail", "MaKhachHang: $maKhachHang")
     }
 
+    LaunchedEffect(customerId){
+        Log.d("ProductDetail","$customerId")
+        if(customerId.isNullOrEmpty()){
+            Log.d("ProductDetail", "MaKhachHang is null or empty")
+        }else{
+            Log.d("ProductDetail", "co MaKhachHang ")
+        }
+    }
     // Load initial data
     LaunchedEffect(productId, maKhachHang) {
         isLoading = true

@@ -15,7 +15,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object Constants {
-    const val BASE_URL = "http://10.0.2.2/lap_store_api/api/"  // hoặc địa chỉ XAMPP của bạn
+    const val BASE_URL = "http://10.0.2.2/lap_store_api/api/"
 }
 
 object LaptopStoreRetrofitClient {
