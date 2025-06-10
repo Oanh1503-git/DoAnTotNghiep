@@ -12,6 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -19,9 +20,11 @@ import androidx.navigation.NavHostController
 import com.example.lapstore.viewmodels.DiaChiViewmodel
 import com.example.laptopstore.models.DiaChi
 import com.example.laptopstore.models.Screens
+import com.example.laptopstore.viewmodels.DataStoreManager
 import com.example.laptopstore.viewmodels.TaiKhoanViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -31,20 +34,26 @@ fun AddressScreen(
     taiKhoanViewModel: TaiKhoanViewModel
 ) {
     val khachHang by taiKhoanViewModel.khachHang.collectAsState()
-    val maKhachHang = khachHang?.MaKhachHang.orEmpty()
+
     val listDiaChi by diaChiViewModel.listDiaChi.collectAsState()
     val scope = rememberCoroutineScope()
-
+    val context = LocalContext.current
     var showDialog by remember { mutableStateOf(false) }
     var editingDiaChi by remember { mutableStateOf<DiaChi?>(null) }
     var isLoading by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
+    val dataStoreManager = remember { DataStoreManager(context) }
+    val customerId by dataStoreManager.customerId.collectAsState(initial = null)
 
     // Lấy địa chỉ mặc định (nếu có)
+    val maKhachHang = customerId ?:""
     val diaChiMacDinh = listDiaChi.firstOrNull { it.MacDinh == 1 }
+    LaunchedEffect(maKhachHang){
+        Log.d("address","$maKhachHang")
 
+    }
     LaunchedEffect(maKhachHang) {
-        if (maKhachHang.isBlank()) {
+        if (maKhachHang.isNullOrEmpty()) {
             errorMessage = "Mã khách hàng không hợp lệ"
             return@LaunchedEffect
         }
@@ -160,7 +169,7 @@ fun AddressScreen(
                             text = "Mặc định",
                             color = MaterialTheme.colorScheme.primary,
                             style = MaterialTheme.typography.labelMedium,
-                            modifier = Modifier.padding(top = 4.dp)
+                            modifier = Modifier.padding(top = 4.dp) 
                         )
                     }
                 }
@@ -196,6 +205,15 @@ fun AddressScreen(
                                     scope.launch {
                                         delay(500)
                                         diaChiViewModel.getDiaChiKhachHang(maKhachHang)
+                                    }
+                                },
+                                onToggleMacDinh = { isChecked ->
+                                    if (isChecked) {
+                                        diaChiViewModel.setDiaChiMacDinh(maKhachHang,diaChi.MaDiaChi)
+                                        scope.launch {
+                                            delay(500)
+                                            diaChiViewModel.getDiaChiKhachHang(maKhachHang)
+                                        }
                                     }
                                 }
                             )
@@ -312,6 +330,7 @@ fun DiaChiItem(
     diaChi: DiaChi,
     onEdit: (() -> Unit)? = null,
     onDelete: (() -> Unit)? = null,
+    onToggleMacDinh: ((Boolean) -> Unit)? = null, // <--- Thêm callback này
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -324,11 +343,23 @@ fun DiaChiItem(
         )
     ) {
         Column(modifier = Modifier.padding(12.dp)) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = diaChi.TenNguoiNhan, style = MaterialTheme.typography.titleMedium)
-                if (diaChi.MacDinh == 1) {
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text("(Mặc định)", color = MaterialTheme.colorScheme.primary, style = MaterialTheme.typography.labelMedium)
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = diaChi.TenNguoiNhan,
+                    style = MaterialTheme.typography.titleMedium
+                )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Checkbox(
+                        checked = diaChi.MacDinh == 1,
+                        onCheckedChange = { isChecked ->
+                            onToggleMacDinh?.invoke(isChecked)
+                        }
+                    )
+                    Text("Mặc định", style = MaterialTheme.typography.bodySmall)
                 }
             }
             Text("SĐT: ${diaChi.SoDienThoai}", style = MaterialTheme.typography.bodyMedium)

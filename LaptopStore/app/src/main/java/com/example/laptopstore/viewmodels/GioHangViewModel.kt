@@ -34,14 +34,13 @@ class GioHangViewModel : ViewModel() {
                     LaptopStoreRetrofitClient.giohangAPIService.getGioHangByKhachHang(MaKhachHang)
                 }
                 Log.d("GioHangViewModel", "Danh sách giỏ hàng: $response")
-                _listGioHang.value = response.giohang
+                _listGioHang.value = response.giohang ?: emptyList() // <= Fix tại đây
             } catch (e: Exception) {
                 _giohangUpdateResult.value = "Lỗi khi lấy giỏ hàng: ${e.message}"
                 Log.e("GioHangError", "Lỗi khi lấy giỏ hàng: ${e.message}")
             }
         }
     }
-
     fun updateGioHang(gioHang: GioHang) {
         if (gioHang.MaGioHang <= 0 || gioHang.SoLuong <= 0) {
             _giohangUpdateResult.value = "Dữ liệu giỏ hàng không hợp lệ"
@@ -49,15 +48,27 @@ class GioHangViewModel : ViewModel() {
         }
         viewModelScope.launch {
             try {
+                // Cập nhật UI ngay lập tức trước khi gọi API
+                _listGioHang.value = _listGioHang.value.map {
+                    if (it.MaGioHang == gioHang.MaGioHang) gioHang else it
+                }
+
                 val response = withContext(Dispatchers.IO) {
                     LaptopStoreRetrofitClient.giohangAPIService.updateGioHang(gioHang)
                 }
-                _giohangUpdateResult.value = if (response.success) {
-                    "Cập nhật thành công: ${response.message}"
+
+                if(response.success) {
+                    // Refresh lại danh sách từ server để đảm bảo đồng bộ
+                    getGioHangByKhachHang(gioHang.MaKhachHang)
+                    _giohangUpdateResult.value = "Cập nhật thành công: ${response.message}"
                 } else {
-                    "Cập nhật thất bại: ${response.message}"
+                    // Nếu cập nhật thất bại, rollback lại state cũ
+                    getGioHangByKhachHang(gioHang.MaKhachHang)
+                    _giohangUpdateResult.value = "Cập nhật thất bại: ${response.message}"
                 }
             } catch (e: Exception) {
+                // Nếu có lỗi, rollback lại state cũ
+                getGioHangByKhachHang(gioHang.MaKhachHang)
                 _giohangUpdateResult.value = "Lỗi khi cập nhật giỏ hàng: ${e.message}"
                 Log.e("GioHangError", "Lỗi khi cập nhật giỏ hàng: ${e.message}")
             }

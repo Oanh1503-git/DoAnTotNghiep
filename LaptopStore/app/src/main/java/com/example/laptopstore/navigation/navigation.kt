@@ -118,5 +118,24 @@ fun NavigationGraph(
                 taiKhoanViewModel
             )
         }
+        composable(
+            route = Screens.CHECKOUTSCREENS.route,
+            arguments = listOf(
+                navArgument("totalPrice") { type = NavType.IntType },
+                navArgument("cartItems") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val totalPrice = backStackEntry.arguments?.getInt("totalPrice") ?: 0
+            val cartItems = backStackEntry.arguments?.getString("cartItems") ?: ""
+
+            CheckoutScreen(
+                navController = navHostController,
+                totalPrice = totalPrice,
+                cartItemsJson = cartItems,
+                taiKhoanViewModel = taiKhoanViewModel,
+                khachHangViewModels = khachHangViewModel,
+                diaChiViewmodel = diaChiViewModel
+            )
+        }
     }
 }

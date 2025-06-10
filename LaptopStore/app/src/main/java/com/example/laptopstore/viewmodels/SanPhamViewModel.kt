@@ -32,6 +32,8 @@ class SanPhamViewModel : ViewModel() {
 
     var sanPham by mutableStateOf<SanPham?>(null)
         private set
+    var soLuong by mutableStateOf<Int?>(null)
+        private set
 
 
     private val _danhsachSanPham = MutableStateFlow<List<SanPham>>(emptyList())
@@ -173,5 +175,33 @@ class SanPhamViewModel : ViewModel() {
             }
         }
     }
+    fun checkProductAndCart(maKhachHang: String, maSanPham: Int) {
+        viewModelScope.launch {
+            isLoading = true
+            errorMessage = null
+            try {
+                val response = LaptopStoreRetrofitClient.sanphamAPIService.kiemTraSoLuong(maKhachHang, maSanPham)
+                if (response.isSuccessful) {
+                    val body = response.body()
+                    if (body?.status == "success") {
+                        soLuong = body.soLuongKho
+                        Log.d("SanPhamViewModel", "Số lượng kho: ${body.soLuongKho}")
+                    } else {
+                        errorMessage = body?.message ?: "Có lỗi xảy ra"
+                        Log.e("SanPhamViewModel", "Lỗi từ API: $errorMessage")
+                    }
+                } else {
+                    errorMessage = "Lỗi server: ${response.code()}"
+                    Log.e("SanPhamViewModel", "Response error: $errorMessage")
+                }
+            } catch (e: Exception) {
+                errorMessage = "Lỗi kết nối: ${e.localizedMessage}"
+                Log.e("SanPhamViewModel", "Exception: $errorMessage")
+            } finally {
+                isLoading = false
+            }
+        }
+    }
+
 
 }

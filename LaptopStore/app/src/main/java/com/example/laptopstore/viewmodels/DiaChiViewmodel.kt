@@ -100,12 +100,25 @@ class DiaChiViewmodel : ViewModel() {
     fun setDiaChiMacDinh(maKhachHang: String?, maDiaChi: Int) {
         viewModelScope.launch {
             try {
-                val request = UpdateMacDinhRequest(maKhachHang ?: "", maDiaChi)
-                val response = withContext(Dispatchers.IO) {
-                    LaptopStoreRetrofitClient.diaChiAPIService.updateDiaChiMacDinh(request)
-                }
-                if (response.success) {
-                    getDiaChiKhachHang(maKhachHang)
+                if (maKhachHang != null) {
+                    val diaChiRequest = DiaChi(
+                        MaDiaChi = maDiaChi,
+                        MaKhachHang = maKhachHang,
+                        TenNguoiNhan = "",        // Hoặc giá trị hợp lệ
+                        SoDienThoai = "",
+                        ThongTinDiaChi = "",
+                        MacDinh = 1               // Vì bạn đang muốn đặt mặc định
+                    )
+
+                    val response = LaptopStoreRetrofitClient.diaChiAPIService.setdiachimacdich(diaChiRequest)
+
+                    // Kiểm tra phản hồi thành công
+                    if (response.message == "Cập nhật địa chỉ mặc định thành công") {
+                        // Làm mới danh sách địa chỉ
+                        getDiaChiKhachHang(maKhachHang)
+                    } else {
+                        Log.e("DiaChiViewmodel", "Lỗi cập nhật: ${response.message}")
+                    }
                 }
             } catch (e: Exception) {
                 Log.e("DiaChiViewmodel", "Lỗi khi đặt địa chỉ mặc định: ${e.message}")

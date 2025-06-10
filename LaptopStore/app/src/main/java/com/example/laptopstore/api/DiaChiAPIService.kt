@@ -7,10 +7,11 @@ import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Query
 
-data class DiaChiResponse(
-    val diachi: List<DiaChi>? = null,
-    val message: String? = null
-)
+    data class DiaChiResponse(
+        val diachi: List<DiaChi>? = null,
+        val message: String? = null
+    )
+
 
 data class addDiaChiResponse(
     val success: Boolean,
@@ -56,4 +57,10 @@ interface DiaChiAPIService{
     suspend fun deleteDiaChi(
         @Body MaDiaChi: DeleteDiaChiRequest
     ): Response<ApiResponse>
+
+    @POST("DiaChi/set_mac_dinh.php")
+    suspend fun setdiachimacdich(
+        @Body diachi: DiaChi
+    ): DiaChiResponse
+
 }

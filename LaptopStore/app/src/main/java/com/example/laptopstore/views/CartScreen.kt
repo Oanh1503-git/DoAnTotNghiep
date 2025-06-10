@@ -2,6 +2,7 @@ package com.example.laptopstore.views
 
 import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -46,16 +47,25 @@ fun CartScreen(
     taiKhoanViewModel: TaiKhoanViewModel,
     savedStateHandle: SavedStateHandle
 ) {
+    var isUpdating by remember { mutableStateOf(false) }
+    var outOfStockMessage by remember { mutableStateOf<String?>(null) }
     val context = LocalContext.current
     val taikhoan by taiKhoanViewModel.taikhoan.collectAsState()
-    val cartItems by gioHangViewModel.listGioHang.collectAsState()
-    val allProducts by sanPhamViewModel.danhSachAllSanPham.collectAsState()
+    val cartItems by gioHangViewModel.listGioHang.collectAsState(initial = emptyList())
+    val allProducts by sanPhamViewModel.danhSachAllSanPham.collectAsState(initial = emptyList())
     val loginState by savedStateHandle.getStateFlow("login_state", false).collectAsState()
     
     // Loading và error states
     var isLoading by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
     var key by remember { mutableStateOf(0) }
+    val selectedItems = remember { mutableStateListOf<Int>() }
+    val isDataReady = allProducts.isNotEmpty()
+    val validCartItems = if(isDataReady){
+        cartItems.filter { gioHang ->
+            allProducts.any { it.MaSanPham == gioHang.MaSanPham }
+        }
+    }else emptyList()
     // Thêm log chi tiết
     LaunchedEffect(taikhoan) {
         Log.d("CartScreen", "TaiKhoan State: ${taikhoan != null}")
@@ -66,6 +76,14 @@ fun CartScreen(
         taikhoan?.MaKhachHang?.let { gioHangViewModel.getGioHangByKhachHang(it) }
         if (taikhoan?.MaKhachHang.isNullOrEmpty()) {
             Log.w("CartScreen", "MaKhachHang is null or empty")
+        }
+    }
+    LaunchedEffect(cartItems, allProducts) {
+        cartItems.forEach { gioHang ->
+            val sp = allProducts.find { it.MaSanPham == gioHang.MaSanPham }
+            if (sp == null) {
+                gioHangViewModel.deleteGioHang(gioHang.MaGioHang)
+            }
         }
     }
 
@@ -163,13 +181,23 @@ fun CartScreen(
     fun navigateToCheckout(cartItems: List<GioHang>, totalPrice: Int) {
         try {
             val simplifiedCartItems = cartItems.map { gioHang ->
-                mapOf(
-                    "MaGioHang" to gioHang.MaGioHang,
-                    "MaSanPham" to gioHang.MaSanPham,
-                    "SoLuong" to gioHang.SoLuong
+                val sanPham = allProducts.find { it.MaSanPham == gioHang.MaSanPham }
+                CartItem(
+                    MaGioHang = gioHang.MaGioHang,
+                    MaSanPham = gioHang.MaSanPham,
+                    SoLuong = gioHang.SoLuong,
+                    product = sanPham?.let { sp ->
+                        Product(
+                            MaSanPham = sp.MaSanPham,
+                            TenSanPham = sp.TenSanPham,
+                            HinhAnh = sp.HinhAnh,
+                            Gia = sp.Gia,
+                            GiamGia = sp.GiamGia,
+                            SoLuong = sp.SoLuong
+                        )
+                    }
                 )
             }
-
             
             val cartItemsJson = Json.encodeToString(simplifiedCartItems)
             val encodedCartItems = URLEncoder.encode(cartItemsJson, StandardCharsets.UTF_8.toString())
@@ -178,7 +206,10 @@ fun CartScreen(
                 throw Exception("Dữ liệu giỏ hàng quá lớn")
             }
             
-            navController.navigate("checkout/${totalPrice}/${encodedCartItems}")
+            navController.navigate(Screens.CHECKOUTSCREENS.route
+                .replace("{totalPrice}", totalPrice.toString())
+                .replace("{cartItems}", encodedCartItems))
+            
         } catch (e: Exception) {
             Log.e("CartScreen", "Error navigating to checkout: ${e.message}")
             errorMessage = "Không thể chuyển đến trang thanh toán: ${e.message}"
@@ -254,7 +285,16 @@ fun CartScreen(
                         }
                     }
                 }
-                cartItems.isEmpty() -> {
+                !isDataReady -> {
+                    // Chờ dữ liệu load xong
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator(color = Color.Red)
+                    }
+                }
+                validCartItems.isEmpty() -> {
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
@@ -291,29 +331,46 @@ fun CartScreen(
                                 .padding(horizontal = 16.dp),
                             verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
-                            items(cartItems) { gioHang ->
+                            items(validCartItems) { gioHang ->
                                 val sanPham = allProducts.find { it.MaSanPham == gioHang.MaSanPham }
                                 if (sanPham != null) {
                                     CartItemCard(
                                         gioHang = gioHang,
                                         sanPham = sanPham,
+                                        navController = navController,
                                         onQuantityChange = { newQuantity ->
+                                            isUpdating=true
                                             if (newQuantity <= 0) {
                                                 gioHangViewModel.deleteGioHang(gioHang.MaGioHang)
+                                                selectedItems.remove(gioHang.MaGioHang)
                                             } else if (newQuantity <= sanPham.SoLuong) {
                                                 val updatedGioHang = gioHang.copy(SoLuong = newQuantity)
                                                 gioHangViewModel.updateGioHang(updatedGioHang)
+                                            } else{
+                                                outOfStockMessage = "Sản phẩm ${sanPham.TenSanPham} chỉ còn ${sanPham.SoLuong} trong kho"
+                                                 outOfStockMessage= " Hết hàng : ${sanPham.TenSanPham}"
                                             }
-                                        }
+                                            isUpdating=false
+                                        },
+                                        isSelected = selectedItems.contains(gioHang.MaGioHang),
+                                        onCheckedChange = { checked ->
+                                            if (checked) {
+                                                selectedItems.add(gioHang.MaGioHang)
+                                            } else {
+                                                selectedItems.remove(gioHang.MaGioHang)
+                                            }
+                                        },
+                                        isUpdating = isUpdating
                                     )
+
                                 }
                             }
                         }
 
-                        val totalPrice = cartItems.sumOf { gioHang ->
-                            val sanPham = allProducts.find { it.MaSanPham == gioHang.MaSanPham }
-                            val gia = sanPham?.Gia ?: 0
-                            gia * gioHang.SoLuong
+                        val totalPrice = validCartItems.filter { selectedItems.contains(it.MaGioHang) }.sumOf { gioHang ->
+                            allProducts.find { it.MaSanPham == gioHang.MaSanPham }?.let { sp ->
+                                sp.Gia * gioHang.SoLuong
+                            } ?: 0
                         }
 
                         Column(
@@ -340,14 +397,20 @@ fun CartScreen(
                             Spacer(modifier = Modifier.height(16.dp))
                             Button(
                                 onClick = {
-                                    navigateToCheckout(cartItems, totalPrice)
+                                    if (selectedItems.isEmpty()) {
+                                        outOfStockMessage = "Vui lòng chọn ít nhất 1 sản phẩm để đặt hàng"
+                                        return@Button
+                                    }
+                                    val selectedCartItems = cartItems.filter { selectedItems.contains(it.MaGioHang) }
+                                    navigateToCheckout(selectedCartItems, totalPrice)
                                 },
+                                enabled = selectedItems.isNotEmpty(),
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .height(56.dp),
                                 colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
                             ) {
-                                Text("Thanh toán")
+                                Text("Đặt Hàng ")
                             }
                         }
                     }
@@ -355,13 +418,29 @@ fun CartScreen(
             }
         }
     }
+    if (outOfStockMessage != null) {
+        AlertDialog(
+            onDismissRequest = { outOfStockMessage = null },
+            title = { Text("Thông báo") },
+            text = { Text(outOfStockMessage ?: "") },
+            confirmButton = {
+                Button(onClick = { outOfStockMessage = null }) {
+                    Text("OK")
+                }
+            }
+        )
+    }
 }
 
 @Composable
 fun CartItemCard(
     gioHang: GioHang,
     sanPham: SanPham,
-    onQuantityChange: (Int) -> Unit
+    navController: NavHostController,
+    onQuantityChange: (Int) -> Unit,
+    isSelected: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
+    isUpdating: Boolean
 ) {
     Card(
         modifier = Modifier
@@ -369,16 +448,36 @@ fun CartItemCard(
             .shadow(4.dp, RoundedCornerShape(8.dp)),
         shape = RoundedCornerShape(8.dp)
     ) {
+        if (isUpdating) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(24.dp),
+                    color = Color.Red
+                )
+            }
+        }
+
         Row(
             modifier = Modifier
                 .background(Color.White)
                 .padding(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
+            Checkbox(
+                checked = isSelected,
+                onCheckedChange = onCheckedChange
+            )
+            Spacer(modifier = Modifier.width(8.dp))
             Box(
                 modifier = Modifier
                     .size(80.dp)
                     .clip(RoundedCornerShape(8.dp))
+                    .clickable {
+                        navController.navigate("product_detail/${sanPham.MaSanPham}")
+                    }
             ) {
                 AsyncImage(
                     model = sanPham.HinhAnh,
@@ -387,10 +486,8 @@ fun CartItemCard(
                     contentScale = ContentScale.Crop
                 )
             }
-            Spacer(modifier = Modifier.width(16.dp))
-            Column(
-                modifier = Modifier.weight(1f)
-            ) {
+            Spacer(modifier = Modifier.width(8.dp))
+            Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = sanPham.TenSanPham,
                     fontSize = 16.sp,
@@ -405,50 +502,33 @@ fun CartItemCard(
                     fontWeight = FontWeight.Bold
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    IconButton(
-                        onClick = { onQuantityChange(gioHang.SoLuong - 1) },
-                        modifier = Modifier.size(32.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Remove,
-                            contentDescription = "Decrease quantity",
-                            tint = Color.Black
-                        )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    IconButton(onClick = {
+                        onQuantityChange(gioHang.SoLuong - 1) },
+                        enabled =  !isUpdating) {
+                        Icon(Icons.Default.Remove, contentDescription = null)
                     }
-                    Text(
-                        text = gioHang.SoLuong.toString(),
-                        fontSize = 16.sp,
-                        modifier = Modifier.padding(horizontal = 8.dp)
-                    )
+                    if (isUpdating){
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(16.dp),
+                            color = Color.Red
+                        )
+                    }else{
+                        Text(text = gioHang.SoLuong.toString(), fontSize = 16.sp)
+                    }
                     IconButton(
-                        onClick = { 
-                            if (gioHang.SoLuong < sanPham.SoLuong) {
+                        onClick = {
+
                                 onQuantityChange(gioHang.SoLuong + 1)
-                            }
                         },
-                        modifier = Modifier.size(32.dp),
                         enabled = gioHang.SoLuong < sanPham.SoLuong
                     ) {
-                        Icon(
-                            imageVector = Icons.Default.Add,
-                            contentDescription = "Increase quantity",
-                            tint = if (gioHang.SoLuong < sanPham.SoLuong) Color.Black else Color.Gray
-                        )
+                        Icon(Icons.Default.Add, contentDescription = null)
                     }
                 }
             }
-            IconButton(
-                onClick = { onQuantityChange(0) },
-                modifier = Modifier.size(32.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Delete,
-                    contentDescription = "Remove item",
-                    tint = Color.Red
-                )
+            IconButton(onClick = { onQuantityChange(0) }) {
+                Icon(Icons.Default.Delete, contentDescription = null, tint = Color.Red)
             }
         }
     }

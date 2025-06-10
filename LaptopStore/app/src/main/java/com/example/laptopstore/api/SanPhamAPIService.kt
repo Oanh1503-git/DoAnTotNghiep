@@ -1,6 +1,7 @@
 package com.example.laptopstore.api
 
 import com.example.laptopstore.models.SanPham
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.PUT
@@ -12,6 +13,13 @@ data class SanPhamResponse(
 data class SeachSanphamResponse(
     val status: String,
     val data: List<SanPham>
+)
+
+data class SoLuongCheckResponse(
+    val status: String,
+    val message: String,
+    val soLuongGioHang: Int,
+    val soLuongKho: Int
 )
 
 interface SanPhamAPIService{
@@ -49,5 +57,10 @@ interface SanPhamAPIService{
     suspend fun updateSanPham(
         @Body sanpham: SanPham
     ): BaseResponse
+    @GET("kiem_tra_soluong.php")
+    suspend fun kiemTraSoLuong(
+        @Query("MaKhachHang") maKhachHang: String,
+        @Query("MaSanPham") maSanPham: Int
+    ): Response<SoLuongCheckResponse>
 
 }

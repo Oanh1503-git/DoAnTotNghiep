@@ -1,5 +1,7 @@
 package com.example.laptopstore.views
 
+import android.app.AlertDialog
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,6 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -39,7 +42,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import com.example.lapstore.viewmodels.DiaChiViewmodel
 import com.example.laptopstore.models.CartItem
+import com.example.laptopstore.viewmodels.KhachHangViewModels
+import com.example.laptopstore.viewmodels.TaiKhoanViewModel
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import java.net.URLDecoder
@@ -47,12 +53,40 @@ import java.nio.charset.StandardCharsets
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CheckoutScreen(navController: NavHostController, totalPrice: Int, cartItemsJson: String) {
+fun CheckoutScreen(navController: NavHostController,
+                   totalPrice: Int, cartItemsJson: String,
+                   taiKhoanViewModel: TaiKhoanViewModel,
+                   khachHangViewModels: KhachHangViewModels,
+                   diaChiViewmodel: DiaChiViewmodel)
+{
+    var errorMessage by remember { mutableStateOf<String?>(null) }
+
     val cartItems = try {
         val decodedJson = URLDecoder.decode(cartItemsJson, StandardCharsets.UTF_8.toString())
         Json.decodeFromString<List<CartItem>>(decodedJson)
     } catch (e: Exception) {
-        emptyList<CartItem>()
+        Log.e("CheckoutScreen", "Error decoding cart items: ${e.message}")
+        errorMessage = "Lỗi khi xử lý dữ liệu giỏ hàng"
+        emptyList()
+    }
+    if (errorMessage != null) {
+        AlertDialog(
+            onDismissRequest = {
+                errorMessage = null
+                navController.navigateUp()
+            },
+            title = { Text("Lỗi") },
+            text = { Text(errorMessage!!) },
+            confirmButton = {
+                Button(onClick = {
+                    errorMessage = null
+                    navController.navigateUp()
+                }) {
+                    Text("OK")
+                }
+            }
+        )
+        return
     }
 
     var fullName by remember { mutableStateOf("") }
@@ -171,8 +205,8 @@ fun CheckoutScreen(navController: NavHostController, totalPrice: Int, cartItemsJ
                                         .clip(RoundedCornerShape(8.dp))
                                 ) {
                                     AsyncImage(
-                                        model = cartItem.product.imageUrl,
-                                        contentDescription = cartItem.product.name,
+                                        model = cartItem.product?.HinhAnh,
+                                        contentDescription = cartItem.product?.TenSanPham,
                                         modifier = Modifier.fillMaxSize(),
                                         contentScale = ContentScale.Crop
                                     )
@@ -182,17 +216,17 @@ fun CheckoutScreen(navController: NavHostController, totalPrice: Int, cartItemsJ
                                     modifier = Modifier.weight(1f)
                                 ) {
                                     Text(
-                                        text = cartItem.product.name,
+                                        text = cartItem.product?.TenSanPham ?: "Sản phẩm không xác định",
                                         fontSize = 16.sp,
                                         fontWeight = FontWeight.Medium,
                                         maxLines = 2
                                     )
                                     Text(
-                                        text = "Số lượng: ${cartItem.quantity}",
+                                        text = "Số lượng: ${cartItem.SoLuong}",
                                         fontSize = 14.sp
                                     )
                                     Text(
-                                        text = "${(cartItem.product.price-((cartItem.product.price * cartItem.product.discount) / 100) )/ 1000}.000 VNĐ",
+                                        text = "${(cartItem.product?.Gia ?: 0 - ((cartItem.product?.Gia ?: 0 * (cartItem.product?.GiamGia ?: 0)) / 100)) / 1000}.000 VNĐ",
                                         fontSize = 14.sp,
                                         color = Color.Red,
                                         fontWeight = FontWeight.Bold
