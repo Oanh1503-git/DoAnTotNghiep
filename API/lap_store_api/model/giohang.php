@@ -47,9 +47,7 @@ class giohang extends SanPham
 
     public function GetGioHangByMaKhachHang()
     {
-        $query = "SELECT *
-              FROM giohang
-              WHERE MaKhachHang = ?";
+        $query = "SELECT g.*, s.TenSanPham, s.Gia, h.DuongDan AS HinhAnh FROM giohang g JOIN sanpham s ON g.MaSanPham = s.MaSanPham LEFT JOIN hinhanh h ON s.MaSanPham = h.MaSanPham AND h.MacDinh = 1 WHERE g.MaKhachHang = ? AND g.TrangThai = 1;";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $this->MaKhachHang);
         $stmt->execute();
