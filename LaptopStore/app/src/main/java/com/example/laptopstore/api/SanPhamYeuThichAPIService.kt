@@ -1,5 +1,6 @@
 package com.example.laptopstore.api
 
+import com.example.laptopstore.models.HienSanPhamYeuThich
 import com.example.laptopstore.models.SanPhamYeuThich
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -7,10 +8,10 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
 
-data class SanPhamYeuThichResponse(
-    val sanphamyeuthich: List<SanPhamYeuThich>
-)
 
+data class HienSanPhamYeuThichResponse(
+    val hiensanphamyeuthich: List<HienSanPhamYeuThich>
+)
 data class CheckFavoriteResponse(
     val isFavorite: Boolean
 )
@@ -36,5 +37,5 @@ interface SanPhamYeuThichAPIService {
     @GET("SanPhamYeuThich/readByKhachHang.php")
     suspend fun getFavoritesByKhachHang(
         @Query("MaKhachHang") MaKhachHang: String
-    ): SanPhamYeuThichResponse
+    ): HienSanPhamYeuThichResponse
 }

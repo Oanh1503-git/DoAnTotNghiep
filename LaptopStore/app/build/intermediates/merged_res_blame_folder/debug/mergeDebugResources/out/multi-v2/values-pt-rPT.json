@@ -4,7 +4,7 @@
             "outputFile": "com.example.laptopstore.app-mergeDebugResources-62:/values-pt-rPT/values-pt-rPT.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\MSI\\.gradle\\caches\\8.10.2\\transforms\\74437465919a3e30325f9c26c1ab6c3d\\transformed\\foundation-release\\res\\values-pt-rPT\\values-pt-rPT.xml",
+                    "source": "G:\\andi\\jbr\\caches\\8.10.2\\transforms\\74437465919a3e30325f9c26c1ab6c3d\\transformed\\foundation-release\\res\\values-pt-rPT\\values-pt-rPT.xml",
                     "from": {
                         "startLines": "2,3,4",
                         "startColumns": "4,4,4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\MSI\\.gradle\\caches\\8.10.2\\transforms\\02fb9db5beb56ad7b9b0ba72b372ed85\\transformed\\play-services-base-18.5.0\\res\\values-pt-rPT\\values.xml",
+                    "source": "G:\\andi\\jbr\\caches\\8.10.2\\transforms\\02fb9db5beb56ad7b9b0ba72b372ed85\\transformed\\play-services-base-18.5.0\\res\\values-pt-rPT\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -38,41 +38,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\MSI\\.gradle\\caches\\8.10.2\\transforms\\d957fb3c8812ec84bcbfb2db76049aba\\transformed\\ui-release\\res\\values-pt-rPT\\values-pt-rPT.xml",
-                    "from": {
-                        "startLines": "3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "198,293,376,473,572,658,737,834,925,1012,1097,1187,1263,1348,1424,1503,1578,1654,1726",
-                        "endColumns": "94,82,96,98,85,78,96,90,86,84,89,75,84,75,78,74,75,71,121",
-                        "endOffsets": "288,371,468,567,653,732,829,920,1007,1092,1182,1258,1343,1419,1498,1573,1649,1721,1843"
-                    },
-                    "to": {
-                        "startLines": "10,11,30,31,32,33,34,91,92,93,94,95,96,97,98,99,101,102,103",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "929,1024,3441,3538,3637,3723,3802,10186,10277,10364,10449,10539,10615,10700,10776,10855,11031,11107,11179",
-                        "endColumns": "94,82,96,98,85,78,96,90,86,84,89,75,84,75,78,74,75,71,121",
-                        "endOffsets": "1019,1102,3533,3632,3718,3797,3894,10272,10359,10444,10534,10610,10695,10771,10850,10925,11102,11174,11296"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\MSI\\.gradle\\caches\\8.10.2\\transforms\\93d7e42196fec241ab031a6a003d0dce\\transformed\\play-services-basement-18.4.0\\res\\values-pt-rPT\\values.xml",
-                    "from": {
-                        "startLines": "4",
-                        "startColumns": "0",
-                        "startOffsets": "199",
-                        "endColumns": "140",
-                        "endOffsets": "339"
-                    },
-                    "to": {
-                        "startLines": "20",
-                        "startColumns": "4",
-                        "startOffsets": "2138",
-                        "endColumns": "144",
-                        "endOffsets": "2278"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\MSI\\.gradle\\caches\\8.10.2\\transforms\\a3d003f464f1278ecf2da5325b8bbece\\transformed\\material3-release\\res\\values-pt-rPT\\values-pt-rPT.xml",
+                    "source": "G:\\andi\\jbr\\caches\\8.10.2\\transforms\\a3d003f464f1278ecf2da5325b8bbece\\transformed\\material3-release\\res\\values-pt-rPT\\values-pt-rPT.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -89,7 +55,41 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\MSI\\.gradle\\caches\\8.10.2\\transforms\\41c73777f30a0f85ec0e2858b9cee3b8\\transformed\\core-1.15.0\\res\\values-pt-rPT\\values-pt-rPT.xml",
+                    "source": "G:\\andi\\jbr\\caches\\8.10.2\\transforms\\d957fb3c8812ec84bcbfb2db76049aba\\transformed\\ui-release\\res\\values-pt-rPT\\values-pt-rPT.xml",
+                    "from": {
+                        "startLines": "3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "198,293,376,473,572,658,737,834,925,1012,1097,1187,1263,1348,1424,1503,1578,1654,1726",
+                        "endColumns": "94,82,96,98,85,78,96,90,86,84,89,75,84,75,78,74,75,71,121",
+                        "endOffsets": "288,371,468,567,653,732,829,920,1007,1092,1182,1258,1343,1419,1498,1573,1649,1721,1843"
+                    },
+                    "to": {
+                        "startLines": "10,11,30,31,32,33,34,91,92,93,94,95,96,97,98,99,101,102,103",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "929,1024,3441,3538,3637,3723,3802,10186,10277,10364,10449,10539,10615,10700,10776,10855,11031,11107,11179",
+                        "endColumns": "94,82,96,98,85,78,96,90,86,84,89,75,84,75,78,74,75,71,121",
+                        "endOffsets": "1019,1102,3533,3632,3718,3797,3894,10272,10359,10444,10534,10610,10695,10771,10850,10925,11102,11174,11296"
+                    }
+                },
+                {
+                    "source": "G:\\andi\\jbr\\caches\\8.10.2\\transforms\\93d7e42196fec241ab031a6a003d0dce\\transformed\\play-services-basement-18.4.0\\res\\values-pt-rPT\\values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "199",
+                        "endColumns": "140",
+                        "endOffsets": "339"
+                    },
+                    "to": {
+                        "startLines": "20",
+                        "startColumns": "4",
+                        "startOffsets": "2138",
+                        "endColumns": "144",
+                        "endOffsets": "2278"
+                    }
+                },
+                {
+                    "source": "G:\\andi\\jbr\\caches\\8.10.2\\transforms\\41c73777f30a0f85ec0e2858b9cee3b8\\transformed\\core-1.15.0\\res\\values-pt-rPT\\values-pt-rPT.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",

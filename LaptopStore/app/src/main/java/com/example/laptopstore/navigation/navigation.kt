@@ -20,6 +20,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.laptopstore.AddressScreen
 
 import com.example.laptopstore.viewmodels.GioHangViewModel
+import com.example.laptopstore.viewmodels.SanPhamYeuThichViewModel
 import com.example.laptopstore.views.*
 
 @Composable
@@ -30,8 +31,9 @@ fun NavigationGraph(
     khachHangViewModel: KhachHangViewModels,
     taiKhoanViewModel: TaiKhoanViewModel,
     diaChiViewModel: DiaChiViewmodel = viewModel(),
-    gioHangViewModel: GioHangViewModel
-) {
+    gioHangViewModel: GioHangViewModel,
+    sanPhamYeuThichViewModel: SanPhamYeuThichViewModel = viewModel()
+){
     NavHost(
         navController = navHostController,
         startDestination = Screens.HOMEPAGE.route
@@ -118,5 +120,13 @@ fun NavigationGraph(
                 taiKhoanViewModel
             )
         }
+        composable(Screens.FAVORITEPRODUCTS.route) {
+            FavoriteProductsScreen(
+                navController = navHostController,
+                sanPhamYeuThichViewModel = sanPhamYeuThichViewModel,
+                taiKhoanViewModel = taiKhoanViewModel
+            )
+        }
+
     }
 }
