@@ -3,6 +3,7 @@ package com.example.laptopstore.views
 import android.app.AlertDialog
 import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,13 +21,18 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,6 +43,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -44,6 +51,8 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.lapstore.viewmodels.DiaChiViewmodel
 import com.example.laptopstore.models.CartItem
+import com.example.laptopstore.models.DiaChi
+import com.example.laptopstore.viewmodels.DataStoreManager
 import com.example.laptopstore.viewmodels.KhachHangViewModels
 import com.example.laptopstore.viewmodels.TaiKhoanViewModel
 import kotlinx.serialization.Serializable
@@ -61,6 +70,28 @@ fun CheckoutScreen(navController: NavHostController,
 {
     var errorMessage by remember { mutableStateOf<String?>(null) }
 
+    var showDiaChiDialog by remember { mutableStateOf(false) }
+    val danhSachDiaChi by diaChiViewmodel.listDiaChi.collectAsState()
+    var diaChiDuocChon by remember {
+        mutableStateOf( DiaChi.EMPTY) }
+
+    var context = LocalContext.current
+    val dataStoreManager = remember { DataStoreManager(context) }
+    val customerId by dataStoreManager.customerId.collectAsState(initial = null)
+    val maKhachHang = customerId
+    LaunchedEffect(customerId) {
+        if (!customerId.isNullOrBlank()) {
+            diaChiViewmodel.getDiaChiKhachHang(customerId)
+            Log.d("Checkout", "Gọi API với mã KH: $customerId")
+        } else {
+            Log.d("Checkout", "customerId vẫn null hoặc rỗng")
+        }
+    }
+    LaunchedEffect (danhSachDiaChi){
+        if(danhSachDiaChi.isNotEmpty() &&  diaChiDuocChon== DiaChi.EMPTY){
+            diaChiDuocChon =danhSachDiaChi.firstOrNull{it.MacDinh == 1} ?: DiaChi.EMPTY
+        }
+    }
     val cartItems = try {
         val decodedJson = URLDecoder.decode(cartItemsJson, StandardCharsets.UTF_8.toString())
         Json.decodeFromString<List<CartItem>>(decodedJson)
@@ -113,29 +144,28 @@ fun CheckoutScreen(navController: NavHostController,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             item {
-                Text(
-                    text = "Thông tin giao hàng",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold
-                )
-                OutlinedTextField(
-                    value = fullName,
-                    onValueChange = { fullName = it },
-                    label = { Text("Họ và tên") },
-                    modifier = Modifier.fillMaxWidth()
-                )
-                OutlinedTextField(
-                    value = address,
-                    onValueChange = { address = it },
-                    label = { Text("Địa chỉ") },
-                    modifier = Modifier.fillMaxWidth()
-                )
-                OutlinedTextField(
-                    value = phone,
-                    onValueChange = { phone = it },
-                    label = { Text("Số điện thoại") },
-                    modifier = Modifier.fillMaxWidth()
-                )
+                Text("Địa chỉ giao hàng", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp)
+                        .clickable { showDiaChiDialog = true },
+                    shape = RoundedCornerShape(8.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color(0xFFE0F7FA)
+                    )
+                ) {
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        if (diaChiDuocChon.MaDiaChi == 0) {
+                            Text("Chưa chọn địa chỉ")
+                        } else {
+                            Text("Người nhận: ${diaChiDuocChon.TenNguoiNhan}")
+                            Text("SĐT: ${diaChiDuocChon.SoDienThoai}")
+                            Text("Địa chỉ: ${diaChiDuocChon.ThongTinDiaChi}")
+                        }
+                    }
+                }
             }
             item {
                 Text(
@@ -254,7 +284,7 @@ fun CheckoutScreen(navController: NavHostController,
                     shape = RoundedCornerShape(8.dp)
                 ) {
                     Text(
-                        text = "Xác nhận thanh toán",
+                        text = "Xác nhận đặt hàng ",
                         color = Color.White,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium
@@ -262,5 +292,46 @@ fun CheckoutScreen(navController: NavHostController,
                 }
             }
         }
+        if (showDiaChiDialog) {
+            AlertDialog(
+                onDismissRequest = { showDiaChiDialog = false },
+                title = { Text("Chọn địa chỉ giao hàng") },
+                text = {
+                    Column(modifier = Modifier.height(300.dp)) {
+                        LazyColumn {
+                            items(danhSachDiaChi.size) { index ->
+                                val diaChi = danhSachDiaChi[index]
+                                Card(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 4.dp)
+                                        .clickable {
+                                            diaChiDuocChon = diaChi
+                                            showDiaChiDialog = false
+                                        },
+                                    shape = RoundedCornerShape(8.dp),
+                                    colors = CardDefaults.cardColors(
+                                        containerColor = if (diaChi.MacDinh == 1)
+                                            Color(0xFFE0F7FA) else Color.White
+                                    )
+                                ) {
+                                    Column(modifier = Modifier.padding(12.dp)) {
+                                        Text("Người nhận: ${diaChi.TenNguoiNhan}")
+                                        Text("SĐT: ${diaChi.SoDienThoai}")
+                                        Text("Địa chỉ: ${diaChi.ThongTinDiaChi}")
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                confirmButton = {
+                    TextButton(onClick = { showDiaChiDialog = false }) {
+                        Text("Đóng")
+                    }
+                }
+            )
+        }
+
     }
 }

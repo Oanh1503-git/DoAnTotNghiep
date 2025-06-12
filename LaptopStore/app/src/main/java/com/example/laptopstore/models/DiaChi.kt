@@ -9,3 +9,8 @@ data class DiaChi(
     val SoDienThoai: String,
     val MacDinh: Int
 )
+{
+    companion object {
+        val EMPTY = DiaChi(0,"","","","",0)
+    }
+}

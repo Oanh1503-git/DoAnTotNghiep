@@ -27,7 +27,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import com.example.laptopstore.models.CartItem
 import com.example.laptopstore.models.GioHang
+import com.example.laptopstore.models.Product
 import com.example.laptopstore.models.Screens
 import com.example.laptopstore.models.SanPham
 import com.example.laptopstore.viewmodels.GioHangViewModel
@@ -192,7 +194,6 @@ fun CartScreen(
                             TenSanPham = sp.TenSanPham,
                             HinhAnh = sp.HinhAnh,
                             Gia = sp.Gia,
-                            GiamGia = sp.GiamGia,
                             SoLuong = sp.SoLuong
                         )
                     }
