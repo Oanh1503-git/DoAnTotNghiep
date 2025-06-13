@@ -1,4 +1,3 @@
-
 com.example.laptopstore.app-room-runtime-release-0 C:\Users\MSI\.gradle\caches\8.10.2\transforms\01b06e2eb5b409abe6b3a46aa7c304fd\transformed\room-runtime-release\res
 com.example.laptopstore.app-play-services-base-18.5.0-1 C:\Users\MSI\.gradle\caches\8.10.2\transforms\02fb9db5beb56ad7b9b0ba72b372ed85\transformed\play-services-base-18.5.0\res
 com.example.laptopstore.app-activity-ktx-1.10.1-2 C:\Users\MSI\.gradle\caches\8.10.2\transforms\09828a53a376661bbc67be0fb0cccb42\transformed\activity-ktx-1.10.1\res
@@ -59,79 +58,10 @@ com.example.laptopstore.app-profileinstaller-1.4.0-56 C:\Users\MSI\.gradle\cache
 com.example.laptopstore.app-navigation-runtime-release-57 C:\Users\MSI\.gradle\caches\8.10.2\transforms\fb940477b3094ff7a2a9012d5c74b21e\transformed\navigation-runtime-release\res
 com.example.laptopstore.app-ui-util-release-58 C:\Users\MSI\.gradle\caches\8.10.2\transforms\fe4acf48dcf714e00037f9ec7debdf08\transformed\ui-util-release\res
 com.example.laptopstore.app-core-1.5.0-59 C:\Users\MSI\.gradle\caches\8.10.2\transforms\fec920892c61451ac95457188472a843\transformed\core-1.5.0\res
-com.example.laptopstore.app-pngs-60 D:\DoAn\DoAnTotNghiep\LaptopStore\app\build\generated\res\pngs\debug
-com.example.laptopstore.app-resValues-61 D:\DoAn\DoAnTotNghiep\LaptopStore\app\build\generated\res\resValues\debug
-com.example.laptopstore.app-packageDebugResources-62 D:\DoAn\DoAnTotNghiep\LaptopStore\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
-com.example.laptopstore.app-packageDebugResources-63 D:\DoAn\DoAnTotNghiep\LaptopStore\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
-com.example.laptopstore.app-debug-64 D:\DoAn\DoAnTotNghiep\LaptopStore\app\build\intermediates\merged_res\debug\mergeDebugResources
-com.example.laptopstore.app-debug-65 D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\debug\res
-com.example.laptopstore.app-main-66 D:\DoAn\DoAnTotNghiep\LaptopStore\app\src\main\res
-
-com.example.laptopstore.app-room-runtime-release-0 G:\andi\jbr\caches\8.10.2\transforms\01b06e2eb5b409abe6b3a46aa7c304fd\transformed\room-runtime-release\res
-com.example.laptopstore.app-play-services-base-18.5.0-1 G:\andi\jbr\caches\8.10.2\transforms\02fb9db5beb56ad7b9b0ba72b372ed85\transformed\play-services-base-18.5.0\res
-com.example.laptopstore.app-activity-ktx-1.10.1-2 G:\andi\jbr\caches\8.10.2\transforms\09828a53a376661bbc67be0fb0cccb42\transformed\activity-ktx-1.10.1\res
-com.example.laptopstore.app-emoji2-1.4.0-3 G:\andi\jbr\caches\8.10.2\transforms\19866cb8a559eca3c3fe7bd054c8bfe4\transformed\emoji2-1.4.0\res
-com.example.laptopstore.app-lifecycle-livedata-core-ktx-2.9.0-beta01-4 G:\andi\jbr\caches\8.10.2\transforms\1d7d0b88185406f2f696c8036d292c5c\transformed\lifecycle-livedata-core-ktx-2.9.0-beta01\res
-com.example.laptopstore.app-datastore-preferences-1.0.0-5 G:\andi\jbr\caches\8.10.2\transforms\2517d1a41553ed195ab9b1c3d556c8a2\transformed\datastore-preferences-1.0.0\res
-com.example.laptopstore.app-lifecycle-viewmodel-ktx-2.9.0-beta01-6 G:\andi\jbr\caches\8.10.2\transforms\26044d5f422a3d31ef4946e5ffc6ccba\transformed\lifecycle-viewmodel-ktx-2.9.0-beta01\res
-com.example.laptopstore.app-core-ktx-1.15.0-7 G:\andi\jbr\caches\8.10.2\transforms\2c417450880f1016426c12f0e4174400\transformed\core-ktx-1.15.0\res
-com.example.laptopstore.app-sqlite-framework-release-8 G:\andi\jbr\caches\8.10.2\transforms\333f210823b79fa93ef1fbdce4eee7a0\transformed\sqlite-framework-release\res
-com.example.laptopstore.app-lifecycle-runtime-release-9 G:\andi\jbr\caches\8.10.2\transforms\3ae584a086b0ff7f553784f7c88c4332\transformed\lifecycle-runtime-release\res
-com.example.laptopstore.app-lifecycle-viewmodel-compose-release-10 G:\andi\jbr\caches\8.10.2\transforms\3d2246c7ff9efd36d42693e9e1ee300f\transformed\lifecycle-viewmodel-compose-release\res
-com.example.laptopstore.app-tracing-1.2.0-11 G:\andi\jbr\caches\8.10.2\transforms\3e29ec486571686c3e774df4aa31baa0\transformed\tracing-1.2.0\res
-com.example.laptopstore.app-core-1.15.0-12 G:\andi\jbr\caches\8.10.2\transforms\41c73777f30a0f85ec0e2858b9cee3b8\transformed\core-1.15.0\res
-com.example.laptopstore.app-runtime-saveable-release-13 G:\andi\jbr\caches\8.10.2\transforms\43f6cadcae2799fbf2f4725beb6acd95\transformed\runtime-saveable-release\res
-com.example.laptopstore.app-lifecycle-viewmodel-release-14 G:\andi\jbr\caches\8.10.2\transforms\4543417fbce4e037e3715690d253bdd0\transformed\lifecycle-viewmodel-release\res
-com.example.laptopstore.app-lifecycle-livedata-core-2.9.0-beta01-15 G:\andi\jbr\caches\8.10.2\transforms\463be8615089693af42bf904051760f0\transformed\lifecycle-livedata-core-2.9.0-beta01\res
-com.example.laptopstore.app-startup-runtime-1.1.1-16 G:\andi\jbr\caches\8.10.2\transforms\4b2f28a06f88c4135bbaed94656f9b52\transformed\startup-runtime-1.1.1\res
-com.example.laptopstore.app-customview-poolingcontainer-1.0.0-17 G:\andi\jbr\caches\8.10.2\transforms\4b573cbfae6f5487920e4a68618c6f4f\transformed\customview-poolingcontainer-1.0.0\res
-com.example.laptopstore.app-ui-graphics-release-18 G:\andi\jbr\caches\8.10.2\transforms\514d7e520f1a87e21e74165fc5238360\transformed\ui-graphics-release\res
-com.example.laptopstore.app-savedstate-ktx-1.3.0-beta01-19 G:\andi\jbr\caches\8.10.2\transforms\61a2be8e3c6554407b1b23c2f4e6b180\transformed\savedstate-ktx-1.3.0-beta01\res
-com.example.laptopstore.app-savedstate-release-20 G:\andi\jbr\caches\8.10.2\transforms\630090a38bd602128ba807b0dc4a5d41\transformed\savedstate-release\res
-com.example.laptopstore.app-appcompat-resources-1.6.1-21 G:\andi\jbr\caches\8.10.2\transforms\67a32adabe010980e1e5b3e1bd444283\transformed\appcompat-resources-1.6.1\res
-com.example.laptopstore.app-material-icons-extended-release-22 G:\andi\jbr\caches\8.10.2\transforms\6ac80f15d026c2592b5c28b7fc7eaad6\transformed\material-icons-extended-release\res
-com.example.laptopstore.app-core-viewtree-1.0.0-23 G:\andi\jbr\caches\8.10.2\transforms\738445659e70991008267f525b450f7c\transformed\core-viewtree-1.0.0\res
-com.example.laptopstore.app-foundation-release-24 G:\andi\jbr\caches\8.10.2\transforms\74437465919a3e30325f9c26c1ab6c3d\transformed\foundation-release\res
-com.example.laptopstore.app-ui-test-manifest-1.8.0-25 G:\andi\jbr\caches\8.10.2\transforms\74b3e67804efddd44dd20c8728cf782a\transformed\ui-test-manifest-1.8.0\res
-com.example.laptopstore.app-datastore-1.0.0-26 G:\andi\jbr\caches\8.10.2\transforms\74c66d28299e952480237d1e2af211ff\transformed\datastore-1.0.0\res
-com.example.laptopstore.app-material-release-27 G:\andi\jbr\caches\8.10.2\transforms\7b060ce095201f4aea76b74b35016f9f\transformed\material-release\res
-com.example.laptopstore.app-activity-1.10.1-28 G:\andi\jbr\caches\8.10.2\transforms\7e3c8bc622e51aa5db0bc8caab3ddb97\transformed\activity-1.10.1\res
-com.example.laptopstore.app-lifecycle-livedata-2.9.0-beta01-29 G:\andi\jbr\caches\8.10.2\transforms\7e57b57615abd35b865fafec2633403e\transformed\lifecycle-livedata-2.9.0-beta01\res
-com.example.laptopstore.app-coil-base-2.7.0-30 G:\andi\jbr\caches\8.10.2\transforms\80385315056075c7dd491649cb1b41fa\transformed\coil-base-2.7.0\res
-com.example.laptopstore.app-play-services-basement-18.4.0-31 G:\andi\jbr\caches\8.10.2\transforms\93d7e42196fec241ab031a6a003d0dce\transformed\play-services-basement-18.4.0\res
-com.example.laptopstore.app-ui-test-release-32 G:\andi\jbr\caches\8.10.2\transforms\9615dba2b063d1122e5b5905a2fd5b09\transformed\ui-test-release\res
-com.example.laptopstore.app-navigation-common-release-33 G:\andi\jbr\caches\8.10.2\transforms\9a4fee097ced2fc2306e130981939299\transformed\navigation-common-release\res
-com.example.laptopstore.app-work-runtime-2.7.0-34 G:\andi\jbr\caches\8.10.2\transforms\a3a5b9d63d4172a050a9de899af51c4a\transformed\work-runtime-2.7.0\res
-com.example.laptopstore.app-material3-release-35 G:\andi\jbr\caches\8.10.2\transforms\a3d003f464f1278ecf2da5325b8bbece\transformed\material3-release\res
-com.example.laptopstore.app-lifecycle-service-2.9.0-beta01-36 G:\andi\jbr\caches\8.10.2\transforms\a978fb1147d1f79abcfc86f4ddd779c9\transformed\lifecycle-service-2.9.0-beta01\res
-com.example.laptopstore.app-material-ripple-release-37 G:\andi\jbr\caches\8.10.2\transforms\ac5b64bb54cc0cdec81250e48ac1507c\transformed\material-ripple-release\res
-com.example.laptopstore.app-ui-tooling-release-38 G:\andi\jbr\caches\8.10.2\transforms\af9d71fbba6a4e5dadaf59e33f56b78f\transformed\ui-tooling-release\res
-com.example.laptopstore.app-ui-unit-release-39 G:\andi\jbr\caches\8.10.2\transforms\b14d2b14fc87f895234178374147a973\transformed\ui-unit-release\res
-com.example.laptopstore.app-material-icons-core-release-40 G:\andi\jbr\caches\8.10.2\transforms\b325a0534ae79f3565971548a443f8d0\transformed\material-icons-core-release\res
-com.example.laptopstore.app-ui-text-release-41 G:\andi\jbr\caches\8.10.2\transforms\b4c13a9735669bc7ab478d10d37266d2\transformed\ui-text-release\res
-com.example.laptopstore.app-sqlite-release-42 G:\andi\jbr\caches\8.10.2\transforms\b820561845398dd6f4efef6999b87de4\transformed\sqlite-release\res
-com.example.laptopstore.app-lifecycle-viewmodel-savedstate-release-43 G:\andi\jbr\caches\8.10.2\transforms\ba7913acfd0603cee188227d2688f361\transformed\lifecycle-viewmodel-savedstate-release\res
-com.example.laptopstore.app-activity-compose-1.10.1-44 G:\andi\jbr\caches\8.10.2\transforms\c7a46b1232f68860ff1c7e71aee0fe5a\transformed\activity-compose-1.10.1\res
-com.example.laptopstore.app-navigation-compose-release-45 G:\andi\jbr\caches\8.10.2\transforms\ceebb953f2f03a80848c746ed64b8021\transformed\navigation-compose-release\res
-com.example.laptopstore.app-foundation-layout-release-46 G:\andi\jbr\caches\8.10.2\transforms\d38cc2635843b87a2a529037b943f95d\transformed\foundation-layout-release\res
-com.example.laptopstore.app-animation-core-release-47 G:\andi\jbr\caches\8.10.2\transforms\d587fb6fda1e1eed96797a8fb0040a41\transformed\animation-core-release\res
-com.example.laptopstore.app-ui-release-48 G:\andi\jbr\caches\8.10.2\transforms\d957fb3c8812ec84bcbfb2db76049aba\transformed\ui-release\res
-com.example.laptopstore.app-savedstate-compose-release-49 G:\andi\jbr\caches\8.10.2\transforms\d9c46aad91214a39456f3df0d8bdd5fb\transformed\savedstate-compose-release\res
-com.example.laptopstore.app-lifecycle-runtime-compose-release-50 G:\andi\jbr\caches\8.10.2\transforms\e06d218520585fe99aac53079a7ab715\transformed\lifecycle-runtime-compose-release\res
-com.example.laptopstore.app-core-runtime-2.2.0-51 G:\andi\jbr\caches\8.10.2\transforms\e333443ae1f7a4be5fe20cb581203d6d\transformed\core-runtime-2.2.0\res
-com.example.laptopstore.app-lifecycle-process-2.9.0-beta01-52 G:\andi\jbr\caches\8.10.2\transforms\e3ffdba6fc85313be6e1bbef594739cc\transformed\lifecycle-process-2.9.0-beta01\res
-com.example.laptopstore.app-graphics-path-1.0.1-53 G:\andi\jbr\caches\8.10.2\transforms\e51dbc1cd9a76859263ab8e22bca9218\transformed\graphics-path-1.0.1\res
-com.example.laptopstore.app-annotation-experimental-1.4.1-54 G:\andi\jbr\caches\8.10.2\transforms\ea3600736b59c502db68fd6f6594564b\transformed\annotation-experimental-1.4.1\res
-com.example.laptopstore.app-runtime-release-55 G:\andi\jbr\caches\8.10.2\transforms\f148adb6993b581a2e03886155f4306d\transformed\runtime-release\res
-com.example.laptopstore.app-profileinstaller-1.4.0-56 G:\andi\jbr\caches\8.10.2\transforms\fa1a52669f0dd202113e79a9dfeb3a69\transformed\profileinstaller-1.4.0\res
-com.example.laptopstore.app-navigation-runtime-release-57 G:\andi\jbr\caches\8.10.2\transforms\fb940477b3094ff7a2a9012d5c74b21e\transformed\navigation-runtime-release\res
-com.example.laptopstore.app-ui-util-release-58 G:\andi\jbr\caches\8.10.2\transforms\fe4acf48dcf714e00037f9ec7debdf08\transformed\ui-util-release\res
-com.example.laptopstore.app-core-1.5.0-59 G:\andi\jbr\caches\8.10.2\transforms\fec920892c61451ac95457188472a843\transformed\core-1.5.0\res
-com.example.laptopstore.app-pngs-60 G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\build\generated\res\pngs\debug
-com.example.laptopstore.app-resValues-61 G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\build\generated\res\resValues\debug
-com.example.laptopstore.app-packageDebugResources-62 G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
-com.example.laptopstore.app-packageDebugResources-63 G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
-com.example.laptopstore.app-debug-64 G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\build\intermediates\merged_res\debug\mergeDebugResources
-com.example.laptopstore.app-debug-65 G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\src\debug\res
-com.example.laptopstore.app-main-66 G:\laptrinhdidong\DoAnTotNghiep\LaptopStore\app\src\main\res
-
+com.example.laptopstore.app-pngs-60 D:\DoAn\New folder\DoAnTotNghiep\LaptopStore\app\build\generated\res\pngs\debug
+com.example.laptopstore.app-resValues-61 D:\DoAn\New folder\DoAnTotNghiep\LaptopStore\app\build\generated\res\resValues\debug
+com.example.laptopstore.app-packageDebugResources-62 D:\DoAn\New folder\DoAnTotNghiep\LaptopStore\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
+com.example.laptopstore.app-packageDebugResources-63 D:\DoAn\New folder\DoAnTotNghiep\LaptopStore\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
+com.example.laptopstore.app-debug-64 D:\DoAn\New folder\DoAnTotNghiep\LaptopStore\app\build\intermediates\merged_res\debug\mergeDebugResources
+com.example.laptopstore.app-debug-65 D:\DoAn\New folder\DoAnTotNghiep\LaptopStore\app\src\debug\res
+com.example.laptopstore.app-main-66 D:\DoAn\New folder\DoAnTotNghiep\LaptopStore\app\src\main\res
