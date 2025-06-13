@@ -1,6 +1,7 @@
 package com.example.laptopstore.models
 
 sealed class Screens(val route: String) {
+    object FAVORITEPRODUCTS : Screens("favorite_products")
     object HOMEPAGE : Screens("HOMEPAGE")
     object ACCOUNTSCREENS : Screens("ACCOUNTSCREENS")
     object ACCOUNTDETAIL : Screens("account_detail/{maKhachHang}") {

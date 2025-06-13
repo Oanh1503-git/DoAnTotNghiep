@@ -4,6 +4,7 @@
             "outputFile": "com.example.laptopstore.app-mergeDebugResources-62:/values/values.xml",
             "map": [
                 {
+
                     "source": "C:\\Users\\MSI\\.gradle\\caches\\8.10.2\\transforms\\4543417fbce4e037e3715690d253bdd0\\transformed\\lifecycle-viewmodel-release\\res\\values\\values.xml",
                     "from": {
                         "startLines": "2",
@@ -132,6 +133,9 @@
                 },
                 {
                     "source": "C:\\Users\\MSI\\.gradle\\caches\\8.10.2\\transforms\\d957fb3c8812ec84bcbfb2db76049aba\\transformed\\ui-release\\res\\values\\values.xml",
+
+                    "source": "G:\\andi\\jbr\\caches\\8.10.2\\transforms\\d957fb3c8812ec84bcbfb2db76049aba\\transformed\\ui-release\\res\\values\\values.xml",
+
                     "from": {
                         "startLines": "34,35,36,37,38,39,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,63,66",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -150,6 +154,7 @@
                     }
                 },
                 {
+
                     "source": "D:\\DoAn\\DoAnTotNghiep\\LaptopStore\\app\\src\\main\\res\\values\\colors.xml",
                     "from": {
                         "startLines": "7,2,3,4,5,6,8",
@@ -187,6 +192,43 @@
                 },
                 {
                     "source": "C:\\Users\\MSI\\.gradle\\caches\\8.10.2\\transforms\\74437465919a3e30325f9c26c1ab6c3d\\transformed\\foundation-release\\res\\values\\values.xml",
+
+                    "source": "G:\\laptrinhdidong\\DoAnTotNghiep\\LaptopStore\\app\\src\\main\\res\\values\\strings.xml",
+                    "from": {
+                        "startLines": "1",
+                        "startColumns": "4",
+                        "startOffsets": "17",
+                        "endColumns": "48",
+                        "endOffsets": "61"
+                    },
+                    "to": {
+                        "startLines": "123",
+                        "startColumns": "4",
+                        "startOffsets": "7546",
+                        "endColumns": "48",
+                        "endOffsets": "7590"
+                    }
+                },
+                {
+                    "source": "G:\\laptrinhdidong\\DoAnTotNghiep\\LaptopStore\\app\\src\\main\\res\\values\\colors.xml",
+                    "from": {
+                        "startLines": "7,2,3,4,5,6,8",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "293,57,105,153,201,247,336",
+                        "endColumns": "41,46,46,46,44,44,41",
+                        "endOffsets": "330,99,147,195,241,287,373"
+                    },
+                    "to": {
+                        "startLines": "9,22,23,24,25,26,27",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "630,1606,1653,1700,1747,1792,1837",
+                        "endColumns": "41,46,46,46,44,44,41",
+                        "endOffsets": "667,1648,1695,1742,1787,1832,1874"
+                    }
+                },
+                {
+                    "source": "G:\\andi\\jbr\\caches\\8.10.2\\transforms\\74437465919a3e30325f9c26c1ab6c3d\\transformed\\foundation-release\\res\\values\\values.xml",
+
                     "from": {
                         "startLines": "2,3,4",
                         "startColumns": "4,4,4",
@@ -203,6 +245,7 @@
                     }
                 },
                 {
+
                     "source": "C:\\Users\\MSI\\.gradle\\caches\\8.10.2\\transforms\\3ae584a086b0ff7f553784f7c88c4332\\transformed\\lifecycle-runtime-release\\res\\values\\values.xml",
                     "from": {
                         "startLines": "2",
@@ -306,6 +349,9 @@
                 },
                 {
                     "source": "C:\\Users\\MSI\\.gradle\\caches\\8.10.2\\transforms\\fb940477b3094ff7a2a9012d5c74b21e\\transformed\\navigation-runtime-release\\res\\values\\values.xml",
+
+                    "source": "G:\\andi\\jbr\\caches\\8.10.2\\transforms\\fb940477b3094ff7a2a9012d5c74b21e\\transformed\\navigation-runtime-release\\res\\values\\values.xml",
+
                     "from": {
                         "startLines": "2,3,10,13",
                         "startColumns": "4,4,4,4",
@@ -324,58 +370,41 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\MSI\\.gradle\\caches\\8.10.2\\transforms\\80385315056075c7dd491649cb1b41fa\\transformed\\coil-base-2.7.0\\res\\values\\values.xml",
+                    "source": "G:\\andi\\jbr\\caches\\8.10.2\\transforms\\630090a38bd602128ba807b0dc4a5d41\\transformed\\savedstate-release\\res\\values\\values.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
                         "startOffsets": "55",
-                        "endColumns": "49",
-                        "endOffsets": "100"
+                        "endColumns": "53",
+                        "endOffsets": "104"
                     },
                     "to": {
-                        "startLines": "86",
+                        "startLines": "117",
                         "startColumns": "4",
-                        "startOffsets": "5542",
-                        "endColumns": "49",
-                        "endOffsets": "5587"
+                        "startOffsets": "7168",
+                        "endColumns": "53",
+                        "endOffsets": "7217"
                     }
                 },
                 {
-                    "source": "C:\\Users\\MSI\\.gradle\\caches\\8.10.2\\transforms\\514d7e520f1a87e21e74165fc5238360\\transformed\\ui-graphics-release\\res\\values\\values.xml",
+                    "source": "G:\\andi\\jbr\\caches\\8.10.2\\transforms\\3ae584a086b0ff7f553784f7c88c4332\\transformed\\lifecycle-runtime-release\\res\\values\\values.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
                         "startOffsets": "55",
-                        "endColumns": "65",
-                        "endOffsets": "116"
+                        "endColumns": "42",
+                        "endOffsets": "93"
                     },
                     "to": {
-                        "startLines": "89",
+                        "startLines": "115",
                         "startColumns": "4",
-                        "startOffsets": "5705",
-                        "endColumns": "65",
-                        "endOffsets": "5766"
+                        "startOffsets": "7065",
+                        "endColumns": "42",
+                        "endOffsets": "7103"
                     }
                 },
                 {
-                    "source": "C:\\Users\\MSI\\.gradle\\caches\\8.10.2\\transforms\\93d7e42196fec241ab031a6a003d0dce\\transformed\\play-services-basement-18.4.0\\res\\values\\values.xml",
-                    "from": {
-                        "startLines": "4,7",
-                        "startColumns": "0,0",
-                        "startOffsets": "243,406",
-                        "endColumns": "63,166",
-                        "endOffsets": "306,572"
-                    },
-                    "to": {
-                        "startLines": "120,142",
-                        "startColumns": "4,4",
-                        "startOffsets": "7325,9311",
-                        "endColumns": "67,166",
-                        "endOffsets": "7388,9473"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\MSI\\.gradle\\caches\\8.10.2\\transforms\\4b2f28a06f88c4135bbaed94656f9b52\\transformed\\startup-runtime-1.1.1\\res\\values\\values.xml",
+                    "source": "G:\\andi\\jbr\\caches\\8.10.2\\transforms\\4b2f28a06f88c4135bbaed94656f9b52\\transformed\\startup-runtime-1.1.1\\res\\values\\values.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -392,7 +421,134 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\MSI\\.gradle\\caches\\8.10.2\\transforms\\41c73777f30a0f85ec0e2858b9cee3b8\\transformed\\core-1.15.0\\res\\values\\values.xml",
+                    "source": "G:\\andi\\jbr\\caches\\8.10.2\\transforms\\9a4fee097ced2fc2306e130981939299\\transformed\\navigation-common-release\\res\\values\\values.xml",
+                    "from": {
+                        "startLines": "2,15,21,27,30",
+                        "startColumns": "4,4,4,4,4",
+                        "startOffsets": "55,694,938,1185,1318",
+                        "endLines": "14,20,26,29,34",
+                        "endColumns": "24,24,24,24,24",
+                        "endOffsets": "689,933,1180,1313,1495"
+                    },
+                    "to": {
+                        "startLines": "434,447,453,459,468",
+                        "startColumns": "4,4,4,4,4",
+                        "startOffsets": "23664,24303,24547,24794,25157",
+                        "endLines": "446,452,458,461,472",
+                        "endColumns": "24,24,24,24,24",
+                        "endOffsets": "24298,24542,24789,24922,25334"
+                    }
+                },
+                {
+                    "source": "G:\\andi\\jbr\\caches\\8.10.2\\transforms\\4543417fbce4e037e3715690d253bdd0\\transformed\\lifecycle-viewmodel-release\\res\\values\\values.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "49",
+                        "endOffsets": "100"
+                    },
+                    "to": {
+                        "startLines": "118",
+                        "startColumns": "4",
+                        "startOffsets": "7222",
+                        "endColumns": "49",
+                        "endOffsets": "7267"
+                    }
+                },
+                {
+                    "source": "G:\\andi\\jbr\\caches\\8.10.2\\transforms\\fec920892c61451ac95457188472a843\\transformed\\core-1.5.0\\res\\values\\values.xml",
+                    "from": {
+                        "startLines": "4,11",
+                        "startColumns": "0,0",
+                        "startOffsets": "176,544",
+                        "endLines": "10,17",
+                        "endColumns": "8,8",
+                        "endOffsets": "543,909"
+                    },
+                    "to": {
+                        "startLines": "255,262",
+                        "startColumns": "4,4",
+                        "startOffsets": "17437,17809",
+                        "endLines": "261,268",
+                        "endColumns": "8,8",
+                        "endOffsets": "17804,18174"
+                    }
+                },
+                {
+                    "source": "G:\\andi\\jbr\\caches\\8.10.2\\transforms\\67a32adabe010980e1e5b3e1bd444283\\transformed\\appcompat-resources-1.6.1\\res\\values\\values.xml",
+                    "from": {
+                        "startLines": "2,18,24,34,50",
+                        "startColumns": "4,4,4,4,4",
+                        "startOffsets": "55,480,658,942,1353",
+                        "endLines": "17,23,33,49,53",
+                        "endColumns": "24,24,24,24,24",
+                        "endOffsets": "475,653,937,1348,1475"
+                    },
+                    "to": {
+                        "startLines": "278,294,300,492,508",
+                        "startColumns": "4,4,4,4,4",
+                        "startOffsets": "18622,19047,19225,25756,26167",
+                        "endLines": "293,299,309,507,511",
+                        "endColumns": "24,24,24,24,24",
+                        "endOffsets": "19042,19220,19504,26162,26289"
+                    }
+                },
+                {
+                    "source": "G:\\andi\\jbr\\caches\\8.10.2\\transforms\\a3d003f464f1278ecf2da5325b8bbece\\transformed\\material3-release\\res\\values\\values.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,14,15,16,17,18,19,20,21,22,23,24,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,143,229,310,394,463,528,611,717,803,923,977,1046,1107,1176,1265,1360,1434,1531,1624,1722,1871,1962,2050,2146,2244,2308,2376,2463,2557,2624,2696,2768,2869,2978,3054,3123,3171,3237,3301,3358,3415,3487,3537,3591,3662,3733,3803,3872,3930,4006,4077,4151,4237,4287,4357",
+                        "endLines": "2,3,4,5,6,7,8,9,10,13,14,15,16,17,18,19,20,21,22,23,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61",
+                        "endColumns": "87,85,80,83,68,64,82,105,85,13,53,68,60,68,88,94,73,96,92,97,13,90,87,95,97,63,67,86,93,66,71,71,100,108,75,68,47,65,63,56,56,71,49,53,70,70,69,68,57,75,70,73,85,49,69,64",
+                        "endOffsets": "138,224,305,389,458,523,606,712,798,918,972,1041,1102,1171,1260,1355,1429,1526,1619,1717,1866,1957,2045,2141,2239,2303,2371,2458,2552,2619,2691,2763,2864,2973,3049,3118,3166,3232,3296,3353,3410,3482,3532,3586,3657,3728,3798,3867,3925,4001,4072,4146,4232,4282,4352,4417"
+                    },
+                    "to": {
+                        "startLines": "157,158,159,160,161,162,163,164,165,166,169,170,171,172,173,174,175,176,177,178,179,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "10941,11029,11115,11196,11280,11349,11414,11497,11603,11689,11809,11863,11932,11993,12062,12151,12246,12320,12417,12510,12608,12757,12848,12936,13032,13130,13194,13262,13349,13443,13510,13582,13654,13755,13864,13940,14009,14057,14123,14187,14244,14301,14373,14423,14477,14548,14619,14689,14758,14816,14892,14963,15037,15123,15173,15243",
+                        "endLines": "157,158,159,160,161,162,163,164,165,168,169,170,171,172,173,174,175,176,177,178,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216",
+                        "endColumns": "87,85,80,83,68,64,82,105,85,13,53,68,60,68,88,94,73,96,92,97,13,90,87,95,97,63,67,86,93,66,71,71,100,108,75,68,47,65,63,56,56,71,49,53,70,70,69,68,57,75,70,73,85,49,69,64",
+                        "endOffsets": "11024,11110,11191,11275,11344,11409,11492,11598,11684,11804,11858,11927,11988,12057,12146,12241,12315,12412,12505,12603,12752,12843,12931,13027,13125,13189,13257,13344,13438,13505,13577,13649,13750,13859,13935,14004,14052,14118,14182,14239,14296,14368,14418,14472,14543,14614,14684,14753,14811,14887,14958,15032,15118,15168,15238,15303"
+                    }
+                },
+                {
+                    "source": "G:\\andi\\jbr\\caches\\8.10.2\\transforms\\738445659e70991008267f525b450f7c\\transformed\\core-viewtree-1.0.0\\res\\values\\values.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "42",
+                        "endOffsets": "93"
+                    },
+                    "to": {
+                        "startLines": "114",
+                        "startColumns": "4",
+                        "startOffsets": "7022",
+                        "endColumns": "42",
+                        "endOffsets": "7060"
+                    }
+                },
+                {
+                    "source": "G:\\andi\\jbr\\caches\\8.10.2\\transforms\\7e3c8bc622e51aa5db0bc8caab3ddb97\\transformed\\activity-1.10.1\\res\\values\\values.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,97",
+                        "endColumns": "41,59",
+                        "endOffsets": "92,152"
+                    },
+                    "to": {
+                        "startLines": "97,116",
+                        "startColumns": "4,4",
+                        "startOffsets": "6121,7108",
+                        "endColumns": "41,59",
+                        "endOffsets": "6158,7163"
+                    }
+                },
+                {
+                    "source": "G:\\andi\\jbr\\caches\\8.10.2\\transforms\\41c73777f30a0f85ec0e2858b9cee3b8\\transformed\\core-1.15.0\\res\\values\\values.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,98,99,103,104,105,106,112,122,157,178,211",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -408,6 +564,127 @@
                         "endLines": "2,7,8,10,11,20,21,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,93,94,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,121,125,126,127,128,129,130,131,226,243,247,248,252,253,269,270,315,325,360,381,414,420",
                         "endColumns": "59,71,87,64,65,68,62,69,67,71,69,60,73,72,60,60,61,63,61,60,67,99,59,65,72,68,56,51,61,71,75,64,58,58,59,59,59,59,59,59,59,59,59,59,58,59,59,59,59,59,59,59,59,59,59,58,59,59,58,58,58,58,58,58,34,34,54,62,54,57,57,60,62,56,50,49,60,56,65,33,34,34,69,66,71,68,68,73,71,87,70,116,12,109,12,128,71,66,24,24,24,24,24,24",
                         "endOffsets": "205,537,625,732,798,1538,1601,1944,2012,2084,2154,2215,2289,2362,2423,2484,2546,2610,2672,2733,2801,2901,2961,3027,3100,3169,3226,3278,3340,3412,3488,3553,3612,3671,3731,3791,3851,3911,3971,4031,4091,4151,4211,4271,4330,4390,4450,4510,4570,4630,4690,4750,4810,4870,4930,4989,5049,5109,5168,5227,5286,5345,5404,5463,5961,5996,6213,6276,6331,6389,6447,6508,6571,6628,6679,6729,6790,6847,6913,6947,6982,7017,7458,7703,7775,7844,7913,7987,8059,8147,15822,16703,16904,17014,17215,17344,18246,18313,19707,20008,21814,22495,23177,23344"
+                    }
+                },
+                {
+                    "source": "G:\\andi\\jbr\\caches\\8.10.2\\transforms\\514d7e520f1a87e21e74165fc5238360\\transformed\\ui-graphics-release\\res\\values\\values.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "65",
+                        "endOffsets": "116"
+                    },
+                    "to": {
+                        "startLines": "89",
+                        "startColumns": "4",
+                        "startOffsets": "5705",
+                        "endColumns": "65",
+                        "endOffsets": "5766"
+                    }
+                },
+                {
+                    "source": "G:\\andi\\jbr\\caches\\8.10.2\\transforms\\80385315056075c7dd491649cb1b41fa\\transformed\\coil-base-2.7.0\\res\\values\\values.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "49",
+                        "endOffsets": "100"
+                    },
+                    "to": {
+                        "startLines": "86",
+                        "startColumns": "4",
+                        "startOffsets": "5542",
+                        "endColumns": "49",
+                        "endOffsets": "5587"
+                    }
+                },
+                {
+                    "source": "G:\\andi\\jbr\\caches\\8.10.2\\transforms\\02fb9db5beb56ad7b9b0ba72b372ed85\\transformed\\play-services-base-18.5.0\\res\\values\\values.xml",
+                    "from": {
+                        "startLines": "4,5,6,7,8,9,10,11,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,33,46",
+                        "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
+                        "startOffsets": "215,301,377,463,549,625,702,778,951,1052,1233,1354,1457,1637,1756,1868,1967,2155,2256,2437,2558,2733,2877,2936,2994,3164,3475",
+                        "endLines": "4,5,6,7,8,9,10,11,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,45,64",
+                        "endColumns": "85,75,85,85,75,76,75,75,100,180,120,102,179,118,111,98,187,100,180,120,174,143,58,57,74,20,20",
+                        "endOffsets": "300,376,462,548,624,701,777,853,1051,1232,1353,1456,1636,1755,1867,1966,2154,2255,2436,2557,2732,2876,2935,2993,3068,3474,3887"
+                    },
+                    "to": {
+                        "startLines": "12,13,14,15,16,17,18,19,134,135,136,137,138,139,140,141,143,144,145,146,147,148,149,150,151,421,473",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "803,893,973,1063,1153,1233,1314,1394,8271,8376,8557,8682,8789,8969,9092,9208,9478,9666,9771,9952,10077,10252,10400,10463,10525,23349,25339",
+                        "endLines": "12,13,14,15,16,17,18,19,134,135,136,137,138,139,140,141,143,144,145,146,147,148,149,150,151,433,491",
+                        "endColumns": "89,79,89,89,79,80,79,79,104,180,124,106,179,122,115,102,187,104,180,124,174,147,62,61,78,20,20",
+                        "endOffsets": "888,968,1058,1148,1228,1309,1389,1469,8371,8552,8677,8784,8964,9087,9203,9306,9661,9766,9947,10072,10247,10395,10458,10520,10599,23659,25751"
+                    }
+                },
+                {
+                    "source": "G:\\laptrinhdidong\\DoAnTotNghiep\\LaptopStore\\app\\src\\main\\res\\values\\themes.xml",
+                    "from": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "59",
+                        "endColumns": "88",
+                        "endOffsets": "143"
+                    },
+                    "to": {
+                        "startLines": "254",
+                        "startColumns": "4",
+                        "startOffsets": "17349",
+                        "endColumns": "87",
+                        "endOffsets": "17432"
+                    }
+                },
+                {
+                    "source": "G:\\andi\\jbr\\caches\\8.10.2\\transforms\\a3a5b9d63d4172a050a9de899af51c4a\\transformed\\work-runtime-2.7.0\\res\\values\\values.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,120,190,254",
+                        "endColumns": "64,69,63,60",
+                        "endOffsets": "115,185,249,310"
+                    },
+                    "to": {
+                        "startLines": "3,4,5,6",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "210,275,345,409",
+                        "endColumns": "64,69,63,60",
+                        "endOffsets": "270,340,404,465"
+                    }
+                },
+                {
+                    "source": "G:\\andi\\jbr\\caches\\8.10.2\\transforms\\4b573cbfae6f5487920e4a68618c6f4f\\transformed\\customview-poolingcontainer-1.0.0\\res\\values\\values.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,109",
+                        "endColumns": "53,66",
+                        "endOffsets": "104,171"
+                    },
+                    "to": {
+                        "startLines": "92,96",
+                        "startColumns": "4,4",
+                        "startOffsets": "5877,6054",
+                        "endColumns": "53,66",
+                        "endOffsets": "5926,6116"
+                    }
+                },
+                {
+                    "source": "G:\\andi\\jbr\\caches\\8.10.2\\transforms\\93d7e42196fec241ab031a6a003d0dce\\transformed\\play-services-basement-18.4.0\\res\\values\\values.xml",
+                    "from": {
+                        "startLines": "4,7",
+                        "startColumns": "0,0",
+                        "startOffsets": "243,406",
+                        "endColumns": "63,166",
+                        "endOffsets": "306,572"
+                    },
+                    "to": {
+                        "startLines": "120,142",
+                        "startColumns": "4,4",
+                        "startOffsets": "7325,9311",
+                        "endColumns": "67,166",
+                        "endOffsets": "7388,9473"
                     }
                 }
             ]

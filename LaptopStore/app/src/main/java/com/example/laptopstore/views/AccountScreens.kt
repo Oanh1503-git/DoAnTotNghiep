@@ -242,7 +242,13 @@ fun AccountScreens(
                     AccountItem(
                         icon = Icons.Default.Favorite,
                         text = "Sản Phẩm Yêu Thích",
-                        onClick = { navHostController.navigate(Screens.HOMEPAGE.route) }
+                        onClick = {
+                            if (!maKhachHang.isNullOrEmpty()) {
+                                navHostController.navigate(Screens.FAVORITEPRODUCTS.route)
+                            } else {
+                                navHostController.navigate(Screens.HOMEPAGE.route)
+                            }
+                        }
                     )
                 }
 

@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.laptopstore.RetrofitClient.LaptopStoreRetrofitClient
+import com.example.laptopstore.models.HienSanPhamYeuThich
 import com.example.laptopstore.models.SanPhamYeuThich
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,11 +15,12 @@ class SanPhamYeuThichViewModel : ViewModel() {
     private val _isFavorite = MutableStateFlow(false)
     val isFavorite: StateFlow<Boolean> = _isFavorite.asStateFlow()
 
-    private val _favorites = MutableStateFlow<List<SanPhamYeuThich>>(emptyList())
-    val favorites: StateFlow<List<SanPhamYeuThich>> = _favorites.asStateFlow()
-
+    private val _showfavorites = MutableStateFlow<List<HienSanPhamYeuThich>>(emptyList())
+    val showfavorites: StateFlow<List<HienSanPhamYeuThich>> = _showfavorites.asStateFlow()
     private val _errorMessage = MutableStateFlow<String?>(null)
     val errorMessage: StateFlow<String?> = _errorMessage.asStateFlow()
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
 
     fun checkFavorite(productId: Int, customerId: String) {
         viewModelScope.launch {
@@ -68,11 +70,12 @@ class SanPhamYeuThichViewModel : ViewModel() {
     }
 
     fun getFavoritesByKhachHang(customerId: String) {
+        _isLoading.value = true
         viewModelScope.launch {
             try {
                 val response = LaptopStoreRetrofitClient.sanPhamYeuThichAPIService.getFavoritesByKhachHang(customerId)
-                _favorites.value = response.sanphamyeuthich
-                Log.d("SanPhamYeuThichViewModel", "Favorites loaded: ${response.sanphamyeuthich.size}")
+                _showfavorites.value = response.hiensanphamyeuthich
+                Log.d("SanPhamYeuThichViewModel", "Favorites loaded: ${response.hiensanphamyeuthich.size}")
             } catch (e: Exception) {
                 _errorMessage.value = "Lỗi tải danh sách yêu thích: ${e.message}"
                 Log.e("SanPhamYeuThichViewModel", "Error loading favorites: ${e.message}")
