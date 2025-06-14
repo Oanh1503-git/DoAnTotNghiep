@@ -238,7 +238,11 @@ fun ProductDetail(
                 },
                 actions = {
                     IconButton(onClick = {
-                        sanPhamYeuThichViewModel.toggleFavorite(productId, maKhachHang ?: "")
+                        if (!maKhachHang.isNullOrEmpty()) {
+                            sanPhamYeuThichViewModel.toggleFavorite(productId, maKhachHang!!)
+                        } else {
+                            showLoginDialog = true
+                        }
                     }) {
                         Icon(
                             imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
