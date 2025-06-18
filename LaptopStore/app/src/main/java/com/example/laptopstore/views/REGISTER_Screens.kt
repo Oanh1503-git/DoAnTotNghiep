@@ -167,7 +167,10 @@ fun RegisterScreen(
                                     )
                                     if (success) {
                                         snackbarHostState.showSnackbar("Đăng ký thành công!")
-                                        navController.navigate(Screens.Login_Screens.route)
+                                        navController.navigate(
+                                            Screens.VERIFYEMAILSCREEN.createRoute(userInput.email, userInput.username)
+                                        )
+
                                     } else {
                                         snackbarHostState.showSnackbar("Tạo tài khoản thất bại!")
                                     }

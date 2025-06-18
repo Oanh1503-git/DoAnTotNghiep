@@ -9,6 +9,7 @@ import com.example.laptopstore.api.SanPhamAPIService
 import TaiKhoanAPIService
 import com.example.laptopstore.api.BinhLuanAPIService
 import com.example.laptopstore.api.KhachHangAPIService
+import com.example.laptopstore.api.OtpAPIService
 import com.example.laptopstore.api.SanPhamYeuThichAPIService
 import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
@@ -63,5 +64,8 @@ object LaptopStoreRetrofitClient {
 
     val sanPhamYeuThichAPIService: SanPhamYeuThichAPIService by lazy {
         retrofit.create(SanPhamYeuThichAPIService::class.java)
+    }
+    val otpAPIService :OtpAPIService by lazy {
+        retrofit.create(OtpAPIService::class.java)
     }
 }

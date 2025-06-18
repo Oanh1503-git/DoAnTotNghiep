@@ -73,27 +73,23 @@ class TaiKhoan{
         }
     }
     
-    public function AddTaiKhoan(){
-        $query = "INSERT INTO taikhoan (TenTaiKhoan, MaKhachHang, MatKhau, LoaiTaiKhoan, TrangThai) 
-                        VALUES (:TenTaiKhoan,(SELECT MAX(MaKhachHang) FROM KhachHang) , :MatKhau, :LoaiTaiKhoan, :TrangThai)";
-            $stmt = $this->conn->prepare($query);
+public function AddTaiKhoan() {
+    try {
+        $query = "INSERT INTO taikhoan SET TenTaiKhoan=:TenTaiKhoan, MaKhachHang=:MaKhachHang, MatKhau=:MatKhau, LoaiTaiKhoan=:LoaiTaiKhoan, TrangThai=:TrangThai";
+        $stmt = $this->conn->prepare($query);
 
-        $this->TenTaiKhoan = htmlspecialchars(strip_tags($this->TenTaiKhoan));
-        $this->MatKhau = htmlspecialchars(strip_tags($this->MatKhau));
-        $this->LoaiTaiKhoan = htmlspecialchars(strip_tags($this->LoaiTaiKhoan));
-        $this->TrangThai = htmlspecialchars(strip_tags($this->TrangThai));
+        $stmt->bindParam(":TenTaiKhoan", $this->TenTaiKhoan);
+        $stmt->bindParam(":MaKhachHang", $this->MaKhachHang);
+        $stmt->bindParam(":MatKhau", $this->MatKhau);
+        $stmt->bindParam(":LoaiTaiKhoan", $this->LoaiTaiKhoan);
+        $stmt->bindParam(":TrangThai", $this->TrangThai);
 
-        $stmt->bindParam(':TenTaiKhoan',$this->TenTaiKhoan);
-        $stmt->bindParam(':MatKhau',$this->MatKhau);
-        $stmt->bindParam(':LoaiTaiKhoan',$this->LoaiTaiKhoan);
-        $stmt->bindParam(':TrangThai',$this->TrangThai);
-
-        if($stmt->execute()){
-            return true;
-        }
-        printf("Error %s.\n",$stmt->error);
+        return $stmt->execute();
+    } catch (PDOException $e) {
         return false;
     }
+}
+
 
     public function UpdateTaiKhoan(){
         $query = "UPDATE taikhoan SET MatKhau =:MatKhau WHERE TenTaiKhoan=:TenTaiKhoan";

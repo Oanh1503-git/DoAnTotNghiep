@@ -148,10 +148,10 @@ class SanPham
     {
         $query = "INSERT INTO SanPham 
         (MaSanPham, TenSanPham, MaLoaiSanPham, CPU, RAM, CardManHinh, 
-        SSD, ManHinh, MaMauSac, Gia, SoLuong, MoTa, TrangThai) 
+        SSD, ManHinh, MaMauSac, Gia, SoLuong, MoTa, HinhAnh, TrangThai) 
         VALUES 
         (:MaSanPham, :TenSanPham, :MaLoaiSanPham, :CPU, :RAM, :CardManHinh, 
-        :SSD, :ManHinh, :MaMauSac, :Gia, :SoLuong, :MoTa, :TrangThai)";
+        :SSD, :ManHinh, :MaMauSac, :Gia, :SoLuong, :MoTa, :HinhAnh, :TrangThai)";
 
         $stmt = $this->conn->prepare($query);
 
@@ -167,6 +167,7 @@ class SanPham
         $this->Gia = htmlspecialchars(strip_tags($this->Gia));
         $this->SoLuong = htmlspecialchars(strip_tags($this->SoLuong));
         $this->MoTa = htmlspecialchars(strip_tags($this->MoTa));
+        $this->HinhAnh = htmlspecialchars(strip_tags($this->HinhAnh));
         $this->TrangThai = htmlspecialchars(strip_tags($this->TrangThai));
 
 
@@ -182,6 +183,7 @@ class SanPham
         $stmt->bindParam(':Gia', $this->Gia);
         $stmt->bindParam(':SoLuong', $this->SoLuong);
         $stmt->bindParam(':MoTa', $this->MoTa);
+        $stmt->bindParam(':HinhAnh', $this->HinhAnh);
         $stmt->bindParam(':TrangThai', $this->TrangThai);
 
         if ($stmt->execute()) {
@@ -205,6 +207,7 @@ class SanPham
         Gia = :Gia, 
         SoLuong = :SoLuong, 
         MoTa = :MoTa, 
+        HinhAnh = :HinhAnh, 
         TrangThai = :TrangThai 
         WHERE MaSanPham = :MaSanPham";
 
@@ -222,6 +225,7 @@ class SanPham
         $this->Gia = htmlspecialchars(strip_tags($this->Gia));
         $this->SoLuong = htmlspecialchars(strip_tags($this->SoLuong));
         $this->MoTa = htmlspecialchars(strip_tags($this->MoTa));
+        $this->HinhAnh = htmlspecialchars(strip_tags($this->HinhAnh));
         $this->TrangThai = htmlspecialchars(strip_tags($this->TrangThai));
         $this->MaSanPham = htmlspecialchars(strip_tags($this->MaSanPham));
 
@@ -237,6 +241,7 @@ class SanPham
         $stmt->bindParam(':Gia', $this->Gia);
         $stmt->bindParam(':SoLuong', $this->SoLuong);
         $stmt->bindParam(':MoTa', $this->MoTa);
+        $stmt->bindParam(':HinhAnh', $this->HinhAnh);
         $stmt->bindParam(':TrangThai', $this->TrangThai);
         $stmt->bindParam(':MaSanPham', $this->MaSanPham);
 
@@ -263,19 +268,45 @@ class SanPham
         printf("Error %s.\n", $stmt->error);
         return false;
     }
-    public function getSanPhamByMaSanPham()
-{
-    $query = "SELECT sp.*, ha.DuongDan FROM SanPham sp 
-              JOIN hinhanh ha ON sp.MaSanPham = ha.MaSanPham
-              WHERE ha.MacDinh = 1 AND sp.MaSanPham = :MaSanPham
-              LIMIT 1";
+     public function KiemTraSoLuong() {
+        // Bước 1: Tổng số lượng trong giỏ
+        $sqlGioHang = "SELECT SUM(SoLuong) AS TongSoLuong FROM giohang WHERE MaKhachHang = ? AND MaSanPham = ?";
+        $stmtGioHang = $this->conn->prepare($sqlGioHang);
+        $stmtGioHang->execute([$this->MaKhachHang, $this->MaSanPham]);
+        $gioHangData = $stmtGioHang->fetch(PDO::FETCH_ASSOC);
+        $soLuongTrongGio = $gioHangData['TongSoLuong'] ?? 0;
 
-    $stmt = $this->conn->prepare($query);
-    $stmt->bindParam(':MaSanPham', $this->MaSanPham);
-    $stmt->execute();
+        // Bước 2: Số lượng trong kho
+        $sqlSanPham = "SELECT SoLuong FROM sanpham WHERE MaSanPham = ?";
+        $stmtSanPham = $this->conn->prepare($sqlSanPham);
+        $stmtSanPham->execute([$this->MaSanPham]);
+        $sanPhamData = $stmtSanPham->fetch(PDO::FETCH_ASSOC);
 
-    return $stmt;
-}
+        if (!$sanPhamData) {
+            return [
+                'status' => 'error',
+                'message' => 'Không tìm thấy sản phẩm'
+            ];
+        }
 
+        $soLuongTrongKho = $sanPhamData['SoLuong'];
+
+        // Bước 3: So sánh
+        if ($soLuongTrongGio >= $soLuongTrongKho) {
+            return [
+                'status' => 'fail',
+                'message' => 'Số lượng sản phẩm trong giỏ hàng đã vượt quá tồn kho',
+                'soLuongGioHang' => (int)$soLuongTrongGio,
+                'soLuongKho' => (int)$soLuongTrongKho
+            ];
+        } else {
+            return [
+                'status' => 'ok',
+                'message' => 'Số lượng còn hợp lệ',
+                'soLuongGioHang' => (int)$soLuongTrongGio,
+                'soLuongKho' => (int)$soLuongTrongKho
+            ];
+        }
+    }
 }
 ?>

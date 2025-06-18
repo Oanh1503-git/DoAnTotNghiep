@@ -1,7 +1,7 @@
 <?php
 class Khachhang{
     private $conn;
-
+    private $table = "khachhang";
     //Thuoc tinh
     public $MaKhachHang;
     public $HoTen;
@@ -24,65 +24,61 @@ class Khachhang{
         $stmt->execute();
         return $stmt; // Trả về PDOStatement
     }
- public function GetKhachHangById() {
-    $query = "SELECT * FROM khachhang WHERE MaKhachHang = ? LIMIT 1"; 
-    $stmt = $this->conn->prepare($query);
-    $stmt->bindParam(1,$this->MaKhachHang);
-    $stmt->execute();
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if ($row) {
+    public function GetKhachHangById() {
+        $query = "SELECT * FROM khachhang WHERE MaKhachHang = ? LIMIT 1"; 
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1,$this->MaKhachHang);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
         $this->HoTen = $row['HoTen'];
         $this->GioiTinh = $row['GioiTinh'];
         $this->NgaySinh = $row['NgaySinh'];
         $this->Email = $row['Email'];
         $this->SoDienThoai = $row['SoDienThoai'];
+    } 
+
+public function AddKhachHang(){
+    $query = "INSERT INTO khachhang 
+        SET MaKhachHang = :MaKhachHang, HoTen = :HoTen, GioiTinh = :GioiTinh, NgaySinh = :NgaySinh, Email = :Email, SoDienThoai = :SoDienThoai";
+
+    $stmt = $this->conn->prepare($query);
+
+    // Làm sạch dữ liệu
+    $this->MaKhachHang = htmlspecialchars(strip_tags($this->MaKhachHang));
+    $this->HoTen = htmlspecialchars(strip_tags($this->HoTen));
+    $this->GioiTinh = htmlspecialchars(strip_tags($this->GioiTinh));
+    $this->NgaySinh = htmlspecialchars(strip_tags($this->NgaySinh));
+    $this->Email = htmlspecialchars(strip_tags($this->Email));
+    $this->SoDienThoai = htmlspecialchars(strip_tags($this->SoDienThoai));
+
+    // Gán tham số
+    $stmt->bindParam(':MaKhachHang', $this->MaKhachHang);
+    $stmt->bindParam(':HoTen', $this->HoTen);
+    $stmt->bindParam(':GioiTinh', $this->GioiTinh);
+    $stmt->bindParam(':NgaySinh', $this->NgaySinh);
+    $stmt->bindParam(':Email', $this->Email);
+    $stmt->bindParam(':SoDienThoai', $this->SoDienThoai);
+
+    if($stmt->execute()){
+        return true;
     }
+    printf("Error %s.\n", $stmt->error);
+    return false;
 }
-
-    public function AddKhachHang(){
-        $query = "INSERT INTO khachhang SET HoTen =:HoTen ,GioiTinh =:GioiTinh, NgaySinh =:NgaySinh, Email =:Email, SoDienThoai =:SoDienThoai";
-
-        $stmt = $this->conn->prepare($query);
-
-        $this->HoTen = htmlspecialchars(strip_tags($this->HoTen));
-        $this->GioiTinh = htmlspecialchars(strip_tags($this->GioiTinh));
-        $this->NgaySinh = htmlspecialchars(strip_tags($this->NgaySinh));
-        $this->Email = htmlspecialchars(strip_tags($this->Email));
-        $this->SoDienThoai = htmlspecialchars(strip_tags($this->SoDienThoai));
-
-
-        $stmt->bindParam(':HoTen',$this->HoTen);
-        $stmt->bindParam(':GioiTinh',$this->GioiTinh);
-        $stmt->bindParam(':NgaySinh',$this->NgaySinh);
-        $stmt->bindParam(':Email',$this->Email);
-        $stmt->bindParam(':SoDienThoai',$this->SoDienThoai);
-
-        if($stmt->execute()){
-            return true;
-        }
-        printf("Error %s.\n",$stmt->error);
-        return false;
-    }
 
 public function generateCustomerCode() {
-    $query = "SELECT COUNT(*) as total FROM khachhang";
+    // Đếm số lượng khách hàng
+    $query = "SELECT COUNT(*) AS total FROM {$this->table}";
     $stmt = $this->conn->prepare($query);
     $stmt->execute();
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    $customerCount = $row['total'] + 1;
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    $currentMonth = date('m');
-    $currentDayOfWeek = date('D');
-    $currentMinute = date('i');
-    $dayPrefix = substr($currentDayOfWeek, 0, 2);
+    $total = (int)$result['total'];
+    $total++; // Tăng lên 1 cho mã mới
 
-    return sprintf("KH%03d%02d%s%02d", 
-        $customerCount, $currentMonth, $dayPrefix, $currentMinute
-    );
+    // Sinh mã dạng: KH001, KH002, ...
+    return 'KH' . str_pad($total, 3, '0', STR_PAD_LEFT);
 }
-
-    
     public function UpdateKhachHang(){
         $query = "UPDATE khachhang SET HoTen =:HoTen, GioiTinh =:GioiTinh, NgaySinh =:NgaySinh,  Email =:Email, SoDienThoai =:SoDienThoai  WHERE MaKhachHang=:MaKhachHang";
 
@@ -131,17 +127,5 @@ public function generateCustomerCode() {
         printf("Error %s.\n",$stmt->error);
         return false;
     }
-    public function DemKhachHang() {
-    try {
-        $query = "SELECT COUNT(*) AS tong_so FROM khachhang";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $row['tong_so'];
-    } catch (PDOException $e) {
-        return false;
-    }
-}
 }
 ?>

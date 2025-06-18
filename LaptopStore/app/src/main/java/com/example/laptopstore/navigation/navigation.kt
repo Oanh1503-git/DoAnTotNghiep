@@ -165,6 +165,23 @@ fun NavigationGraph(
                     diaChiViewmodel = diaChiViewModel
                 )
             }
+        composable(
+            route = Screens.VERIFYEMAILSCREEN.route,
+            arguments = listOf(
+                navArgument("email") { type = NavType.StringType },
+                navArgument("username") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val email = backStackEntry.arguments?.getString("email") ?: ""
+            val username = backStackEntry.arguments?.getString("username") ?: ""
+
+            VerifyEmailScreen(
+                navController = navHostController,
+                email = email,
+                username = username
+            )
+        }
+
 
     }
 }

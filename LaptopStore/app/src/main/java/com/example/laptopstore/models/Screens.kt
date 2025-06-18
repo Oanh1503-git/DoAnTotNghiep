@@ -16,4 +16,9 @@ sealed class Screens(val route: String) {
     object CARTSCREENS:Screens("cartscreens")
     object PRODUCTDETAIL:Screens("productdetail")
     object CHECKOUTSCREENS : Screens("checkout/{totalPrice}/{cartItems}")
+    object VERIFYEMAILSCREEN : Screens("VERIFYEMAILSCREEN/{email}/{username}") {
+        fun createRoute(email: String, username: String): String {
+            return "VERIFYEMAILSCREEN/$email/$username"
+        }
+    }
 }
