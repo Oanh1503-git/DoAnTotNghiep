@@ -31,8 +31,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.laptopstore.models.BinhLuanDanhGia
+import com.example.laptopstore.models.CartItem
 import com.example.laptopstore.models.GioHang
 import com.example.laptopstore.models.HinhAnh
+import com.example.laptopstore.models.Product
 import com.example.laptopstore.models.SanPham
 import com.example.laptopstore.models.Screens
 import com.example.laptopstore.viewmodels.BinhLuanViewModel
@@ -43,7 +45,12 @@ import com.example.laptopstore.viewmodels.KhachHangViewModels
 import com.example.laptopstore.viewmodels.SanPhamViewModel
 import com.example.laptopstore.viewmodels.SanPhamYeuThichViewModel
 import com.example.laptopstore.viewmodels.TaiKhoanViewModel
+import com.google.gson.Gson
 import kotlinx.coroutines.launch
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 
@@ -153,6 +160,7 @@ fun ProductDetail(
         ManHinh = "",
         MaMauSac = 0,
         Gia = 1,
+        GiamGia = 0,
         SoLuong = 0,
         MoTa = "",
         HinhAnh = "",
@@ -366,18 +374,25 @@ fun ProductDetail(
                             onClick = {
                                 if (maKhachHang.isNullOrEmpty()) {
                                     showLoginDialog = true
-                                    Log.d("ProductDetail", "Showing login dialog - MaKhachHang is null or empty")
-                                } else {
-                                    Log.d("", "Adding to cart with MaKhachHang: $maKhachHang")
-                                    val gioHang = GioHang(
-                                        MaGioHang = 0,
-                                        MaSanPham = productOrDefault.MaSanPham,
-                                        MaKhachHang = maKhachHang,
-                                        SoLuong = 1,
-                                        TrangThai = 1
-                                    )
-                                    gioHangViewModel.addToCart(gioHang)
+                                    Log.d("ProductDetail", "User not logged in, showing login dialog")
+                                    return@Button
                                 }
+                                
+                                // Kiểm tra trạng thái đăng nhập
+                                if (!isLoggedIn) {
+                                    showLoginDialog = true
+                                    Log.d("ProductDetail", "Login state invalid, showing login dialog")
+                                    return@Button
+                                }
+
+                                val gioHang = GioHang(
+                                    MaGioHang = 0,
+                                    MaSanPham = productOrDefault.MaSanPham,
+                                    MaKhachHang = maKhachHang,
+                                    SoLuong = 1,
+                                    TrangThai = 1
+                                )
+                                gioHangViewModel.addToCart(gioHang)
                             },
                             modifier = Modifier
                                 .weight(1f)
@@ -398,7 +413,30 @@ fun ProductDetail(
                                 if (maKhachHang.isNullOrEmpty()) {
                                     showLoginDialog = true
                                 } else {
-                                    navController.navigate("checkoutScreen/${productOrDefault.Gia}")
+                                    try {
+                                        val cartItems = listOf(
+                                            CartItem(
+                                                MaGioHang = 0,
+                                                MaSanPham = productOrDefault.MaSanPham,
+                                                SoLuong = 1,
+                                                product = productOrDefault
+                                            )
+                                        )
+                                        val totalPrice = productOrDefault.Gia
+                                        val cartItemsJson = Json.encodeToString(cartItems)
+                                        val encodedJson = URLEncoder.encode(cartItemsJson, StandardCharsets.UTF_8.toString())
+                                        
+                                        // Kiểm tra độ dài URL
+                                        if (encodedJson.length > 500000) {
+                                            Toast.makeText(context, "Dữ liệu sản phẩm quá lớn", Toast.LENGTH_SHORT).show()
+                                            return@Button
+                                        }
+
+                                        navController.navigate("checkout/$totalPrice/$encodedJson")
+                                    } catch (e: Exception) {
+                                        Log.e("ProductDetail", "Lỗi chuyển trang checkout: ${e.message}")
+                                        Toast.makeText(context, "Có lỗi xảy ra khi xử lý đơn hàng", Toast.LENGTH_SHORT).show()
+                                    }
                                 }
                             },
                             modifier = Modifier

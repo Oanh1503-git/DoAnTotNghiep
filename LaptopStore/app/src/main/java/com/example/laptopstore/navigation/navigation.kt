@@ -92,7 +92,7 @@ fun NavigationGraph(
         }
 
         composable(Screens.REGISTERSCREEN.route) {
-            Register_Screen(
+            RegisterScreen(
                 navController = navHostController,
                 taiKhoanViewModel = taiKhoanViewModel,
                 khachHangViewModel = khachHangViewModel
@@ -148,7 +148,23 @@ fun NavigationGraph(
                 taiKhoanViewModel = taiKhoanViewModel
             )
         }
+            composable("checkout/{totalPrice}/{cartItems}",
+                arguments = listOf(
+                    navArgument("totalPrice") { type = NavType.IntType },
+                    navArgument("cartItems") { type = NavType.StringType }
+                )){ backStackEntry ->
+                val totalPrice = backStackEntry.arguments?.getInt("totalPrice") ?: 0
+                val cartItemsJson = backStackEntry.arguments?.getString("cartItems") ?: ""
 
+                CheckoutScreen(
+                    navController = navHostController,
+                    totalPrice = totalPrice,
+                    cartItemsJson = cartItemsJson,
+                    taiKhoanViewModel = taiKhoanViewModel,
+                    khachHangViewModels = khachHangViewModel,
+                    diaChiViewmodel = diaChiViewModel
+                )
+            }
 
     }
 }

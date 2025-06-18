@@ -52,9 +52,12 @@ import coil.compose.AsyncImage
 import com.example.lapstore.viewmodels.DiaChiViewmodel
 import com.example.laptopstore.models.CartItem
 import com.example.laptopstore.models.DiaChi
+import com.example.laptopstore.models.SanPham
 import com.example.laptopstore.viewmodels.DataStoreManager
 import com.example.laptopstore.viewmodels.KhachHangViewModels
 import com.example.laptopstore.viewmodels.TaiKhoanViewModel
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import java.net.URLDecoder
@@ -63,7 +66,8 @@ import java.nio.charset.StandardCharsets
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CheckoutScreen(navController: NavHostController,
-                   totalPrice: Int, cartItemsJson: String,
+                   totalPrice: Int,
+                   cartItemsJson: String,
                    taiKhoanViewModel: TaiKhoanViewModel,
                    khachHangViewModels: KhachHangViewModels,
                    diaChiViewmodel: DiaChiViewmodel)
@@ -92,9 +96,19 @@ fun CheckoutScreen(navController: NavHostController,
             diaChiDuocChon =danhSachDiaChi.firstOrNull{it.MacDinh == 1} ?: DiaChi.EMPTY
         }
     }
+    val sanPhamList = try {
+        val decodedJson = URLDecoder.decode(cartItemsJson, "UTF-8")
+        val type = object : TypeToken<List<SanPham>>() {}.type
+        Gson().fromJson<List<SanPham>>(decodedJson, type)
+    } catch (e: Exception) {
+        Log.e("CheckoutScreen", "Error decoding sản phẩm: ${e.message}")
+        errorMessage = "Lỗi khi xử lý dữ liệu sản phẩm"
+        emptyList()
+    }
     val cartItems = try {
-        val decodedJson = URLDecoder.decode(cartItemsJson, StandardCharsets.UTF_8.toString())
-        Json.decodeFromString<List<CartItem>>(decodedJson)
+        val decodedJson = URLDecoder.decode(cartItemsJson, "UTF-8")
+        val type = object : TypeToken<List<CartItem>>() {}.type
+        Gson().fromJson<List<CartItem>>(decodedJson, type)
     } catch (e: Exception) {
         Log.e("CheckoutScreen", "Error decoding cart items: ${e.message}")
         errorMessage = "Lỗi khi xử lý dữ liệu giỏ hàng"
@@ -235,8 +249,8 @@ fun CheckoutScreen(navController: NavHostController,
                                         .clip(RoundedCornerShape(8.dp))
                                 ) {
                                     AsyncImage(
-                                        model = cartItem.product?.HinhAnh,
-                                        contentDescription = cartItem.product?.TenSanPham,
+                                        model = cartItem.getProductImage(),
+                                        contentDescription = cartItem.TenSanPham,
                                         modifier = Modifier.fillMaxSize(),
                                         contentScale = ContentScale.Crop
                                     )
@@ -246,7 +260,7 @@ fun CheckoutScreen(navController: NavHostController,
                                     modifier = Modifier.weight(1f)
                                 ) {
                                     Text(
-                                        text = cartItem.product?.TenSanPham ?: "Sản phẩm không xác định",
+                                        text = cartItem.getProductName(),
                                         fontSize = 16.sp,
                                         fontWeight = FontWeight.Medium,
                                         maxLines = 2
@@ -256,7 +270,7 @@ fun CheckoutScreen(navController: NavHostController,
                                         fontSize = 14.sp
                                     )
                                     Text(
-                                        text = "${(cartItem.product?.Gia ?: 0 - ((cartItem.product?.Gia ?: 0 * (cartItem.product?.GiamGia ?: 0)) / 100)) / 1000}.000 VNĐ",
+                                        text = "${(cartItem.getProductPrice() - ((cartItem.getProductPrice() * cartItem.getProductDiscount()) / 100)) / 1000}.000 VNĐ",
                                         fontSize = 14.sp,
                                         color = Color.Red,
                                         fontWeight = FontWeight.Bold

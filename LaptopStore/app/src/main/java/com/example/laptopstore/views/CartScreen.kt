@@ -182,24 +182,19 @@ fun CartScreen(
     // Xử lý chuyển đến trang thanh toán
     fun navigateToCheckout(cartItems: List<GioHang>, totalPrice: Int) {
         try {
-            val simplifiedCartItems = cartItems.map { gioHang ->
+            val simplifiedCartItems = cartItems.mapNotNull { gioHang ->
                 val sanPham = allProducts.find { it.MaSanPham == gioHang.MaSanPham }
-                CartItem(
-                    MaGioHang = gioHang.MaGioHang,
-                    MaSanPham = gioHang.MaSanPham,
-                    SoLuong = gioHang.SoLuong,
-                    product = sanPham?.let { sp ->
-                        Product(
-                            MaSanPham = sp.MaSanPham,
-                            TenSanPham = sp.TenSanPham,
-                            HinhAnh = sp.HinhAnh,
-                            Gia = sp.Gia,
-                            SoLuong = sp.SoLuong
-                        )
-                    }
-                )
+                sanPham?.let { sp ->
+                    CartItem(
+                        MaGioHang = gioHang.MaGioHang,
+                        MaSanPham = gioHang.MaSanPham,
+                        SoLuong = gioHang.SoLuong,
+                        product = sp
+                    )
+                }
             }
-            
+
+
             val cartItemsJson = Json.encodeToString(simplifiedCartItems)
             val encodedCartItems = URLEncoder.encode(cartItemsJson, StandardCharsets.UTF_8.toString())
             
@@ -531,6 +526,7 @@ fun CartItemCard(
             IconButton(onClick = { onQuantityChange(0) }) {
                 Icon(Icons.Default.Delete, contentDescription = null, tint = Color.Red)
             }
+
         }
     }
 }

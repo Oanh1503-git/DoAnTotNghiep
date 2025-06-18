@@ -16,6 +16,7 @@ data class SanPham(
     @SerialName("ManHinh") val ManHinh: String,
     @SerialName("MaMauSac") val MaMauSac: Int,
     @SerialName("Gia") val Gia: Int,
+    @SerialName("GiamGia") val GiamGia: Int,
     @SerialName("SoLuong") val SoLuong: Int,
     @SerialName("MoTa") val MoTa: String,
     @SerialName("HinhAnh") val HinhAnh: String,

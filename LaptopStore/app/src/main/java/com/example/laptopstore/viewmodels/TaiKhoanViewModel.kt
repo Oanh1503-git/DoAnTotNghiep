@@ -226,20 +226,21 @@ class TaiKhoanViewModel(private val context: Context) : ViewModel() {
         }
     }
 
-    fun TaoTaiKhoan(taiKhoan: TaiKhoan) {
-        viewModelScope.launch {
-            try {
+   suspend fun TaoTaiKhoan(taiKhoan: TaiKhoan):Boolean {
+            return try {
                 val response = LaptopStoreRetrofitClient.taiKhoanAPIService.TaoTaiKhoan(taiKhoan)
                 TaoTaiKhoanResult = if (response.success) {
                     "Đăng ký thành công: ${response.message}"
                 } else {
                     "Đăng ký thất bại: ${response.message}"
                 }
+                response.success
             } catch (e: Exception) {
                 TaoTaiKhoanResult = "Lỗi tạo tài khoản: ${e.message}"
                 Log.e("TaiKhoanViewModel", "Lỗi tạo tài khoản: ${e.message}")
+                false
             }
-        }
+
     }
 
     fun updateTaiKhoan(taiKhoan: TaiKhoan) {
