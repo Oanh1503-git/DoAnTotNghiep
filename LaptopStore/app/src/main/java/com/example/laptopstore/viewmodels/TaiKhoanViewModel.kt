@@ -1,5 +1,7 @@
 package com.example.laptopstore.viewmodels
 
+import CheckEmailResponse
+import EmailRequest
 import KiemTraTaiKhoanResponse
 import LoginResult
 import android.content.Context
@@ -65,9 +67,23 @@ class TaiKhoanViewModel(private val context: Context) : ViewModel() {
     var TaoTaiKhoanResult: String by mutableStateOf("")
     var taikhoanUpdateResult: String by mutableStateOf("")
 
+    private val _checkEmailResult = MutableStateFlow<CheckEmailResponse?>(null)
+    val checkEmailResult: StateFlow<CheckEmailResponse?> = _checkEmailResult
+
+    private val _resetStatus = MutableStateFlow<String?>(null)
+    val resetStatus: StateFlow<String?> = _resetStatus
+
+    private val _foundUsername = MutableStateFlow<String?>(null)
+    val foundUsername: StateFlow<String?> = _foundUsername
+
+    private val _usernameState = mutableStateOf<String?>(null)
+    val usernameState: State<String?> = _usernameState
+
+    var cachedUsername: String? = null // lưu lại username nếu tìm thấy
     init {
         initializeData()
     }
+
 
     private fun initializeData() {
         viewModelScope.launch {
@@ -75,9 +91,9 @@ class TaiKhoanViewModel(private val context: Context) : ViewModel() {
                 _isLoggedIn.value = dataStore.isLoggedIn.first()
                 val savedUsername = dataStore.username.first()
                 val savedCustomerId = dataStore.customerId.first()
-                
+
                 Log.d("TaiKhoanViewModel", "Initial login state: ${_isLoggedIn.value}, username: $savedUsername, customerId: $savedCustomerId")
-                
+
                 if (_isLoggedIn.value && !savedUsername.isNullOrEmpty()) {
                     _tentaikhoan.value = savedUsername
                     if (!savedCustomerId.isNullOrEmpty()) {
@@ -117,17 +133,17 @@ class TaiKhoanViewModel(private val context: Context) : ViewModel() {
             try {
                 _loginState.value = LoginState.Loading
                 val response = LaptopStoreRetrofitClient.taiKhoanAPIService.kiemTraDangNhap(tendangnhap, matkhau)
-                
+
                 if (response.result) {
                     _isLoggedIn.value = true
                     dataStore.saveLoginState(tendangnhap)
-                    
+
                     val taiKhoanInfo = withContext(Dispatchers.IO) {
                         LaptopStoreRetrofitClient.taiKhoanAPIService.getTaiKhoanByTentaikhoan(tendangnhap)
                     }
-                    
+
                     _taikhoan.value = taiKhoanInfo
-                    
+
                     taiKhoanInfo.MaKhachHang?.let { maKH ->
                         dataStore.saveCustomerId(maKH)
                         kiemTraThongTinKhachHang(maKH)
@@ -135,7 +151,7 @@ class TaiKhoanViewModel(private val context: Context) : ViewModel() {
                     } ?: run {
                         _loginState.value = LoginState.Error("Không tìm thấy mã khách hàng")
                     }
-                    
+
                     _loginResult.value = LoginResult(true, "Đăng nhập thành công")
                 } else {
                     _loginState.value = LoginState.Error(response.message ?: "Đăng nhập thất bại")
@@ -171,7 +187,7 @@ class TaiKhoanViewModel(private val context: Context) : ViewModel() {
                     LaptopStoreRetrofitClient.taiKhoanAPIService.getTaiKhoanByTentaikhoan(tentaikhoan)
                 }
                 _taikhoan.value = taiKhoanInfo
-                
+
                 taiKhoanInfo.MaKhachHang?.let { maKH ->
                     kiemTraThongTinKhachHang(maKH)
                 }
@@ -187,7 +203,7 @@ class TaiKhoanViewModel(private val context: Context) : ViewModel() {
                 Log.d("TaiKhoanViewModel", "Kiểm tra thông tin khách hàng: $maKH")
                 val response = LaptopStoreRetrofitClient.khachHangAPIService.getKhachHangById(maKH)
                 val khachHang = response.data
-                
+
                 if (khachHang == null) {
                     _isThongTinDayDu.value = false
                     _khachHang.value = null
@@ -195,7 +211,7 @@ class TaiKhoanViewModel(private val context: Context) : ViewModel() {
                 }
 
                 _khachHang.value = khachHang
-                
+
                 val isValid = listOf(
                     khachHang.HoTen,
                     khachHang.GioiTinh,
@@ -226,20 +242,20 @@ class TaiKhoanViewModel(private val context: Context) : ViewModel() {
         }
     }
 
-   suspend fun TaoTaiKhoan(taiKhoan: TaiKhoan):Boolean {
-            return try {
-                val response = LaptopStoreRetrofitClient.taiKhoanAPIService.TaoTaiKhoan(taiKhoan)
-                TaoTaiKhoanResult = if (response.success) {
-                    "Đăng ký thành công: ${response.message}"
-                } else {
-                    "Đăng ký thất bại: ${response.message}"
-                }
-                response.success
-            } catch (e: Exception) {
-                TaoTaiKhoanResult = "Lỗi tạo tài khoản: ${e.message}"
-                Log.e("TaiKhoanViewModel", "Lỗi tạo tài khoản: ${e.message}")
-                false
+    suspend fun TaoTaiKhoan(taiKhoan: TaiKhoan):Boolean {
+        return try {
+            val response = LaptopStoreRetrofitClient.taiKhoanAPIService.TaoTaiKhoan(taiKhoan)
+            TaoTaiKhoanResult = if (response.success) {
+                "Đăng ký thành công: ${response.message}"
+            } else {
+                "Đăng ký thất bại: ${response.message}"
             }
+            response.success
+        } catch (e: Exception) {
+            TaoTaiKhoanResult = "Lỗi tạo tài khoản: ${e.message}"
+            Log.e("TaiKhoanViewModel", "Lỗi tạo tài khoản: ${e.message}")
+            false
+        }
 
     }
 
@@ -290,4 +306,84 @@ class TaiKhoanViewModel(private val context: Context) : ViewModel() {
     fun resetCheckResult() {
         _checkUsernameResult.value = null
     }
+    fun checkEmail(email: String, callback: (String?) -> Unit) {
+        viewModelScope.launch {
+            try {
+                val request = EmailRequest(email)
+                val response = LaptopStoreRetrofitClient.taiKhoanAPIService.checkEmailTaiKhoan(request)
+
+                if (response.success && response.username != null) {
+                    cachedUsername = response.username
+                    callback(response.username)
+                } else {
+                    callback(null)
+                }
+
+                _checkEmailResult.value = response
+
+            } catch (e: Exception) {
+                _checkEmailResult.value = CheckEmailResponse(
+                    success = false,
+                    message = "Lỗi kết nối: ${e.localizedMessage}"
+                )
+                callback(null)
+            }
+        }
+    }
+    fun checkEmail2(email: String) {
+        viewModelScope.launch {
+            try {
+                val request = EmailRequest(email)
+                val response = LaptopStoreRetrofitClient.taiKhoanAPIService.checkEmailTaiKhoan(request)
+
+                if (response.success && response.username != null) {
+                    cachedUsername = response.username
+                    _foundUsername.value = response.username
+                } else {
+                    _foundUsername.value = null
+                }
+
+                _checkEmailResult.value = response
+
+            } catch (e: Exception) {
+                _checkEmailResult.value = CheckEmailResponse(
+                    success = false,
+                    message = "Lỗi kết nối: ${e.localizedMessage}"
+                )
+                _foundUsername.value = null
+            }
+        }
+    }
+
+    fun resetPassword(username: String, newPassword: String) {
+        viewModelScope.launch {
+            try {
+                // Gửi object TaiKhoan lên API
+                val taiKhoan = TaiKhoan(
+                    TenTaiKhoan = username,
+                    MatKhau = newPassword,
+                    MaKhachHang = "",  // Có thể bỏ nếu API không cần
+                    LoaiTaiKhoan = 0,
+                    TrangThai = 1
+                )
+
+                val response = LaptopStoreRetrofitClient.taiKhoanAPIService.updateTaiKhoan(taiKhoan)
+
+                if (response.success) {
+                    _resetStatus.value = "Đổi mật khẩu thành công"
+                } else {
+                    _resetStatus.value = response.message ?: "Đổi mật khẩu thất bại"
+                }
+
+            } catch (e: Exception) {
+                _resetStatus.value = "Lỗi kết nối: ${e.localizedMessage}"
+            }
+        }
+    }
+
+    fun clearStatus() {
+        _resetStatus.value = null
+    }
+
+
 }

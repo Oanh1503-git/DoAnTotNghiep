@@ -1,5 +1,7 @@
 package com.example.laptopstore.viewmodels
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.laptopstore.RetrofitClient.LaptopStoreRetrofitClient
 
@@ -12,11 +14,18 @@ import kotlinx.coroutines.launch
 
 class OTPViewModel : ViewModel() {
 
+    var cachedUsername: String? = null
+        private set
     private val _otpStatus = MutableStateFlow<String?>(null)
     val otpStatus: StateFlow<String?> = _otpStatus
 
+
     private val _otpVerified = MutableStateFlow<Boolean?>(null)
     val otpVerified: StateFlow<Boolean?> = _otpVerified
+
+
+    private val _usernameState = mutableStateOf<String?>(null)
+    val usernameState: State<String?> = _usernameState
 
     fun sendOtp(email: String, username: String) {
         viewModelScope.launch {
@@ -58,5 +67,9 @@ class OTPViewModel : ViewModel() {
     fun resetStatus() {
         _otpStatus.value = null
         _otpVerified.value = null
+    }
+    fun setCachedUsername(username: String) {
+        cachedUsername = username
+        _usernameState.value = username
     }
 }

@@ -276,6 +276,15 @@ fun LoginScreen(
                 }
 
                 Spacer(modifier = Modifier.height(50.dp))
+                Row {
+                    Text("Bạn đã quên mật khẩu ", fontSize = 15.sp, fontWeight = FontWeight.Bold)
+                    TextButton(onClick = {
+                        navController.navigate(Screens.VERIFYOTPSCREENFORGOTPASSWORD.route) // chuyển sang trang xác thực email
+                    }) {
+                        Text("lấy lại mật khẩu", fontSize = 15.sp, fontWeight = FontWeight.Bold, color = Color.Blue)
+                    }
+                }
+                Spacer(modifier = Modifier.height(50.dp))
 
                 Row {
                     Text("Bạn chưa có tài khoản?", fontSize = 15.sp, fontWeight = FontWeight.Bold)

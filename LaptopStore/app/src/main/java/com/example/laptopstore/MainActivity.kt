@@ -18,6 +18,7 @@ import com.example.lapstore.viewmodels.DiaChiViewmodel
 import com.example.laptopstore.RetrofitClient.LaptopStoreRetrofitClient
 import com.example.laptopstore.viewmodels.GioHangViewModel
 import com.example.laptopstore.viewmodels.HinhAnhViewModel
+import com.example.laptopstore.viewmodels.OTPViewModel
 import com.example.laptopstore.viewmodels.SanPhamViewModel
 import com.example.laptopstore.viewmodels.TaiKhoanViewsModelsFactory
 
@@ -43,6 +44,8 @@ class MainActivity : ComponentActivity() {
                 )
                 val diaChiViewmodel:DiaChiViewmodel= viewModel()
                 val gioHangViewModel:GioHangViewModel= viewModel()
+                val otpViewModel:OTPViewModel= viewModel()
+
                 NavigationGraph(
                     navHostController = navController,
                     sanphamViewModel = sanPhamViewModel,
@@ -50,7 +53,8 @@ class MainActivity : ComponentActivity() {
                     khachHangViewModel = khachHangViewModel,
                     taiKhoanViewModel = taiKhoanViewModel,
                     diaChiViewModel = diaChiViewmodel,
-                    gioHangViewModel=gioHangViewModel
+                    gioHangViewModel=gioHangViewModel,
+                    otpViewModel = otpViewModel
                 )
             }
         }

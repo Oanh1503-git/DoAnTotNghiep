@@ -24,7 +24,12 @@ data class LoginResult(
     val message: String? = null
 
 )
-
+data class CheckEmailResponse(
+    val success: Boolean,
+    val username: String? = null,
+    val message: String? = null
+)
+data class EmailRequest(val email: String)
 data class LoginRequest(val username: String, val password: String)
 data class LoginResponse(val success: Boolean, val message: String, val data: TaiKhoan?)
 
@@ -54,4 +59,9 @@ interface TaiKhoanAPIService{
     suspend fun TaoTaiKhoan(
         @Body taiKhoan: TaiKhoan,
     ): taikhoanUpdateResponse
+
+    @POST("TaiKhoan/check_email.php")
+    suspend fun checkEmailTaiKhoan(
+        @Body request: EmailRequest
+    ): CheckEmailResponse
 }

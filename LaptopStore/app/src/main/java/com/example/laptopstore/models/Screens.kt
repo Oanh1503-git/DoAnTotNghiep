@@ -21,4 +21,9 @@ sealed class Screens(val route: String) {
             return "VERIFYEMAILSCREEN/$email/$username"
         }
     }
+    object VERIFYOTPSCREENFORGOTPASSWORD:Screens("VERIFYOTPSCREENFORGOTPASSWORD")
+    object RESETPASSWORDSCREEN : Screens("RESETPASSWORDSCREEN/{username}") {
+        fun createRoute(username: String): String = "RESETPASSWORDSCREEN/$username"
+    }
+
 }

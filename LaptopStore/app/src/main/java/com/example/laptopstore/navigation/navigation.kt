@@ -2,6 +2,8 @@ package com.example.laptopstore.navigation
 
 import AccountScreens
 import LoginScreen
+import ResetPasswordScreen
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
@@ -20,6 +22,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.laptopstore.AddressScreen
 
 import com.example.laptopstore.viewmodels.GioHangViewModel
+import com.example.laptopstore.viewmodels.OTPViewModel
 import com.example.laptopstore.viewmodels.SanPhamYeuThichViewModel
 import com.example.laptopstore.views.*
 
@@ -32,7 +35,8 @@ fun NavigationGraph(
     taiKhoanViewModel: TaiKhoanViewModel,
     diaChiViewModel: DiaChiViewmodel = viewModel(),
     gioHangViewModel: GioHangViewModel,
-    sanPhamYeuThichViewModel: SanPhamYeuThichViewModel = viewModel()
+    sanPhamYeuThichViewModel: SanPhamYeuThichViewModel = viewModel(),
+    otpViewModel: OTPViewModel
 ){
     NavHost(
         navController = navHostController,
@@ -180,6 +184,17 @@ fun NavigationGraph(
                 email = email,
                 username = username
             )
+        }
+        composable(Screens.VERIFYOTPSCREENFORGOTPASSWORD.route) {
+            VerifyEmailScreenForGotPassWord(navHostController, otpViewModel)
+        }
+        composable(
+            route = Screens.RESETPASSWORDSCREEN.route,
+            arguments = listOf(navArgument("username") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val username = backStackEntry.arguments?.getString("username") ?: ""
+            Log.d("NavCheck", "Received username: $username")
+            ResetPasswordScreen(navController = navHostController, username = username)
         }
 
 
