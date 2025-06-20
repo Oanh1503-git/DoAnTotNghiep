@@ -17,7 +17,7 @@ class ChiTietHoaDonBanViewmodel:ViewModel() {
 
     var danhsachchitethoadon by mutableStateOf<List<ChiTietHoaDonBan>>(emptyList())
 
-    fun addHoaDon(chitiethoadonban: ChiTietHoaDonBan) {
+    fun addHoaDonChiTiet(chitiethoadonban: ChiTietHoaDonBan) {
         viewModelScope.launch {
             try {
                 // Gọi API để thêm sản phẩm vào giỏ hàng trên server

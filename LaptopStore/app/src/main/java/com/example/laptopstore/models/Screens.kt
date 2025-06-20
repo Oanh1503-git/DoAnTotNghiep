@@ -25,5 +25,7 @@ sealed class Screens(val route: String) {
     object RESETPASSWORDSCREEN : Screens("RESETPASSWORDSCREEN/{username}") {
         fun createRoute(username: String): String = "RESETPASSWORDSCREEN/$username"
     }
+    object ORDERSUCCESSSCREEN:Screens("ORDERSUCCESSSCREEN")
+    object ORDERSTATUSSCREEN:Screens("ORDERSTATUSSCREEN")
 
 }

@@ -5,7 +5,6 @@ import LoginScreen
 import ResetPasswordScreen
 import android.util.Log
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import com.example.laptopstore.views.HOMEPAGE
@@ -19,7 +18,9 @@ import com.example.laptopstore.viewmodels.SanPhamViewModel
 import com.example.laptopstore.viewmodels.TaiKhoanViewModel
 import com.example.lapstore.viewmodels.DiaChiViewmodel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.lapstore.viewmodels.HoaDonBanViewModel
 import com.example.laptopstore.AddressScreen
+import com.example.laptopstore.viewmodels.ChiTietHoaDonBanViewmodel
 
 import com.example.laptopstore.viewmodels.GioHangViewModel
 import com.example.laptopstore.viewmodels.OTPViewModel
@@ -36,7 +37,9 @@ fun NavigationGraph(
     diaChiViewModel: DiaChiViewmodel = viewModel(),
     gioHangViewModel: GioHangViewModel,
     sanPhamYeuThichViewModel: SanPhamYeuThichViewModel = viewModel(),
-    otpViewModel: OTPViewModel
+    otpViewModel: OTPViewModel,
+    hoaDonBanVỉewModel: HoaDonBanViewModel,
+    chiTietHoaDonBanViewmodel: ChiTietHoaDonBanViewmodel
 ){
     NavHost(
         navController = navHostController,
@@ -141,7 +144,9 @@ fun NavigationGraph(
                 cartItemsJson = cartItems,
                 taiKhoanViewModel = taiKhoanViewModel,
                 khachHangViewModels = khachHangViewModel,
-                diaChiViewmodel = diaChiViewModel
+                diaChiViewmodel = diaChiViewModel,
+                hoaDonBanVỉewModel = hoaDonBanVỉewModel,
+                chiTietHoaDonBanViewmodel = chiTietHoaDonBanViewmodel
             )
         }
 
@@ -166,7 +171,9 @@ fun NavigationGraph(
                     cartItemsJson = cartItemsJson,
                     taiKhoanViewModel = taiKhoanViewModel,
                     khachHangViewModels = khachHangViewModel,
-                    diaChiViewmodel = diaChiViewModel
+                    diaChiViewmodel = diaChiViewModel,
+                    hoaDonBanVỉewModel = hoaDonBanVỉewModel,
+                    chiTietHoaDonBanViewmodel = chiTietHoaDonBanViewmodel
                 )
             }
         composable(
@@ -195,6 +202,12 @@ fun NavigationGraph(
             val username = backStackEntry.arguments?.getString("username") ?: ""
             Log.d("NavCheck", "Received username: $username")
             ResetPasswordScreen(navController = navHostController, username = username)
+        }
+        composable(Screens.ORDERSUCCESSSCREEN.route) {
+            OrderSuccessScreen(navHostController)
+        }
+        composable(Screens.ORDERSTATUSSCREEN.route) {
+            OrderStatusScreen(navHostController,hoaDonBanVỉewModel)
         }
 
 

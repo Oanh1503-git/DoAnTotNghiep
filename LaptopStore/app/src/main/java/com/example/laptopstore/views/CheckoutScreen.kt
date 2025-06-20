@@ -1,6 +1,5 @@
 package com.example.laptopstore.views
 
-import android.app.AlertDialog
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -16,15 +15,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -49,19 +47,22 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import com.example.lapstore.models.ChiTietHoaDonBan
 import com.example.lapstore.viewmodels.DiaChiViewmodel
+import com.example.lapstore.viewmodels.HoaDonBanViewModel
 import com.example.laptopstore.models.CartItem
 import com.example.laptopstore.models.DiaChi
-import com.example.laptopstore.models.SanPham
+import com.example.laptopstore.models.HoaDonBan
+import com.example.laptopstore.models.Screens
+import com.example.laptopstore.viewmodels.ChiTietHoaDonBanViewmodel
 import com.example.laptopstore.viewmodels.DataStoreManager
 import com.example.laptopstore.viewmodels.KhachHangViewModels
 import com.example.laptopstore.viewmodels.TaiKhoanViewModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
 import java.net.URLDecoder
-import java.nio.charset.StandardCharsets
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -70,7 +71,10 @@ fun CheckoutScreen(navController: NavHostController,
                    cartItemsJson: String,
                    taiKhoanViewModel: TaiKhoanViewModel,
                    khachHangViewModels: KhachHangViewModels,
-                   diaChiViewmodel: DiaChiViewmodel)
+                   diaChiViewmodel: DiaChiViewmodel,
+                   hoaDonBanVỉewModel: HoaDonBanViewModel,
+                   chiTietHoaDonBanViewmodel: ChiTietHoaDonBanViewmodel
+)
 {
     var errorMessage by remember { mutableStateOf<String?>(null) }
 
@@ -96,15 +100,13 @@ fun CheckoutScreen(navController: NavHostController,
             diaChiDuocChon =danhSachDiaChi.firstOrNull{it.MacDinh == 1} ?: DiaChi.EMPTY
         }
     }
-    val sanPhamList = try {
-        val decodedJson = URLDecoder.decode(cartItemsJson, "UTF-8")
-        val type = object : TypeToken<List<SanPham>>() {}.type
-        Gson().fromJson<List<SanPham>>(decodedJson, type)
-    } catch (e: Exception) {
-        Log.e("CheckoutScreen", "Error decoding sản phẩm: ${e.message}")
-        errorMessage = "Lỗi khi xử lý dữ liệu sản phẩm"
-        emptyList()
+    fun getCurrentDateTimeFormatted(): String {
+        val current = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")
+        return current.format(formatter)
     }
+    var ngaytaohoadon = getCurrentDateTimeFormatted()
+
     val cartItems = try {
         val decodedJson = URLDecoder.decode(cartItemsJson, "UTF-8")
         val type = object : TypeToken<List<CartItem>>() {}.type
@@ -216,67 +218,52 @@ fun CheckoutScreen(navController: NavHostController,
                     )
                 }
             }
-            item {
-                Text(
-                    text = "Danh sách sản phẩm",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold
-                )
-                if (cartItems.isEmpty()) {
-                    Text(
-                        text = "Không có sản phẩm nào",
-                        fontSize = 16.sp,
-                        color = Color.Gray
-                    )
-                } else {
-                    cartItems.forEach { cartItem ->
-                        Card(
+            items(cartItems) { cartItem ->
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 4.dp)
+                        .shadow(4.dp, RoundedCornerShape(8.dp)),
+                    shape = RoundedCornerShape(8.dp)
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .background(Color.White)
+                            .padding(8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Box(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 4.dp)
-                                .shadow(4.dp, RoundedCornerShape(8.dp)),
-                            shape = RoundedCornerShape(8.dp)
+                                .size(60.dp)
+                                .clip(RoundedCornerShape(8.dp))
                         ) {
-                            Row(
-                                modifier = Modifier
-                                    .background(Color.White)
-                                    .padding(8.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Box(
-                                    modifier = Modifier
-                                        .size(60.dp)
-                                        .clip(RoundedCornerShape(8.dp))
-                                ) {
-                                    AsyncImage(
-                                        model = cartItem.getProductImage(),
-                                        contentDescription = cartItem.TenSanPham,
-                                        modifier = Modifier.fillMaxSize(),
-                                        contentScale = ContentScale.Crop
-                                    )
-                                }
-                                Spacer(modifier = Modifier.width(16.dp))
-                                Column(
-                                    modifier = Modifier.weight(1f)
-                                ) {
-                                    Text(
-                                        text = cartItem.getProductName(),
-                                        fontSize = 16.sp,
-                                        fontWeight = FontWeight.Medium,
-                                        maxLines = 2
-                                    )
-                                    Text(
-                                        text = "Số lượng: ${cartItem.SoLuong}",
-                                        fontSize = 14.sp
-                                    )
-                                    Text(
-                                        text = "${(cartItem.getProductPrice() - ((cartItem.getProductPrice() * cartItem.getProductDiscount()) / 100)) / 1000}.000 VNĐ",
-                                        fontSize = 14.sp,
-                                        color = Color.Red,
-                                        fontWeight = FontWeight.Bold
-                                    )
-                                }
-                            }
+                            AsyncImage(
+                                model = cartItem.getProductImage(),
+                                contentDescription = cartItem.TenSanPham,
+                                modifier = Modifier.fillMaxSize(),
+                                contentScale = ContentScale.Crop
+                            )
+                        }
+                        Spacer(modifier = Modifier.width(16.dp))
+                        Column(
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Text(
+                                text = cartItem.getProductName(),
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Medium,
+                                maxLines = 2
+                            )
+                            Text(
+                                text = "Số lượng: ${cartItem.SoLuong}",
+                                fontSize = 14.sp
+                            )
+                            Text(
+                                text = "${(cartItem.getProductPrice() - ((cartItem.getProductPrice() * cartItem.getProductDiscount()) / 100)) / 1000}.000 VNĐ",
+                                fontSize = 14.sp,
+                                color = Color.Red,
+                                fontWeight = FontWeight.Bold
+                            )
                         }
                     }
                 }
@@ -290,7 +277,52 @@ fun CheckoutScreen(navController: NavHostController,
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(
-                    onClick = { /* Xử lý thanh toán */ },
+                    onClick = {
+                        if (diaChiDuocChon.MaDiaChi == 0) {
+                            errorMessage = "Vui lòng chọn địa chỉ giao hàng"
+                            return@Button
+                        }
+                        if (cartItems.isEmpty()) {
+                            errorMessage = "Giỏ hàng trống"
+                            return@Button
+                        }
+                        if (maKhachHang.isNullOrBlank()) {
+                            errorMessage = "Không xác định được khách hàng"
+                            return@Button
+                        }
+                        val newHoaDonBan = HoaDonBan(
+                            MaHoaDonBan = 0, // hoặc không truyền, để backend tự sinh
+                            MaKhachHang = maKhachHang,
+                            NgayDatHang = ngaytaohoadon,
+                            MaDiaChi = diaChiDuocChon.MaDiaChi,
+                            TongTien = totalPrice,
+                            PhuongThucThanhToan = selectedPaymentMethod,
+                            TrangThai = 0
+                        )
+                        hoaDonBanVỉewModel.addHoaDon(newHoaDonBan) { maHoaDonBan ->
+                            if (maHoaDonBan != null) {
+                                cartItems.forEach { cartItem ->
+                                    chiTietHoaDonBanViewmodel.addHoaDonChiTiet(
+                                        ChiTietHoaDonBan(
+                                            MaChiTietHoaDonBan = 0,
+                                            MaHoaDonBan = maHoaDonBan,
+                                            MaSanPham = cartItem.MaSanPham,
+                                            SoLuong = cartItem.SoLuong,
+                                            DonGia = cartItem.Gia?:0,
+                                            GiamGia = cartItem.GiamGia?:0,
+                                            ThanhTien = (cartItem.SoLuong * (cartItem.Gia?:0) - (cartItem.GiamGia?:0))
+                                        )
+                                    )
+                                }
+                                // Xóa giỏ hàng nếu cần
+                                // Chuyển sang màn hình thành công
+                                navController.navigate(Screens.ORDERSUCCESSSCREEN.route)
+                            } else {
+                                errorMessage = "Đặt hàng thất bại"
+                            }
+                        }
+                        navController.navigate(Screens.ORDERSUCCESSSCREEN.route)
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(56.dp),

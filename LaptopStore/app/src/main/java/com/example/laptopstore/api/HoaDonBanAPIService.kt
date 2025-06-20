@@ -9,7 +9,8 @@ import retrofit2.http.Query
 
 data class addHoaDonBanResponse(
     val success: Boolean,
-    val message: String
+    val message: String,
+    val maHoaDon: Int?
 )
 
 data class HoaDonBanResponse(

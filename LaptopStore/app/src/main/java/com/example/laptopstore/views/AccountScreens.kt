@@ -256,7 +256,7 @@ fun AccountScreens(
                     AccountItem(
                         icon = Icons.Default.ShoppingCart,
                         text = "Thông Tin Đơn Hàng",
-                        onClick = { navHostController.navigate(Screens.HOMEPAGE.route) }
+                        onClick = { navHostController.navigate(Screens.ORDERSTATUSSCREEN.route) }
                     )
                 }
 
