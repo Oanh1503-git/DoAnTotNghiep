@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Cơ sở dữ liệu: `laptopstore`
+-- Cơ sở dữ liệu: `laptopsh_laptopstore`
 --
 
 -- --------------------------------------------------------
@@ -107,33 +107,33 @@ CREATE TABLE `diachi` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Cấu trúc bảng cho bảng `hoadonban`
+-- Cấu trúc bảng cho bảng `hoadon`
 --
 
-CREATE TABLE `hoadonban` (
-  `MaHoaDonBan` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `hoadon` (
+  `MaHoaDon` int(11) NOT NULL AUTO_INCREMENT,
   `MaKhachHang` varchar(50) NOT NULL,
   `NgayDatHang` date NOT NULL,
   `MaDiaChi` int(11) DEFAULT NULL,
   `TongTien` int(11) DEFAULT NULL,
   `PhuongThucThanhToan` varchar(50) NOT NULL,
   `TrangThai` varchar(20) NOT NULL,
-  PRIMARY KEY (`MaHoaDonBan`)
+  PRIMARY KEY (`MaHoaDon`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Cấu trúc bảng cho bảng `chitiethoadonban`
+-- Cấu trúc bảng cho bảng `chitiethoadon`
 --
 
-CREATE TABLE `chitiethoadonban` (
-  `MaChiTietHoaDonBan` int(11) NOT NULL AUTO_INCREMENT,
-  `MaHoaDonBan` int(11) DEFAULT NULL,
+CREATE TABLE `chitiethoadon` (
+  `MaChiTietHoaDon` int(11) NOT NULL AUTO_INCREMENT,
+  `MaHoaDon` int(11) DEFAULT NULL,
   `MaSanPham` int(11) DEFAULT NULL,
   `SoLuong` int(11) NOT NULL,
   `DonGia` int(20) DEFAULT NULL,
   `ThanhTien` int(20) GENERATED ALWAYS AS (`SoLuong` * `DonGia`) STORED,
   `GiamGia` int(20) DEFAULT NULL,
-  PRIMARY KEY (`MaChiTietHoaDonBan`)
+  PRIMARY KEY (`MaChiTietHoaDon`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -144,7 +144,7 @@ CREATE TABLE `binhluandanhgia` (
   `MaBinhLuan` int(11) NOT NULL AUTO_INCREMENT,
   `MaKhachHang` varchar(50) NOT NULL,
   `MaSanPham` int(11) NOT NULL,
-  `MaHoaDonBan` int(11) NOT NULL,
+  `MaHoaDon` int(11) NOT NULL,
   `SoSao` int(11) NOT NULL,
   `NoiDung` text DEFAULT NULL,
   `NgayDanhGia` datetime NOT NULL,
@@ -193,16 +193,65 @@ CREATE TABLE `Sanphamyeuthich` (
 --
 
 CREATE TABLE `taikhoan` (
-  `TenTaiKhoan` varchar(50) NOT NULL,
-  `MaKhachHang` varchar(50) NOT NULL,
-  `MatKhau` varchar(255) NOT NULL,
-  `LoaiTaiKhoan` int(1) NOT NULL,
-  `TrangThai` int(1) DEFAULT NULL
+  `TenTaiKhoan` varchar(50) NOT NULL,            -- Khóa chính (nên đặt)
+  `MaKhachHang` varchar(50) NOT NULL,            -- Liên kết với bảng khách hàng
+  `MatKhau` varchar(255) NOT NULL,               -- Mã hóa mật khẩu (bằng bcrypt/hash)
+  `LoaiTaiKhoan` int(1) NOT NULL,                -- 0: khách, 1: admin (tuỳ hệ thống)
+  `TrangThai` int(1) DEFAULT NULL              -- Trạng thái hoạt động (0: khóa, 1: hoạt động)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 
 --
 -- Đang đổ dữ liệu cho bảng `khachhang`
 --
+CREATE TABLE `otp` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `TenTaiKhoan` VARCHAR(50) NOT NULL,
+  `otp_code` VARCHAR(20) NOT NULL,
+  `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `expires_at` DATETIME NOT NULL,
+  `is_used` TINYINT(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Cấu trúc bảng cho tin nhắn
+CREATE TABLE `tin_nhan` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `MaKhachHang` VARCHAR(50) NOT NULL,
+  `NguoiGui` ENUM('admin', 'khach') NOT NULL,
+  `NoiDung` TEXT NOT NULL,
+  `ThoiGianGui` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `LoaiTinNhan` ENUM('bao_hanh', 'khieu_nai', 'khac') DEFAULT 'khac'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Cấu trúc bảng cho giao dịch MoMo
+CREATE TABLE `giaodich_momo` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `MaHoaDon` INT NOT NULL,
+  `orderId` VARCHAR(100) NOT NULL,
+  `requestId` VARCHAR(100) NOT NULL,
+  `amount` INT NOT NULL,
+  `orderInfo` TEXT,
+  `resultCode` INT,
+  `message` VARCHAR(255),
+  `payType` VARCHAR(50),
+  `transId` VARCHAR(100),
+  `signature` TEXT,
+  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `baohanh` (
+  `MaBaoHanh` INT NOT NULL AUTO_INCREMENT,
+  `MaHoaDon` INT NOT NULL,
+  `MaSanPham` INT NOT NULL,
+  `NgayMua` DATE NOT NULL,
+  `ThoiGianBaoHanh` INT NOT NULL, -- đơn vị: tháng
+  `NgayHetHan` DATE NOT NULL,
+  `TrangThai` VARCHAR(50) DEFAULT 'Đang bảo hành',
+  PRIMARY KEY (`MaBaoHanh`),
+  FOREIGN KEY (`MaHoaDon`) REFERENCES `hoadon`(`MaHoaDon`),
+  FOREIGN KEY (`MaSanPham`) REFERENCES `sanpham`(`MaSanPham`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 
 INSERT INTO `khachhang` (`MaKhachHang`, `HoTen`, `GioiTinh`, `NgaySinh`, `Email`, `SoDienThoai`) VALUES
 (1, 'Nguyễn Văn D', 'Nam', '1990-05-11', 'a.@.gmail.com', '0901234545'),
@@ -273,10 +322,10 @@ INSERT INTO `diachi` (`MaDiaChi`, `ThongTinDiaChi`, `TenNguoiNhan`, `SoDienThoai
 (7, '1250 huynh tan phat', 'Nguyen Thi B', '0918836151', 3, 1);
 
 --
--- Đang đổ dữ liệu cho bảng `hoadonban`
+-- Đang đổ dữ liệu cho bảng `hoadon`
 --
 
-INSERT INTO `hoadonban` (`MaHoaDonBan`, `MaKhachHang`, `NgayDatHang`, `MaDiaChi`, `TongTien`, `PhuongThucThanhToan`, `TrangThai`) VALUES
+INSERT INTO `hoadon` (`MaHoaDon`, `MaKhachHang`, `NgayDatHang`, `MaDiaChi`, `TongTien`, `PhuongThucThanhToan`, `TrangThai`) VALUES
 (19, 3, '2025-01-16', 7, 60010000, 'Thanh toán khi nhận hàng', '6'),
 (20, 1, '2025-01-16', 1, 30020000, 'Thanh toán khi nhận hàng', '4'),
 (21, 1, '2025-01-16', 1, 18010000, 'Thanh toán khi nhận hàng', '6'),
@@ -284,10 +333,10 @@ INSERT INTO `hoadonban` (`MaHoaDonBan`, `MaKhachHang`, `NgayDatHang`, `MaDiaChi`
 (23, 3, '2025-01-16', 7, 17420000, 'Chuyển khoản ngân hàng', '6');
 
 --
--- Đang đổ dữ liệu cho bảng `chitiethoadonban`
+-- Đang đổ dữ liệu cho bảng `chitiethoadon`
 --
 
-INSERT INTO `chitiethoadonban` (`MaChiTietHoaDonBan`, `MaHoaDonBan`, `MaSanPham`, `SoLuong`, `DonGia`, `GiamGia`) VALUES
+INSERT INTO `chitiethoadon` (`MaChiTietHoaDon`, `MaHoaDon`, `MaSanPham`, `SoLuong`, `DonGia`, `GiamGia`) VALUES
 (31, 19, 1, 2, 29990000, 0),
 (32, 20, 1, 1, 29990000, 0),
 (33, 21, 2, 2, 8990000, 0),
@@ -299,7 +348,7 @@ INSERT INTO `chitiethoadonban` (`MaChiTietHoaDonBan`, `MaHoaDonBan`, `MaSanPham`
 -- Đang đổ dữ liệu cho bảng `binhluandanhgia`
 --
 
-INSERT INTO `binhluandanhgia` (`MaBinhLuan`, `MaKhachHang`, `MaSanPham`, `MaHoaDonBan`, `SoSao`, `NoiDung`, `NgayDanhGia`, `TrangThai`) VALUES
+INSERT INTO `binhluandanhgia` (`MaBinhLuan`, `MaKhachHang`, `MaSanPham`, `MaHoaDon`, `SoSao`, `NoiDung`, `NgayDanhGia`, `TrangThai`) VALUES
 (1, 3, 1, 19, 5, 'Laptop ASUS Vivobook Go 15 E1504FA rất mỏng nhẹ, phù hợp cho công việc văn phòng và học tập, thiết kế hiện đại, thời lượng pin khá.', '2025-01-16 08:15:00', 1),
 (2, 1, 2, 20, 4, 'Laptop Dell Inspiron 15 3520 có hiệu năng ổn định, thiết kế bền bỉ, màn hình 120Hz mượt mà.', '2025-01-16 08:15:00', 1),
 (3, 1, 3, 21, 5, 'Laptop HP 15-fc0085AU R5 có hiệu năng tốt cho công việc văn phòng, học tập và giải trí cơ bản.', '2025-01-16 08:15:00', 1),
@@ -395,6 +444,7 @@ INSERT INTO `taikhoan` (`TenTaiKhoan`, `MaKhachHang`, `MatKhau`, `LoaiTaiKhoan`,
 --
 
 --
+--
 -- Chỉ mục cho bảng `Sanphamyeuthich`
 --
 ALTER TABLE `Sanphamyeuthich` 
@@ -402,11 +452,11 @@ ALTER TABLE `Sanphamyeuthich`
   ADD KEY `FK_Sanphamyeuthich_SanPham` (`MaSanPham`);
 
 --
--- Chỉ mục cho bảng `chitiethoadonban`
+-- Chỉ mục cho bảng `chitiethoadon`
 --
-ALTER TABLE `chitiethoadonban`
-  ADD KEY `FK_ChiTietHoaDonBan_HoaDonBan` (`MaHoaDonBan`),
-  ADD KEY `FK_ChiTietHoaDonBan_SanPham` (`MaSanPham`);
+ALTER TABLE `chitiethoadon`
+  ADD KEY `FK_ChiTietHoaDon_HoaDon` (`MaHoaDon`),
+  ADD KEY `FK_ChiTietHoaDon_SanPham` (`MaSanPham`);
 
 --
 -- Chỉ mục cho bảng `diachi`
@@ -428,11 +478,11 @@ ALTER TABLE `hinhanh`
   ADD KEY `fk_ma_sanpham` (`MaSanPham`);
 
 --
--- Chỉ mục cho bảng `hoadonban`
+-- Chỉ mục cho bảng `hoadon`
 --
-ALTER TABLE `hoadonban`
-  ADD KEY `FK_HoaDonBan_KhachHang` (`MaKhachHang`),
-  ADD KEY `FK_HoaDonBan_DiaChi` (`MaDiaChi`);
+ALTER TABLE `hoadon`
+  ADD KEY `FK_HoaDon_KhachHang` (`MaKhachHang`),
+  ADD KEY `FK_HoaDon_DiaChi` (`MaDiaChi`);
 
 --
 -- Chỉ mục cho bảng `khachhang`
@@ -468,10 +518,10 @@ ALTER TABLE `binhluandanhgia`
   MODIFY `MaBinhLuan` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT cho bảng `chitiethoadonban`
+-- AUTO_INCREMENT cho bảng `chitiethoadon`
 --
-ALTER TABLE `chitiethoadonban`
-  MODIFY `MaChiTietHoaDonBan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+ALTER TABLE `chitiethoadon`
+  MODIFY `MaChiTietHoaDon` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT cho bảng `diachi`
@@ -502,5 +552,17 @@ ALTER TABLE `sanpham`
 ALTER TABLE `binhluandanhgia`
   ADD KEY `FK_BinhLuanDanhGia_KhachHang` (`MaKhachHang`),
   ADD KEY `FK_BinhLuanDanhGia_SanPham` (`MaSanPham`),
-  ADD KEY `FK_BinhLuanDanhGia_HoaDonBan` (`MaHoaDonBan`);
+  ADD KEY `FK_BinhLuanDanhGia_HoaDon` (`MaHoaDon`);
+
+  -- Thêm index cho otp
+ALTER TABLE `otp`
+  ADD KEY `IDX_Otp_TenTaiKhoan` (`TenTaiKhoan`);
+
+-- Thêm index cho tin_nhan
+ALTER TABLE `tin_nhan`
+  ADD KEY `IDX_TinNhan_MaKhachHang` (`MaKhachHang`);
+
+-- Thêm index cho giaodich_momo
+ALTER TABLE `giaodich_momo`
+  ADD KEY `IDX_GiaoDichMoMo_MaHoaDon` (`MaHoaDon`);
 

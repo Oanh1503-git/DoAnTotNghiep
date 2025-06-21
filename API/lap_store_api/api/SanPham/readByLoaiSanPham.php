@@ -9,7 +9,7 @@ include_once('../../model/sanpham.php');
 $database = new database();
 $conn = $database->Connect(); // Lấy kết nối PDO
 
-// Khởi tạo lớp HoaDonBan với kết nối PDO
+// Khởi tạo lớp HoaDon với kết nối PDO
 $sanpham = new SanPham($conn);
 
 // Kiểm tra và lấy giá trị MaKhachHang và TrangThai từ query string

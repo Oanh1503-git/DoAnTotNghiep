@@ -8,7 +8,7 @@ class TaiKhoan{
     public $MatKhau;
     public $LoaiTaiKhoan;
     public $TrangThai;
-
+    public $Email; 
     //connect db
 
     public function __construct($database){
@@ -124,6 +124,28 @@ public function AddTaiKhoan() {
         }
         printf("Error %s.\n",$stmt->error);
         return false;
+    } // Đảm bảo bạn có dòng này trong class
+
+public function findUsernameByEmail() {
+    $query = "SELECT tk.TenTaiKhoan 
+              FROM taikhoan tk
+              JOIN khachhang kh ON tk.MaKhachHang = kh.MaKhachHang
+              WHERE kh.Email = :email
+              LIMIT 1";
+
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(':email', $this->Email);
+    $stmt->execute();
+
+    if ($stmt->rowCount() > 0) {
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $this->TenTaiKhoan = $row['TenTaiKhoan'];
+        return true;
     }
+
+    return false;
+}
+
+
 }
 ?>

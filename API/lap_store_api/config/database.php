@@ -1,24 +1,28 @@
 <?php
-// Kết nối database bằng PDO
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 class database
 {
     private $servername = "localhost";
-    private $username = "root";
-    private $password = "";
-    private $database = "laptopstore";
+    private $username = "laptopsh_laptopsh";
+    private $password = "i%Mt%VF+#R8=e1#2";
+    private $database = "laptopsh_laptopstore";
     private $conn;
 
     public function Connect()
     {
-        $this->conn = null; // Khởi tạo giá trị mặc định cho kết nối
+        $this->conn = null;
         try {
-            // Khởi tạo kết nối PDO và gán vào $this->conn
-            $this->conn = new PDO("mysql:host=$this->servername;dbname=$this->database", $this->username, $this->password);
+            $this->conn = new PDO(
+                "mysql:host=$this->servername;dbname=$this->database;charset=utf8mb4",
+                $this->username,
+                $this->password
+            );
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            
         } catch (PDOException $e) {
             echo "Connection failed: " . $e->getMessage();
         }
-        return $this->conn; // Trả về kết nối
+        return $this->conn;
     }
 }

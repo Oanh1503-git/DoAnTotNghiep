@@ -34,7 +34,7 @@ class SanPham
 
     public function GetAllSanPham()
     {
-        $query = "SELECT sp.*,ha.DuongDan FROM SanPham sp 
+        $query = "SELECT sp.*,ha.DuongDan FROM sanpham sp 
               join hinhanh ha on sp.MaSanPham = ha.MaSanPham where ha.MacDinh = 1";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
@@ -43,7 +43,7 @@ class SanPham
 
     public function GetSanPhamById()
     {
-        $query = "SELECT sp.*, ha.DuongDan FROM SanPham sp 
+        $query = "SELECT sp.*, ha.DuongDan FROM sanpham sp 
               JOIN hinhanh ha ON sp.MaSanPham = ha.MaSanPham
               WHERE ha.MacDinh = 1 and sp.MaSanPham = ? LIMIT 1";
         $stmt = $this->conn->prepare($query);
@@ -81,7 +81,7 @@ class SanPham
     public function GetSanPhamBySearch($searchTerm)
     {
         $query = "SELECT sp.* ,ha.DuongDan
-          FROM SanPham sp
+          FROM sanpham sp
           JOIN HinhAnh ha ON sp.MaSanPham = ha.MaSanPham
           WHERE ha.MacDinh = 1 AND (
           sp.TenSanPham LIKE ? 
@@ -107,7 +107,7 @@ class SanPham
     public function GetSanPhamByLoai()
     {
         $query = "SELECT sp.*,ha.DuongDan 
-                  FROM SanPham sp 
+                  FROM sanpham sp 
                   join hinhanh ha on sp.MaSanPham = ha.MaSanPham
                   WHERE ha.MacDinh = 1 and sp.MaLoaiSanPham = ?
                   ";
@@ -120,10 +120,10 @@ class SanPham
     public function GetSanPhamTrongHoaDon($mahoadon)
     {
         $query = "SELECT sp.*, ha.DuongDan
-                  FROM SanPham sp 
+                  FROM sanpham sp 
                   join hinhanh ha on sp.MaSanPham = ha.MaSanPham 
-                  join ChiTietHoaDonBan cthd on sp.MaSanPham = cthd.MaSanPham
-                  WHERE ha.MacDinh = 1 and cthd.MaHoaDonBan = ?
+                  join ChiTietHoaDon cthd on sp.MaSanPham = cthd.MaSanPham
+                  WHERE ha.MacDinh = 1 and cthd.MaHoaDon = ?
                   ";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $mahoadon);
@@ -146,7 +146,7 @@ class SanPham
 
     public function AddSanPham()
     {
-        $query = "INSERT INTO SanPham 
+        $query = "INSERT INTO sanpham 
         (MaSanPham, TenSanPham, MaLoaiSanPham, CPU, RAM, CardManHinh, 
         SSD, ManHinh, MaMauSac, Gia, SoLuong, MoTa, HinhAnh, TrangThai) 
         VALUES 
@@ -195,7 +195,7 @@ class SanPham
 
     public function UpdateSanPham()
     {
-        $query = "UPDATE SanPham 
+        $query = "UPDATE sanpham 
         SET TenSanPham = :TenSanPham, 
         MaLoaiSanPham = :MaLoaiSanPham, 
         CPU = :CPU, 
@@ -254,7 +254,7 @@ class SanPham
 
     public function DeleteSanPham()
     {
-        $query = "DELETE FROM SanPham WHERE MaSanPham=:MaSanPham";
+        $query = "DELETE FROM sanpham WHERE MaSanPham=:MaSanPham";
 
         $stmt = $this->conn->prepare($query);
 

@@ -13,7 +13,7 @@ $conn = $database->Connect(); // Lấy kết nối PDO
 $sanpham = new SanPham($conn);
 
 // Kiểm tra và lấy giá trị search từ query string
-$searchTerm = isset($_GET['MaHoaDonBan']) ? $_GET['MaHoaDonBan'] : die(json_encode(["message" => "Từ khóa tìm kiếm không được cung cấp."]));
+$searchTerm = isset($_GET['MaHoaDon']) ? $_GET['MaHoaDon'] : die(json_encode(["message" => "Từ khóa tìm kiếm không được cung cấp."]));
 
 // Lấy danh sách sản phẩm theo từ khóa tìm kiếm
 $getSanPhamBySearch = $sanpham->GetSanPhamTrongHoaDon($searchTerm);
