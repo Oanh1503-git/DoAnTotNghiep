@@ -80,6 +80,12 @@ class TaiKhoanViewModel(private val context: Context) : ViewModel() {
     val usernameState: State<String?> = _usernameState
 
     var cachedUsername: String? = null // lưu lại username nếu tìm thấy
+    private val _registerStatus = MutableStateFlow<String?>(null)
+    val registerStatus: StateFlow<String?> = _registerStatus
+
+    private val _isRegistering = MutableStateFlow(false)
+    val isRegistering: StateFlow<Boolean> = _isRegistering
+
     init {
         initializeData()
     }
@@ -229,20 +235,22 @@ class TaiKhoanViewModel(private val context: Context) : ViewModel() {
         }
     }
 
-    fun kiemTraTrungUsername(tenTaiKhoan: String) {
-        viewModelScope.launch {
-            try {
-                val response = withContext(Dispatchers.IO) {
-                    LaptopStoreRetrofitClient.taiKhoanAPIService.kiemTraTrunUsername(tenTaiKhoan)
-                }
-                _checkUsernameResult.value = response
-            } catch (e: Exception) {
-                _checkUsernameResult.value = KiemTraTaiKhoanResponse(result = false, message = e.message)
+    suspend fun kiemTraTrungUsername(tenTaiKhoan: String): Boolean {
+        return try {
+            val response = withContext(Dispatchers.IO) {
+                LaptopStoreRetrofitClient.taiKhoanAPIService.kiemTraTrunUsername(tenTaiKhoan)
             }
+            _checkUsernameResult.value = response
+            response.result
+        } catch (e: Exception) {
+            _checkUsernameResult.value = KiemTraTaiKhoanResponse(result = false, message = e.message)
+            false
         }
     }
 
+
     suspend fun TaoTaiKhoan(taiKhoan: TaiKhoan):Boolean {
+        _isRegistering.value = true
         return try {
             val response = LaptopStoreRetrofitClient.taiKhoanAPIService.TaoTaiKhoan(taiKhoan)
             TaoTaiKhoanResult = if (response.success) {
@@ -384,6 +392,24 @@ class TaiKhoanViewModel(private val context: Context) : ViewModel() {
     fun clearStatus() {
         _resetStatus.value = null
     }
+    fun registerTaiKhoan(taiKhoan: TaiKhoan) {
+        viewModelScope.launch {
+            try {
+                val response = LaptopStoreRetrofitClient.taiKhoanAPIService.TaoTaiKhoan(taiKhoan)
+                if (response.success) {
+                    _registerStatus.value = "Đăng ký thành công"
+                } else {
+                    _registerStatus.value = "Đăng ký thất bại: ${response.message}"
+                }
+            } catch (e: Exception) {
+                _registerStatus.value = "Lỗi: ${e.message}"
+            }
+        }
+    }
+    fun clearRegisterStatus() {
+        _registerStatus.value = null
+    }
+
 
 
 }

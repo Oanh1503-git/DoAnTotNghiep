@@ -19,22 +19,30 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.laptopstore.models.Screens
+import com.example.laptopstore.viewmodels.DataStoreManager
 import com.example.laptopstore.viewmodels.KhachHangViewModels
 import com.example.laptopstore.viewmodels.TaiKhoanViewModel
+import com.example.laptopstore.viewmodels.TaiKhoanViewsModelsFactory
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AccountScreens(
     navHostController: NavHostController,
-    taiKhoanViewModel: TaiKhoanViewModel,
     khachHangViewModels: KhachHangViewModels,
     savedStateHandle : SavedStateHandle
 ) {
+
+    val context = LocalContext.current
+    val taiKhoanViewModel: TaiKhoanViewModel = viewModel(
+        factory = TaiKhoanViewsModelsFactory(context)
+    )
     val isLoggedIn by taiKhoanViewModel.isLoggedIn.collectAsState()
-    val tentaikhoan = taiKhoanViewModel.tentaikhoan
+
     taiKhoanViewModel.setTempAccountLogin(isLoggedIn)
     val tenTaiKhoan by taiKhoanViewModel.tentaikhoan.collectAsState()
-    val maKhachHang = taiKhoanViewModel.taikhoan.collectAsState().value?.MaKhachHang
-
+    val dataStoreManager = remember { DataStoreManager(context) }
+    val customerId by dataStoreManager.customerId.collectAsState(initial = null)
+    val maKhachHang = customerId
     LaunchedEffect(tenTaiKhoan) {
         Log.d("AccountScreen", "Tên tài khoản hiện tại: $tenTaiKhoan")
     }
@@ -43,8 +51,8 @@ fun AccountScreens(
         savedStateHandle["login_state"] = isLoggedIn
         Log.d("AccountScreen", "Saved login state: $isLoggedIn")
     }
-    LaunchedEffect(taiKhoanViewModel.taikhoan) {
-        val maKhachHang = taiKhoanViewModel.taikhoan?.value
+    LaunchedEffect(maKhachHang) {
+
         Log.d("AccountScreen", "MaKhachHang: $maKhachHang")
     }
     // Dialog xác nhận đăng xuất

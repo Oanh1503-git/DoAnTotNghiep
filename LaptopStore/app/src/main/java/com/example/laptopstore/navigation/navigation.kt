@@ -52,7 +52,6 @@ fun NavigationGraph(
         composable(Screens.ACCOUNTSCREENS.route) {backStackEntry->
             val savedStateHandle = backStackEntry.savedStateHandle
             AccountScreens(navHostController,
-                taiKhoanViewModel,
                 khachHangViewModel,
                 savedStateHandle = backStackEntry.savedStateHandle)
         }

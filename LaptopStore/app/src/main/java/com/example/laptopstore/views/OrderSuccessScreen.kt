@@ -54,7 +54,7 @@ fun OrderSuccessScreen(navController: NavHostController) {
                 Spacer(modifier = Modifier.height(10.dp))
 
                 Button(onClick = {
-                    // Xem đơn hàng đã mua
+                    navController.navigate(Screens.ORDERSTATUSSCREEN.route)
                     navController.navigate("donhang") // bạn đổi theo route của bạn
                 }) {
                     Text("Xem đơn hàng")

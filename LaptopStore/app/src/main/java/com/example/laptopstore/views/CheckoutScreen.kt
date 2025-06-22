@@ -17,12 +17,17 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBackIosNew
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -144,9 +149,18 @@ fun CheckoutScreen(navController: NavHostController,
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "Thanh toán", fontSize = 18.sp, fontWeight = FontWeight.Bold) }
+                title = { Text(text = "Thanh toán", fontSize = 18.sp, fontWeight = FontWeight.Bold) },
+
+                navigationIcon = {
+                    IconButton(onClick = {
+                        navController.navigate(Screens.HOMEPAGE.route)
+                    }) {
+                        Icon(Icons.Default.ArrowBackIosNew, contentDescription = "Back")
+                    }
+                },
             )
         },
+
         bottomBar = {
             MenuBottomNavBar(navController)
         }

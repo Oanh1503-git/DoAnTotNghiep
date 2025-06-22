@@ -1,5 +1,7 @@
 package com.example.laptopstore.views
 
+import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -21,7 +23,11 @@ import com.example.laptopstore.models.Screens
 import com.example.laptopstore.models.TaiKhoan
 import com.example.laptopstore.viewmodels.KhachHangViewModels
 import com.example.laptopstore.viewmodels.TaiKhoanViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -34,7 +40,8 @@ fun RegisterScreen(
     var isTermsChecked by remember { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
-
+    val registerStatus by taiKhoanViewModel.registerStatus.collectAsState()
+    val isRegistering by taiKhoanViewModel.isRegistering.collectAsState()
     Scaffold(
         topBar = {
             TopAppBar(
@@ -44,155 +51,173 @@ fun RegisterScreen(
         snackbarHost = { SnackbarHost(snackbarHostState) },
         containerColor = Color.White
     ) { innerPadding ->
-        LazyColumn(
-            modifier = Modifier
-                .padding(innerPadding)
-                .fillMaxSize()
-                .padding(24.dp),
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            item {
-                Text(
-                    "Tạo tài khoản mới",
-                    fontSize = 26.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xFF0D47A1)
-                )
-                Spacer(Modifier.height(16.dp))
-            }
 
-            item {
-                // Thông tin tài khoản
-                Text("Thông tin tài khoản", fontWeight = FontWeight.SemiBold, fontSize = 18.sp)
-                Spacer(Modifier.height(8.dp))
-                RegisterInputField(
-                    label = "Tên đăng nhập",
-                    value = userInput.username,
-                    onValueChange = { userInput = userInput.copy(username = it) }
-                )
-                RegisterInputField(
-                    label = "Mật khẩu",
-                    value = userInput.password,
-                    onValueChange = { userInput = userInput.copy(password = it) },
-                    isPassword = true
-                )
-                RegisterInputField(
-                    label = "Nhập lại mật khẩu",
-                    value = userInput.confirmPassword,
-                    onValueChange = { userInput = userInput.copy(confirmPassword = it) },
-                    isPassword = true
-                )
-                Spacer(Modifier.height(16.dp))
-            }
-
-            item {
-                // Thông tin cá nhân
-                Text("Thông tin cá nhân", fontWeight = FontWeight.SemiBold, fontSize = 18.sp)
-                Spacer(Modifier.height(8.dp))
-                RegisterInputField(
-                    label = "Họ tên",
-                    value = userInput.fullName,
-                    onValueChange = { userInput = userInput.copy(fullName = it) }
-                )
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text("Giới tính: ")
-                    GenderRadioButton(
-                        selectedGender = userInput.gender,
-                        onGenderSelected = { userInput = userInput.copy(gender = it) }
+            LazyColumn(
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .fillMaxSize()
+                    .padding(24.dp),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                item {
+                    Text(
+                        "Tạo tài khoản mới",
+                        fontSize = 26.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFF0D47A1)
                     )
+                    Spacer(Modifier.height(16.dp))
                 }
-                Spacer(Modifier.height(8.dp))
-                RegisterInputField(
-                    label = "Ngày sinh (YYYY-MM-DD)",
-                    value = userInput.birthDate,
-                    onValueChange = { userInput = userInput.copy(birthDate = it) }
-                )
-                RegisterInputField(
-                    label = "Số điện thoại",
-                    value = userInput.phone,
-                    onValueChange = { userInput = userInput.copy(phone = it) },
-                    keyboardType = KeyboardType.Phone
-                )
-                RegisterInputField(
-                    label = "Email",
-                    value = userInput.email,
-                    onValueChange = { userInput = userInput.copy(email = it) },
-                    keyboardType = KeyboardType.Email
-                )
-                Spacer(Modifier.height(16.dp))
-            }
 
-            item {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Checkbox(
-                        checked = isTermsChecked,
-                        onCheckedChange = { isTermsChecked = it }
+                item {
+                    // Thông tin tài khoản
+                    Text("Thông tin tài khoản", fontWeight = FontWeight.SemiBold, fontSize = 18.sp)
+                    Spacer(Modifier.height(8.dp))
+                    RegisterInputField(
+                        label = "Tên đăng nhập",
+                        value = userInput.username,
+                        onValueChange = { userInput = userInput.copy(username = it) }
                     )
-                    Text("Tôi đồng ý với các điều khoản sử dụng", fontSize = 14.sp)
+                    RegisterInputField(
+                        label = "Mật khẩu",
+                        value = userInput.password,
+                        onValueChange = { userInput = userInput.copy(password = it) },
+                        isPassword = true
+                    )
+                    RegisterInputField(
+                        label = "Nhập lại mật khẩu",
+                        value = userInput.confirmPassword,
+                        onValueChange = { userInput = userInput.copy(confirmPassword = it) },
+                        isPassword = true
+                    )
+                    Spacer(Modifier.height(16.dp))
                 }
-                Spacer(Modifier.height(16.dp))
-            }
 
-            item {
-                Button(
-                    onClick = {
-                        val validationResult = validateRegisterInput(userInput, isTermsChecked)
-                        if (validationResult != null) {
-                            scope.launch { snackbarHostState.showSnackbar(validationResult) }
-                        } else {
-                            taiKhoanViewModel.kiemTraTrungUsername(userInput.username)
-                            scope.launch {
-                                khachHangViewModel.getMaKhachHangTuAPI()
-                                val maKH=khachHangViewModel.makhachhang.value
-                                if (maKH != null){
-                                    khachHangViewModel.themkhachhang(
-                                        KhachHang(
-                                            MaKhachHang = maKH,
-                                            HoTen = userInput.fullName,
-                                            GioiTinh = userInput.gender,
-                                            NgaySinh = userInput.birthDate,
-                                            SoDienThoai = userInput.phone,
-                                            Email = userInput.email
-                                        )
-                                    )
-                                    val success = taiKhoanViewModel.TaoTaiKhoan(
-                                        TaiKhoan(
-                                            TenTaiKhoan = userInput.username,
-                                            MaKhachHang = maKH,
-                                            MatKhau = userInput.password,
-                                            LoaiTaiKhoan = 0,
-                                            TrangThai = 1
-                                        )
-                                    )
-                                    if (success) {
-                                        snackbarHostState.showSnackbar("Đăng ký thành công!")
-                                        navController.navigate(
-                                            Screens.VERIFYEMAILSCREEN.createRoute(userInput.email, userInput.username)
-                                        )
+                item {
+                    // Thông tin cá nhân
+                    Text("Thông tin cá nhân", fontWeight = FontWeight.SemiBold, fontSize = 18.sp)
+                    Spacer(Modifier.height(8.dp))
+                    RegisterInputField(
+                        label = "Họ tên",
+                        value = userInput.fullName,
+                        onValueChange = { userInput = userInput.copy(fullName = it) }
+                    )
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text("Giới tính: ")
+                        GenderRadioButton(
+                            selectedGender = userInput.gender,
+                            onGenderSelected = { userInput = userInput.copy(gender = it) }
+                        )
+                    }
+                    Spacer(Modifier.height(8.dp))
+                    RegisterInputField(
+                        label = "Ngày sinh (YYYY-MM-DD)",
+                        value = userInput.birthDate,
+                        onValueChange = { userInput = userInput.copy(birthDate = it) }
+                    )
+                    RegisterInputField(
+                        label = "Số điện thoại",
+                        value = userInput.phone,
+                        onValueChange = { userInput = userInput.copy(phone = it) },
+                        keyboardType = KeyboardType.Phone
+                    )
+                    RegisterInputField(
+                        label = "Email",
+                        value = userInput.email,
+                        onValueChange = { userInput = userInput.copy(email = it) },
+                        keyboardType = KeyboardType.Email
+                    )
+                    Spacer(Modifier.height(16.dp))
+                }
 
-                                    } else {
-                                        snackbarHostState.showSnackbar("Tạo tài khoản thất bại!")
+                item {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Checkbox(
+                            checked = isTermsChecked,
+                            onCheckedChange = { isTermsChecked = it }
+                        )
+                        Text("Tôi đồng ý với các điều khoản sử dụng", fontSize = 14.sp)
+                    }
+                    Spacer(Modifier.height(16.dp))
+                }
+
+                item {
+                    Button(
+                        onClick = {
+                            val validationResult = validateRegisterInput(userInput, isTermsChecked)
+                            if (validationResult != null) {
+                                scope.launch { snackbarHostState.showSnackbar(validationResult) }
+                            } else {
+                                scope.launch {
+                                    try {
+                                        // ✅ Kiểm tra username trùng
+                                        val trung = taiKhoanViewModel.kiemTraTrungUsername(userInput.username)
+                                        if (trung) {
+                                            snackbarHostState.showSnackbar("Tên đăng nhập đã tồn tại!")
+                                            return@launch
+                                        }
+                                        Log.d("đăngky", "ten tài khoản trungg $trung")
+                                        // ✅ Tạo mã khách hàng
+                                        khachHangViewModel.taoMaKhachHang()
+                                        val maKH = withContext(Dispatchers.Default) {
+                                            khachHangViewModel.maKhachHangState.first { it != null }
+                                        }
+                                        Log.d("đăngky", "tạo mã $maKH")
+
+
+                                        if (maKH != null) {
+                                            val successThemKH = khachHangViewModel.themkhachhang(
+                                                KhachHang(
+                                                    MaKhachHang = maKH,
+                                                    HoTen = userInput.fullName,
+                                                    GioiTinh = userInput.gender,
+                                                    NgaySinh = userInput.birthDate,
+                                                    SoDienThoai = userInput.phone,
+                                                    Email = userInput.email
+                                                )
+                                            )
+
+                                            Log.d("đăngky", "tao khách hàng $successThemKH")
+                                            val success = taiKhoanViewModel.TaoTaiKhoan(
+                                                TaiKhoan(
+                                                    TenTaiKhoan = userInput.username,
+                                                    MaKhachHang = maKH,
+                                                    MatKhau = userInput.password,
+                                                    LoaiTaiKhoan = 0,
+                                                    TrangThai = 1
+                                                )
+                                            )
+                                            Log.d("đăngky", "tao tai khoan  $success")
+                                            if (success) {
+                                                snackbarHostState.showSnackbar("Đăng ký thành công!")
+                                                navController.navigate(
+                                                    Screens.VERIFYEMAILSCREEN.createRoute(userInput.email, userInput.username)
+                                                )
+                                            } else {
+                                                snackbarHostState.showSnackbar("Tạo tài khoản thất bại!")
+                                            }
+                                        } else {
+                                            snackbarHostState.showSnackbar("Tạo khách hàng thất bại!")
+                                        }
+                                    } catch (e: Exception) {
+                                        snackbarHostState.showSnackbar("Lỗi: ${e.message}")
                                     }
-                                }else {
-                                    snackbarHostState.showSnackbar("Tạo khách hàng thất bại!") // ✅ được phép gọi vì nằm trong `launch`
                                 }
-
                             }
-
-                        }
-                    },
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(10.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0D47A1))
-                ) {
-                    Text("Đăng ký", color = Color.White, fontWeight = FontWeight.Bold)
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(10.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0D47A1))
+                    ) {
+                        Text("Đăng ký", color = Color.White, fontWeight = FontWeight.Bold)
+                    }
+                    TextButton(onClick = { navController.navigate(Screens.Login_Screens.route) }) {
+                        Text("Đã có tài khoản? Đăng nhập", color = Color.Gray)
+                    }
                 }
 
-                TextButton(onClick = { navController.navigate(Screens.Login_Screens.route) }) {
-                    Text("Đã có tài khoản? Đăng nhập", color = Color.Gray)
-                }
-            }
+
         }
     }
 }

@@ -30,6 +30,16 @@ class KhachHangViewModels : ViewModel() {
 
     private val _makhachhang = MutableStateFlow<String?>(null)
     val makhachhang: StateFlow<String?> = _makhachhang
+
+    private val _maKhachHangState = MutableStateFlow<String?>(null)
+    val maKhachHangState: StateFlow<String?> = _maKhachHangState
+
+    private val _loading = MutableStateFlow(false)
+    val loading: StateFlow<Boolean> = _loading
+
+    private val _error = MutableStateFlow<String?>(null)
+    val error: StateFlow<String?> = _error
+
     // ✅ Load tất cả khách hàng (LiveData)
     val allKhachHang: LiveData<List<KhachHang>> = liveData(Dispatchers.IO) {
         try {
@@ -102,23 +112,25 @@ class KhachHangViewModels : ViewModel() {
     }
 
     // ✅ Thêm khách hàng mới
-    fun themkhachhang(khachhang: KhachHang) {
-        viewModelScope.launch {
-            try {
-                val response = LaptopStoreRetrofitClient.khachHangAPIService.ThemKhachHang(khachhang)
-                _themKhachHangResult.value = if (response.success) {
-                    Log.d("KhachHang", "Tạo khách hàng thành công")
-                    "success"
-                } else {
-                    Log.e("KhachHang", "Tạo thất bại: ${response.message}")
-                    "fail"
-                }
-            } catch (e: Exception) {
-                _themKhachHangResult.value = "error"
-                Log.e("KhachHang", "Lỗi tạo khách hàng: ${e.message}")
+    suspend fun themkhachhang(khachhang: KhachHang): Boolean {
+        return try {
+            val response = LaptopStoreRetrofitClient.khachHangAPIService.ThemKhachHang(khachhang)
+            if (response.success) {
+                Log.d("KhachHang", "Tạo khách hàng thành công")
+                _themKhachHangResult.value = "success"
+                true
+            } else {
+                Log.e("KhachHang", "Tạo thất bại: ${response.message}")
+                _themKhachHangResult.value = "fail"
+                false
             }
+        } catch (e: Exception) {
+            Log.e("KhachHang", "Lỗi tạo khách hàng: ${e.message}")
+            _themKhachHangResult.value = "error"
+            false
         }
     }
+
 
     // ✅ Reset kết quả sau khi sử dụng xong
     fun resetThemKhachHangResult() {
@@ -143,4 +155,24 @@ class KhachHangViewModels : ViewModel() {
         val customerCount = getCustomerCount()
         return CustomerIDGenerator.generateCustomerId(customerCount)
     }
+    fun taoMaKhachHang() {
+        viewModelScope.launch {
+            try {
+                val response = LaptopStoreRetrofitClient.khachHangAPIService.taoMaKhachHang()
+                if (response.success) {
+                    _maKhachHangState.value = response.ma_khach_hang
+                    Log.d("TaoMaKH", "Tạo mã KH thành công: ${response.ma_khach_hang}")
+                } else {
+                    _error.value = "Tạo mã thất bại"
+                    _maKhachHangState.value = null
+                }
+            } catch (e: Exception) {
+                _error.value = "Lỗi kết nối: ${e.localizedMessage}"
+                _maKhachHangState.value = null
+            } finally {
+                _loading.value = false
+            }
+        }
+    }
+
 }

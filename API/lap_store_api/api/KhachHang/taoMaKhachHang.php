@@ -18,7 +18,14 @@ $khachhang = new Khachhang($db);
 $maKhachHang = $khachhang->generateCustomerCode();
 
 // Trả về kết quả JSON
-echo json_encode([
-    "success" => true,
-    "ma_khach_hang" => $maKhachHang
-]);
+if ($maKhachHang) {
+    echo json_encode([
+        "success" => true,
+        "ma_khach_hang" => $maKhachHang
+    ]);
+} else {
+    echo json_encode([
+        "success" => false,
+        "message" => "Không thể tạo mã khách hàng"
+    ]);
+}

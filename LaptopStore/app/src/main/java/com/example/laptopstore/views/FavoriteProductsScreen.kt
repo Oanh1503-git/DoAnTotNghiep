@@ -1,6 +1,7 @@
 package com.example.laptopstore.views
 
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -23,6 +24,7 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.laptopstore.models.HienSanPhamYeuThich
 import com.example.laptopstore.models.SanPhamYeuThich
+import com.example.laptopstore.viewmodels.DataStoreManager
 import com.example.laptopstore.viewmodels.SanPhamYeuThichViewModel
 import com.example.laptopstore.viewmodels.TaiKhoanViewModel
 import java.text.NumberFormat
@@ -41,11 +43,18 @@ fun FavoriteProductsScreen(
     val isLoading by sanPhamYeuThichViewModel.isFavorite.collectAsState()
     val errorMessage by sanPhamYeuThichViewModel.errorMessage.collectAsState()
 
+    val dataStoreManager = remember { DataStoreManager(context) }
+    val customerId by dataStoreManager.customerId.collectAsState(initial = null)
+    val maKhachHang = customerId
     // Load favorites when MaKhachHang is available
-    LaunchedEffect(khachHang) {
-        khachHang?.MaKhachHang?.let { maKhachHang ->
-            sanPhamYeuThichViewModel.getFavoritesByKhachHang(maKhachHang)
+    LaunchedEffect(customerId) {
+        customerId?.let {
+            sanPhamYeuThichViewModel.getFavoritesByKhachHang(it)
         }
+    }
+    LaunchedEffect(maKhachHang) {
+
+        Log.d("san pham yeu thich ", "MaKhachHang: $maKhachHang")
     }
 
     Scaffold(
