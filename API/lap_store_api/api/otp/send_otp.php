@@ -50,7 +50,7 @@ try {
 
     $mail->setFrom('laptopstoredoan2025@gmail.com', 'LaptopStore');
     $mail->addAddress($email);
-    $mail->Subject = 'Mã xác thực OTP';
+    $mail->Subject = 'Ma xac thuc OTP';
     $mail->Body    = "Xin chào $username,\n\nMã OTP của bạn là: $otpCode\nMã sẽ hết hạn sau 5 phút.";
 
     $mail->send();

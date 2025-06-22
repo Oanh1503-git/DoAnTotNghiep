@@ -18,9 +18,9 @@ import com.example.laptopstore.viewmodels.SanPhamViewModel
 import com.example.laptopstore.viewmodels.TaiKhoanViewModel
 import com.example.lapstore.viewmodels.DiaChiViewmodel
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.lapstore.viewmodels.HoaDonBanViewModel
+import com.example.lapstore.viewmodels.HoaDonViewModel
 import com.example.laptopstore.AddressScreen
-import com.example.laptopstore.viewmodels.ChiTietHoaDonBanViewmodel
+import com.example.laptopstore.viewmodels.ChiTietHoaDonViewmodel
 
 import com.example.laptopstore.viewmodels.GioHangViewModel
 import com.example.laptopstore.viewmodels.OTPViewModel
@@ -38,8 +38,8 @@ fun NavigationGraph(
     gioHangViewModel: GioHangViewModel,
     sanPhamYeuThichViewModel: SanPhamYeuThichViewModel = viewModel(),
     otpViewModel: OTPViewModel,
-    hoaDonBanVỉewModel: HoaDonBanViewModel,
-    chiTietHoaDonBanViewmodel: ChiTietHoaDonBanViewmodel
+    hoaDonBanVỉewModel: HoaDonViewModel,
+    chiTietHoaDonBanViewmodel: ChiTietHoaDonViewmodel
 ){
     NavHost(
         navController = navHostController,

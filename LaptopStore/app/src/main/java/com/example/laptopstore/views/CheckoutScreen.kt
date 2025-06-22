@@ -19,7 +19,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -52,14 +51,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import com.example.lapstore.models.ChiTietHoaDonBan
+import com.example.lapstore.models.ChiTietHoaDon
 import com.example.lapstore.viewmodels.DiaChiViewmodel
-import com.example.lapstore.viewmodels.HoaDonBanViewModel
+import com.example.lapstore.viewmodels.HoaDonViewModel
 import com.example.laptopstore.models.CartItem
 import com.example.laptopstore.models.DiaChi
-import com.example.laptopstore.models.HoaDonBan
+import com.example.laptopstore.models.HoaDon
 import com.example.laptopstore.models.Screens
-import com.example.laptopstore.viewmodels.ChiTietHoaDonBanViewmodel
+import com.example.laptopstore.viewmodels.ChiTietHoaDonViewmodel
 import com.example.laptopstore.viewmodels.DataStoreManager
 import com.example.laptopstore.viewmodels.KhachHangViewModels
 import com.example.laptopstore.viewmodels.TaiKhoanViewModel
@@ -77,8 +76,8 @@ fun CheckoutScreen(navController: NavHostController,
                    taiKhoanViewModel: TaiKhoanViewModel,
                    khachHangViewModels: KhachHangViewModels,
                    diaChiViewmodel: DiaChiViewmodel,
-                   hoaDonBanVỉewModel: HoaDonBanViewModel,
-                   chiTietHoaDonBanViewmodel: ChiTietHoaDonBanViewmodel
+                   hoaDonBanVỉewModel: HoaDonViewModel,
+                   chiTietHoaDonBanViewmodel: ChiTietHoaDonViewmodel
 )
 {
     var errorMessage by remember { mutableStateOf<String?>(null) }
@@ -304,7 +303,7 @@ fun CheckoutScreen(navController: NavHostController,
                             errorMessage = "Không xác định được khách hàng"
                             return@Button
                         }
-                        val newHoaDonBan = HoaDonBan(
+                        val newHoaDonBan = HoaDon(
                             MaHoaDonBan = 0, // hoặc không truyền, để backend tự sinh
                             MaKhachHang = maKhachHang,
                             NgayDatHang = ngaytaohoadon,
@@ -317,14 +316,14 @@ fun CheckoutScreen(navController: NavHostController,
                             if (maHoaDonBan != null) {
                                 cartItems.forEach { cartItem ->
                                     chiTietHoaDonBanViewmodel.addHoaDonChiTiet(
-                                        ChiTietHoaDonBan(
-                                            MaChiTietHoaDonBan = 0,
-                                            MaHoaDonBan = maHoaDonBan,
+                                        ChiTietHoaDon(
+                                            MaChiTietHoaDon = 0,
+                                            MaHoaDon = maHoaDonBan,
                                             MaSanPham = cartItem.MaSanPham,
                                             SoLuong = cartItem.SoLuong,
-                                            DonGia = cartItem.Gia?:0,
-                                            GiamGia = cartItem.GiamGia?:0,
-                                            ThanhTien = (cartItem.SoLuong * (cartItem.Gia?:0) - (cartItem.GiamGia?:0))
+                                            DonGia = (cartItem.Gia?:0).toDouble(),
+                                            GiamGia = (cartItem.GiamGia?:0).toDouble() ,
+                                            ThanhTien = (cartItem.SoLuong * (cartItem.Gia?:0).toDouble() - (cartItem.GiamGia?:0))
                                         )
                                     )
                                 }

@@ -6,18 +6,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.lapstore.models.ChiTietHoaDonBan
+import com.example.lapstore.models.ChiTietHoaDon
 import com.example.laptopstore.RetrofitClient.LaptopStoreRetrofitClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ChiTietHoaDonBanViewmodel:ViewModel() {
+class ChiTietHoaDonViewmodel:ViewModel() {
     var chitiethoadonAddResult by mutableStateOf("")
 
-    var danhsachchitethoadon by mutableStateOf<List<ChiTietHoaDonBan>>(emptyList())
+    var danhsachchitethoadon by mutableStateOf<List<ChiTietHoaDon>>(emptyList())
 
-    fun addHoaDonChiTiet(chitiethoadonban: ChiTietHoaDonBan) {
+    fun addHoaDonChiTiet(chitiethoadonban: ChiTietHoaDon) {
         viewModelScope.launch {
             try {
                 // Gọi API để thêm sản phẩm vào giỏ hàng trên server
@@ -39,7 +39,7 @@ class ChiTietHoaDonBanViewmodel:ViewModel() {
                 val response = withContext(Dispatchers.IO) {
                     LaptopStoreRetrofitClient.chiTietHoaDonBanAPIService.getChiTietHoaDoByMaHoaDon(mahoadon)
                 }
-                danhsachchitethoadon = response.chitiethoadonban
+                danhsachchitethoadon = response.chitiethoadon
             } catch (e: Exception) {
                 // Xử lý lỗi nếu có
                 Log.e("HinhAnhError", "Lỗi khi lấy hình ảnh: ${e.message}")

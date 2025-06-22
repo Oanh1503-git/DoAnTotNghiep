@@ -125,16 +125,16 @@ CREATE TABLE `hoadon` (
 -- Cấu trúc bảng cho bảng `chitiethoadon`
 --
 
-CREATE TABLE `chitiethoadon` (
-  `MaChiTietHoaDon` int(11) NOT NULL AUTO_INCREMENT,
-  `MaHoaDon` int(11) DEFAULT NULL,
-  `MaSanPham` int(11) DEFAULT NULL,
-  `SoLuong` int(11) NOT NULL,
-  `DonGia` int(20) DEFAULT NULL,
-  `ThanhTien` int(20) GENERATED ALWAYS AS (`SoLuong` * `DonGia`) STORED,
-  `GiamGia` int(20) DEFAULT NULL,
-  PRIMARY KEY (`MaChiTietHoaDon`)
+CREATE TABLE chitiethoadon (
+  `MaChiTietHoaDon` INT AUTO_INCREMENT PRIMARY KEY,
+  `MaHoaDon` INT NOT NULL,
+  `MaSanPham` INT NOT NULL,
+  `SoLuong` INT NOT NULL,
+  `DonGia` DECIMAL(10,2) NOT NULL,
+ `GiamGia` DECIMAL(10,2) DEFAULT 0,
+  `ThanhTien` DECIMAL(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 
 --
 -- Cấu trúc bảng cho bảng `binhluandanhgia`

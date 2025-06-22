@@ -1,35 +1,32 @@
 <?php
-// Nhận dữ liệu từ body JSON
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json");
+include_once '../../config/database.php';
+
+$db = (new Database())->Connect();
 $data = json_decode(file_get_contents("php://input"), true);
 
 if (
-    isset($data["MaHoaDon"]) &&
+    isset($data["MaHoaDonBan"]) &&
     isset($data["MaSanPham"]) &&
     isset($data["SoLuong"]) &&
     isset($data["DonGia"]) &&
-    isset($data["GiamGia"]) &&
-    isset($data["ThanhTien"])
+    isset($data["GiamGia"])
 ) {
-    // Kết nối DB
-    include_once '../config/database.php';
-    $db = (new Database())->Connect();
-
-    $query = "INSERT INTO chitiet_hoadon (MaHoaDon, MaSanPham, SoLuong, DonGia, GiamGia, ThanhTien)
-              VALUES (:MaHoaDon, :MaSanPham, :SoLuong, :DonGia, :GiamGia, :ThanhTien)";
+    $query = "INSERT INTO chitiethoadon (MaHoaDon, MaSanPham, SoLuong, DonGia, GiamGia)
+              VALUES (:MaHoaDon, :MaSanPham, :SoLuong, :DonGia, :GiamGia)";
     $stmt = $db->prepare($query);
-    $stmt->bindParam(':MaHoaDon', $data['MaHoaDon']);
-    $stmt->bindParam(':MaSanPham', $data['MaSanPham']);
-    $stmt->bindParam(':SoLuong', $data['SoLuong']);
-    $stmt->bindParam(':DonGia', $data['DonGia']);
-    $stmt->bindParam(':GiamGia', $data['GiamGia']);
-    $stmt->bindParam(':ThanhTien', $data['ThanhTien']);
+    $stmt->bindParam(':MaHoaDon', $data["MaHoaDonBan"]);
+    $stmt->bindParam(':MaSanPham', $data["MaSanPham"]);
+    $stmt->bindParam(':SoLuong', $data["SoLuong"]);
+    $stmt->bindParam(':DonGia', $data["DonGia"]);
+    $stmt->bindParam(':GiamGia', $data["GiamGia"]);
 
     if ($stmt->execute()) {
         echo json_encode(["success" => true, "message" => "Thêm chi tiết hóa đơn thành công"]);
     } else {
-        echo json_encode(["success" => false, "message" => "Lỗi khi thêm chi tiết hóa đơn"]);
+        echo json_encode(["success" => false, "message" => "Thêm thất bại"]);
     }
 } else {
     echo json_encode(["success" => false, "message" => "Thiếu dữ liệu"]);
 }
-?>

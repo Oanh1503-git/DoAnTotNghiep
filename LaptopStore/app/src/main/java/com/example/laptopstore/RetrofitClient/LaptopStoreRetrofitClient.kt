@@ -1,10 +1,10 @@
 package com.example.laptopstore.RetrofitClient
 
-import ChiTietHoaDonBanAPIService
+import ChiTietHoaDonAPIService
 import DiaChiAPIService
 import GioHangAPIService
 import com.example.laptopstore.api.HinhAnhAPIService
-import HoaDonBanAPIService
+import HoaDonAPIService
 import com.example.laptopstore.api.SanPhamAPIService
 import TaiKhoanAPIService
 import com.example.laptopstore.api.BinhLuanAPIService
@@ -47,16 +47,16 @@ object LaptopStoreRetrofitClient {
         retrofit.create(GioHangAPIService::class.java)
     }
 
-    val hoaDonBanAPIService: HoaDonBanAPIService by lazy {
-        retrofit.create(HoaDonBanAPIService::class.java)
+    val hoaDonBanAPIService: HoaDonAPIService by lazy {
+        retrofit.create(HoaDonAPIService::class.java)
     }
 
     val diaChiAPIService: DiaChiAPIService by lazy {
         retrofit.create(DiaChiAPIService::class.java)
     }
 
-    val chiTietHoaDonBanAPIService: ChiTietHoaDonBanAPIService by lazy {
-        retrofit.create(ChiTietHoaDonBanAPIService::class.java)
+    val chiTietHoaDonBanAPIService: ChiTietHoaDonAPIService by lazy {
+        retrofit.create(ChiTietHoaDonAPIService::class.java)
     }
     val binhLuanAPIService: BinhLuanAPIService by lazy {
         retrofit.create(BinhLuanAPIService::class.java)

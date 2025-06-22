@@ -1,6 +1,6 @@
 package com.example.laptopstore.models
 
-data class HoaDonBan(
+data class HoaDon(
     val MaHoaDonBan: Int,
     val MaKhachHang: String,
     val NgayDatHang: String,

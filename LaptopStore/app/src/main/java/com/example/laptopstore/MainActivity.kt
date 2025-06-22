@@ -14,8 +14,8 @@ import com.example.laptopstore.viewmodels.KhachHangViewModels
 import com.example.laptopstore.viewmodels.TaiKhoanViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.lapstore.viewmodels.DiaChiViewmodel
-import com.example.lapstore.viewmodels.HoaDonBanViewModel
-import com.example.laptopstore.viewmodels.ChiTietHoaDonBanViewmodel
+import com.example.lapstore.viewmodels.HoaDonViewModel
+import com.example.laptopstore.viewmodels.ChiTietHoaDonViewmodel
 import com.example.laptopstore.viewmodels.GioHangViewModel
 import com.example.laptopstore.viewmodels.HinhAnhViewModel
 import com.example.laptopstore.viewmodels.OTPViewModel
@@ -45,8 +45,8 @@ class MainActivity : ComponentActivity() {
                 val diaChiViewmodel:DiaChiViewmodel= viewModel()
                 val gioHangViewModel:GioHangViewModel= viewModel()
                 val otpViewModel:OTPViewModel= viewModel()
-                val hoaDonBanVỉewModel:HoaDonBanViewModel= viewModel()
-                val chiTietHoaDonBanViewmodel: ChiTietHoaDonBanViewmodel= viewModel()
+                val hoaDonBanVỉewModel:HoaDonViewModel= viewModel()
+                val chiTietHoaDonBanViewmodel: ChiTietHoaDonViewmodel= viewModel()
                 NavigationGraph(
                     navHostController = navController,
                     sanphamViewModel = sanPhamViewModel,

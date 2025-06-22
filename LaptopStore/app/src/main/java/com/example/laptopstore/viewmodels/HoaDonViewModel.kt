@@ -7,7 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.laptopstore.models.HoaDonBan
+import com.example.laptopstore.models.HoaDon
 import com.example.laptopstore.RetrofitClient.LaptopStoreRetrofitClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,20 +15,20 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class HoaDonBanViewModel: ViewModel() {
+class HoaDonViewModel: ViewModel() {
     // Kết quả thêm hóa đơn
     var hoadonAddResult by mutableStateOf("")
 
     // Thay đổi danh sách hóa đơn thành StateFlow
-    private val _danhSachHoaDonCuaKhachHang = MutableStateFlow<List<HoaDonBan>>(emptyList())
-    val danhSachHoaDonCuaKhachHang: StateFlow<List<HoaDonBan>> = _danhSachHoaDonCuaKhachHang
+    private val _danhSachHoaDonCuaKhachHang = MutableStateFlow<List<HoaDon>>(emptyList())
+    val danhSachHoaDonCuaKhachHang: StateFlow<List<HoaDon>> = _danhSachHoaDonCuaKhachHang
 
-    private val _danhSachHoaDonTheoTrangThai = MutableStateFlow<List<HoaDonBan>>(emptyList())
-    val danhSachHoaDonTheoTrangThai: StateFlow<List<HoaDonBan>> = _danhSachHoaDonTheoTrangThai
+    private val _danhSachHoaDonTheoTrangThai = MutableStateFlow<List<HoaDon>>(emptyList())
+    val danhSachHoaDonTheoTrangThai: StateFlow<List<HoaDon>> = _danhSachHoaDonTheoTrangThai
 
     var maHoaDonBan by mutableStateOf(0)
 
-    var HoaDonBan by mutableStateOf<HoaDonBan?>(null)
+    var HoaDonBan by mutableStateOf<HoaDon?>(null)
         private set
 
     // Lấy hóa đơn theo khách hàng
@@ -38,7 +38,7 @@ class HoaDonBanViewModel: ViewModel() {
                 val response = withContext(Dispatchers.IO) {
                     LaptopStoreRetrofitClient.hoaDonBanAPIService.getHoaDoByKhachHang(MaKhachHang, TrangThai)
                 }
-                _danhSachHoaDonCuaKhachHang.value = response.hoadonban ?: emptyList() // Cập nhật StateFlow
+                _danhSachHoaDonCuaKhachHang.value = response.hoadon ?: emptyList() // Cập nhật StateFlow
             } catch (e: Exception) {
                 Log.e("HoaDon Error", "Lỗi khi lấy hoadon: ${e.message}")
                 _danhSachHoaDonCuaKhachHang.value = emptyList() // Gán danh sách rỗng khi có lỗi
@@ -52,7 +52,7 @@ class HoaDonBanViewModel: ViewModel() {
                 val response = withContext(Dispatchers.IO) {
                     LaptopStoreRetrofitClient.hoaDonBanAPIService.getHoaDonTheoTrangThai(TrangThai)
                 }
-                _danhSachHoaDonTheoTrangThai.value = response.hoadonban ?: emptyList()
+                _danhSachHoaDonTheoTrangThai.value = response.hoadon ?: emptyList()
             } catch (e: Exception) {
                 Log.e("HoaDon Error", "Lỗi khi lấy hoadon: ${e.message}")
                 _danhSachHoaDonTheoTrangThai.value = emptyList()
@@ -61,10 +61,10 @@ class HoaDonBanViewModel: ViewModel() {
     }
 
     // Thêm hóa đơn
-    fun addHoaDon(hoadon: HoaDonBan,callback: (Int?) -> Unit) {
+    fun addHoaDon(hoadon: HoaDon, callback: (Int?) -> Unit) {
         viewModelScope.launch {
             try {
-                val response = LaptopStoreRetrofitClient.hoaDonBanAPIService.addHoaDonBan(hoadon)
+                val response = LaptopStoreRetrofitClient.hoaDonBanAPIService.addHoaDon(hoadon)
                 if (response.success && response.maHoaDon != null) {
                     callback(response.maHoaDon)
                 } else {
@@ -102,7 +102,7 @@ class HoaDonBanViewModel: ViewModel() {
     }
 
     // Cập nhật hóa đơn
-    fun updateHoaDonBan(hoadon: HoaDonBan) {
+    fun updateHoaDonBan(hoadon: HoaDon) {
         viewModelScope.launch {
             try {
                 val response = withContext(Dispatchers.IO) {
