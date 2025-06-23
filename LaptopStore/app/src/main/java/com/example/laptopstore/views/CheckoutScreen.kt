@@ -62,6 +62,7 @@ import com.example.laptopstore.models.Screens
 import com.example.laptopstore.viewmodels.ChiTietHoaDonViewmodel
 import com.example.laptopstore.viewmodels.DataStoreManager
 import com.example.laptopstore.viewmodels.KhachHangViewModels
+import com.example.laptopstore.viewmodels.SanPhamViewModel
 import com.example.laptopstore.viewmodels.TaiKhoanViewModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -82,7 +83,8 @@ fun CheckoutScreen(navController: NavHostController,
                    khachHangViewModels: KhachHangViewModels,
                    diaChiViewmodel: DiaChiViewmodel,
                    hoaDonBanViewModel: HoaDonViewModel,
-                   chiTietHoaDonViewmodel: ChiTietHoaDonViewmodel
+                   chiTietHoaDonViewmodel: ChiTietHoaDonViewmodel,
+                   sanPhamViewModel: SanPhamViewModel
 )
 {
     var errorMessage by remember { mutableStateOf<String?>(null) }
@@ -98,6 +100,8 @@ fun CheckoutScreen(navController: NavHostController,
     val maKhachHang = customerId
     val scope = rememberCoroutineScope()
 
+    val soluongkho = sanPhamViewModel.soLuongTonKhoState.collectAsState()
+    val sl=soluongkho.value
     LaunchedEffect(customerId) {
         if (!customerId.isNullOrBlank()) {
             diaChiViewmodel.getDiaChiKhachHang(customerId)
@@ -320,55 +324,62 @@ fun CheckoutScreen(navController: NavHostController,
                                 errorMessage = "Không xác định được khách hàng"
                                 return@launch
                             }
+                            if (sl !=null && sl <= 0){
+                                errorMessage = "Sản phẩm đã hết hàng"
+                                return@launch
+                            }else{
 
-                            val newHoaDonBan = HoaDon(
-                                MaHoaDon = 0, // để backend tự sinh
-                                MaKhachHang = maKhachHang,
-                                NgayDatHang = ngaytaohoadon,
-                                MaDiaChi = diaChiDuocChon.MaDiaChi,
-                                TongTien = totalPrice,
-                                PhuongThucThanhToan = selectedPaymentMethod,
-                                TrangThai = 0
-                            )
+                                val newHoaDonBan = HoaDon(
+                                    MaHoaDon = 0, // để backend tự sinh
+                                    MaKhachHang = maKhachHang,
+                                    NgayDatHang = ngaytaohoadon,
+                                    MaDiaChi = diaChiDuocChon.MaDiaChi,
+                                    TongTien = totalPrice,
+                                    PhuongThucThanhToan = selectedPaymentMethod,
+                                    TrangThai = 0
+                                )
 
-                            val maHoaDonMoi = hoaDonBanViewModel.addHoaDon(newHoaDonBan)
-                            Log.d("checkout", "Tạo hóa đơn thành công - Mã: $maHoaDonMoi")
+                                val maHoaDonMoi = hoaDonBanViewModel.addHoaDon(newHoaDonBan)
+                                Log.d("checkout", "Tạo hóa đơn thành công - Mã: $maHoaDonMoi")
 
-                            if (maHoaDonMoi != null) {
-                                val allSuccess = cartItems.map { cartItem ->
-                                    Log.d("ChiTietHoaDon", """
-    Thêm sản phẩm:
-    - Mã SP: ${cartItem.MaSanPham}
-    - Số lượng: ${cartItem.SoLuong}
-    - Giá: ${cartItem.Gia}
-    - Giảm giá: ${cartItem.GiamGia}
-    - Thành tiền: ${cartItem.SoLuong * (cartItem.Gia ?: 0).toDouble() - (cartItem.GiamGia ?: 0).toDouble()}
-""".trimIndent())
+                                if (maHoaDonMoi != null) {
+                                    val allSuccess = cartItems.map { cartItem ->
+                                        Log.d("ChiTietHoaDon", """
+                                             Thêm sản phẩm:
+                                                 - Mã SP: ${cartItem.MaSanPham}
+                                                - Số lượng: ${cartItem.SoLuong}
+                                                     - Giá: ${cartItem.Gia}
+                                        - Giảm giá: ${cartItem.GiamGia}
+                                    - Thành tiền: ${cartItem.SoLuong * (cartItem.Gia ?: 0).toDouble() - (cartItem.GiamGia ?: 0).toDouble()}
+                                    """.trimIndent())
 
-                                    val success = chiTietHoaDonViewmodel.addHoaDonChiTiet(
-                                        ChiTietHoaDon(
-                                            MaChiTietHoaDon = 0,
-                                            MaHoaDon = maHoaDonMoi,
-                                            MaSanPham = cartItem.MaSanPham,
-                                            SoLuong = cartItem.SoLuong,
-                                            DonGia = (cartItem.Gia ?: cartItem.product?.Gia?.toDouble() ?: 0.0),
-                                            GiamGia = (cartItem.GiamGia ?: cartItem.product?.GiamGia?.toDouble() ?: 0.0),
-                                            ThanhTien = cartItem.SoLuong * (cartItem.Gia ?: cartItem.product?.Gia?.toDouble() ?: 0.0) - (cartItem.GiamGia ?: cartItem.product?.GiamGia?.toDouble() ?: 0.0)
+                                        val success = chiTietHoaDonViewmodel.addHoaDonChiTiet(
+                                            ChiTietHoaDon(
+                                                MaChiTietHoaDon = 0,
+                                                MaHoaDon = maHoaDonMoi,
+                                                MaSanPham = cartItem.MaSanPham,
+                                                SoLuong = cartItem.SoLuong,
+                                                DonGia = (cartItem.Gia ?: cartItem.product?.Gia?.toDouble() ?: 0.0),
+                                                GiamGia = (cartItem.GiamGia ?: cartItem.product?.GiamGia?.toDouble() ?: 0.0),
+                                                ThanhTien = cartItem.SoLuong * (cartItem.Gia ?: cartItem.product?.Gia?.toDouble() ?: 0.0) - (cartItem.GiamGia ?: cartItem.product?.GiamGia?.toDouble() ?: 0.0)
+                                            )
                                         )
-                                    )
-                                    Log.d("ChiTietHoaDon", "SP: ${cartItem.MaSanPham} -> success: $success")
-                                    success
 
-                                }.all { it }
+                                        Log.d("ChiTietHoaDon", "SP: ${cartItem.MaSanPham} -> success: $success")
+                                        success
 
-                                if (allSuccess) {
-                                    navController.navigate(Screens.ORDERSUCCESSSCREEN.route)
+                                    }.all { it }
+
+                                    if (allSuccess) {
+                                        navController.navigate(Screens.ORDERSUCCESSSCREEN.route)
+                                    } else {
+                                        errorMessage = "Lỗi khi thêm chi tiết hóa đơn"
+                                    }
                                 } else {
-                                    errorMessage = "Lỗi khi thêm chi tiết hóa đơn"
+                                    errorMessage = "Tạo hóa đơn thất bại"
                                 }
-                            } else {
-                                errorMessage = "Tạo hóa đơn thất bại"
                             }
+
                         }
                     },
                     modifier = Modifier

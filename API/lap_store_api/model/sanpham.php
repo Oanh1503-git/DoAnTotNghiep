@@ -308,5 +308,31 @@ class SanPham
             ];
         }
     }
+     public function getSoLuongTonKho() {
+        try {
+            $query = "SELECT SoLuong FROM sanpham WHERE MaSanPham = ?";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute([$this->MaSanPham]);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($row) {
+                return [
+                    'success' => true,
+                    'MaSanPham' => $this->MaSanPham,
+                    'SoLuongTonKho' => (int)$row['SoLuong']
+                ];
+            } else {
+                return [
+                    'success' => false,
+                    'message' => 'Không tìm thấy sản phẩm với mã: ' . $this->MaSanPham
+                ];
+            }
+        } catch (PDOException $e) {
+            return [
+                'success' => false,
+                'message' => 'Lỗi truy vấn: ' . $e->getMessage()
+            ];
+        }
+    }
 }
 ?>

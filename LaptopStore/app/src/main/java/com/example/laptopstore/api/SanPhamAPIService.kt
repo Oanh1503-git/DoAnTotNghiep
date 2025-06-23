@@ -21,6 +21,12 @@ data class SoLuongCheckResponse(
     val soLuongGioHang: Int,
     val soLuongKho: Int
 )
+data class SoLuongTonKhoResponse(
+    val success: Boolean,
+    val MaSanPham: Int? = null,
+    val SoLuongTonKho: Int,
+    val message: String? = null
+)
 
 interface SanPhamAPIService{
     @GET("SanPham/read.php")
@@ -62,5 +68,8 @@ interface SanPhamAPIService{
         @Query("MaKhachHang") maKhachHang: String,
         @Query("MaSanPham") maSanPham: Int
     ): Response<SoLuongCheckResponse>
-
+    @GET("SanPham/kiemtrasoluongkho.php")
+    suspend fun kiemTraSoLuongTonKho(
+        @Query("MaSanPham") maSanPham: Int
+    ): SoLuongTonKhoResponse
 }

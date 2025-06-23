@@ -91,6 +91,7 @@ fun ProductDetail(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     // Collect StateFlow values
+
     val taikhoan by taiKhoanViewModel.taikhoan.collectAsState()
     val isLoggedIn by taiKhoanViewModel.isLoggedIn.collectAsState()
     val khachHang by taiKhoanViewModel.khachHang.collectAsState()
@@ -110,6 +111,8 @@ fun ProductDetail(
     val dataStoreManager = remember { DataStoreManager(context) }
     val customerId by dataStoreManager.customerId.collectAsState(initial = null)
     val maKhachHang = customerId
+    val soluongkho =sanPhamViewModel.soLuongTonKhoState.collectAsState()
+    val sl=soluongkho.value
     LaunchedEffect(taikhoan) {
         Log.d("ProductDetail", "TaiKhoan changed: $taikhoan")
         Log.d("ProductDetail", "MaKhachHang: $maKhachHang")
@@ -384,15 +387,21 @@ fun ProductDetail(
                                     Log.d("ProductDetail", "Login state invalid, showing login dialog")
                                     return@Button
                                 }
+                                if (sl !=null && sl <= 0) {
+                                    errorMessage = "Sản phẩm đã hết hàng"
+                                    return@Button
+                                    // hoặc return nếu trong suspend hoặc lambda
+                                } else {
+                                    val gioHang = GioHang(
+                                        MaGioHang = 0,
+                                        MaSanPham = productOrDefault.MaSanPham,
+                                        MaKhachHang = maKhachHang,
+                                        SoLuong = 1,
+                                        TrangThai = 1
+                                    )
+                                    gioHangViewModel.addToCart(gioHang)
+                                }
 
-                                val gioHang = GioHang(
-                                    MaGioHang = 0,
-                                    MaSanPham = productOrDefault.MaSanPham,
-                                    MaKhachHang = maKhachHang,
-                                    SoLuong = 1,
-                                    TrangThai = 1
-                                )
-                                gioHangViewModel.addToCart(gioHang)
                             },
                             modifier = Modifier
                                 .weight(1f)
@@ -414,26 +423,39 @@ fun ProductDetail(
                                     showLoginDialog = true
                                 } else {
                                     try {
-                                        val cartItems = listOf(
-                                            CartItem(
-                                                MaGioHang = 0,
-                                                MaSanPham = productOrDefault.MaSanPham,
-                                                SoLuong = 1,
-                                                product = productOrDefault,
-                                                Gia = productOrDefault.Gia.toDouble()
-                                            )
-                                        )
-                                        val totalPrice = productOrDefault.Gia
-                                        val cartItemsJson = Json.encodeToString(cartItems)
-                                        val encodedJson = URLEncoder.encode(cartItemsJson, StandardCharsets.UTF_8.toString())
-                                        
-                                        // Kiểm tra độ dài URL
-                                        if (encodedJson.length > 500000) {
-                                            Toast.makeText(context, "Dữ liệu sản phẩm quá lớn", Toast.LENGTH_SHORT).show()
+                                        if (sl !=null && sl <= 0) {
+                                            errorMessage = "Sản phẩm đã hết hàng"
                                             return@Button
-                                        }
+                                            // hoặc return nếu trong suspend hoặc lambda
+                                        } else {
+                                            val cartItems = listOf(
+                                                CartItem(
+                                                    MaGioHang = 0,
+                                                    MaSanPham = productOrDefault.MaSanPham,
+                                                    SoLuong = 1,
+                                                    product = productOrDefault,
+                                                    Gia = productOrDefault.Gia.toDouble()
+                                                )
+                                            )
 
-                                        navController.navigate("checkout/$totalPrice/$encodedJson")
+
+                                            val totalPrice = productOrDefault.Gia
+                                            val cartItemsJson = Json.encodeToString(cartItems)
+                                            val encodedJson = URLEncoder.encode(
+                                                cartItemsJson,
+                                                StandardCharsets.UTF_8.toString()
+                                            )
+                                            // Kiểm tra độ dài URL
+                                            if (encodedJson.length > 500000) {
+                                                Toast.makeText(
+                                                    context,
+                                                    "Dữ liệu sản phẩm quá lớn",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                                return@Button
+                                            }
+                                            navController.navigate("checkout/$totalPrice/$encodedJson")
+                                        }
                                     } catch (e: Exception) {
                                         Log.e("ProductDetail", "Lỗi chuyển trang checkout: ${e.message}")
                                         Toast.makeText(context, "Có lỗi xảy ra khi xử lý đơn hàng", Toast.LENGTH_SHORT).show()

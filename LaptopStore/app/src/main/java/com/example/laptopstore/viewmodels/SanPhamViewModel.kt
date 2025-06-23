@@ -29,6 +29,8 @@ class SanPhamViewModel : ViewModel() {
     var danhSachSanPhamCuaKhachHang by mutableStateOf<List<SanPham>>(emptyList())
         private set
 
+    private val _soLuongTonKhoState = MutableStateFlow<Int?>(null)
+    val soLuongTonKhoState: StateFlow<Int?> get() = _soLuongTonKhoState
 
     var sanPham by mutableStateOf<SanPham?>(null)
         private set
@@ -149,15 +151,21 @@ class SanPhamViewModel : ViewModel() {
         }
     }
 
-
-
-    fun getSanPhamById2(id: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+    fun kiemTraSoLuongSanPham(maSanPham: Int) {
+        viewModelScope.launch {
             try {
-                val sanPham = LaptopStoreRetrofitClient.sanphamAPIService.getSanPhamById(id)
-                _danhsachSanPham.update { currentList -> currentList + sanPham }
+                val response = LaptopStoreRetrofitClient.sanphamAPIService.kiemTraSoLuongTonKho(maSanPham)
+                if (response.success) {
+                    val tonKho = response.SoLuongTonKho ?: 0
+                    _soLuongTonKhoState.value = tonKho
+                    Log.d("TonKho", "✅ Số lượng tồn kho: $tonKho")
+                } else {
+                    Log.w("TonKho", "⚠️ Lỗi logic API: ${response.message}")
+                    _soLuongTonKhoState.value = null
+                }
             } catch (e: Exception) {
-                Log.e("SanPhamViewModel", "Error getting SanPham", e)
+                Log.e("TonKho", "❌ Lỗi mạng: ${e.message}")
+                _soLuongTonKhoState.value = null
             }
         }
     }
