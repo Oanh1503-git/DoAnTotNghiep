@@ -7,10 +7,15 @@ import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Query
 
-data class addHoaDonResponse(
+data class AddHoaDonResponse(
     val success: Boolean,
     val message: String,
-    val maHoaDon: Int?
+    val maHoaDon: Int? = null
+)
+data class MaHoaDonApiResponse(
+    val success: Boolean,
+    val ma_hoa_don: Int?,      // Trả về null nếu không có mã hóa đơn
+    val message: String? = null
 )
 
 data class HoaDonResponse(
@@ -26,15 +31,14 @@ data class HoaDonDeleteRequest(
 )
 interface HoaDonAPIService{
     @POST("HoaDon/create.php")
-    suspend fun addHoaDon(
-        @Body hoadon: HoaDon
-    ): addHoaDonResponse
+    suspend fun addHoaDon(@Body hoaDon: HoaDon): AddHoaDonResponse
 
-    @GET("HoaDon/getHoaDonByKhachHang.php")
+    @GET("HoaDon/getHoaDonBanByKhachHang.php")
     suspend fun getHoaDoByKhachHang(
         @Query("MaKhachHang") MaKhachHang: String,
         @Query("TrangThai") TrangThai: Int
     ): HoaDonResponse
+
 
     @POST("HoaDon/delete.php")
     suspend fun deleteHoaDon(
@@ -44,7 +48,7 @@ interface HoaDonAPIService{
     @PUT("HoaDon/update.php")
     suspend fun updateHoaDon(
         @Body hoadon: HoaDon
-    ): addHoaDonResponse
+    ): AddHoaDonResponse
 
     @GET("HoaDon/show.php")
     suspend fun getHoaDonByMaHoaDon(
@@ -55,4 +59,5 @@ interface HoaDonAPIService{
     suspend fun getHoaDonTheoTrangThai(
         @Query("TrangThai") TrangThai: Int
     ): HoaDonResponse
+
 }

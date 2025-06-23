@@ -65,8 +65,8 @@ class ChiTietHoaDon {
     // Phương thức thêm chi tiết hóa đơn bán
     public function addDetail() {
         try {
-                 $query = "INSERT INTO chitiethoadon (MaHoaDon, MaSanPham, SoLuong, DonGia, GiamGia)
-                VALUES ((SELECT MAX(MaHoaDon) FROM HoaDon), :MaSanPham, :SoLuong, :DonGia, :GiamGia)";
+              $query = "INSERT INTO chitiethoadon (MaHoaDon, MaSanPham, SoLuong, DonGia, GiamGia)
+            VALUES (:MaHoaDon, :MaSanPham, :SoLuong, :DonGia, :GiamGia)";
 
             $stmt = $this->conn->prepare($query);
 

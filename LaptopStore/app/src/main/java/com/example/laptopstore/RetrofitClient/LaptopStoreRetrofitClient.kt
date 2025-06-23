@@ -47,7 +47,7 @@ object LaptopStoreRetrofitClient {
         retrofit.create(GioHangAPIService::class.java)
     }
 
-    val hoaDonBanAPIService: HoaDonAPIService by lazy {
+    val hoaDonAPIService: HoaDonAPIService by lazy {
         retrofit.create(HoaDonAPIService::class.java)
     }
 
@@ -55,7 +55,7 @@ object LaptopStoreRetrofitClient {
         retrofit.create(DiaChiAPIService::class.java)
     }
 
-    val chiTietHoaDonBanAPIService: ChiTietHoaDonAPIService by lazy {
+    val chiTietHoaDonAPIService: ChiTietHoaDonAPIService by lazy {
         retrofit.create(ChiTietHoaDonAPIService::class.java)
     }
     val binhLuanAPIService: BinhLuanAPIService by lazy {

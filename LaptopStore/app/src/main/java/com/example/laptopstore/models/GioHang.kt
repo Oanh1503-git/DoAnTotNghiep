@@ -9,6 +9,6 @@ data class GioHang(
     @SerializedName("SoLuong") val SoLuong: Int,
     @SerializedName("TrangThai") val TrangThai: Int,
     @SerializedName("TenSanPham") val TenSanPham: String? = null,
-    @SerializedName("Gia") val Gia: Int? = null,
+    @SerializedName("Gia") val Gia: Double? = null,
     @SerializedName("HinhAnh") val HinhAnh: String? = null
 )

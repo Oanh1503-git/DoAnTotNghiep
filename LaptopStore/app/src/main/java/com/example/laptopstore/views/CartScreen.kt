@@ -189,7 +189,26 @@ fun CartScreen(
                         MaGioHang = gioHang.MaGioHang,
                         MaSanPham = gioHang.MaSanPham,
                         SoLuong = gioHang.SoLuong,
-                        product = sp
+                        product = SanPham(
+                            MaSanPham = sp.MaSanPham,
+                            TenSanPham = sp.TenSanPham,
+                            MaLoaiSanPham = sp.MaLoaiSanPham,
+                            mathuonghieu = sp.mathuonghieu,
+                            CPU = sp.CPU,
+                            RAM = sp.RAM,
+                            CardManHinh = sp.CardManHinh,
+                            SSD = sp.SSD,
+                            ManHinh = sp.ManHinh,
+                            MaMauSac = sp.MaMauSac,
+                            Gia = sp.Gia,
+                            GiamGia = sp.GiamGia,
+                            SoLuong = sp.SoLuong,
+                            MoTa = sp.MoTa,
+                            HinhAnh = sp.HinhAnh,
+                            TrangThai = sp.TrangThai
+                        ),
+                        Gia = sp.Gia.toDouble(),
+                        GiamGia = sp.GiamGia.toDouble()
                     )
                 }
             }

@@ -19,21 +19,42 @@ $hoadon = new HoaDon($conn);
 // Lấy dữ liệu JSON được gửi từ client
 $data = json_decode(file_get_contents("php://input"));
 
-// Gán dữ liệu cho các thuộc tính của đối tượng
-$hoadon->MaHoaDon = $data->MaHoaDon;
-$hoadon->MaKhachHang = $data->MaKhachHang;
-$hoadon->NgayDatHang = $data->NgayDatHang;
-$hoadon->MaDiaChi = $data->MaDiaChi;
-$hoadon->TongTien = $data->TongTien;
-$hoadon->PhuongThucThanhToan = $data->PhuongThucThanhToan;
-$hoadon->TrangThai = $data->TrangThai;
+if (
+    isset($data->MaKhachHang) &&
+    isset($data->NgayDatHang) &&
+    isset($data->MaDiaChi) &&
+    isset($data->TongTien) &&
+    isset($data->PhuongThucThanhToan) &&
+    isset($data->TrangThai)
+) {
+    // Gán dữ liệu cho đối tượng
+    $hoadon->MaKhachHang = $data->MaKhachHang;
+    $hoadon->NgayDatHang = $data->NgayDatHang;
+    $hoadon->MaDiaChi = $data->MaDiaChi;
+    $hoadon->TongTien = $data->TongTien;
+    $hoadon->PhuongThucThanhToan = $data->PhuongThucThanhToan;
+    $hoadon->TrangThai = $data->TrangThai;
 
-// Gọi hàm thêm mới hóa đơn bán
-if ($hoadon->addHoaDon()) {
-    // Nếu thêm thành công
-    echo json_encode(array('message', 'HoaDon create.'));
+    // Thêm hóa đơn
+    if ($hoadon->addHoaDon()) {
+        // Lấy ID vừa thêm
+        $maHoaDonMoi = $conn->lastInsertId();
+
+        echo json_encode([
+            'success' => true,
+            'maHoaDon' => (int)$maHoaDonMoi,
+            'message' => 'Tạo hóa đơn thành công.'
+        ]);
+    } else {
+        echo json_encode([
+            'success' => false,
+            'message' => 'Không thể tạo hóa đơn.'
+        ]);
+    }
 } else {
-    // Nếu thêm thất bại
-    echo json_encode(array('message' , 'HoaDon not create'));
+    echo json_encode([
+        'success' => false,
+        'message' => 'Thiếu dữ liệu đầu vào.'
+    ]);
 }
 ?>

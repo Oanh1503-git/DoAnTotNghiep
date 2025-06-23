@@ -17,26 +17,27 @@ data class CartItem(
     val MaGioHang: Int,
     val MaSanPham: Int,
     val SoLuong: Int,
-    val product: SanPham? = null,  // Thêm trường product để lưu thông tin sản phẩm khi cần
+    val product: SanPham? = null,
     val TenSanPham: String? = null,
-    val Gia: Int? = null,
+    val Gia: Double? = null,
     val HinhAnh: String? = null,
-    val GiamGia: Int? = null
+    val GiamGia: Double? = null
 ) {
     // Helper function để lấy thông tin sản phẩm an toàn
     fun getProductName(): String {
         return product?.TenSanPham ?: TenSanPham ?: "Sản phẩm không xác định"
     }
 
-    fun getProductPrice(): Int {
-        return product?.Gia ?: Gia ?: 0
+    fun getProductPrice(): Double {
+        return (product?.Gia ?.toDouble()?: Gia ?.toDouble()?: 0.0)
     }
 
     fun getProductImage(): String {
         return product?.HinhAnh ?: HinhAnh ?: ""
     }
 
-    fun getProductDiscount(): Int {
-        return product?.GiamGia ?: GiamGia ?: 0
+    fun getProductDiscount(): Double {
+        return (product?.GiamGia?.toDouble() ?: GiamGia?.toDouble() ?: 0.0)
     }
+
 }

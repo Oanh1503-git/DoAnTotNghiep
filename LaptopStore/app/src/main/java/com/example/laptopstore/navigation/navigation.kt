@@ -39,7 +39,7 @@ fun NavigationGraph(
     sanPhamYeuThichViewModel: SanPhamYeuThichViewModel = viewModel(),
     otpViewModel: OTPViewModel,
     hoaDonBanVỉewModel: HoaDonViewModel,
-    chiTietHoaDonBanViewmodel: ChiTietHoaDonViewmodel
+    chiTietHoaDonViewmodel: ChiTietHoaDonViewmodel
 ){
     NavHost(
         navController = navHostController,
@@ -144,8 +144,8 @@ fun NavigationGraph(
                 taiKhoanViewModel = taiKhoanViewModel,
                 khachHangViewModels = khachHangViewModel,
                 diaChiViewmodel = diaChiViewModel,
-                hoaDonBanVỉewModel = hoaDonBanVỉewModel,
-                chiTietHoaDonBanViewmodel = chiTietHoaDonBanViewmodel
+                hoaDonBanViewModel = hoaDonBanVỉewModel,
+                chiTietHoaDonViewmodel = chiTietHoaDonViewmodel
             )
         }
 
@@ -171,8 +171,8 @@ fun NavigationGraph(
                     taiKhoanViewModel = taiKhoanViewModel,
                     khachHangViewModels = khachHangViewModel,
                     diaChiViewmodel = diaChiViewModel,
-                    hoaDonBanVỉewModel = hoaDonBanVỉewModel,
-                    chiTietHoaDonBanViewmodel = chiTietHoaDonBanViewmodel
+                    hoaDonBanViewModel = hoaDonBanVỉewModel,
+                    chiTietHoaDonViewmodel = chiTietHoaDonViewmodel
                 )
             }
         composable(
@@ -206,7 +206,7 @@ fun NavigationGraph(
             OrderSuccessScreen(navHostController)
         }
         composable(Screens.ORDERSTATUSSCREEN.route) {
-            OrderStatusScreen(navHostController,hoaDonBanVỉewModel)
+            OrderStatusScreen(navHostController,hoaDonBanVỉewModel,sanphamViewModel,chiTietHoaDonViewmodel)
         }
 
 

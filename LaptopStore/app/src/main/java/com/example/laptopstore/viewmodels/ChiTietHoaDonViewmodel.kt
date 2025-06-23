@@ -17,27 +17,27 @@ class ChiTietHoaDonViewmodel:ViewModel() {
 
     var danhsachchitethoadon by mutableStateOf<List<ChiTietHoaDon>>(emptyList())
 
-    fun addHoaDonChiTiet(chitiethoadonban: ChiTietHoaDon) {
-        viewModelScope.launch {
-            try {
-                // Gọi API để thêm sản phẩm vào giỏ hàng trên server
-                val response = LaptopStoreRetrofitClient.chiTietHoaDonBanAPIService.addChiTietHoaDonBan(chitiethoadonban)
-                chitiethoadonAddResult = if (response.success) {
-                    "Cập nhật thành công: ${response.message}"
-                } else {
-                    "Cập nhật thất bại: ${response.message}"
-                }
-            } catch (e: Exception) {
-                Log.e("AddToCart", "Lỗi kết nối: ${e.message}")
+    suspend fun addHoaDonChiTiet(chitiethoadon: ChiTietHoaDon): Boolean {
+        return try {
+            val response = LaptopStoreRetrofitClient.chiTietHoaDonAPIService.addChiTietHoaDon(chitiethoadon)
+            chitiethoadonAddResult = if (response.success) {
+                "Cập nhật thành công: ${response.message}"
+            } else {
+                "Cập nhật thất bại: ${response.message}"
             }
+            response.success
+        } catch (e: Exception) {
+            Log.e("AddToCart", "Lỗi kết nối: ${e.message}")
+            false
         }
     }
+
 
     fun getChiTietHoaDonTheoMaHoaDon(mahoadon: Int) {
         viewModelScope.launch {
             try {
                 val response = withContext(Dispatchers.IO) {
-                    LaptopStoreRetrofitClient.chiTietHoaDonBanAPIService.getChiTietHoaDoByMaHoaDon(mahoadon)
+                    LaptopStoreRetrofitClient.chiTietHoaDonAPIService.getChiTietHoaDoByMaHoaDon(mahoadon)
                 }
                 danhsachchitethoadon = response.chitiethoadon
             } catch (e: Exception) {

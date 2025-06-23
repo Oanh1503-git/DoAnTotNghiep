@@ -2,7 +2,7 @@
 class HoaDon
 {
     private $conn;
-
+    private $table = "hoadon"; 
     // Thuộc tính liên quan đến hóa đơn bán
     public $MaHoaDon;
     public $MaKhachHang;
@@ -32,6 +32,7 @@ class HoaDon
         }
     }
 
+    
     public function getAllHoaDonByKhachHang()
     {
         try {
@@ -65,6 +66,23 @@ class HoaDon
             echo "Lỗi: " . $e->getMessage();
             return null;
         }
+    }
+    public function getMaxMaHoaDonByKhachHangTrangThai() {
+    try {
+        $query = "SELECT MAX(MaHoaDon) AS max_ma 
+                  FROM " . $this->table . " 
+                  WHERE MaKhachHang = :MaKhachHang AND TrangThai = :TrangThai";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':MaKhachHang', $this->MaKhachHang);
+        $stmt->bindParam(':TrangThai', $this->TrangThai);
+        $stmt->execute();
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['max_ma'] ?? null;
+    } catch (PDOException $e) {
+        error_log("Lỗi khi lấy max MaHoaDon theo khách hàng: " . $e->getMessage());
+        return null;
+    }
     }
 
 

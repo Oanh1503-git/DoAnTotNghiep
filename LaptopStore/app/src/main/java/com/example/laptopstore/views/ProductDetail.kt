@@ -419,7 +419,8 @@ fun ProductDetail(
                                                 MaGioHang = 0,
                                                 MaSanPham = productOrDefault.MaSanPham,
                                                 SoLuong = 1,
-                                                product = productOrDefault
+                                                product = productOrDefault,
+                                                Gia = productOrDefault.Gia.toDouble()
                                             )
                                         )
                                         val totalPrice = productOrDefault.Gia

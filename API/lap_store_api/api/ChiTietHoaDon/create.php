@@ -7,7 +7,7 @@ $db = (new Database())->Connect();
 $data = json_decode(file_get_contents("php://input"), true);
 
 if (
-    isset($data["MaHoaDonBan"]) &&
+    isset($data["MaHoaDon"]) &&
     isset($data["MaSanPham"]) &&
     isset($data["SoLuong"]) &&
     isset($data["DonGia"]) &&
@@ -16,7 +16,8 @@ if (
     $query = "INSERT INTO chitiethoadon (MaHoaDon, MaSanPham, SoLuong, DonGia, GiamGia)
               VALUES (:MaHoaDon, :MaSanPham, :SoLuong, :DonGia, :GiamGia)";
     $stmt = $db->prepare($query);
-    $stmt->bindParam(':MaHoaDon', $data["MaHoaDonBan"]);
+
+    $stmt->bindParam(':MaHoaDon', $data["MaHoaDon"]);
     $stmt->bindParam(':MaSanPham', $data["MaSanPham"]);
     $stmt->bindParam(':SoLuong', $data["SoLuong"]);
     $stmt->bindParam(':DonGia', $data["DonGia"]);
@@ -25,8 +26,10 @@ if (
     if ($stmt->execute()) {
         echo json_encode(["success" => true, "message" => "Thêm chi tiết hóa đơn thành công"]);
     } else {
-        echo json_encode(["success" => false, "message" => "Thêm thất bại"]);
+        $error = $stmt->errorInfo();
+        echo json_encode(["success" => false, "message" => "Thêm thất bại: " . $error[2]]);
     }
 } else {
     echo json_encode(["success" => false, "message" => "Thiếu dữ liệu"]);
 }
+?>

@@ -38,6 +38,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -64,6 +65,10 @@ import com.example.laptopstore.viewmodels.KhachHangViewModels
 import com.example.laptopstore.viewmodels.TaiKhoanViewModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.net.URLDecoder
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -76,8 +81,8 @@ fun CheckoutScreen(navController: NavHostController,
                    taiKhoanViewModel: TaiKhoanViewModel,
                    khachHangViewModels: KhachHangViewModels,
                    diaChiViewmodel: DiaChiViewmodel,
-                   hoaDonBanVỉewModel: HoaDonViewModel,
-                   chiTietHoaDonBanViewmodel: ChiTietHoaDonViewmodel
+                   hoaDonBanViewModel: HoaDonViewModel,
+                   chiTietHoaDonViewmodel: ChiTietHoaDonViewmodel
 )
 {
     var errorMessage by remember { mutableStateOf<String?>(null) }
@@ -91,6 +96,8 @@ fun CheckoutScreen(navController: NavHostController,
     val dataStoreManager = remember { DataStoreManager(context) }
     val customerId by dataStoreManager.customerId.collectAsState(initial = null)
     val maKhachHang = customerId
+    val scope = rememberCoroutineScope()
+
     LaunchedEffect(customerId) {
         if (!customerId.isNullOrBlank()) {
             diaChiViewmodel.getDiaChiKhachHang(customerId)
@@ -114,7 +121,9 @@ fun CheckoutScreen(navController: NavHostController,
     val cartItems = try {
         val decodedJson = URLDecoder.decode(cartItemsJson, "UTF-8")
         val type = object : TypeToken<List<CartItem>>() {}.type
-        Gson().fromJson<List<CartItem>>(decodedJson, type)
+        val items = Gson().fromJson<List<CartItem>>(decodedJson, type)
+        items.forEach { Log.d("CHECKOUT", "CartItem: MaSP=${it.MaSanPham}, Gia=${it.Gia}, ProductGia=${it.product?.Gia}") }
+        items
     } catch (e: Exception) {
         Log.e("CheckoutScreen", "Error decoding cart items: ${e.message}")
         errorMessage = "Lỗi khi xử lý dữ liệu giỏ hàng"
@@ -144,6 +153,10 @@ fun CheckoutScreen(navController: NavHostController,
     var address by remember { mutableStateOf("") }
     var phone by remember { mutableStateOf("") }
     var selectedPaymentMethod by remember { mutableStateOf("COD") }
+    val mahoadontheokhach = hoaDonBanViewModel.maHoaDonState.collectAsState()
+    LaunchedEffect(mahoadontheokhach) {
+        Log.d("checkout", "Mã hóa đơn mới nhất: ${mahoadontheokhach.value}")
+    }
 
     Scaffold(
         topBar = {
@@ -289,52 +302,74 @@ fun CheckoutScreen(navController: NavHostController,
                     color = Color.Red
                 )
                 Spacer(modifier = Modifier.height(16.dp))
+
                 Button(
                     onClick = {
-                        if (diaChiDuocChon.MaDiaChi == 0) {
-                            errorMessage = "Vui lòng chọn địa chỉ giao hàng"
-                            return@Button
-                        }
-                        if (cartItems.isEmpty()) {
-                            errorMessage = "Giỏ hàng trống"
-                            return@Button
-                        }
-                        if (maKhachHang.isNullOrBlank()) {
-                            errorMessage = "Không xác định được khách hàng"
-                            return@Button
-                        }
-                        val newHoaDonBan = HoaDon(
-                            MaHoaDonBan = 0, // hoặc không truyền, để backend tự sinh
-                            MaKhachHang = maKhachHang,
-                            NgayDatHang = ngaytaohoadon,
-                            MaDiaChi = diaChiDuocChon.MaDiaChi,
-                            TongTien = totalPrice,
-                            PhuongThucThanhToan = selectedPaymentMethod,
-                            TrangThai = 0
-                        )
-                        hoaDonBanVỉewModel.addHoaDon(newHoaDonBan) { maHoaDonBan ->
-                            if (maHoaDonBan != null) {
-                                cartItems.forEach { cartItem ->
-                                    chiTietHoaDonBanViewmodel.addHoaDonChiTiet(
+                        scope.launch {
+                            if (diaChiDuocChon.MaDiaChi == 0) {
+                                errorMessage = "Vui lòng chọn địa chỉ giao hàng"
+                                return@launch
+                            }
+
+                            if (cartItems.isEmpty()) {
+                                errorMessage = "Giỏ hàng trống"
+                                return@launch
+                            }
+
+                            if (maKhachHang.isNullOrBlank()) {
+                                errorMessage = "Không xác định được khách hàng"
+                                return@launch
+                            }
+
+                            val newHoaDonBan = HoaDon(
+                                MaHoaDon = 0, // để backend tự sinh
+                                MaKhachHang = maKhachHang,
+                                NgayDatHang = ngaytaohoadon,
+                                MaDiaChi = diaChiDuocChon.MaDiaChi,
+                                TongTien = totalPrice,
+                                PhuongThucThanhToan = selectedPaymentMethod,
+                                TrangThai = 0
+                            )
+
+                            val maHoaDonMoi = hoaDonBanViewModel.addHoaDon(newHoaDonBan)
+                            Log.d("checkout", "Tạo hóa đơn thành công - Mã: $maHoaDonMoi")
+
+                            if (maHoaDonMoi != null) {
+                                val allSuccess = cartItems.map { cartItem ->
+                                    Log.d("ChiTietHoaDon", """
+    Thêm sản phẩm:
+    - Mã SP: ${cartItem.MaSanPham}
+    - Số lượng: ${cartItem.SoLuong}
+    - Giá: ${cartItem.Gia}
+    - Giảm giá: ${cartItem.GiamGia}
+    - Thành tiền: ${cartItem.SoLuong * (cartItem.Gia ?: 0).toDouble() - (cartItem.GiamGia ?: 0).toDouble()}
+""".trimIndent())
+
+                                    val success = chiTietHoaDonViewmodel.addHoaDonChiTiet(
                                         ChiTietHoaDon(
                                             MaChiTietHoaDon = 0,
-                                            MaHoaDon = maHoaDonBan,
+                                            MaHoaDon = maHoaDonMoi,
                                             MaSanPham = cartItem.MaSanPham,
                                             SoLuong = cartItem.SoLuong,
-                                            DonGia = (cartItem.Gia?:0).toDouble(),
-                                            GiamGia = (cartItem.GiamGia?:0).toDouble() ,
-                                            ThanhTien = (cartItem.SoLuong * (cartItem.Gia?:0).toDouble() - (cartItem.GiamGia?:0))
+                                            DonGia = (cartItem.Gia ?: cartItem.product?.Gia?.toDouble() ?: 0.0),
+                                            GiamGia = (cartItem.GiamGia ?: cartItem.product?.GiamGia?.toDouble() ?: 0.0),
+                                            ThanhTien = cartItem.SoLuong * (cartItem.Gia ?: cartItem.product?.Gia?.toDouble() ?: 0.0) - (cartItem.GiamGia ?: cartItem.product?.GiamGia?.toDouble() ?: 0.0)
                                         )
                                     )
+                                    Log.d("ChiTietHoaDon", "SP: ${cartItem.MaSanPham} -> success: $success")
+                                    success
+
+                                }.all { it }
+
+                                if (allSuccess) {
+                                    navController.navigate(Screens.ORDERSUCCESSSCREEN.route)
+                                } else {
+                                    errorMessage = "Lỗi khi thêm chi tiết hóa đơn"
                                 }
-                                // Xóa giỏ hàng nếu cần
-                                // Chuyển sang màn hình thành công
-                                navController.navigate(Screens.ORDERSUCCESSSCREEN.route)
                             } else {
-                                errorMessage = "Đặt hàng thất bại"
+                                errorMessage = "Tạo hóa đơn thất bại"
                             }
                         }
-                        navController.navigate(Screens.ORDERSUCCESSSCREEN.route)
                     },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -343,12 +378,13 @@ fun CheckoutScreen(navController: NavHostController,
                     shape = RoundedCornerShape(8.dp)
                 ) {
                     Text(
-                        text = "Xác nhận đặt hàng ",
+                        text = "Xác nhận đặt hàng",
                         color = Color.White,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium
                     )
                 }
+
             }
         }
         if (showDiaChiDialog) {
@@ -394,3 +430,4 @@ fun CheckoutScreen(navController: NavHostController,
 
     }
 }
+
