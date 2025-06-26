@@ -61,6 +61,7 @@ import com.example.laptopstore.models.HoaDon
 import com.example.laptopstore.models.Screens
 import com.example.laptopstore.viewmodels.ChiTietHoaDonViewmodel
 import com.example.laptopstore.viewmodels.DataStoreManager
+import com.example.laptopstore.viewmodels.GioHangViewModel
 import com.example.laptopstore.viewmodels.KhachHangViewModels
 import com.example.laptopstore.viewmodels.SanPhamViewModel
 import com.example.laptopstore.viewmodels.TaiKhoanViewModel
@@ -84,7 +85,8 @@ fun CheckoutScreen(navController: NavHostController,
                    diaChiViewmodel: DiaChiViewmodel,
                    hoaDonBanViewModel: HoaDonViewModel,
                    chiTietHoaDonViewmodel: ChiTietHoaDonViewmodel,
-                   sanPhamViewModel: SanPhamViewModel
+                   sanPhamViewModel: SanPhamViewModel,
+                   gioHangViewModel: GioHangViewModel
 )
 {
     var errorMessage by remember { mutableStateOf<String?>(null) }
@@ -178,7 +180,7 @@ fun CheckoutScreen(navController: NavHostController,
         },
 
         bottomBar = {
-            MenuBottomNavBar(navController)
+            MenuBottomNavBar(navController, gioHangViewModel)
         }
     ) { innerPadding ->
         LazyColumn(
@@ -372,9 +374,13 @@ fun CheckoutScreen(navController: NavHostController,
 
                                     if (allSuccess) {
                                         navController.navigate(Screens.ORDERSUCCESSSCREEN.route)
+                                        cartItems.forEach { cartItem ->
+                                            sanPhamViewModel.truSoLuongTrongKho(cartItem.MaSanPham, cartItem.SoLuong)
+                                        }
                                     } else {
                                         errorMessage = "Lỗi khi thêm chi tiết hóa đơn"
                                     }
+
                                 } else {
                                     errorMessage = "Tạo hóa đơn thất bại"
                                 }

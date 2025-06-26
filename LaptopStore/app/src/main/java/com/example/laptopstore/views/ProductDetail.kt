@@ -113,6 +113,8 @@ fun ProductDetail(
     val maKhachHang = customerId
     val soluongkho =sanPhamViewModel.soLuongTonKhoState.collectAsState()
     val sl=soluongkho.value
+    val cartItems by gioHangViewModel.listGioHang.collectAsState(initial = emptyList())
+    val isInCart = cartItems.any {it.MaSanPham == product?.MaSanPham}
     LaunchedEffect(taikhoan) {
         Log.d("ProductDetail", "TaiKhoan changed: $taikhoan")
         Log.d("ProductDetail", "MaKhachHang: $maKhachHang")
@@ -265,7 +267,7 @@ fun ProductDetail(
             )
         },
         bottomBar = {
-            MenuBottomNavBar(navController) // Giả định đã định nghĩa
+            MenuBottomNavBar(navController, gioHangViewModel)
         }
     ) { innerPadding ->
         if (isLoading) {
@@ -380,7 +382,6 @@ fun ProductDetail(
                                     Log.d("ProductDetail", "User not logged in, showing login dialog")
                                     return@Button
                                 }
-                                
                                 // Kiểm tra trạng thái đăng nhập
                                 if (!isLoggedIn) {
                                     showLoginDialog = true
@@ -390,18 +391,28 @@ fun ProductDetail(
                                 if (sl !=null && sl <= 0) {
                                     errorMessage = "Sản phẩm đã hết hàng"
                                     return@Button
-                                    // hoặc return nếu trong suspend hoặc lambda
+                                }
+                                // Kiểm tra sản phẩm đã có trong giỏ hàng chưa
+                                val existingCartItem = cartItems.find { it.MaSanPham == productOrDefault.MaSanPham }
+                                if (existingCartItem != null) {
+                                    // Nếu đã có, tăng số lượng
+                                    val updatedGioHang = existingCartItem.copy(SoLuong = existingCartItem.SoLuong + 1)
+                                    gioHangViewModel.updateGioHang(updatedGioHang)
+                                    Toast.makeText(context, "Đã tăng số lượng sản phẩm trong giỏ hàng", Toast.LENGTH_SHORT).show()
                                 } else {
+                                    // Nếu chưa có, thêm mới
                                     val gioHang = GioHang(
                                         MaGioHang = 0,
                                         MaSanPham = productOrDefault.MaSanPham,
                                         MaKhachHang = maKhachHang,
                                         SoLuong = 1,
-                                        TrangThai = 1
+                                        TrangThai = 1,
+                                        TenSanPham = productOrDefault.TenSanPham,
+                                        Gia = productOrDefault.Gia.toDouble(),
+                                        HinhAnh = productOrDefault.HinhAnh
                                     )
                                     gioHangViewModel.addToCart(gioHang)
                                 }
-
                             },
                             modifier = Modifier
                                 .weight(1f)

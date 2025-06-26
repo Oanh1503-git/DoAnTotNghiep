@@ -12,7 +12,6 @@ class Khachhang{
 
     //connect db
 
-    public $totalCustomers;
     public function __construct($database){
         $this->conn = $database;
     }
@@ -68,31 +67,18 @@ public function AddKhachHang(){
 }
 
 public function generateCustomerCode() {
-    // Truy vấn để lấy cả tổng số KH và mã lớn nhất hiện tại
-    $query = "SELECT COUNT(*) AS total, MAX(MaKhachHang) AS max_code FROM {$this->table}";
+    // Đếm số lượng khách hàng
+    $query = "SELECT COUNT(*) AS total FROM {$this->table}";
     $stmt = $this->conn->prepare($query);
     $stmt->execute();
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
     $total = (int)$result['total'];
+    $total++; // Tăng lên 1 cho mã mới
 
-    // Xử lý mã lớn nhất
-    $maxCode = $result['max_code']; // Ví dụ: "KH035"
-    $nextNumber = 1;
-
-    if ($maxCode && preg_match('/KH(\d+)/', $maxCode, $matches)) {
-        $nextNumber = (int)$matches[1] + 1;
-    }
-
-    // Sinh mã mới theo format KH + số có 3 chữ số
-    $newCode = 'KH' . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
-
-    // ✅ (Tùy chọn) Log hoặc lưu số lượng nếu bạn cần dùng sau
-    $this->totalCustomers = $total; // Nếu bạn muốn lưu lại trong object
-
-    return $newCode;
+    // Sinh mã dạng: KH001, KH002, ...
+    return 'KH' . str_pad($total, 3, '0', STR_PAD_LEFT);
 }
-
     public function UpdateKhachHang(){
         $query = "UPDATE khachhang SET HoTen =:HoTen, GioiTinh =:GioiTinh, NgaySinh =:NgaySinh,  Email =:Email, SoDienThoai =:SoDienThoai  WHERE MaKhachHang=:MaKhachHang";
 

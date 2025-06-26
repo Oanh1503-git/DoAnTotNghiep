@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -56,6 +57,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -70,11 +72,15 @@ import com.example.laptopstore.models.Screens
 import com.example.laptopstore.models.HinhAnh
 import com.example.laptopstore.viewmodels.HinhAnhViewModel
 import com.example.laptopstore.viewmodels.SanPhamViewModel
+import com.example.laptopstore.viewmodels.GioHangViewModel
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HOMEPAGE(navController: NavHostController, sanPhamViewModel: SanPhamViewModel = viewModel(), hinhAnhViewModel: HinhAnhViewModel = viewModel()) {
+fun HOMEPAGE(navController: NavHostController,
+             sanPhamViewModel: SanPhamViewModel = viewModel(),
+             hinhAnhViewModel: HinhAnhViewModel = viewModel(),
+             gioHangViewModel: GioHangViewModel= viewModel()) {
     var sortOption by remember { mutableStateOf("Phổ biến") }
     val products by sanPhamViewModel.danhSachAllSanPham.collectAsState(initial = emptyList())
     val searchResults by sanPhamViewModel.danhSach.collectAsState(initial = emptyList())
@@ -139,7 +145,7 @@ fun HOMEPAGE(navController: NavHostController, sanPhamViewModel: SanPhamViewMode
             )
         },
         bottomBar = {
-            MenuBottomNavBar(navController)
+            MenuBottomNavBar(navController, gioHangViewModel)
         }
     ) { innerPadding ->
         LazyColumn(
@@ -447,7 +453,7 @@ private fun sortedProducts(products: List<SanPham>, sortOption: String): List<Sa
 
 
 @Composable
-fun MenuBottomNavBar(navController: NavHostController) {
+fun MenuBottomNavBar(navController: NavHostController, gioHangViewModel: GioHangViewModel = viewModel()) {
     val items = listOf(
         BottomNavItem("Home", Icons.Default.Home, Screens.HOMEPAGE.route),
         BottomNavItem("Categories", Icons.AutoMirrored.Filled.List, Screens.CATAGORIES.route),
@@ -457,17 +463,49 @@ fun MenuBottomNavBar(navController: NavHostController) {
 
     // Theo dõi route hiện tại
     val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
+    // Lấy danh sách giỏ hàng
+    val cartItems by gioHangViewModel.listGioHang.collectAsState(initial = emptyList())
+    // Đếm số lượng mã sản phẩm khác nhau
+    val uniqueProductCount = cartItems.map { it.MaSanPham }.distinct().size
     
     NavigationBar(containerColor = Color.White) {
         items.forEachIndexed { index, item ->
             NavigationBarItem(
                 icon = {
-                    Icon(
-                        imageVector = item.icon,
-                        contentDescription = item.title,
-                        modifier = Modifier.size(24.dp),
-                        tint = if (currentRoute == item.route) Color.Black else Color.Gray
-                    )
+                    if (item.title == "Cart" && uniqueProductCount > 0) {
+                        Box {
+                            Icon(
+                                imageVector = item.icon,
+                                contentDescription = item.title,
+                                modifier = Modifier.size(24.dp),
+                                tint = if (currentRoute == item.route) Color.Black else Color.Gray
+                            )
+                            Box(
+                                modifier = Modifier
+                                    .align(Alignment.TopEnd)
+                                    .offset(x = 10.dp, y = (-4).dp)
+                                    .size(16.dp)
+                                    .background(Color.Red, shape = RoundedCornerShape(8.dp)),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = uniqueProductCount.toString(),
+                                    color = Color.White,
+                                    fontSize = 10.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    textAlign = TextAlign.Justify   ,
+                                    modifier = Modifier.fillMaxSize()
+                                )
+                            }
+                        }
+                    } else {
+                        Icon(
+                            imageVector = item.icon,
+                            contentDescription = item.title,
+                            modifier = Modifier.size(30.dp),
+                            tint = if (currentRoute == item.route) Color.Black else Color.Gray
+                        )
+                    }
                 },
                 label = {
                     Text(

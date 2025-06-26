@@ -8,6 +8,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.laptopstore.models.SanPham
 import com.example.laptopstore.RetrofitClient.LaptopStoreRetrofitClient
+import com.example.laptopstore.api.TruSoLuongRequest
+import com.example.laptopstore.api.TruSoLuongTonKhoRequest
+import com.example.laptopstore.api.TruSoLuongTonKhoResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -36,7 +39,13 @@ class SanPhamViewModel : ViewModel() {
         private set
     var soLuong by mutableStateOf<Int?>(null)
         private set
+    private val _trangThaiTruSoLuong = MutableStateFlow<TruSoLuongTonKhoResponse?>(null)
+    val trangThaiTruSoLuong: StateFlow<TruSoLuongTonKhoResponse?> get() = _trangThaiTruSoLuong
 
+
+
+    private val _error = MutableStateFlow<String?>(null)
+    val error: StateFlow<String?> get() = _error
 
     private val _danhsachSanPham = MutableStateFlow<List<SanPham>>(emptyList())
     val danhsachSanPham: StateFlow<List<SanPham>> get() = _danhsachSanPham
@@ -124,6 +133,12 @@ class SanPhamViewModel : ViewModel() {
         }
     }
 
+
+
+    fun clearTrangThai() {
+        _trangThaiTruSoLuong.value = null
+        _error.value = null
+    }
     fun getSanPhamTheoLoaiVanPhong() {
         viewModelScope.launch {
             try {
@@ -169,7 +184,21 @@ class SanPhamViewModel : ViewModel() {
             }
         }
     }
+    fun truSoLuongTrongKho(maSanPham: Int, soLuongCanTru: Int) {
+        viewModelScope.launch {
+            try {
+                val response = LaptopStoreRetrofitClient.sanphamAPIService.truSoLuongTrongKho( TruSoLuongRequest(maSanPham, soLuongCanTru))
 
+                if (response.isSuccessful && response.body()?.success == true) {
+                    // Thành công, có thể cập nhật UI hoặc thông báo
+                } else {
+                    // Xử lý lỗi
+                }
+            } catch (e: Exception) {
+                // Xử lý lỗi mạng hoặc exception
+            }
+        }
+    }
 
     fun getSanPhamTrongHoaDon(MaHoaDonBan: Int) {
         viewModelScope.launch {

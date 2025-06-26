@@ -308,31 +308,51 @@ class SanPham
             ];
         }
     }
-     public function getSoLuongTonKho() {
-        try {
-            $query = "SELECT SoLuong FROM sanpham WHERE MaSanPham = ?";
-            $stmt = $this->conn->prepare($query);
-            $stmt->execute([$this->MaSanPham]);
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    public function truSoLuongTrongKho($soLuongCanTru) {
+    // Bước 1: Lấy số lượng hiện tại từ CSDL
+    $query = "SELECT SoLuong FROM sanpham WHERE MaSanPham = ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(1, $this->MaSanPham);
+    $stmt->execute();
 
-            if ($row) {
-                return [
-                    'success' => true,
-                    'MaSanPham' => $this->MaSanPham,
-                    'SoLuongTonKho' => (int)$row['SoLuong']
-                ];
-            } else {
-                return [
-                    'success' => false,
-                    'message' => 'Không tìm thấy sản phẩm với mã: ' . $this->MaSanPham
-                ];
-            }
-        } catch (PDOException $e) {
+    if ($stmt->rowCount() > 0) {
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $soLuongHienTai = (int)$row['SoLuong'];
+
+        // Bước 2: Kiểm tra nếu số lượng cần trừ nhiều hơn số lượng trong kho
+        if ($soLuongCanTru > $soLuongHienTai) {
             return [
                 'success' => false,
-                'message' => 'Lỗi truy vấn: ' . $e->getMessage()
+                'message' => 'Số lượng trong kho không đủ'
             ];
         }
+
+        // Bước 3: Cập nhật lại số lượng
+        $soLuongMoi = $soLuongHienTai - $soLuongCanTru;
+        $updateQuery = "UPDATE sanpham SET SoLuong = :SoLuongMoi WHERE MaSanPham = :MaSanPham";
+        $updateStmt = $this->conn->prepare($updateQuery);
+        $updateStmt->bindParam(':SoLuongMoi', $soLuongMoi);
+        $updateStmt->bindParam(':MaSanPham', $this->MaSanPham);
+
+        if ($updateStmt->execute()) {
+            return [
+                'success' => true,
+                'message' => 'Trừ số lượng thành công',
+                'SoLuongConLai' => $soLuongMoi
+            ];
+        } else {
+            return [
+                'success' => false,
+                'message' => 'Không thể cập nhật số lượng'
+            ];
+        }
+    } else {
+        return [
+            'success' => false,
+            'message' => 'Không tìm thấy sản phẩm'
+        ];
     }
+}
+
 }
 ?>

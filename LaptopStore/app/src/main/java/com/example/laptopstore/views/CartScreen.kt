@@ -251,7 +251,7 @@ fun CartScreen(
             )
         },
         bottomBar = {
-            MenuBottomNavBar(navController)
+            MenuBottomNavBar(navController, gioHangViewModel)
         }
     ) { innerPadding ->
         Box(

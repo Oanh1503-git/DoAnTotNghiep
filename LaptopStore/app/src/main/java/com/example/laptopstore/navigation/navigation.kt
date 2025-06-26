@@ -46,7 +46,7 @@ fun NavigationGraph(
         startDestination = Screens.HOMEPAGE.route
     ) {
         composable(Screens.HOMEPAGE.route) {
-            HOMEPAGE(navHostController)
+            HOMEPAGE(navHostController,sanphamViewModel,gioHangViewModel=gioHangViewModel)
         }
 
         composable(Screens.ACCOUNTSCREENS.route) {backStackEntry->
@@ -67,11 +67,11 @@ fun NavigationGraph(
                 navArgument("screen") { defaultValue = "" }
             )
         ) { backStackEntry ->
-            HOMEPAGE(navHostController)
+            HOMEPAGE(navHostController,sanphamViewModel,hinhAnhViewModel,gioHangViewModel)
         }
 
         composable(Screens.CATAGORIES.route) {
-            Categories(navHostController)
+            Categories(navHostController,sanphamViewModel,gioHangViewModel)
         }
 
         composable(Screens.CARTSCREENS.route) {backStackEntry->
@@ -145,7 +145,9 @@ fun NavigationGraph(
                 khachHangViewModels = khachHangViewModel,
                 diaChiViewmodel = diaChiViewModel,
                 hoaDonBanViewModel = hoaDonBanVỉewModel,
-                chiTietHoaDonViewmodel = chiTietHoaDonViewmodel
+                chiTietHoaDonViewmodel = chiTietHoaDonViewmodel,
+                sanPhamViewModel = sanphamViewModel,
+                gioHangViewModel = gioHangViewModel
             )
         }
 
@@ -172,7 +174,9 @@ fun NavigationGraph(
                     khachHangViewModels = khachHangViewModel,
                     diaChiViewmodel = diaChiViewModel,
                     hoaDonBanViewModel = hoaDonBanVỉewModel,
-                    chiTietHoaDonViewmodel = chiTietHoaDonViewmodel
+                    chiTietHoaDonViewmodel = chiTietHoaDonViewmodel,
+                    sanPhamViewModel = sanphamViewModel,
+                    gioHangViewModel = gioHangViewModel
                 )
             }
         composable(

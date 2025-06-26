@@ -4,6 +4,7 @@ import com.example.laptopstore.models.SanPham
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Query
 
@@ -27,7 +28,23 @@ data class SoLuongTonKhoResponse(
     val SoLuongTonKho: Int,
     val message: String? = null
 )
+data class TruSoLuongTonKhoRequest(
+    val MaSanPham: Int,
+    val SoLuongCanTru: Int
+)
 
+data class TruSoLuongTonKhoResponse(
+    val success: Boolean,
+    val message: String
+)
+data class TruSoLuongRequest(
+    val MaSanPham: Int,
+    val SoLuongCanTru: Int
+)
+data class TruSoLuongResponse(
+    val success: Boolean,
+    val message: String
+)
 interface SanPhamAPIService{
     @GET("SanPham/read.php")
     suspend fun getAllSanPham(): SanPhamResponse
@@ -63,13 +80,20 @@ interface SanPhamAPIService{
     suspend fun updateSanPham(
         @Body sanpham: SanPham
     ): BaseResponse
+
     @GET("kiem_tra_soluong.php")
     suspend fun kiemTraSoLuong(
         @Query("MaKhachHang") maKhachHang: String,
         @Query("MaSanPham") maSanPham: Int
     ): Response<SoLuongCheckResponse>
+
     @GET("SanPham/kiemtrasoluongkho.php")
     suspend fun kiemTraSoLuongTonKho(
         @Query("MaSanPham") maSanPham: Int
     ): SoLuongTonKhoResponse
+
+    @POST("SanPham/truSoLuong.php")
+    suspend fun truSoLuongTrongKho(
+        @Body request: TruSoLuongRequest
+    ): Response<TruSoLuongResponse>
 }

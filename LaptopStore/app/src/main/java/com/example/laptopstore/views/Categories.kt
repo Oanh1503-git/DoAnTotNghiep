@@ -40,11 +40,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.laptopstore.R
+import com.example.laptopstore.viewmodels.GioHangViewModel
 import com.example.laptopstore.viewmodels.SanPhamViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Categories(navController: NavHostController, sanPhamViewModel: SanPhamViewModel = viewModel()) {
+fun Categories(navController: NavHostController,
+               sanPhamViewModel: SanPhamViewModel = viewModel(),
+               gioHangViewModel: GioHangViewModel = viewModel()) {
     var selectedBrand by remember { mutableStateOf("") }
     var selectedPriceRange by remember { mutableStateOf("") }
     var selectedUsage by remember { mutableStateOf("") }
@@ -71,7 +74,7 @@ fun Categories(navController: NavHostController, sanPhamViewModel: SanPhamViewMo
             )
         },
         bottomBar = {
-            MenuBottomNavBar(navController)
+            MenuBottomNavBar(navController, gioHangViewModel)
         }
     ) { innerPadding ->
         LazyColumn(
