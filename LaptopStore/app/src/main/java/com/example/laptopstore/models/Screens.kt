@@ -27,5 +27,6 @@ sealed class Screens(val route: String) {
     }
     object ORDERSUCCESSSCREEN:Screens("ORDERSUCCESSSCREEN")
     object ORDERSTATUSSCREEN:Screens("ORDERSTATUSSCREEN")
+    object SEACHSCREENS:Screens("SEACHSCREENS")
 
 }

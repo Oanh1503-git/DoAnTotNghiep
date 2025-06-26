@@ -82,7 +82,7 @@ class SanPham
     {
         $query = "SELECT sp.* ,ha.DuongDan
           FROM sanpham sp
-          JOIN HinhAnh ha ON sp.MaSanPham = ha.MaSanPham
+          JOIN hinhanh ha ON sp.MaSanPham = ha.MaSanPham
           WHERE ha.MacDinh = 1 AND (
           sp.TenSanPham LIKE ? 
           OR sp.MoTa LIKE ? 
@@ -101,6 +101,19 @@ class SanPham
         $stmt->bindParam(6, $searchTerm);
         $stmt->execute();
         return $stmt;
+    }
+    public function GetSanPhamByBrand($brand)
+    {
+    $query = "SELECT sp.*, ha.DuongDan
+              FROM sanpham sp
+              JOIN hinhanh ha ON sp.MaSanPham = ha.MaSanPham
+              WHERE ha.MacDinh = 1 AND sp.ThuongHieu LIKE ?";
+              
+    $stmt = $this->conn->prepare($query);
+    $brand = "%" . $brand . "%";
+    $stmt->bindParam(1, $brand);
+    $stmt->execute();
+    return $stmt;
     }
 
 

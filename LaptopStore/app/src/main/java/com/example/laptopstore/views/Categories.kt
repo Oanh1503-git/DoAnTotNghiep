@@ -23,6 +23,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -66,7 +67,7 @@ fun Categories(navController: NavHostController,
                         onSearch = {
                             if (searchQuery.isNotEmpty()) {
                                 performSearch(searchQuery, sanPhamViewModel)
-                                navController.navigate("homepage?searchQuery=$searchQuery")
+                                navController.navigate("SEACHSCREENS?searchQuery=$searchQuery")
                             }
                         }
                     )
@@ -89,6 +90,7 @@ fun Categories(navController: NavHostController,
 
                 BrandFilterSection(
                     selectedBrand = selectedBrand,
+                    sanPhamViewModel=sanPhamViewModel,
                     onBrandSelected = { brand ->
                         selectedBrand = brand
                         applyFiltersAndNavigate(navController, selectedBrand, selectedPriceRange, selectedUsage, selectedChip, selectedScreenSize)                    }
@@ -98,6 +100,7 @@ fun Categories(navController: NavHostController,
                 Log.d("Categories", "Selected filters - Brand: $selectedBrand, Price: $selectedPriceRange, Usage: $selectedUsage, Chip: $selectedChip, Screen: $selectedScreenSize")
                 PriceRangeFilterSection(
                     selectedPriceRange = selectedPriceRange,
+                    sanPhamViewModel=sanPhamViewModel,
                     onPriceRangeSelected = { range ->
                         selectedPriceRange = range
                         applyFiltersAndNavigate(navController, selectedBrand, selectedPriceRange, selectedUsage, selectedChip, selectedScreenSize)                    }
@@ -114,6 +117,7 @@ fun Categories(navController: NavHostController,
             item {
                 ChipFilterSection(
                     selectedChip = selectedChip,
+                    sanPhamViewModel=sanPhamViewModel,
                     onChipSelected = { chip ->
                         selectedChip = chip
                         applyFiltersAndNavigate(navController, selectedBrand, selectedPriceRange, selectedUsage, selectedChip, selectedScreenSize)                    }
@@ -140,11 +144,12 @@ fun applyFiltersAndNavigate(navController: NavHostController, selectedBrand: Str
     selectedScreen?.let { queryParams.add("screen=$it") }
     val queryString = queryParams.joinToString("&")
     Log.d("Categories", "Navigating with query: $queryString")
-    navController.navigate("homepage?$queryString")
+    navController.navigate("SEACHSCREENS?$queryString")
 }
 
 @Composable
-fun BrandFilterSection(selectedBrand: String, onBrandSelected: (String) -> Unit) {
+fun BrandFilterSection(selectedBrand: String,sanPhamViewModel: SanPhamViewModel, onBrandSelected: (String) -> Unit) {
+
     val brands = listOf(
         "MacBook" to R.drawable.ap,
         "ASUS" to R.drawable.asus,
@@ -155,6 +160,8 @@ fun BrandFilterSection(selectedBrand: String, onBrandSelected: (String) -> Unit)
         "MSI" to R.drawable.msi
 
     )
+    LaunchedEffect (selectedBrand)
+    { sanPhamViewModel.getSanPhamSearch(selectedBrand) }
 
     Column(
         modifier = Modifier
@@ -206,7 +213,7 @@ fun BrandChip(brand: String, logoUrl: Int, isSelected: Boolean, onClick: () -> U
 }
 
 @Composable
-fun PriceRangeFilterSection(selectedPriceRange: String, onPriceRangeSelected: (String) -> Unit) {
+fun PriceRangeFilterSection(selectedPriceRange: String,sanPhamViewModel: SanPhamViewModel, onPriceRangeSelected: (String) -> Unit) {
     val priceRanges = listOf(
         "Dưới 10 triệu", "Từ 10 - 15 triệu", "Từ 15 - 20 triệu", "Từ 25 - 30 triệu"
     )
@@ -275,9 +282,9 @@ fun UsageFilterSection(selectedUsage: String, onUsageSelected: (String) -> Unit)
 }
 
 @Composable
-fun ChipFilterSection(selectedChip: String, onChipSelected: (String) -> Unit) {
+fun ChipFilterSection(selectedChip: String, sanPhamViewModel:SanPhamViewModel, onChipSelected: (String) -> Unit) {
     val chips = listOf("Intel Core i3", "Intel Core i5", "Intel Core i7", "AMD Ryzen 5", "AMD Ryzen 7", "Apple M1", "Apple M2")
-
+    sanPhamViewModel.getSanPhamSearch(selectedChip)
     Column(
         modifier = Modifier
             .fillMaxWidth()

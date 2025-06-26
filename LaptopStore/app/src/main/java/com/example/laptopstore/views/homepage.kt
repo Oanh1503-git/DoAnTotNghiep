@@ -151,7 +151,7 @@ fun HOMEPAGE(navController: NavHostController,
         LazyColumn(
             modifier = Modifier
                 .padding(innerPadding)
-                .fillMaxSize()
+                .fillMaxSize() 
                 .background(Color.White),
             contentPadding = PaddingValues(16.dp)
         ) {
@@ -223,7 +223,7 @@ fun HOMEPAGE(navController: NavHostController,
                         horizontalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
                         productRow.forEach { product ->
-                            ProductCard(
+                            ProductCardInHome(
                                 product = product,
                                 navController = navController,
                                 images = productImages.filter { it.MaSanPham == product.MaSanPham },
@@ -391,7 +391,7 @@ fun BannerSection() {
 }
 
 @Composable
-fun ProductCard(product: SanPham, navController: NavHostController, images: List<HinhAnh>, modifier: Modifier = Modifier) {
+fun ProductCardInHome(product: SanPham, navController: NavHostController, images: List<HinhAnh>, modifier: Modifier = Modifier) {
     val defaultImage = images.find { it.MacDinh == 1 }?.DuongDan ?: product.HinhAnh
     Card(
         modifier = modifier

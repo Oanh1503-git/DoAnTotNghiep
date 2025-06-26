@@ -56,19 +56,19 @@ fun NavigationGraph(
                 savedStateHandle = backStackEntry.savedStateHandle)
         }
 
-        composable(
-            "homepage?searchQuery={searchQuery}&brand={brand}&price={price}&usage={usage}&chip={chip}&screen={screen}",
-            arguments = listOf(
-                navArgument("searchQuery") { defaultValue = "" },
-                navArgument("brand") { defaultValue = "" },
-                navArgument("price") { defaultValue = "" },
-                navArgument("usage") { defaultValue = "" },
-                navArgument("chip") { defaultValue = "" },
-                navArgument("screen") { defaultValue = "" }
-            )
-        ) { backStackEntry ->
-            HOMEPAGE(navHostController,sanphamViewModel,hinhAnhViewModel,gioHangViewModel)
-        }
+//        composable(
+//            "homepage?searchQuery={searchQuery}&brand={brand}&price={price}&usage={usage}&chip={chip}&screen={screen}",
+//            arguments = listOf(
+//                navArgument("searchQuery") { defaultValue = "" },
+//                navArgument("brand") { defaultValue = "" },
+//                navArgument("price") { defaultValue = "" },
+//                navArgument("usage") { defaultValue = "" },
+//                navArgument("chip") { defaultValue = "" },
+//                navArgument("screen") { defaultValue = "" }
+//            )
+//        ) { backStackEntry ->
+//            HOMEPAGE(navHostController,sanphamViewModel,hinhAnhViewModel,gioHangViewModel)
+//        }
 
         composable(Screens.CATAGORIES.route) {
             Categories(navHostController,sanphamViewModel,gioHangViewModel)
@@ -217,6 +217,19 @@ fun NavigationGraph(
         }
         composable(Screens.ORDERSTATUSSCREEN.route) {
             OrderStatusScreen(navHostController,hoaDonBanVỉewModel,sanphamViewModel,chiTietHoaDonViewmodel)
+        }
+        composable(
+            "SEACHSCREENS?searchQuery={searchQuery}&brand={brand}&price={price}&usage={usage}&chip={chip}&screen={screen}",
+            arguments = listOf(
+                navArgument("searchQuery") { defaultValue = "" },
+                navArgument("brand") { defaultValue = "" },
+                navArgument("price") { defaultValue = "" },
+                navArgument("usage") { defaultValue = "" },
+                navArgument("chip") { defaultValue = "" },
+                navArgument("screen") { defaultValue = "" }
+            )
+        ) { backStackEntry ->
+            SeachSanphamScreen(navHostController,sanphamViewModel,hinhAnhViewModel,gioHangViewModel)
         }
 
 
