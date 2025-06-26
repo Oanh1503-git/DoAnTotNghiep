@@ -226,7 +226,7 @@ fun AccountScreens(
                         text = "Sổ Địa Chỉ",
                         onClick = {
                             maKhachHang?.let {
-                                navHostController.navigate(Screens.ADDRESS.createRoute(it))
+                                navHostController.navigate(Screens.ADDRESS.createRoute())
                             }
                         }
                     )
@@ -270,8 +270,8 @@ fun AccountScreens(
 
                 item {
                     AccountItem(
-                        icon = Icons.Default.Cancel,
-                        text = "Đơn Hàng Hủy",
+                        icon = Icons.Default.Receipt,
+                        text = "Đơn Hàng Mua",
                         onClick = { navHostController.navigate(Screens.HOMEPAGE.route) }
                     )
                 }

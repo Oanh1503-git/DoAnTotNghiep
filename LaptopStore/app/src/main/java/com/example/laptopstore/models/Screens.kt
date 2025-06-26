@@ -7,8 +7,8 @@ sealed class Screens(val route: String) {
     object ACCOUNTDETAIL : Screens("account_detail/{maKhachHang}") {
         fun createRoute(maKhachHang: String) = "account_detail/$maKhachHang"
     }
-    object ADDRESS : Screens("address/{maKhachHang}") {
-        fun createRoute(maKhachHang: String) = "address/$maKhachHang"
+    object ADDRESS : Screens("address?fromCheckout={fromCheckout}") {
+        fun createRoute(fromCheckout: Boolean = false): String = "address?fromCheckout=$fromCheckout"
     }
     object Login_Screens : Screens("Login_Screens")
     object REGISTERSCREEN : Screens("REGISTERSCREEN")

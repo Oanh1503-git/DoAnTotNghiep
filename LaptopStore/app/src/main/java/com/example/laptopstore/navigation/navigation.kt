@@ -116,14 +116,20 @@ fun NavigationGraph(
         }
 
         composable(
-            route = Screens.ADDRESS.route,
-            arguments = listOf(navArgument("maKhachHang") { type = NavType.StringType })
+            route = "address?fromCheckout={fromCheckout}",
+            arguments = listOf(
+                navArgument("fromCheckout") {
+                    type = NavType.BoolType
+                    defaultValue = false
+                }
+            )
         ) { backStackEntry ->
-            val maKhachHang = backStackEntry.arguments?.getString("maKhachHang") ?: ""
+            val fromCheckout = backStackEntry.arguments?.getBoolean("fromCheckout") ?: false
             AddressScreen(
                 navHostController,
                 diaChiViewModel,
-                taiKhoanViewModel
+                taiKhoanViewModel,
+                fromCheckout = fromCheckout
             )
         }
 

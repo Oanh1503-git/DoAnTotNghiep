@@ -407,7 +407,7 @@ fun CheckoutScreen(navController: NavHostController,
         if (showDiaChiDialog) {
             AlertDialog(
                 onDismissRequest = { showDiaChiDialog = false },
-                title = { Text("Chọn địa chỉ giao hàng") },
+                title = { Text("Chọn địa chỉ giao hàng (nhấn chọn để thêm hoặc thay đổi địa chỉ)") },
                 text = {
                     Column(modifier = Modifier.height(300.dp)) {
                         LazyColumn {
@@ -435,6 +435,18 @@ fun CheckoutScreen(navController: NavHostController,
                                 }
                             }
                         }
+                        Spacer(modifier = Modifier.height(16.dp))
+                        // Nút thêm địa chỉ mới
+                        Button(
+                            onClick = {
+                                showDiaChiDialog = false
+                                navController.navigate(Screens.ADDRESS.createRoute(fromCheckout = true))
+                            },
+                            modifier = Modifier.fillMaxWidth(),
+                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2196F3))
+                        ) {
+                            Text("Thêm địa chỉ mới", color = Color.White, fontWeight = FontWeight.Bold)
+                        }
                     }
                 },
                 confirmButton = {
@@ -443,6 +455,7 @@ fun CheckoutScreen(navController: NavHostController,
                     }
                 }
             )
+
         }
 
     }

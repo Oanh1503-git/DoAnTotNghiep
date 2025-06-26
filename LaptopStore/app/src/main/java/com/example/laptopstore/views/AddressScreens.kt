@@ -31,7 +31,8 @@ import kotlinx.coroutines.launch
 fun AddressScreen(
     navController: NavHostController,
     diaChiViewModel: DiaChiViewmodel,
-    taiKhoanViewModel: TaiKhoanViewModel
+    taiKhoanViewModel: TaiKhoanViewModel,
+    fromCheckout: Boolean = false
 ) {
     val khachHang by taiKhoanViewModel.khachHang.collectAsState()
 
@@ -76,7 +77,12 @@ fun AddressScreen(
                 },
                 navigationIcon = {
                     IconButton(onClick = {
-                        navController.navigate(Screens.ACCOUNTSCREENS.route)
+                        if (fromCheckout) {
+                            navController.popBackStack() // hoặc navController.navigateUp()
+                        } else {
+                            navController.navigate(Screens.ACCOUNTSCREENS.route)
+                        }
+
                     }) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Quay về")
                     }
