@@ -7,6 +7,7 @@ class SanPham
     public $MaSanPham;
     public $TenSanPham;
     public $MaLoaiSanPham;
+    public $mathuonghieu;
     public $CPU;
     public $RAM;
     public $CardManHinh;
@@ -14,6 +15,7 @@ class SanPham
     public $ManHinh;
     public $MaMauSac;
     public $Gia;
+    public $GiamGia;
     public $SoLuong;
     public $MoTa;
     public $HinhAnh;
@@ -57,6 +59,7 @@ class SanPham
             // Gán giá trị từ kết quả vào các thuộc tính của đối tượng
             $this->TenSanPham = $row['TenSanPham'] ?? null;
             $this->MaLoaiSanPham = $row['MaLoaiSanPham'] ?? null;
+            $this->mathuonghieu = $row['mathuonghieu'] ?? 1;
             $this->CPU = $row['CPU'] ?? null;
             $this->RAM = $row['RAM'] ?? null;
             $this->CardManHinh = $row['CardManHinh'] ?? null;
@@ -64,6 +67,7 @@ class SanPham
             $this->ManHinh = $row['ManHinh'] ?? null;
             $this->MaMauSac = $row['MaMauSac'] ?? null;
             $this->Gia = $row['Gia'] ?? null;
+            $this->GiamGia = $row['GiamGia'] ?? 0;
             $this->SoLuong = $row['SoLuong'] ?? null;
             $this->MoTa = $row['MoTa'] ?? null;
             $this->HinhAnh = $row['DuongDan'] ?? null;

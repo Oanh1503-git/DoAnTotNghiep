@@ -71,6 +71,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.delay
 import java.net.URLDecoder
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -374,14 +375,26 @@ fun CheckoutScreen(navController: NavHostController,
                                     }.all { it }
 
                                     if (allSuccess) {
-                                        navController.navigate(Screens.ORDERSUCCESSSCREEN.route)
+                                        // Hiển thị thông báo thành công
+                                        Log.d("Checkout", "Đặt hàng thành công! Đang xóa sản phẩm khỏi giỏ hàng...")
+                                        Log.d("ChiTietHoaDon", " maKhachHang-> : $maKhachHang")
+
                                         cartItems.forEach { cartItem ->
                                             sanPhamViewModel.truSoLuongTrongKho(cartItem.MaSanPham, cartItem.SoLuong)
-                                            cartItem.MaGioHang?.let {
-                                                gioHangViewModel.deleteOnCartByID(maKhachHang,cartItem.MaSanPham)
+                                            // Chỉ xóa khỏi giỏ hàng nếu sản phẩm thực sự có trong giỏ hàng
+                                            Log.d("ChiTietHoaDon", " maKhachHang-> : $maKhachHang,${cartItem.MaSanPham}")
+                                            if (cartItem.MaGioHang > 0) {
+                                                Log.d("ChiTietHoaDon", " maKhachHang-> : $maKhachHang,${cartItem.MaSanPham}")
+                                                gioHangViewModel.deleteOnCartByID(maKhachHang, cartItem.MaSanPham)
+
+                                                Log.d("ChiTietHoaDon", " maKhachHang-> : $maKhachHang,${cartItem.MaSanPham}")
                                             }
                                         }
-
+                                        // Đợi một chút để các thao tác xóa hoàn thành trước khi refresh
+                                        delay(500)
+                                        // Refresh lại danh sách giỏ hàng sau khi xóa
+                                        gioHangViewModel.getGioHangByKhachHang(maKhachHang)
+                                        navController.navigate(Screens.ORDERSUCCESSSCREEN.route)
                                     } else {
                                         errorMessage = "Lỗi khi thêm chi tiết hóa đơn"
                                     }

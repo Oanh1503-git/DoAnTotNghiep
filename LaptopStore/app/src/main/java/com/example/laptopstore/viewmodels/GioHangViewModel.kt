@@ -76,18 +76,47 @@ class GioHangViewModel : ViewModel() {
         }
     }
     fun deleteOnCartByID(maKhachHang: String, maSanPham: Int) {
+        Log.d("GioHangViewModel", "Bắt đầu xóa sản phẩm: MaSP=$maSanPham, MaKH=$maKhachHang")
         viewModelScope.launch {
             try {
+                // Lưu trạng thái ban đầu để rollback nếu cần
+                val originalList = _listGioHang.value.toList()
+                val itemsToRemove = originalList.filter { it.MaSanPham == maSanPham }
+                
+                if (itemsToRemove.isEmpty()) {
+                    Log.w("GioHangViewModel", "Không tìm thấy sản phẩm để xóa: MaSP=$maSanPham")
+                    _giohangUpdateResult.value = "Không tìm thấy sản phẩm để xóa"
+                    return@launch
+                }
+                
+                // Cập nhật UI ngay lập tức để tránh delay
+                _listGioHang.value = originalList.filter { it.MaSanPham != maSanPham }
+                
+                Log.d("GioHangViewModel", "Đã cập nhật UI, gọi API xóa sản phẩm")
+                
                 val response = LaptopStoreRetrofitClient.giohangAPIService
                     .deleteSanPhamTrongGio(DeleteGioHangRequest(maKhachHang, maSanPham))
 
+                Log.d("GioHangViewModel", "Response code: ${response.code()}")
+                Log.d("GioHangViewModel", "Response body: ${response.body()}")
+                Log.d("GioHangViewModel", "Response error body: ${response.errorBody()?.string()}")
+
                 if (response.isSuccessful && response.body()?.success == true) {
                     Log.d("GioHang", "Xóa thành công: ${response.body()?.message}")
+                    _giohangUpdateResult.value = "Xóa sản phẩm khỏi giỏ hàng thành công"
                 } else {
                     Log.e("GioHang", "Xóa thất bại: ${response.body()?.message}")
+                    Log.e("GioHang", "Error body: ${response.errorBody()?.string()}")
+                    // Rollback nếu xóa thất bại
+                    _listGioHang.value = originalList
+                    _giohangUpdateResult.value = "Xóa sản phẩm thất bại: ${response.body()?.message ?: response.message()}"
                 }
             } catch (e: Exception) {
-                Log.e("GioHang", "Lỗi: ${e.message}")
+                Log.e("GioHang", "Exception khi xóa: ${e.message}")
+                e.printStackTrace()
+                // Rollback nếu có exception
+                _listGioHang.value = _listGioHang.value.filter { it.MaSanPham != maSanPham }
+                _giohangUpdateResult.value = "Lỗi khi xóa sản phẩm: ${e.message}"
             }
         }
     }

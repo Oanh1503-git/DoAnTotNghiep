@@ -58,7 +58,7 @@ interface GioHangAPIService {
         @Body gioHang: GioHang
     ): addtocartResponse
 
-    @DELETE("GioHang/delete_by_khachhang_sanpham.php")
+    @POST("GioHang/delete_by_khachhang_sanpham.php")
     suspend fun deleteSanPhamTrongGio(
         @Body request: DeleteGioHangRequest
     ): Response<DeleteGioHangResponse>

@@ -56,6 +56,7 @@ fun CartScreen(
     val cartItems by gioHangViewModel.listGioHang.collectAsState(initial = emptyList())
     val allProducts by sanPhamViewModel.danhSachAllSanPham.collectAsState(initial = emptyList())
     val loginState by savedStateHandle.getStateFlow("login_state", false).collectAsState()
+    val gioHangUpdateResult by gioHangViewModel.giohangUpdateResult.collectAsState()
     
     // Loading và error states
     var isLoading by remember { mutableStateOf(false) }
@@ -69,6 +70,7 @@ fun CartScreen(
         }
     }else emptyList()
     // Thêm log chi tiết
+    val selectedCount = validCartItems.count { selectedItems.contains(it.MaGioHang) }
     LaunchedEffect(taikhoan) {
         Log.d("CartScreen", "TaiKhoan State: ${taikhoan != null}")
         Log.d("CartScreen", "MaKhachHang: ${taikhoan?.MaKhachHang}")
@@ -356,7 +358,9 @@ fun CartScreen(
                                         onQuantityChange = { newQuantity ->
                                             isUpdating=true
                                             if (newQuantity <= 0) {
-                                                gioHangViewModel.deleteGioHang(gioHang.MaGioHang)
+                                                taikhoan?.MaKhachHang?.let { maKhachHang ->
+                                                    gioHangViewModel.deleteOnCartByID(maKhachHang, gioHang.MaSanPham)
+                                                }
                                                 selectedItems.remove(gioHang.MaGioHang)
                                             } else if (newQuantity <= sanPham.SoLuong) {
                                                 val updatedGioHang = gioHang.copy(SoLuong = newQuantity)
@@ -425,7 +429,7 @@ fun CartScreen(
                                     .height(56.dp),
                                 colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
                             ) {
-                                Text("Đặt Hàng ")
+                                Text("Đặt Hàng (${selectedCount}) ")
                             }
                         }
                     }
@@ -440,6 +444,28 @@ fun CartScreen(
             text = { Text(outOfStockMessage ?: "") },
             confirmButton = {
                 Button(onClick = { outOfStockMessage = null }) {
+                    Text("OK")
+                }
+            }
+        )
+    }
+    
+    // Hiển thị thông báo từ GioHangViewModel
+    if (gioHangUpdateResult.isNotEmpty()) {
+        LaunchedEffect(gioHangUpdateResult) {
+            if (gioHangUpdateResult.contains("thất bại") || gioHangUpdateResult.contains("Lỗi")) {
+                errorMessage = gioHangUpdateResult
+            }
+        }
+    }
+    
+    if (errorMessage != null) {
+        AlertDialog(
+            onDismissRequest = { errorMessage = null },
+            title = { Text("Lỗi") },
+            text = { Text(errorMessage ?: "") },
+            confirmButton = {
+                Button(onClick = { errorMessage = null }) {
                     Text("OK")
                 }
             }

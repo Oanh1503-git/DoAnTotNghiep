@@ -33,18 +33,21 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import coil.compose.AsyncImage
 import com.example.laptopstore.models.Screens
 import com.example.lapstore.viewmodels.HoaDonViewModel
 import com.example.laptopstore.viewmodels.DataStoreManager
-import coil.compose.AsyncImage
 import com.example.laptopstore.models.SanPham
 import com.example.laptopstore.viewmodels.SanPhamViewModel
 import com.example.laptopstore.viewmodels.ChiTietHoaDonViewmodel
 import com.example.lapstore.models.ChiTietHoaDon
+import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -67,6 +70,9 @@ fun OrderStatusScreen(
     val tabs = listOf("Chờ xác nhận", "Đang giao", "Đã giao", "Đã hủy")
     val selectedTab = remember { mutableStateOf(0) }
 
+    LaunchedEffect (customerId){
+        Log.d("OrderStatusScreen", "Danh sách đơn hàng trả về: ${customerId}")
+    }
     Log.d("listcm","$hoaDonList")
     if (hoaDonList.isEmpty()) {
         Text("Không có hóa đơn.")
@@ -76,6 +82,8 @@ fun OrderStatusScreen(
                 Text("Mã hóa đơn: ${hoaDon.MaHoaDon}")
             }
         }
+    }
+    LaunchedEffect (Unit){
     }
     LaunchedEffect(Unit) {
         Log.d("OrderStatusScreen", "Gọi API lấy đơn hàng với customerId=$customerId, tab=${selectedTab.value}")
@@ -155,28 +163,72 @@ fun OrderStatusScreen(
                             } else {
                                 chiTietList.forEach { ct ->
                                     val sp = sanPhamCache[ct.MaSanPham]
+                                    val isLoadingSanPham = loadingSanPham[ct.MaSanPham] ?: false
+                                    
                                     LaunchedEffect(ct.MaSanPham) {
-                                        if (sp == null) {
-                                            sanPhamViewModel.getSanPhamById(ct.MaSanPham.toString())
-                                            sanPhamViewModel.sanPham?.let { sanPhamCache[ct.MaSanPham] = it }
+                                        if (sp == null && !isLoadingSanPham) {
+                                            loadingSanPham[ct.MaSanPham] = true
+                                            try {
+                                                sanPhamViewModel.getSanPhamById(ct.MaSanPham.toString())
+                                                sanPhamViewModel.sanPham?.let { 
+                                                    sanPhamCache[ct.MaSanPham] = it
+                                                    Log.d("OrderStatusScreen", "Đã load sản phẩm: ${it.TenSanPham}, Hình ảnh: ${it.HinhAnh}")
+                                                }
+                                            } catch (e: Exception) {
+                                                Log.e("OrderStatusScreen", "Lỗi load sản phẩm ${ct.MaSanPham}: ${e.message}")
+                                                // Thử lại sau 2 giây nếu có lỗi
+                                                kotlinx.coroutines.delay(2000)
+                                                if (sanPhamCache[ct.MaSanPham] == null) {
+                                                    try {
+                                                        sanPhamViewModel.getSanPhamById(ct.MaSanPham.toString())
+                                                        sanPhamViewModel.sanPham?.let { 
+                                                            sanPhamCache[ct.MaSanPham] = it
+                                                            Log.d("OrderStatusScreen", "Đã load lại sản phẩm: ${it.TenSanPham}")
+                                                        }
+                                                    } catch (retryException: Exception) {
+                                                        Log.e("OrderStatusScreen", "Lỗi load lại sản phẩm ${ct.MaSanPham}: ${retryException.message}")
+                                                    }
+                                                }
+                                            } finally {
+                                                loadingSanPham[ct.MaSanPham] = false
+                                            }
                                         }
                                     }
+                                    
                                     val sanPham = sanPhamCache[ct.MaSanPham]
                                     Row(modifier = Modifier.padding(vertical = 4.dp)) {
-                                        if (sanPham != null) {
+                                        if (isLoadingSanPham) {
+                                            Text("Đang tải sản phẩm...")
+                                        } else if (sanPham != null && sanPham.HinhAnh.isNotEmpty()) {
                                             AsyncImage(
                                                 model = sanPham.HinhAnh,
                                                 contentDescription = sanPham.TenSanPham,
-                                                modifier = Modifier.size(60.dp)
+                                                modifier = Modifier.size(60.dp),
+                                                contentScale = ContentScale.Crop
                                             )
                                             Column(modifier = Modifier.padding(start = 8.dp)) {
                                                 Text(sanPham.TenSanPham, fontWeight = FontWeight.Medium)
-                                                Text("Giá: ${sanPham.Gia} VNĐ")
+                                                Text("Giá: ${sanPham.Gia / 1000}.000 VNĐ")
                                                 Text("Số lượng: ${ct.SoLuong}")
-                                                Text("Thành tiền: ${ct.ThanhTien} VNĐ")
+                                                Text("Thành tiền: ${ct.ThanhTien / 1000}.000 VNĐ")
+                                            }
+                                        } else if (sanPham != null) {
+                                            // Sản phẩm có thông tin nhưng không có hình ảnh
+                                            Column(modifier = Modifier.padding(start = 8.dp)) {
+                                                Text(sanPham.TenSanPham, fontWeight = FontWeight.Medium)
+                                                Text("Giá: ${sanPham.Gia / 1000}.000 VNĐ")
+                                                Text("Số lượng: ${ct.SoLuong}")
+                                                Text("Thành tiền: ${ct.ThanhTien / 1000}.000 VNĐ")
+                                                Text("Không có hình ảnh", color = Color.Gray, fontSize = 12.sp)
                                             }
                                         } else {
-                                            Text("Đang tải sản phẩm...")
+                                            // Không thể tải thông tin sản phẩm
+                                            Column(modifier = Modifier.padding(start = 8.dp)) {
+                                                Text("Sản phẩm #${ct.MaSanPham}", fontWeight = FontWeight.Medium)
+                                                Text("Số lượng: ${ct.SoLuong}")
+                                                Text("Thành tiền: ${ct.ThanhTien / 1000}.000 VNĐ")
+                                                Text("Không thể tải thông tin sản phẩm", color = Color.Red, fontSize = 12.sp)
+                                            }
                                         }
                                     }
                                 }

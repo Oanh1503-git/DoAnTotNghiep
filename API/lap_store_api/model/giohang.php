@@ -157,13 +157,71 @@ class giohang
         printf("Error %s.\n", $stmt->error);
         return false;
     }
- public function deleteByKhachHangAndSanPham() {
+public function deleteByKhachHangAndSanPham() {
     $query = "DELETE FROM giohang WHERE MaKhachHang = :MaKhachHang AND MaSanPham = :MaSanPham";
     $stmt = $this->conn->prepare($query);
+
+    $this->MaKhachHang = htmlspecialchars(strip_tags($this->MaKhachHang));
+    $this->MaSanPham = htmlspecialchars(strip_tags($this->MaSanPham));
+
+    error_log("Prepared query: $query");
+    error_log("Parameters: MaKhachHang = {$this->MaKhachHang}, MaSanPham = {$this->MaSanPham}");
+
     $stmt->bindParam(':MaKhachHang', $this->MaKhachHang);
     $stmt->bindParam(':MaSanPham', $this->MaSanPham);
-    return $stmt->execute();
+
+    try {
+        if ($stmt->execute()) {
+            $rowCount = $stmt->rowCount();
+            error_log("Execute successful. Rows affected: $rowCount");
+            
+            if ($rowCount > 0) {
+                error_log("Successfully deleted $rowCount record(s)");
+                return true; // Có bản ghi bị xóa
+            } else {
+                // Không có dòng nào bị xóa
+                error_log("No records found to delete with MaKhachHang = {$this->MaKhachHang} and MaSanPham = {$this->MaSanPham}");
+                return false;
+            }
+        } else {
+            $error = $stmt->errorInfo();
+            error_log("Execute failed. Error: " . $error[2]);
+            return false;
+        }
+    } catch (PDOException $e) {
+        error_log("PDO Exception: " . $e->getMessage());
+        return false;
+    } catch (Exception $e) {
+        error_log("General Exception: " . $e->getMessage());
+        return false;
+    }
 }
 
+public function checkSanPhamExistsInGioHang() {
+    $query = "SELECT COUNT(*) as count FROM giohang WHERE MaKhachHang = :MaKhachHang AND MaSanPham = :MaSanPham";
+    $stmt = $this->conn->prepare($query);
+
+    $this->MaKhachHang = htmlspecialchars(strip_tags($this->MaKhachHang));
+    $this->MaSanPham = htmlspecialchars(strip_tags($this->MaSanPham));
+
+    $stmt->bindParam(':MaKhachHang', $this->MaKhachHang);
+    $stmt->bindParam(':MaSanPham', $this->MaSanPham);
+
+    try {
+        if ($stmt->execute()) {
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            $count = $result['count'];
+            error_log("Found $count record(s) in cart for MaKhachHang = {$this->MaKhachHang} and MaSanPham = {$this->MaSanPham}");
+            return $count > 0;
+        } else {
+            $error = $stmt->errorInfo();
+            error_log("Check query failed. Error: " . $error[2]);
+            return false;
+        }
+    } catch (Exception $e) {
+        error_log("Exception in checkSanPhamExistsInGioHang: " . $e->getMessage());
+        return false;
+    }
+}
 
 }
