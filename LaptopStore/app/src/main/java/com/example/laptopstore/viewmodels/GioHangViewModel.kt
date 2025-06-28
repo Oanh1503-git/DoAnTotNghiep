@@ -1,5 +1,6 @@
 package com.example.laptopstore.viewmodels
 
+import DeleteGioHangRequest
 import DeleteRequest
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -71,6 +72,22 @@ class GioHangViewModel : ViewModel() {
                 getGioHangByKhachHang(gioHang.MaKhachHang)
                 _giohangUpdateResult.value = "Lỗi khi cập nhật giỏ hàng: ${e.message}"
                 Log.e("GioHangError", "Lỗi khi cập nhật giỏ hàng: ${e.message}")
+            }
+        }
+    }
+    fun deleteOnCartByID(maKhachHang: String, maSanPham: Int) {
+        viewModelScope.launch {
+            try {
+                val response = LaptopStoreRetrofitClient.giohangAPIService
+                    .deleteSanPhamTrongGio(DeleteGioHangRequest(maKhachHang, maSanPham))
+
+                if (response.isSuccessful && response.body()?.success == true) {
+                    Log.d("GioHang", "Xóa thành công: ${response.body()?.message}")
+                } else {
+                    Log.e("GioHang", "Xóa thất bại: ${response.body()?.message}")
+                }
+            } catch (e: Exception) {
+                Log.e("GioHang", "Lỗi: ${e.message}")
             }
         }
     }

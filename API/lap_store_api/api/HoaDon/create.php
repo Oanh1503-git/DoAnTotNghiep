@@ -30,10 +30,17 @@ $hoadon->TrangThai = $data->TrangThai;
 
 // Gọi hàm thêm mới hóa đơn bán
 if ($hoadon->addHoaDon()) {
-    // Nếu thêm thành công
-    echo json_encode(array('message', 'HoaDon create.'));
+    // Lấy mã hóa đơn vừa thêm (giả sử có hàm getMaxMaHoaDon)
+    $maHoaDonMoi = $hoadon->getMaxMaHoaDon();
+    echo json_encode(array(
+        'success' => true,
+        'message' => 'HoaDon create.',
+        'maHoaDon' => $maHoaDonMoi
+    ));
 } else {
-    // Nếu thêm thất bại
-    echo json_encode(array('message' , 'HoaDon not create'));
+    echo json_encode(array(
+        'success' => false,
+        'message' => 'HoaDon not create'
+    ));
 }
 ?>

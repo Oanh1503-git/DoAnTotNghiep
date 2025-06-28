@@ -126,6 +126,7 @@ fun Categories(navController: NavHostController,
             item {
                 ScreenSizeFilterSection(
                     selectedScreenSize = selectedScreenSize,
+                    sanPhamViewModel= sanPhamViewModel,
                     onScreenSizeSelected = { size ->
                         selectedScreenSize = size
                         applyFiltersAndNavigate(navController, selectedBrand, selectedPriceRange, selectedUsage, selectedChip, selectedScreenSize)                    }
@@ -284,7 +285,8 @@ fun UsageFilterSection(selectedUsage: String, onUsageSelected: (String) -> Unit)
 @Composable
 fun ChipFilterSection(selectedChip: String, sanPhamViewModel:SanPhamViewModel, onChipSelected: (String) -> Unit) {
     val chips = listOf("Intel Core i3", "Intel Core i5", "Intel Core i7", "AMD Ryzen 5", "AMD Ryzen 7", "Apple M1", "Apple M2")
-    sanPhamViewModel.getSanPhamSearch(selectedChip)
+    LaunchedEffect(selectedChip)
+    { sanPhamViewModel.getSanPhamSearch(selectedChip) }
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -312,9 +314,12 @@ fun ChipFilterSection(selectedChip: String, sanPhamViewModel:SanPhamViewModel, o
 }
 
 @Composable
-fun ScreenSizeFilterSection(selectedScreenSize: String, onScreenSizeSelected: (String) -> Unit) {
+fun ScreenSizeFilterSection(selectedScreenSize: String,sanPhamViewModel: SanPhamViewModel,onScreenSizeSelected: (String) -> Unit) {
     val screenSizes = listOf("13 inch", "14 inch", "15 inch", "16 inch", "17 inch")
 
+    LaunchedEffect(selectedScreenSize) {
+        sanPhamViewModel.getSanPhamSearch(selectedScreenSize)
+    }
     Column(
         modifier = Modifier
             .fillMaxWidth()

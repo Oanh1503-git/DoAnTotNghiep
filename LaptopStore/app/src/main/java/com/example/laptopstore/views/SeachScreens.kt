@@ -82,16 +82,15 @@ fun SeachSanphamScreen(navController: NavHostController,
 
     ){
         innerPadding->
-        val searchResults by sanPhamViewModel.danhSach.collectAsState(initial = emptyList())
+        val searchResultsState = sanPhamViewModel.danhSach.collectAsState(initial = null)
+        val searchResults=searchResultsState.value
         var productImages = remember { mutableStateListOf<HinhAnh>() }
         val isLoading = sanPhamViewModel.isLoading
         val errorMessage = sanPhamViewModel.errorMessage
         LaunchedEffect(Unit) {
             val response = hinhAnhViewModel.getAllHinhAnh()
             productImages.clear()
-            response.hinhanh?.let {
-                productImages.addAll(it)
-            }
+            productImages.addAll(response.hinhanh ?: emptyList())
 
         }
         LazyColumn (
@@ -111,7 +110,7 @@ fun SeachSanphamScreen(navController: NavHostController,
                     Text("Lỗi: $error", color = Color.Red, modifier = Modifier.padding(16.dp))
                 }
             }
-            if (searchResults.isEmpty() && !isLoading) {
+            if ((searchResults == null || searchResults.isEmpty()) && !isLoading) {
                 item {
                     Text(
                         text = "Không tìm thấy sản phẩm nào",
@@ -121,7 +120,7 @@ fun SeachSanphamScreen(navController: NavHostController,
                     )
                 }
             } else {
-                items(searchResults.chunked(2)) { productRow ->
+                items((searchResults?: emptyList()).chunked(2)) { productRow ->
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()

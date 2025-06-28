@@ -204,8 +204,8 @@ fun HOMEPAGE(navController: NavHostController,
                     }
                 }
             }
-            val displayProducts = if (isSearching) searchResults else products
-            if (displayProducts.isEmpty() && !sanPhamViewModel.isLoading) {
+            val displayProducts = if (isSearching) (searchResults ?: emptyList()) else products
+            if ((displayProducts.isEmpty() )&& !sanPhamViewModel.isLoading) {
                 item {
                     Text(
                         text = if (isSearching) "Không tìm thấy sản phẩm nào" else "Không có sản phẩm nào để hiển thị",

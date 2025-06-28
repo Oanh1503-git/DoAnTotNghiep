@@ -77,6 +77,22 @@ class SanPham
         // Giải phóng bộ nhớ
         unset($row);
     }
+public function getSanPhamByPriceRange($minPrice, $maxPrice)
+{
+    $query = "SELECT sp.*, ha.DuongDan
+              FROM sanpham sp
+              JOIN hinhanh ha ON sp.MaSanPham = ha.MaSanPham
+              WHERE ha.MacDinh = 1
+              AND sp.Gia BETWEEN :min AND :max
+              AND sp.TrangThai = 1";
+
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(':min', $minPrice, PDO::PARAM_INT);
+    $stmt->bindParam(':max', $maxPrice, PDO::PARAM_INT);
+    $stmt->execute();
+
+    return $stmt;
+}
 
     public function GetSanPhamBySearch($searchTerm)
     {

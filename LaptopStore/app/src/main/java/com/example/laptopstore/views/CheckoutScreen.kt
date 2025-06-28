@@ -355,6 +355,7 @@ fun CheckoutScreen(navController: NavHostController,
                                     - Thành tiền: ${cartItem.SoLuong * (cartItem.Gia ?: 0).toDouble() - (cartItem.GiamGia ?: 0).toDouble()}
                                     """.trimIndent())
 
+                                        Log.d("chitiethoadon", "Tạo hóa đơn thành công - Mã: $maHoaDonMoi")
                                         val success = chiTietHoaDonViewmodel.addHoaDonChiTiet(
                                             ChiTietHoaDon(
                                                 MaChiTietHoaDon = 0,
@@ -376,7 +377,11 @@ fun CheckoutScreen(navController: NavHostController,
                                         navController.navigate(Screens.ORDERSUCCESSSCREEN.route)
                                         cartItems.forEach { cartItem ->
                                             sanPhamViewModel.truSoLuongTrongKho(cartItem.MaSanPham, cartItem.SoLuong)
+                                            cartItem.MaGioHang?.let {
+                                                gioHangViewModel.deleteOnCartByID(maKhachHang,cartItem.MaSanPham)
+                                            }
                                         }
+
                                     } else {
                                         errorMessage = "Lỗi khi thêm chi tiết hóa đơn"
                                     }

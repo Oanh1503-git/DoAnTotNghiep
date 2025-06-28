@@ -276,25 +276,55 @@ fun LoginScreen(
                 }
 
                 Spacer(modifier = Modifier.height(50.dp))
-                Row {
-                    Text("Bạn đã quên mật khẩu ", fontSize = 15.sp, fontWeight = FontWeight.Bold)
-                    TextButton(onClick = {
-                        navController.navigate(Screens.VERIFYOTPSCREENFORGOTPASSWORD.route) // chuyển sang trang xác thực email
-                    }) {
-                        Text("lấy lại mật khẩu", fontSize = 15.sp, fontWeight = FontWeight.Bold, color = Color.Blue)
-                    }
-                }
-                Spacer(modifier = Modifier.height(50.dp))
 
-                Row {
-                    Text("Bạn chưa có tài khoản?", fontSize = 15.sp, fontWeight = FontWeight.Bold)
-                    TextButton(onClick = {
-                        navController.navigate(Screens.REGISTERSCREEN.route)
-                    }) {
-                        Text("Đăng ký ngay!", fontSize = 15.sp, fontWeight = FontWeight.Bold, color = Color.Blue)
+                    Row( modifier = Modifier
+                        .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically)
+                    {
+                        Text(
+                            "Bạn đã quên mật khẩu ",
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                        TextButton(onClick = {
+                            navController.navigate(Screens.VERIFYOTPSCREENFORGOTPASSWORD.route)
+                        }) {
+                            Text(
+                                "lấy lại mật khẩu",
+                                fontSize = 15.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.Blue
+                            )
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(50.dp))
+
+                    Row ( modifier = Modifier
+                        .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically){
+                        Text(
+                            "Bạn chưa có tài khoản?",
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                        TextButton(onClick = {
+                            navController.navigate(Screens.REGISTERSCREEN.route)
+                        }) {
+                            Text(
+                                "Đăng ký ngay!",
+                                fontSize = 15.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.Blue
+                            )
+                        }
                     }
                 }
-            }
+
+
+
             if (isLoading) {
                 Box(
                     modifier = Modifier.fillMaxSize(),

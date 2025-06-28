@@ -32,6 +32,7 @@ class SanPhamViewModel : ViewModel() {
     var danhSachSanPhamCuaKhachHang by mutableStateOf<List<SanPham>>(emptyList())
         private set
 
+
     private val _soLuongTonKhoState = MutableStateFlow<Int?>(null)
     val soLuongTonKhoState: StateFlow<Int?> get() = _soLuongTonKhoState
 
@@ -53,8 +54,8 @@ class SanPhamViewModel : ViewModel() {
     private val _danhSachAllSanPham = MutableStateFlow<List<SanPham>>(emptyList())
     val danhSachAllSanPham: StateFlow<List<SanPham>> get() = _danhSachAllSanPham
 
-    private val _danhSach = MutableStateFlow<List<SanPham>>(emptyList())
-    val danhSach: StateFlow<List<SanPham>> get() = _danhSach
+    private val _danhSach = MutableStateFlow<List<SanPham>?>(null)
+    val danhSach: StateFlow<List<SanPham>?> get() = _danhSach
 
     var isLoading by mutableStateOf(false)
         private set

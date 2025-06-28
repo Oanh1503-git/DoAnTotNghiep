@@ -103,13 +103,34 @@ fun RegisterScreen(
                         value = userInput.fullName,
                         onValueChange = { userInput = userInput.copy(fullName = it) }
                     )
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text("Giới tính: ")
-                        GenderRadioButton(
-                            selectedGender = userInput.gender,
-                            onGenderSelected = { userInput = userInput.copy(gender = it) }
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "Giới tính:",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            modifier = Modifier.padding(end = 16.dp)
                         )
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            RadioButton(
+                                selected = userInput.gender == "Nam",
+                                onClick = { userInput = userInput.copy(gender = "Nam") }
+                            )
+                            Text("Nam", modifier = Modifier.padding(end = 16.dp))
+                            RadioButton(
+                                selected = userInput.gender == "Nữ",
+                                onClick = { userInput = userInput.copy(gender = "Nữ") }
+                            )
+                            Text("Nữ")
+                        }
                     }
+
                     Spacer(Modifier.height(8.dp))
                     RegisterInputField(
                         label = "Ngày sinh (YYYY-MM-DD)",

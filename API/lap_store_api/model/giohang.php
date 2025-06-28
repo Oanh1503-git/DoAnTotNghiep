@@ -157,4 +157,13 @@ class giohang
         printf("Error %s.\n", $stmt->error);
         return false;
     }
+ public function deleteByKhachHangAndSanPham() {
+    $query = "DELETE FROM giohang WHERE MaKhachHang = :MaKhachHang AND MaSanPham = :MaSanPham";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(':MaKhachHang', $this->MaKhachHang);
+    $stmt->bindParam(':MaSanPham', $this->MaSanPham);
+    return $stmt->execute();
+}
+
+
 }

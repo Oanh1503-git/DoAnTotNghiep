@@ -1,6 +1,7 @@
 import com.example.laptopstore.models.GioHang
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
@@ -19,7 +20,14 @@ data class ApiResponse(
     val message: String
 )
 
-
+data class  DeleteGioHangRequest(
+    val MaKhachHang: String,
+    val MaSanPham: Int
+)
+data class DeleteGioHangResponse(
+    val success: Boolean,
+    val message: String
+)
 data class DeleteRequest(
     val MaGioHang: Int
 )
@@ -49,5 +57,10 @@ interface GioHangAPIService {
     suspend fun addToCart(
         @Body gioHang: GioHang
     ): addtocartResponse
+
+    @DELETE("GioHang/delete_by_khachhang_sanpham.php")
+    suspend fun deleteSanPhamTrongGio(
+        @Body request: DeleteGioHangRequest
+    ): Response<DeleteGioHangResponse>
 
 }
