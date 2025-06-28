@@ -12,6 +12,8 @@ import com.example.laptopstore.api.KhachHangAPIService
 import com.example.laptopstore.api.OtpAPIService
 import com.example.laptopstore.api.SanPhamYeuThichAPIService
 import com.google.gson.GsonBuilder
+import com.google.gson.JsonParser
+import com.google.gson.Strictness
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -21,9 +23,13 @@ object Constants {
 
 object LaptopStoreRetrofitClient {
 
+    private val gson = GsonBuilder()
+        .setLenient()
+        .create()
+
     private val retrofit: Retrofit = Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
 
 

@@ -71,14 +71,19 @@ class SanPhamYeuThichViewModel : ViewModel() {
 
     fun getFavoritesByKhachHang(customerId: String) {
         _isLoading.value = true
+        _errorMessage.value = null
         viewModelScope.launch {
             try {
+                Log.d("SanPhamYeuThichViewModel", "Loading favorites for customer: $customerId")
                 val response = LaptopStoreRetrofitClient.sanPhamYeuThichAPIService.getFavoritesByKhachHang(customerId)
                 _showfavorites.value = response.hiensanphamyeuthich
-                Log.d("SanPhamYeuThichViewModel", "Favorites loaded: ${response.hiensanphamyeuthich.size}")
+                Log.d("SanPhamYeuThichViewModel", "Favorites loaded successfully: ${response.hiensanphamyeuthich.size} items")
             } catch (e: Exception) {
+                Log.e("SanPhamYeuThichViewModel", "Error loading favorites: ${e.message}", e)
                 _errorMessage.value = "Lỗi tải danh sách yêu thích: ${e.message}"
-                Log.e("SanPhamYeuThichViewModel", "Error loading favorites: ${e.message}")
+                _showfavorites.value = emptyList()
+            } finally {
+                _isLoading.value = false
             }
         }
     }

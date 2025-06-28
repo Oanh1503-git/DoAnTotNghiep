@@ -8,14 +8,12 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
 
-
 data class HienSanPhamYeuThichResponse(
     val hiensanphamyeuthich: List<HienSanPhamYeuThich>
 )
 data class CheckFavoriteResponse(
     val isFavorite: Boolean
 )
-
 
 interface SanPhamYeuThichAPIService {
     @GET("SanPhamYeuThich/check.php")

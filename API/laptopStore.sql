@@ -266,7 +266,8 @@ INSERT INTO `khachhang` (`MaKhachHang`, `HoTen`, `GioiTinh`, `NgaySinh`, `Email`
 (12, 'Hoàng Thị Kim', 'Nữ', '1991-04-18', 'kimhoang@gmail.com', '0967890123'),
 (13, 'Nguyễn Văn Tài', 'Nam', '1987-09-25', 'tai.nguyen@gmail.com', '0978901234'),
 (14, 'Trịnh Mỹ Duyên', 'Nữ', '1993-03-09', 'myduyen.trinh@gmail.com', '0989012345'),
-(15, 'Lâm Quốc Bảo', 'Nam', '1999-12-05', 'baolam@gmail.com', '0990123456');
+(15, 'Lâm Quốc Bảo', 'Nam', '1999-12-05', 'baolam@gmail.com', '0990123456'),
+('KH014', 'Test User KH014', 'Nam', '1990-01-01', 'test@example.com', '0123456789');
 
 --
 -- Đang đổ dữ liệu cho bảng `loaisanpham`
@@ -428,7 +429,10 @@ INSERT INTO `Sanphamyeuthich` (`id`, `MaSanPham`, `MaKhachHang`) VALUES
 (7, 7, 1),
 (8, 8, 3),
 (9, 9, 3),
-(10, 10, 3);
+(10, 10, 3),
+(11, 1, 'KH014'),
+(12, 2, 'KH014'),
+(13, 3, 'KH014');
 
 --
 -- Đang đổ dữ liệu cho bảng `taikhoan`
