@@ -186,6 +186,17 @@ class HoaDon
             return null;
         }
     }
+        public function updateTrangThai() {
+    $query = "UPDATE hoadon SET TrangThai = :TrangThai WHERE MaHoaDon = :MaHoaDon";
+    $stmt = $this->conn->prepare($query);
+
+    // Bind data
+    $stmt->bindParam(":TrangThai", $this->TrangThai);
+    $stmt->bindParam(":MaHoaDon", $this->MaHoaDon);
+
+    return $stmt->execute();
+}
+
     public function getDonHangDayDuTheoKhachHang($MaKhachHang)
 {
     try {
