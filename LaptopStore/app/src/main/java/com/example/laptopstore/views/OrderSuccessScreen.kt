@@ -12,17 +12,25 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.laptopstore.models.Screens
+import com.example.laptopstore.viewmodels.DataStoreManager
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OrderSuccessScreen(navController: NavHostController) {
+    val context = LocalContext.current
+    val dataStoreManager = remember { DataStoreManager(context) }
+    val customerId by dataStoreManager.customerId.collectAsState(initial = null)
     Scaffold(
         topBar = {
             TopAppBar(title = { Text("Đặt hàng thành công") })
@@ -54,7 +62,7 @@ fun OrderSuccessScreen(navController: NavHostController) {
                 Spacer(modifier = Modifier.height(10.dp))
 
                 Button(onClick = {
-                    navController.navigate(Screens.ORDERSTATUSSCREEN.route) // bạn đổi theo route của bạn
+                    navController.navigate("ORDERSTATUSSCREEN/${customerId}") // bạn đổi theo route của bạn
                 }) {
                     Text("Xem đơn hàng")
                 }

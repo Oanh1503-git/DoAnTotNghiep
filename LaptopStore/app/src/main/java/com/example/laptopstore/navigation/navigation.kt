@@ -20,6 +20,7 @@ import com.example.lapstore.viewmodels.DiaChiViewmodel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.lapstore.viewmodels.HoaDonViewModel
 import com.example.laptopstore.AddressScreen
+import com.example.laptopstore.screens.OrderStatusScreen
 import com.example.laptopstore.viewmodels.ChiTietHoaDonViewmodel
 
 import com.example.laptopstore.viewmodels.GioHangViewModel
@@ -38,7 +39,7 @@ fun NavigationGraph(
     gioHangViewModel: GioHangViewModel,
     sanPhamYeuThichViewModel: SanPhamYeuThichViewModel = viewModel(),
     otpViewModel: OTPViewModel,
-    hoaDonBanVỉewModel: HoaDonViewModel,
+    hoaDonBanViewModel: HoaDonViewModel,
     chiTietHoaDonViewmodel: ChiTietHoaDonViewmodel
 ){
     NavHost(
@@ -150,7 +151,7 @@ fun NavigationGraph(
                 taiKhoanViewModel = taiKhoanViewModel,
                 khachHangViewModels = khachHangViewModel,
                 diaChiViewmodel = diaChiViewModel,
-                hoaDonBanViewModel = hoaDonBanVỉewModel,
+                hoaDonBanViewModel = hoaDonBanViewModel,
                 chiTietHoaDonViewmodel = chiTietHoaDonViewmodel,
                 sanPhamViewModel = sanphamViewModel,
                 gioHangViewModel = gioHangViewModel
@@ -179,7 +180,7 @@ fun NavigationGraph(
                     taiKhoanViewModel = taiKhoanViewModel,
                     khachHangViewModels = khachHangViewModel,
                     diaChiViewmodel = diaChiViewModel,
-                    hoaDonBanViewModel = hoaDonBanVỉewModel,
+                    hoaDonBanViewModel = hoaDonBanViewModel,
                     chiTietHoaDonViewmodel = chiTietHoaDonViewmodel,
                     sanPhamViewModel = sanphamViewModel,
                     gioHangViewModel = gioHangViewModel
@@ -215,8 +216,17 @@ fun NavigationGraph(
         composable(Screens.ORDERSUCCESSSCREEN.route) {
             OrderSuccessScreen(navHostController)
         }
-        composable(Screens.ORDERSTATUSSCREEN.route) {
-            OrderStatusScreen(navHostController,hoaDonBanVỉewModel,sanphamViewModel,chiTietHoaDonViewmodel)
+        composable(
+            route = Screens.ORDERSTATUSSCREEN.route,
+            arguments = listOf(navArgument("maKhachHang") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val maKhachHang = backStackEntry.arguments?.getString("maKhachHang") ?: ""
+
+            OrderStatusScreen(
+                viewModel = hoaDonBanViewModel,
+                maKhachHang = maKhachHang,
+                navController = navHostController
+            )
         }
         composable(
             "SEACHSCREENS?searchQuery={searchQuery}&brand={brand}&price={price}&usage={usage}&chip={chip}&screen={screen}",
@@ -231,6 +241,15 @@ fun NavigationGraph(
         ) { backStackEntry ->
             SeachSanphamScreen(navHostController,sanphamViewModel,hinhAnhViewModel,gioHangViewModel)
         }
+        composable(Screens.ORDERDELIVEREDSCREEN.route) { backStackEntry ->
+            val maKhachHang = backStackEntry.arguments?.getString("maKhachHang") ?: ""
+            OrderDeliveredScreen(
+                viewModel = hoaDonBanViewModel,
+                maKhachHang = maKhachHang,
+                navController = navHostController
+            )
+        }
+
 
 
     }

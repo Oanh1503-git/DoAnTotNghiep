@@ -272,7 +272,8 @@ fun AccountScreens(
                     AccountItem(
                         icon = Icons.Default.Receipt,
                         text = "Đơn Hàng Mua",
-                        onClick = { navHostController.navigate(Screens.HOMEPAGE.route) }
+                        onClick = { navHostController.navigate("ORDERDELIVEREDSCREEN/{maKhachHang}")
+                        }
                     )
                 }
             }

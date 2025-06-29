@@ -10,7 +10,8 @@ data class UpdateResponse(
 )
 
 data class ApiResponse(
-    val message: String
+    val message: String,
+    val success: Boolean
 )
 
 data class SuccessResponse(

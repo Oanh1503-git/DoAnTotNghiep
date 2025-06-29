@@ -1,6 +1,8 @@
 package com.example.lapstore.viewmodels
 
+import DonHangDayDuResponse
 import HoaDonDeleteRequest
+import HoaDonUpdateTrangThaiRequest
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -37,6 +39,11 @@ class HoaDonViewModel: ViewModel() {
 
     var HoaDonBan by mutableStateOf<HoaDon?>(null)
         private set
+    private val _donHangDayDu = MutableStateFlow<List<DonHangDayDuResponse>>(emptyList())
+    val donHangDayDu: StateFlow<List<DonHangDayDuResponse>> = _donHangDayDu
+
+    private val _error = MutableStateFlow<String?>(null)
+    val error: StateFlow<String?> = _error
 
     // Lấy hóa đơn theo khách hàng
     fun getHoaDonTheoKhachHang(MaKhachHang: String, TrangThai: Int) {
@@ -66,6 +73,38 @@ class HoaDonViewModel: ViewModel() {
             }
         }
     }
+    fun updateTrangThai(maHoaDon: Int, trangThai: Int) {
+        viewModelScope.launch {
+            try {
+                val request = HoaDonUpdateTrangThaiRequest(maHoaDon, trangThai)
+                val response = LaptopStoreRetrofitClient.hoaDonAPIService.updateTrangThai(request)
+                if (response.success) {
+                    // Reload dữ liệu
+                    _danhSachHoaDonCuaKhachHang.value = _danhSachHoaDonCuaKhachHang.value.map {
+                        if (it.MaHoaDon == maHoaDon) it.copy(TrangThai = trangThai) else it
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("HoaDonViewModel", "Lỗi update trạng thái: ${e.message}")
+            }
+        }
+    }
+
+    fun getDonHangDayDu(maKhachHang: String) {
+        viewModelScope.launch {
+            try {
+                val response = LaptopStoreRetrofitClient.hoaDonAPIService.getDonHangDayDuTheoKhachHang(maKhachHang)
+                if (response.isSuccessful && response.body() != null) {
+                    _donHangDayDu.value = response.body()!!
+                } else {
+                    _error.value = response.message()
+                }
+            } catch (e: Exception) {
+                _error.value = "Lỗi: ${e.message}"
+            }
+        }
+    }
+
     fun resetTrangThai() {
         _addHoaDonMessage.value = null
         _maHoaDonState.value = null

@@ -26,7 +26,11 @@ sealed class Screens(val route: String) {
         fun createRoute(username: String): String = "RESETPASSWORDSCREEN/$username"
     }
     object ORDERSUCCESSSCREEN:Screens("ORDERSUCCESSSCREEN")
-    object ORDERSTATUSSCREEN:Screens("ORDERSTATUSSCREEN")
+    object ORDERSTATUSSCREEN:Screens("ORDERSTATUSSCREEN/{maKhachHang}")
     object SEACHSCREENS:Screens("SEACHSCREENS")
+    object ORDERDELIVEREDSCREEN : Screens("ORDERDELIVEREDSCREEN/{maKhachHang}") {
+        fun createRoute(maKhachHang: String): String = "ORDERDELIVEREDSCREEN/$maKhachHang"
+    }
+
 
 }

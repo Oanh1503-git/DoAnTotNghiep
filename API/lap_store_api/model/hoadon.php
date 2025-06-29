@@ -186,6 +186,34 @@ class HoaDon
             return null;
         }
     }
+    public function getDonHangDayDuTheoKhachHang($MaKhachHang)
+{
+    try {
+        $query = "
+            SELECT 
+                hd.MaHoaDon, hd.NgayDatHang, hd.TongTien, hd.TrangThai, hd.PhuongThucThanhToan,
+                sp.TenSanPham, sp.Gia, cthd.SoLuong, cthd.ThanhTien,
+                ha.DuongDan AS HinhAnh
+            FROM hoadon hd
+            JOIN chitiethoadon cthd ON hd.MaHoaDon = cthd.MaHoaDon
+            JOIN sanpham sp ON cthd.MaSanPham = sp.MaSanPham
+            LEFT JOIN hinhanh ha ON sp.MaSanPham = ha.MaSanPham AND ha.MacDinh = 1
+            WHERE hd.MaKhachHang = :MaKhachHang
+            ORDER BY hd.MaHoaDon DESC
+        ";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':MaKhachHang', $MaKhachHang);
+        $stmt->execute();
+
+        return $stmt;
+
+    } catch (PDOException $e) {
+        error_log("Lỗi khi lấy đơn hàng đầy đủ: " . $e->getMessage());
+        return null;
+    }
+}
+
     
 
 

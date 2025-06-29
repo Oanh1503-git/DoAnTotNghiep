@@ -30,6 +30,27 @@ data class MaHoaDonResponse(
 data class HoaDonDeleteRequest(
     val MaHoaDon: Int
 )
+data class DonHangDayDuResponse(
+    val MaHoaDon: Int,
+    val NgayDatHang: String,
+    val TongTien: Int,
+    val TrangThai: String,
+    val PhuongThucThanhToan: String,
+    val SanPham: List<SanPhamDonHang>
+)
+
+data class SanPhamDonHang(
+    val TenSanPham: String,
+    val Gia: Int,
+    val SoLuong: Int,
+    val ThanhTien: Int,
+    val HinhAnh: String?
+)
+data class HoaDonUpdateTrangThaiRequest(
+    val MaHoaDon: Int,
+    val TrangThai: Int
+)
+
 interface HoaDonAPIService{
     @POST("HoaDon/create.php")
     suspend fun addHoaDon(@Body hoaDon: HoaDon): AddHoaDonResponse
@@ -60,5 +81,15 @@ interface HoaDonAPIService{
     suspend fun getHoaDonTheoTrangThai(
         @Query("TrangThai") TrangThai: Int
     ): HoaDonResponse
+
+    @GET("HoaDon/get_donhang_daydu.php")
+    suspend fun getDonHangDayDuTheoKhachHang(
+        @Query("MaKhachHang") maKhachHang: String
+    ): Response<List<DonHangDayDuResponse>>
+
+    @PUT("HoaDon/updatetrangthai.php")
+    suspend fun updateTrangThai(
+        @Body request: HoaDonUpdateTrangThaiRequest
+    ): ApiResponse
 
 }

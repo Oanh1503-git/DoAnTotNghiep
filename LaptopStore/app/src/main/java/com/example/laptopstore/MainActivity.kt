@@ -45,7 +45,7 @@ class MainActivity : ComponentActivity() {
                 val diaChiViewmodel:DiaChiViewmodel= viewModel()
                 val gioHangViewModel:GioHangViewModel= viewModel()
                 val otpViewModel:OTPViewModel= viewModel()
-                val hoaDonBanVỉewModel:HoaDonViewModel= viewModel()
+                val hoaDonBanViewModel:HoaDonViewModel= viewModel()
                 val chiTietHoaDonViewmodel: ChiTietHoaDonViewmodel= viewModel()
                 NavigationGraph(
                     navHostController = navController,
@@ -56,7 +56,7 @@ class MainActivity : ComponentActivity() {
                     diaChiViewModel = diaChiViewmodel,
                     gioHangViewModel=gioHangViewModel,
                     otpViewModel = otpViewModel,
-                    hoaDonBanVỉewModel = hoaDonBanVỉewModel,
+                    hoaDonBanViewModel = hoaDonBanViewModel,
                     chiTietHoaDonViewmodel = chiTietHoaDonViewmodel
                 )
             }
