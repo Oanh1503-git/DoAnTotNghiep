@@ -1,106 +1,194 @@
 [
     {
-        "merged": "com.example.laptopstore.app-debug-64:/drawable_ic_launcher_foreground.xml.flat",
-        "source": "com.example.laptopstore.app-main-66:/drawable/ic_launcher_foreground.xml"
+        "merged": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-debug-64:\\mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-main-66:\\mipmap-hdpi\\ic_launcher.webp"
     },
     {
-        "merged": "com.example.laptopstore.app-debug-64:/mipmap-xhdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.laptopstore.app-main-66:/mipmap-xhdpi/ic_launcher_round.webp"
+        "merged": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-debug-64:\\mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-main-66:\\mipmap-xxhdpi\\ic_launcher.webp"
     },
     {
-        "merged": "com.example.laptopstore.app-debug-64:/drawable_lenovo.png.flat",
-        "source": "com.example.laptopstore.app-main-66:/drawable/lenovo.png"
+        "merged": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-debug-64:\\drawable_acer.png.flat",
+        "source": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-main-66:\\drawable\\acer.png"
     },
     {
-        "merged": "com.example.laptopstore.app-debug-64:/drawable_msi.png.flat",
-        "source": "com.example.laptopstore.app-main-66:/drawable/msi.png"
-    },
-    {
-        "merged": "com.example.laptopstore.app-debug-64:/drawable_ap.png.flat",
-        "source": "com.example.laptopstore.app-main-66:/drawable/ap.png"
+        "merged": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-debug-64:\\mipmap-anydpi_ic_launcher_round.xml.flat",
+        "source": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-main-66:\\mipmap-anydpi\\ic_launcher_round.xml"
     },
     {
         "merged": "com.example.laptopstore.app-debug-64:/mipmap-hdpi_ic_launcher.webp.flat",
         "source": "com.example.laptopstore.app-main-66:/mipmap-hdpi/ic_launcher.webp"
     },
     {
-        "merged": "com.example.laptopstore.app-debug-64:/drawable_anh2.jpg.flat",
-        "source": "com.example.laptopstore.app-main-66:/drawable/anh2.jpg"
-    },
-    {
         "merged": "com.example.laptopstore.app-debug-64:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
         "source": "com.example.laptopstore.app-main-66:/mipmap-xxhdpi/ic_launcher_round.webp"
     },
     {
-        "merged": "com.example.laptopstore.app-debug-64:/mipmap-anydpi_ic_launcher.xml.flat",
-        "source": "com.example.laptopstore.app-main-66:/mipmap-anydpi/ic_launcher.xml"
+        "merged": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-debug-64:\\mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-main-66:\\mipmap-mdpi\\ic_launcher_round.webp"
     },
     {
-        "merged": "com.example.laptopstore.app-debug-64:/drawable_ic_launcher_background.xml.flat",
-        "source": "com.example.laptopstore.app-main-66:/drawable/ic_launcher_background.xml"
-    },
-    {
-        "merged": "com.example.laptopstore.app-debug-64:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.laptopstore.app-main-66:/mipmap-xxxhdpi/ic_launcher_round.webp"
+        "merged": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-debug-64:\\drawable_ap.png.flat",
+        "source": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-main-66:\\drawable\\ap.png"
     },
     {
         "merged": "com.example.laptopstore.app-debug-64:/mipmap-xxhdpi_ic_launcher.webp.flat",
         "source": "com.example.laptopstore.app-main-66:/mipmap-xxhdpi/ic_launcher.webp"
     },
     {
+        "merged": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-debug-64:\\drawable_ic_launcher_background.xml.flat",
+        "source": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-main-66:\\drawable\\ic_launcher_background.xml"
+    },
+    {
         "merged": "com.example.laptopstore.app-debug-64:/mipmap-mdpi_ic_launcher_round.webp.flat",
         "source": "com.example.laptopstore.app-main-66:/mipmap-mdpi/ic_launcher_round.webp"
     },
     {
-        "merged": "com.example.laptopstore.app-debug-64:/drawable_acer.png.flat",
-        "source": "com.example.laptopstore.app-main-66:/drawable/acer.png"
+        "merged": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-debug-64:\\mipmap-mdpi_ic_launcher_foreground.webp.flat",
+        "source": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-main-66:\\mipmap-mdpi\\ic_launcher_foreground.webp"
     },
     {
-        "merged": "com.example.laptopstore.app-debug-64:/mipmap-hdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.laptopstore.app-main-66:/mipmap-hdpi/ic_launcher_round.webp"
+        "merged": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-debug-64:\\drawable_anh2.jpg.flat",
+        "source": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-main-66:\\drawable\\anh2.jpg"
     },
     {
-        "merged": "com.example.laptopstore.app-debug-64:/drawable_hp.png.flat",
-        "source": "com.example.laptopstore.app-main-66:/drawable/hp.png"
+        "merged": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-debug-64:\\mipmap-anydpi_ic_launcher.xml.flat",
+        "source": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-main-66:\\mipmap-anydpi\\ic_launcher.xml"
     },
     {
-        "merged": "com.example.laptopstore.app-debug-64:/xml_backup_rules.xml.flat",
-        "source": "com.example.laptopstore.app-main-66:/xml/backup_rules.xml"
+        "merged": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-debug-64:\\mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-main-66:\\mipmap-xhdpi\\ic_launcher_round.webp"
     },
     {
-        "merged": "com.example.laptopstore.app-debug-64:/drawable_anh1.jpg.flat",
-        "source": "com.example.laptopstore.app-main-66:/drawable/anh1.jpg"
+        "merged": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-debug-64:\\mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-main-66:\\mipmap-anydpi-v26\\ic_launcher.xml"
     },
     {
-        "merged": "com.example.laptopstore.app-debug-64:/drawable_anh3.jpg.flat",
-        "source": "com.example.laptopstore.app-main-66:/drawable/anh3.jpg"
-    },
-    {
-        "merged": "com.example.laptopstore.app-debug-64:/drawable_asus.png.flat",
-        "source": "com.example.laptopstore.app-main-66:/drawable/asus.png"
-    },
-    {
-        "merged": "com.example.laptopstore.app-debug-64:/mipmap-anydpi_ic_launcher_round.xml.flat",
-        "source": "com.example.laptopstore.app-main-66:/mipmap-anydpi/ic_launcher_round.xml"
+        "merged": "com.example.laptopstore.app-debug-64:/mipmap-mdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.example.laptopstore.app-main-66:/mipmap-mdpi/ic_launcher_foreground.webp"
     },
     {
         "merged": "com.example.laptopstore.app-debug-64:/mipmap-xhdpi_ic_launcher.webp.flat",
         "source": "com.example.laptopstore.app-main-66:/mipmap-xhdpi/ic_launcher.webp"
     },
     {
-        "merged": "com.example.laptopstore.app-debug-64:/drawable_dell.png.flat",
-        "source": "com.example.laptopstore.app-main-66:/drawable/dell.png"
+        "merged": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-debug-64:\\mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-main-66:\\mipmap-xxxhdpi\\ic_launcher_round.webp"
     },
     {
         "merged": "com.example.laptopstore.app-debug-64:/mipmap-mdpi_ic_launcher.webp.flat",
         "source": "com.example.laptopstore.app-main-66:/mipmap-mdpi/ic_launcher.webp"
     },
     {
+        "merged": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-debug-64:\\drawable_asus.png.flat",
+        "source": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-main-66:\\drawable\\asus.png"
+    },
+    {
+        "merged": "com.example.laptopstore.app-debug-64:/mipmap-xhdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.example.laptopstore.app-main-66:/mipmap-xhdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-debug-64:\\drawable_anh3.jpg.flat",
+        "source": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-main-66:\\drawable\\anh3.jpg"
+    },
+    {
+        "merged": "com.example.laptopstore.app-debug-64:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.laptopstore.app-main-66:/mipmap-xhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-debug-64:\\xml_backup_rules.xml.flat",
+        "source": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-main-66:\\xml\\backup_rules.xml"
+    },
+    {
+        "merged": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-debug-64:\\mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-main-66:\\mipmap-hdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.laptopstore.app-debug-64:/mipmap-xxxhdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.example.laptopstore.app-main-66:/mipmap-xxxhdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-debug-64:\\xml_data_extraction_rules.xml.flat",
+        "source": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-main-66:\\xml\\data_extraction_rules.xml"
+    },
+    {
+        "merged": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-debug-64:\\mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-main-66:\\mipmap-mdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.laptopstore.app-debug-64:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.laptopstore.app-main-66:/mipmap-xxxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-debug-64:\\drawable_lenovo.png.flat",
+        "source": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-main-66:\\drawable\\lenovo.png"
+    },
+    {
+        "merged": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-debug-64:\\drawable_dell.png.flat",
+        "source": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-main-66:\\drawable\\dell.png"
+    },
+    {
+        "merged": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-debug-64:\\drawable_ic_launcher_foreground.xml.flat",
+        "source": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-main-66:\\drawable\\ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-debug-64:\\mipmap-xxhdpi_ic_launcher_foreground.webp.flat",
+        "source": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-main-66:\\mipmap-xxhdpi\\ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "com.example.laptopstore.app-debug-64:/mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.laptopstore.app-main-66:/mipmap-hdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-debug-64:\\mipmap-hdpi_ic_launcher_foreground.webp.flat",
+        "source": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-main-66:\\mipmap-hdpi\\ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-debug-64:\\mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-main-66:\\mipmap-xxxhdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-debug-64:\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-main-66:\\mipmap-anydpi-v26\\ic_launcher_round.xml"
+    },
+    {
+        "merged": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-debug-64:\\mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-main-66:\\mipmap-xxhdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-debug-64:\\mipmap-xhdpi_ic_launcher_foreground.webp.flat",
+        "source": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-main-66:\\mipmap-xhdpi\\ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-debug-64:\\mipmap-xxxhdpi_ic_launcher_foreground.webp.flat",
+        "source": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-main-66:\\mipmap-xxxhdpi\\ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-debug-64:\\drawable_msi.png.flat",
+        "source": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-main-66:\\drawable\\msi.png"
+    },
+    {
+        "merged": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-debug-64:\\drawable_hp.png.flat",
+        "source": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-main-66:\\drawable\\hp.png"
+    },
+    {
         "merged": "com.example.laptopstore.app-debug-64:/mipmap-xxxhdpi_ic_launcher.webp.flat",
         "source": "com.example.laptopstore.app-main-66:/mipmap-xxxhdpi/ic_launcher.webp"
     },
     {
-        "merged": "com.example.laptopstore.app-debug-64:/xml_data_extraction_rules.xml.flat",
-        "source": "com.example.laptopstore.app-main-66:/xml/data_extraction_rules.xml"
+        "merged": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-debug-64:\\drawable_anh1.jpg.flat",
+        "source": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-main-66:\\drawable\\anh1.jpg"
+    },
+    {
+        "merged": "com.example.laptopstore.app-debug-64:/mipmap-hdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.example.laptopstore.app-main-66:/mipmap-hdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-debug-64:\\mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\MSI\\.gradle\\daemon\\8.10.2\\com.example.laptopstore.app-main-66:\\mipmap-xhdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.laptopstore.app-debug-64:/mipmap-xxhdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.example.laptopstore.app-main-66:/mipmap-xxhdpi/ic_launcher_foreground.webp"
     }
 ]

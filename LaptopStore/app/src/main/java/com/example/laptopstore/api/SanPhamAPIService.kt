@@ -76,6 +76,7 @@ interface SanPhamAPIService{
         @Query("MaHoaDonBan") MaHoaDonBan: Int
     ): SanPhamResponse
 
+
     @PUT("SanPham/update.php")
     suspend fun updateSanPham(
         @Body sanpham: SanPham

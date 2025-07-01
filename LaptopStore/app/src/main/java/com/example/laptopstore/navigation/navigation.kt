@@ -217,14 +217,14 @@ fun NavigationGraph(
             OrderSuccessScreen(navHostController)
         }
         composable(
-            route = Screens.ORDERSTATUSSCREEN.route,
-            arguments = listOf(navArgument("maKhachHang") { type = NavType.StringType })
-        ) { backStackEntry ->
-            val maKhachHang = backStackEntry.arguments?.getString("maKhachHang") ?: ""
+            route = Screens.ORDERSTATUSSCREEN.route
+
+        ) {
 
             OrderStatusScreen(
                 viewModel = hoaDonBanViewModel,
-                maKhachHang = maKhachHang,
+                sanPhamViewModel = sanphamViewModel,
+                chiTietHoaDonViewmodel,
                 navController = navHostController
             )
         }
@@ -241,11 +241,13 @@ fun NavigationGraph(
         ) { backStackEntry ->
             SeachSanphamScreen(navHostController,sanphamViewModel,hinhAnhViewModel,gioHangViewModel)
         }
-        composable(Screens.ORDERDELIVEREDSCREEN.route) { backStackEntry ->
-            val maKhachHang = backStackEntry.arguments?.getString("maKhachHang") ?: ""
+        composable(
+            route = Screens.ORDERDELIVEREDSCREEN.route
+        ) {
             OrderDeliveredScreen(
                 viewModel = hoaDonBanViewModel,
-                maKhachHang = maKhachHang,
+                sanPhamViewModel = sanphamViewModel,
+                chiTietHoaDonViewmodel,
                 navController = navHostController
             )
         }

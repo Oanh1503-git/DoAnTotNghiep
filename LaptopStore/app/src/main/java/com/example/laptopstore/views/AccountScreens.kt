@@ -43,6 +43,7 @@ fun AccountScreens(
     val dataStoreManager = remember { DataStoreManager(context) }
     val customerId by dataStoreManager.customerId.collectAsState(initial = null)
     val maKhachHang = customerId
+
     LaunchedEffect(tenTaiKhoan) {
         Log.d("AccountScreen", "Tên tài khoản hiện tại: $tenTaiKhoan")
     }
@@ -267,14 +268,16 @@ fun AccountScreens(
                         onClick = { navHostController.navigate(Screens.ORDERSTATUSSCREEN.route) }
                     )
                 }
-
-                item {
-                    AccountItem(
-                        icon = Icons.Default.Receipt,
-                        text = "Đơn Hàng Mua",
-                        onClick = { navHostController.navigate("ORDERDELIVEREDSCREEN/{maKhachHang}")
-                        }
-                    )
+                if (!maKhachHang.isNullOrEmpty()) {
+                    item {
+                        AccountItem(
+                            icon = Icons.Default.Receipt,
+                            text = "Đơn Hàng Mua",
+                            onClick = {
+                                navHostController.navigate(Screens.ORDERDELIVEREDSCREEN.createRoute(maKhachHang))
+                            }
+                        )
+                    }
                 }
             }
         }

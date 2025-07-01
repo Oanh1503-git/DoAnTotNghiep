@@ -56,7 +56,7 @@ class SanPhamYeuThich {
     }
 
     public function readByKhachHang($MaKhachHang) {
-        $query = "SELECT sp.*, s.TenSanPham, s.Gia, h.DuongDan AS HinhAnh FROM sanphamyeuthich sp JOIN sanpham s ON sp.MaSanPham = s.MaSanPham LEFT JOIN hinhanh h ON s.MaSanPham = h.MaSanPham AND h.MacDinh = 1 WHERE sp.MaKhachHang = ? ORDER BY sp.id DESC";
+        $query = "SELECT sp.*, s.TenSanPham, s.Gia, h.DuongDan AS HinhAnh FROM Sanphamyeuthich sp JOIN sanpham s ON sp.MaSanPham = s.MaSanPham LEFT JOIN hinhanh h ON s.MaSanPham = h.MaSanPham AND h.MacDinh = 1 WHERE sp.MaKhachHang = ? ORDER BY sp.id DESC";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $MaKhachHang);
         $stmt->execute();

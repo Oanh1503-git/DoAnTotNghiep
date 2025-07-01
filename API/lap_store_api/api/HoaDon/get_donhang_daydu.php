@@ -1,11 +1,12 @@
 <?php
 // API: get_donhang_daydu.php
-
-header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json; charset=UTF-8");
+header('Access-Control-Allow-Origin: *');
+header('Content-Type: application/json; charset=UTF-8');
 
 include_once('../../config/database.php');
-include_once('../../model/HoaDon.php');
+include_once('../../model/hoadon.php');
+
+
 
 // Kết nối database
 $database = new Database();

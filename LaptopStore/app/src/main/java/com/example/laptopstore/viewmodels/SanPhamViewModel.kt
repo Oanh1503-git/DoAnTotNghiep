@@ -201,18 +201,17 @@ class SanPhamViewModel : ViewModel() {
         }
     }
 
-    fun getSanPhamTrongHoaDon(MaHoaDonBan: Int) {
-        viewModelScope.launch {
-            try {
-                val response = withContext(Dispatchers.IO) {
-                    LaptopStoreRetrofitClient.sanphamAPIService.getSanPhamTheoHoaDon(MaHoaDonBan)
-                }
-                danhSachSanPhamTrongHoaDon = response.sanpham
-            } catch (e: Exception) {
-                Log.e("Sản Phẩm Error", "Lỗi khi lấy Sản Phẩm")
-            }
+    suspend fun getSanPhamTrongHoaDon(maHoaDon: Int): List<SanPham> {
+        return try {
+            val response = LaptopStoreRetrofitClient.sanphamAPIService.getSanPhamTheoHoaDon(maHoaDon)
+            response.sanpham
+        } catch (e: Exception) {
+            e.printStackTrace()
+            emptyList()
         }
     }
+
+
     fun checkProductAndCart(maKhachHang: String, maSanPham: Int) {
         viewModelScope.launch {
             isLoading = true

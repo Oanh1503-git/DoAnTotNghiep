@@ -1,6 +1,7 @@
 package com.example.laptopstore.screens
 
 import DonHangDayDuResponse
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -15,22 +16,34 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.lapstore.viewmodels.HoaDonViewModel
+import com.example.laptopstore.viewmodels.ChiTietHoaDonViewmodel
+import com.example.laptopstore.viewmodels.DataStoreManager
+import com.example.laptopstore.viewmodels.SanPhamViewModel
 
 @Composable
 fun OrderStatusScreen(
     viewModel: HoaDonViewModel,
-    maKhachHang: String,
+    sanPhamViewModel: SanPhamViewModel,
+    chitietdonhang: ChiTietHoaDonViewmodel,
     navController: NavHostController
 ) {
     var selectedTabIndex by remember { mutableStateOf(0) }
     val tabTitles = listOf("Chờ xác nhận", "Đã duyệt", "Đang vận chuyển", "Đã hủy")
-    val donHangList by viewModel.donHangDayDu.collectAsState()
+    val donHangList by viewModel.donHangDayDu.collectAsState(initial = emptyList())
+    val context = LocalContext.current
+    val dataStoreManager = remember { DataStoreManager(context) }
+    val customerId by dataStoreManager.customerId.collectAsState(initial = null)
+    val maKhachHang = customerId
 
     LaunchedEffect(maKhachHang) {
-        viewModel.getDonHangDayDu(maKhachHang)
+        if (maKhachHang != null) {
+            viewModel.getDonHangDayDu(maKhachHang)
+            Log.d("OrderStatusScreen", "Fetching orders for customerId: $maKhachHang")
+        }
     }
-
-    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .padding(16.dp)) {
         Text("Trạng thái đơn hàng", fontSize = 20.sp, fontWeight = FontWeight.Bold)
         Spacer(modifier = Modifier.height(12.dp))
 
@@ -70,7 +83,7 @@ fun OrderCard(
                 Text("Ngày đặt: ${donHang.NgayDatHang}")
             }
 
-            donHang.SanPham.forEach { sp ->
+            donHang.SanPham?.forEach { sp ->
                 Row(modifier = Modifier.padding(vertical = 4.dp)) {
                     AsyncImage(
                         model = ImageRequest.Builder(LocalContext.current)
