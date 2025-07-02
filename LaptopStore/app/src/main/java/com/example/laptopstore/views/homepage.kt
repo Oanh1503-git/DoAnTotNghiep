@@ -54,6 +54,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -67,9 +68,12 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import coil.compose.AsyncImage
 import com.example.app_e_commerce.model.BottomNavItem
 import com.example.laptopstore.R
+import com.example.laptopstore.models.BannerSection
 import com.example.laptopstore.models.SanPham
 import com.example.laptopstore.models.Screens
 import com.example.laptopstore.models.HinhAnh
+import com.example.laptopstore.models.MenuBottomNavBar
+import com.example.laptopstore.models.ProductCardInHome
 import com.example.laptopstore.viewmodels.HinhAnhViewModel
 import com.example.laptopstore.viewmodels.SanPhamViewModel
 import com.example.laptopstore.viewmodels.GioHangViewModel
@@ -88,16 +92,23 @@ fun HOMEPAGE(navController: NavHostController,
     val searchResults by sanPhamViewModel.danhSach.collectAsState(initial = emptyList())
     var searchQuery by remember { mutableStateOf("") }
     var isSearching by remember { mutableStateOf(false) }
-
+    val context = LocalContext.current
+    val dataStore = remember { com.example.laptopstore.viewmodels.DataStoreManager(context) }
+    val maKhachHang by dataStore.customerId.collectAsState(initial = null)
     // Lấy danh sách hình ảnh từ ViewModel
     var productImages by remember { mutableStateOf<List<HinhAnh>>(emptyList()) }
-
+    LaunchedEffect(maKhachHang) {
+        if (!maKhachHang.isNullOrEmpty()) {
+            gioHangViewModel.getGioHangByKhachHang(maKhachHang!!)
+        }
+    }
     // Lấy tham số từ navigation
     LaunchedEffect(navController.currentBackStackEntry) {
         // Đợi dữ liệu từ getAllSanPham hoàn tất
         while (sanPhamViewModel.danhSachAllSanPham.value.isEmpty() && !sanPhamViewModel.isLoading) {
             delay(100) // Chờ ngắn để tránh vòng lặp vô hạn
         }
+
 
         val search = navController.currentBackStackEntry?.arguments?.getString("searchQuery")
         val brand = navController.currentBackStackEntry?.arguments?.getString("brand")
@@ -289,8 +300,6 @@ fun filterByUsage(moTa: String, usage: String): Boolean {
 
 @Composable
 fun SearchField(searchQuery: String, onQueryChange: (String) -> Unit, onSearch: () -> Unit) {
-
-
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -358,96 +367,8 @@ fun SearchField(searchQuery: String, onQueryChange: (String) -> Unit, onSearch: 
         }
     }
 }
-@Composable
-fun BannerSection() {
-    val images = listOf(
-        R.drawable.anh1,
-        R.drawable.anh2,
-        R.drawable.anh3
-    )
 
-    val pagerState = rememberPagerState { images.size }
 
-    Column(
-        modifier = Modifier.fillMaxWidth().background(Color.Transparent)
-    ) {
-        HorizontalPager(
-            state = pagerState,
-            modifier = Modifier.fillMaxWidth().height(180.dp)
-        ) { page ->
-            Image(
-                painter = painterResource(id = images[page]),
-                contentDescription = "Banner $page",
-                modifier = Modifier.fillMaxSize().padding(8.dp),
-                contentScale = ContentScale.Crop
-            )
-        }
-    }
-
-    LaunchedEffect(pagerState) {
-        while (true) {
-            delay(3000)
-            pagerState.animateScrollToPage((pagerState.currentPage + 1) % images.size)
-        }
-    }
-}
-
-@Composable
-fun ProductCardInHome(product: SanPham, navController: NavHostController, images: List<HinhAnh>, modifier: Modifier = Modifier) {
-    val defaultImage = images.find { it.MacDinh == 1 }?.DuongDan ?: product.HinhAnh
-
-    val currencyFormatter = NumberFormat.getInstance(Locale("vi", "VN")).apply {
-        maximumFractionDigits = 0 // Không hiển thị phần thập phân
-    }
-    Card(
-        modifier = modifier
-            .shadow(4.dp, RoundedCornerShape(8.dp))
-            .clickable {
-                navController.navigate("product_detail/${product.MaSanPham}")
-            },
-        shape = RoundedCornerShape(8.dp)
-    ) {
-        Column(
-            modifier = Modifier
-                .background(Color.White)
-                .padding(8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Box(
-                modifier = Modifier
-                    .size(150.dp)
-                    .clip(RoundedCornerShape(8.dp))
-            ) {
-                AsyncImage(
-                    model = defaultImage,
-                    contentDescription = product.TenSanPham,
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Crop
-                )
-            }
-            Text(
-                text = product.TenSanPham,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Medium,
-                maxLines = 2,
-                modifier = Modifier
-                    .padding(top = 8.dp)
-                    .height(40.dp)
-            )
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.padding(top = 4.dp)
-            ) {
-                Text(
-                    text = "${currencyFormatter.format(product.Gia)} VNĐ",
-                    fontSize = 14.sp,
-                    color = Color.Red,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-        }
-    }
-}
 
 private fun sortedProducts(products: List<SanPham>, sortOption: String): List<SanPham> {
     return when (sortOption) {
@@ -458,84 +379,3 @@ private fun sortedProducts(products: List<SanPham>, sortOption: String): List<Sa
 }
 
 
-@Composable
-fun MenuBottomNavBar(navController: NavHostController, gioHangViewModel: GioHangViewModel = viewModel()) {
-    val items = listOf(
-        BottomNavItem("Home", Icons.Default.Home, Screens.HOMEPAGE.route),
-        BottomNavItem("Categories", Icons.AutoMirrored.Filled.List, Screens.CATAGORIES.route),
-        BottomNavItem("Cart", Icons.Default.ShoppingCart, Screens.CARTSCREENS.route),
-        BottomNavItem("Account", Icons.Default.Person, Screens.ACCOUNTSCREENS.route)
-    )
-
-    // Theo dõi route hiện tại
-    val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
-    // Lấy danh sách giỏ hàng
-    val cartItems by gioHangViewModel.listGioHang.collectAsState(initial = emptyList())
-    // Đếm số lượng mã sản phẩm khác nhau
-    val uniqueProductCount = cartItems.map { it.MaSanPham }.distinct().size
-    
-    NavigationBar(containerColor = Color.White) {
-        items.forEachIndexed { index, item ->
-            NavigationBarItem(
-                icon = {
-                    if (item.title == "Cart" && uniqueProductCount > 0) {
-                        Box {
-                            Icon(
-                                imageVector = item.icon,
-                                contentDescription = item.title,
-                                modifier = Modifier.size(24.dp),
-                                tint = if (currentRoute == item.route) Color.Black else Color.Gray
-                            )
-                            Box(
-                                modifier = Modifier
-                                    .align(Alignment.TopEnd)
-                                    .offset(x = 10.dp, y = (-4).dp)
-                                    .size(16.dp)
-                                    .background(Color.Red, shape = RoundedCornerShape(8.dp)),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    text = uniqueProductCount.toString(),
-                                    color = Color.White,
-                                    fontSize = 10.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    textAlign = TextAlign.Justify   ,
-                                    modifier = Modifier.fillMaxSize()
-                                )
-                            }
-                        }
-                    } else {
-                        Icon(
-                            imageVector = item.icon,
-                            contentDescription = item.title,
-                            modifier = Modifier.size(30.dp),
-                            tint = if (currentRoute == item.route) Color.Black else Color.Gray
-                        )
-                    }
-                },
-                label = {
-                    Text(
-                        text = item.title,
-                        fontSize = 12.sp,
-                        color = if (currentRoute == item.route) Color.Black else Color.Gray
-                    )
-                },
-                selected = currentRoute == item.route,
-                onClick = {
-                    if (currentRoute != item.route) {
-                        navController.navigate(item.route) {
-                            // Tránh tạo nhiều bản sao của cùng một màn hình
-                            launchSingleTop = true
-                            // Khôi phục state khi quay lại
-                            restoreState = true
-                            // Chỉ pop đến root khi đang ở root
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true
-                            }
-                        }
-                    }
-                }
-            )
-        }
-    }
-}

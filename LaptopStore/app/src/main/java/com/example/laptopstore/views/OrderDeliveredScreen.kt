@@ -70,7 +70,6 @@ fun OrderDeliveredScreen(
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            Text("Đơn hàng đã giao", fontSize = 20.sp, fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.height(12.dp))
 
             val donHangDaGiao = donHangList.filter { it.TrangThai == "3" }

@@ -62,7 +62,6 @@ fun OrderStatusScreen(
     Column(modifier = Modifier.padding(innerPadding)
         .fillMaxSize()
         .padding(16.dp)) {
-        Text("Trạng thái đơn hàng", fontSize = 20.sp, fontWeight = FontWeight.Bold)
         Spacer(modifier = Modifier.height(12.dp))
 
         TabRow(selectedTabIndex = selectedTabIndex) {

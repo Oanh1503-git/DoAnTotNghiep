@@ -29,6 +29,7 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.laptopstore.models.CartItem
 import com.example.laptopstore.models.GioHang
+import com.example.laptopstore.models.MenuBottomNavBar
 import com.example.laptopstore.models.Product
 import com.example.laptopstore.models.Screens
 import com.example.laptopstore.models.SanPham
@@ -62,7 +63,7 @@ fun CartScreen(
     val currencyFormatter = NumberFormat.getInstance(Locale("vi", "VN")).apply {
         maximumFractionDigits = 0 // Không hiển thị phần thập phân
     }
-
+    var showLogoutDialog by remember { mutableStateOf(false) }
     // Loading và error states
     var isLoading by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
@@ -492,6 +493,7 @@ fun CartItemCard(
     val currencyFormatter = NumberFormat.getInstance(Locale("vi", "VN")).apply {
         maximumFractionDigits = 0 // Không hiển thị phần thập phân
     }
+    var showDeleteDialog by remember { mutableStateOf(false) }
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -577,8 +579,34 @@ fun CartItemCard(
                     }
                 }
             }
-            IconButton(onClick = { onQuantityChange(0) }) {
+            IconButton(onClick = {
+                showDeleteDialog = true
+            }) {
                 Icon(Icons.Default.Delete, contentDescription = null, tint = Color.Red)
+            }
+
+            if (showDeleteDialog) {
+                AlertDialog(
+                    onDismissRequest = { showDeleteDialog = false },
+                    title = { Text("Xác nhận xóa") },
+                    text = { Text("Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng không?") },
+                    confirmButton = {
+                        Button(
+                            onClick = {
+                                onQuantityChange(0)
+                                showDeleteDialog = false
+                            },
+                            colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
+                        ) {
+                            Text("Xóa")
+                        }
+                    },
+                    dismissButton = {
+                        TextButton(onClick = { showDeleteDialog = false }) {
+                            Text("Hủy")
+                        }
+                    }
+                )
             }
 
         }

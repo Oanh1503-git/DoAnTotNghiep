@@ -34,6 +34,7 @@ import com.example.laptopstore.models.BinhLuanDanhGia
 import com.example.laptopstore.models.CartItem
 import com.example.laptopstore.models.GioHang
 import com.example.laptopstore.models.HinhAnh
+import com.example.laptopstore.models.MenuBottomNavBar
 import com.example.laptopstore.models.Product
 import com.example.laptopstore.models.SanPham
 import com.example.laptopstore.models.Screens
