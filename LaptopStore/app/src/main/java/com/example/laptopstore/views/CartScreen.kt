@@ -39,6 +39,8 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
+import java.text.NumberFormat
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -57,7 +59,10 @@ fun CartScreen(
     val allProducts by sanPhamViewModel.danhSachAllSanPham.collectAsState(initial = emptyList())
     val loginState by savedStateHandle.getStateFlow("login_state", false).collectAsState()
     val gioHangUpdateResult by gioHangViewModel.giohangUpdateResult.collectAsState()
-    
+    val currencyFormatter = NumberFormat.getInstance(Locale("vi", "VN")).apply {
+        maximumFractionDigits = 0 // Không hiển thị phần thập phân
+    }
+
     // Loading và error states
     var isLoading by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
@@ -391,6 +396,7 @@ fun CartScreen(
                                 sp.Gia * gioHang.SoLuong
                             } ?: 0
                         }
+//                        val currencyFormatter = NumberFormat.getInstance(Locale("vi", "VN"))
 
                         Column(
                             modifier = Modifier
@@ -407,7 +413,7 @@ fun CartScreen(
                                     fontWeight = FontWeight.Bold
                                 )
                                 Text(
-                                    text = "${totalPrice / 1000}.000 VNĐ",
+                                    text = "${currencyFormatter.format(totalPrice)} VNĐ",
                                     fontSize = 18.sp,
                                     fontWeight = FontWeight.Bold,
                                     color = Color.Red
@@ -483,6 +489,9 @@ fun CartItemCard(
     onCheckedChange: (Boolean) -> Unit,
     isUpdating: Boolean
 ) {
+    val currencyFormatter = NumberFormat.getInstance(Locale("vi", "VN")).apply {
+        maximumFractionDigits = 0 // Không hiển thị phần thập phân
+    }
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -537,7 +546,7 @@ fun CartItemCard(
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = "${sanPham.Gia / 1000}.000 VNĐ",
+                    text = "${currencyFormatter.format(sanPham.Gia / 1000)}.000 VNĐ",
                     fontSize = 14.sp,
                     color = Color.Red,
                     fontWeight = FontWeight.Bold

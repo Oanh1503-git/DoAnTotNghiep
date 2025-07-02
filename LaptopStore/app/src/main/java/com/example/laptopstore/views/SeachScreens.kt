@@ -55,6 +55,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.layout.ContentScale
+import java.text.NumberFormat
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -87,6 +89,7 @@ fun SeachSanphamScreen(navController: NavHostController,
         var productImages = remember { mutableStateListOf<HinhAnh>() }
         val isLoading = sanPhamViewModel.isLoading
         val errorMessage = sanPhamViewModel.errorMessage
+        val currencyFormatter = NumberFormat.getInstance(Locale("vi", "VN"))
         LaunchedEffect(Unit) {
             val response = hinhAnhViewModel.getAllHinhAnh()
             productImages.clear()
@@ -134,6 +137,7 @@ fun SeachSanphamScreen(navController: NavHostController,
                                 images = productImages.filter { it.MaSanPham == product.MaSanPham },
                                 modifier = Modifier.weight(1f).padding(horizontal = 4.dp)
                             )
+
                         }
                         if (productRow.size == 1) {
                             Spacer(modifier = Modifier.weight(1f))
@@ -146,8 +150,17 @@ fun SeachSanphamScreen(navController: NavHostController,
 }
 
 @Composable
-fun ProductCard(product: SanPham, navController: NavHostController, images: List<HinhAnh>, modifier: Modifier = Modifier) {
+fun ProductCard(
+    product: SanPham,
+    navController: NavHostController,
+    images: List<HinhAnh>,
+    modifier: Modifier = Modifier
+) {
     val defaultImage = images.find { it.MacDinh == 1 }?.DuongDan ?: (product.HinhAnh ?: "")
+
+    val currencyFormatter = NumberFormat.getInstance(Locale("vi", "VN")).apply {
+        maximumFractionDigits = 0 // Không hiển thị phần thập phân
+    }
     Card(
         modifier = modifier
             .shadow(4.dp, RoundedCornerShape(8.dp))
@@ -188,7 +201,7 @@ fun ProductCard(product: SanPham, navController: NavHostController, images: List
                 modifier = Modifier.padding(top = 4.dp)
             ) {
                 Text(
-                    text = "${product.Gia / 1000}.000 VNĐ",
+                    text = "${currencyFormatter.format(product.Gia)} VNĐ",
                     fontSize = 16.sp,
                     color = Color.Red,
                     fontWeight = FontWeight.Bold

@@ -23,7 +23,6 @@ error_reporting(E_ALL);
     $data = json_decode(file_get_contents("php://input"));
 
     // Gán dữ liệu cho các thuộc tính của đối tượng
-    $binhluan->MaBinhLuan = $data->MaBinhLuan;
     $binhluan->MaKhachHang = $data->MaKhachHang;
     $binhluan->MaSanPham = $data->MaSanPham;
     $binhluan->MaDonHang = $data->MaDonHang;

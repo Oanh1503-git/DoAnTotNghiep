@@ -42,37 +42,41 @@ class binhluandanhgia{
         $this->TrangThai = $row['TrangThai'];
     } 
 
-    public function AddBinhLuanDanhGia(){
-        $query = "INSERT INTO binhluandanhgia SET MaBinhLuan=:MaBinhLuan, MaKhachHang=:MaKhachHang, MaSanPham=:MaSanPham, MaDonHang=:MaDonHang, SoSao=:SoSao, NoiDung=:NoiDung, NgayDanhGia=:NgayDanhGia, TrangThai=:TrangThai";
+  public function AddBinhLuanDanhGia(){
+    $query = "INSERT INTO binhluandanhgia 
+              SET MaKhachHang=:MaKhachHang, 
+                  MaSanPham=:MaSanPham, 
+                  MaDonHang=:MaDonHang, 
+                  SoSao=:SoSao, 
+                  NoiDung=:NoiDung, 
+                  NgayDanhGia=:NgayDanhGia, 
+                  TrangThai=:TrangThai";
 
-        $stmt = $this->conn->prepare($query);
+    $stmt = $this->conn->prepare($query);
 
-        $this->MaBinhLuan = htmlspecialchars(strip_tags($this->MaBinhLuan));
-        $this->MaKhachHang = htmlspecialchars(strip_tags($this->MaKhachHang));
-        $this->MaSanPham = htmlspecialchars(strip_tags($this->MaSanPham));
-        $this->MaDonHang = htmlspecialchars(strip_tags($this->MaDonHang));
-        $this->SoSao = htmlspecialchars(strip_tags($this->SoSao));
-        $this->NoiDung = htmlspecialchars(string: strip_tags($this->NoiDung));
-        $this->NgayDanhGia = htmlspecialchars(string: strip_tags($this->NgayDanhGia));
-        $this->TrangThai = htmlspecialchars(string: strip_tags($this->TrangThai));
+    $this->MaKhachHang = htmlspecialchars(strip_tags($this->MaKhachHang));
+    $this->MaSanPham = htmlspecialchars(strip_tags($this->MaSanPham));
+    $this->MaDonHang = htmlspecialchars(strip_tags($this->MaDonHang));
+    $this->SoSao = htmlspecialchars(strip_tags($this->SoSao));
+    $this->NoiDung = htmlspecialchars(strip_tags($this->NoiDung));
+    $this->NgayDanhGia = htmlspecialchars(strip_tags($this->NgayDanhGia));
+    $this->TrangThai = htmlspecialchars(strip_tags($this->TrangThai));
 
+    $stmt->bindParam(':MaKhachHang', $this->MaKhachHang);
+    $stmt->bindParam(':MaSanPham', $this->MaSanPham);
+    $stmt->bindParam(':MaDonHang', $this->MaDonHang);
+    $stmt->bindParam(':SoSao', $this->SoSao);
+    $stmt->bindParam(':NoiDung', $this->NoiDung);
+    $stmt->bindParam(':NgayDanhGia', $this->NgayDanhGia);
+    $stmt->bindParam(':TrangThai', $this->TrangThai);
 
-        $stmt->bindParam(':MaBinhLuan',$this->MaBinhLuan);
-        $stmt->bindParam(':MaKhachHang',$this->MaKhachHang);
-        $stmt->bindParam(':MaSanPham',$this->MaSanPham);
-        $stmt->bindParam(':MaDonHang',$this->MaDonHang);
-        $stmt->bindParam(':SoSao',$this->SoSao);
-        $stmt->bindParam(':NoiDung',$this->NoiDung);
-        $stmt->bindParam(':NgayDanhGia',$this->NgayDanhGia);
-        $stmt->bindParam(':TrangThai',$this->TrangThai);
-
-        
-        if($stmt->execute()){
-            return true;
-        }
-        printf("Error %s.\n",$stmt->error);
-        return false;
+    if($stmt->execute()){
+        return true;
     }
+    printf("Error %s.\n", $stmt->error);
+    return false;
+}
+
 
     public function UpdateBinhLuanDanhGia() {
         $query = "UPDATE binhluandanhgia SET MaKhachHang=:MaKhachHang, MaSanPham=:MaSanPham, MaDonHang=:MaDonHang, SoSao=:SoSao, NoiDung=:NoiDung, NgayDanhGia=:NgayDanhGia, TrangThai=:TrangThai WHERE MaBinhLuan=:MaBinhLuan";

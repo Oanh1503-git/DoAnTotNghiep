@@ -74,6 +74,8 @@ import com.example.laptopstore.viewmodels.HinhAnhViewModel
 import com.example.laptopstore.viewmodels.SanPhamViewModel
 import com.example.laptopstore.viewmodels.GioHangViewModel
 import kotlinx.coroutines.delay
+import java.text.NumberFormat
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -393,6 +395,10 @@ fun BannerSection() {
 @Composable
 fun ProductCardInHome(product: SanPham, navController: NavHostController, images: List<HinhAnh>, modifier: Modifier = Modifier) {
     val defaultImage = images.find { it.MacDinh == 1 }?.DuongDan ?: product.HinhAnh
+
+    val currencyFormatter = NumberFormat.getInstance(Locale("vi", "VN")).apply {
+        maximumFractionDigits = 0 // Không hiển thị phần thập phân
+    }
     Card(
         modifier = modifier
             .shadow(4.dp, RoundedCornerShape(8.dp))
@@ -433,8 +439,8 @@ fun ProductCardInHome(product: SanPham, navController: NavHostController, images
                 modifier = Modifier.padding(top = 4.dp)
             ) {
                 Text(
-                    text = "${product.Gia / 1000}.000 VNĐ",
-                    fontSize = 16.sp,
+                    text = "${currencyFormatter.format(product.Gia)} VNĐ",
+                    fontSize = 14.sp,
                     color = Color.Red,
                     fontWeight = FontWeight.Bold
                 )

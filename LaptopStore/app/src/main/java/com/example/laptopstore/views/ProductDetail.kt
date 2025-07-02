@@ -364,8 +364,9 @@ fun ProductDetail(
                         fontWeight = FontWeight.Bold
                     )
                     Spacer(modifier = Modifier.height(8.dp))
+                    val currencyFormatter = NumberFormat.getInstance(Locale("vi", "VN"))
                     Text(
-                        text = "${NumberFormat.getInstance(Locale("vi", "VN")).format(productOrDefault.Gia)} VNĐ",
+                        text = "${currencyFormatter.format(productOrDefault.Gia)} VNĐ",
                         fontSize = 22.sp,
                         color = Color.Red,
                         fontWeight = FontWeight.Bold

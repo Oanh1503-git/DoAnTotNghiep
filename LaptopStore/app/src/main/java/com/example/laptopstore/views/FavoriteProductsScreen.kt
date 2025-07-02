@@ -168,9 +168,10 @@ fun FavoriteProductItem(showfavorite: HienSanPhamYeuThich, onClick: () -> Unit) 
                     maxLines = 2
                 )
                 Spacer(modifier = Modifier.height(4.dp))
+                val currencyFormatter = NumberFormat.getInstance(Locale("vi", "VN"))
                 Text(
                     text = showfavorite.Gia?.let {
-                        "${NumberFormat.getInstance(Locale("vi", "VN")).format(it)} VNĐ"
+                        "${currencyFormatter.format(it)} VNĐ"
                     } ?: "Không có giá",
                     fontSize = 14.sp,
                     color = Color.Red,

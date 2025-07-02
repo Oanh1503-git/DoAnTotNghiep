@@ -5,6 +5,8 @@ import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -19,7 +21,10 @@ import com.example.lapstore.viewmodels.HoaDonViewModel
 import com.example.laptopstore.viewmodels.ChiTietHoaDonViewmodel
 import com.example.laptopstore.viewmodels.DataStoreManager
 import com.example.laptopstore.viewmodels.SanPhamViewModel
+import java.text.NumberFormat
+import java.util.Locale
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OrderStatusScreen(
     viewModel: HoaDonViewModel,
@@ -34,6 +39,7 @@ fun OrderStatusScreen(
     val dataStoreManager = remember { DataStoreManager(context) }
     val customerId by dataStoreManager.customerId.collectAsState(initial = null)
     val maKhachHang = customerId
+    val currencyFormatter = NumberFormat.getInstance(Locale("vi", "VN"))
 
     LaunchedEffect(maKhachHang) {
         if (maKhachHang != null) {
@@ -41,7 +47,19 @@ fun OrderStatusScreen(
             Log.d("OrderStatusScreen", "Fetching orders for customerId: $maKhachHang")
         }
     }
-    Column(modifier = Modifier
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Trạng thái đơn hàng", fontSize = 18.sp, fontWeight = FontWeight.Bold) },
+                navigationIcon = {  IconButton(onClick = { navController.navigateUp() }) {
+                    Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                }
+
+                }
+            )
+        }
+    ){innerPadding ->
+    Column(modifier = Modifier.padding(innerPadding)
         .fillMaxSize()
         .padding(16.dp)) {
         Text("Trạng thái đơn hàng", fontSize = 20.sp, fontWeight = FontWeight.Bold)
@@ -69,7 +87,7 @@ fun OrderStatusScreen(
         }
     }
 }
-
+}
 @Composable
 fun OrderCard(
     donHang: DonHangDayDuResponse,
@@ -77,6 +95,10 @@ fun OrderCard(
     viewModel: HoaDonViewModel,
     navController: NavHostController
 ) {
+
+    val currencyFormatter = NumberFormat.getInstance(Locale("vi", "VN")).apply {
+        maximumFractionDigits = 0 // Không hiển thị phần thập phân
+    }
     Card(modifier = Modifier.fillMaxWidth()) {
         Column(modifier = Modifier.padding(16.dp)) {
             if (tabIndex == 0) {
@@ -95,7 +117,7 @@ fun OrderCard(
                     )
                     Column(modifier = Modifier.padding(start = 8.dp)) {
                         Text(sp.TenSanPham, fontWeight = FontWeight.SemiBold)
-                        Text("Giá: ${sp.Gia / 1000}.000 VNĐ")
+                        Text("Giá: ${currencyFormatter.format(sp.Gia)} VNĐ")
                         Text("Số lượng: ${sp.SoLuong}")
                     }
                 }

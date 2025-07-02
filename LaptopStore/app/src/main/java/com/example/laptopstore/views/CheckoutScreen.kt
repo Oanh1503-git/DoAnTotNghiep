@@ -75,6 +75,8 @@ import kotlinx.coroutines.delay
 import java.net.URLDecoder
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.text.NumberFormat
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -164,6 +166,8 @@ fun CheckoutScreen(navController: NavHostController,
     LaunchedEffect(mahoadontheokhach) {
         Log.d("checkout", "Mã hóa đơn mới nhất: ${mahoadontheokhach.value}")
     }
+
+    val currencyFormatter = NumberFormat.getInstance(Locale("vi", "VN"))
 
     Scaffold(
         topBar = {
@@ -292,7 +296,7 @@ fun CheckoutScreen(navController: NavHostController,
                                 fontSize = 14.sp
                             )
                             Text(
-                                text = "${(cartItem.getProductPrice() - ((cartItem.getProductPrice() * cartItem.getProductDiscount()) / 100)) / 1000}.000 VNĐ",
+                                text = currencyFormatter.format((cartItem.getProductPrice() - ((cartItem.getProductPrice() * cartItem.getProductDiscount()) / 100))) + " VNĐ",
                                 fontSize = 14.sp,
                                 color = Color.Red,
                                 fontWeight = FontWeight.Bold
@@ -303,7 +307,7 @@ fun CheckoutScreen(navController: NavHostController,
             }
             item {
                 Text(
-                    text = "Tổng tiền: ${totalPrice / 1000}.000 VNĐ",
+                    text = "Tổng tiền: ${currencyFormatter.format(totalPrice)} VNĐ",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.Red
