@@ -14,17 +14,13 @@ data class BinhLuanDanhGiaResponse(
     val data: List<BinhLuanDanhGia>?
 )
 interface BinhLuanAPIService {
-    @GET("BinhLuanDanhGia/readBySanPham.php")
-    suspend fun getBinhLuanBySanPham(
-        @Query("MaSanPham") MaSanPham: Int
-    ): BinhLuanResponse
 
     @POST("BinhLuanDanhGia/create.php")
     suspend fun createBinhLuan(
         @Body binhLuan: BinhLuanDanhGia
     ): CreateResponse
 
-    @GET("BinhLuanDanhGia/get_binhluan_theo_masanpham.php")
+    @GET("BinhLuanDanhGia/get_danhgia_theo_masanpham.php")
     suspend fun getDanhGiaByMaSanPham(
         @Query("MaSanPham") maSanPham: Int
     ): BinhLuanDanhGiaResponse

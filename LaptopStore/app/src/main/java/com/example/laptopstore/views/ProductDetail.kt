@@ -118,12 +118,24 @@ fun ProductDetail(
     val cartItems by gioHangViewModel.listGioHang.collectAsState(initial = emptyList())
     val isInCart = cartItems.any {it.MaSanPham == product?.MaSanPham}
     val maSanPham= product?.MaSanPham
-    LaunchedEffect(maSanPham) {
-        binhLuanViewModel.getDanhGiaByMaSanPham(maSanPham ?: 0)
-    }
+
+
+    Log.d("ProductDetail", "ma san pham: $maSanPham")
     LaunchedEffect(taikhoan) {
         Log.d("ProductDetail", "TaiKhoan changed: $taikhoan")
         Log.d("ProductDetail", "MaKhachHang: $maKhachHang")
+    }
+    LaunchedEffect(maSanPham) {
+        if(maSanPham!=null){
+            binhLuanViewModel.getReviewsByProductId(maSanPham)
+        }
+
+
+    }
+    val listdanhgia = binhLuanViewModel.reviewsByProductId.collectAsState()
+    Log.d("ProductDetail", "list danh gia: ${listdanhgia.value}")
+    listdanhgia.value.forEach {
+        Log.d("ProductDetail", "Đánh giá: ${it.TenKhachHang} - ${it.NoiDung}")
     }
 
     LaunchedEffect(customerId){
@@ -548,7 +560,7 @@ fun ProductDetail(
                                 )
                                 Spacer(modifier = Modifier.height(16.dp))
                                 // Danh sách bình luận
-                                ReviewListScreen(maSanPham = maSanPham ?: 0, viewModel = binhLuanViewModel)
+                                val reviews by binhLuanViewModel.reviewsByProductId.collectAsState()
 
                                 if (reviews.isEmpty()) {
                                     Text(
@@ -557,53 +569,40 @@ fun ProductDetail(
                                         color = Color.Gray
                                     )
                                 } else {
-                                    reviews.forEach { review ->
-                                        Column(
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                                .padding(vertical = 8.dp)
-                                                .background(Color(0xFFF5F5F5), RoundedCornerShape(8.dp))
-                                                .padding(12.dp)
-                                        ) {
-                                            Row(
-                                                horizontalArrangement = Arrangement.spacedBy(4.dp),
-                                                verticalAlignment = Alignment.CenterVertically
-                                            ) {
-                                                repeat(review.SoSao) {
-                                                    Icon(
-                                                        imageVector = Icons.Default.Star,
-                                                        contentDescription = "Sao",
-                                                        tint = Color(0xFFFFD700),
-                                                        modifier = Modifier.size(16.dp)
-                                                    )
-                                                }
-                                                repeat(5 - review.SoSao) {
-                                                    Icon(
-                                                        imageVector = Icons.Default.Star,
-                                                        contentDescription = "Sao",
-                                                        tint = Color.Gray,
-                                                        modifier = Modifier.size(16.dp)
-                                                    )
-                                                }
-                                            }
-                                            Spacer(modifier = Modifier.height(4.dp))
-                                            Text(
-                                                text = review.NoiDung ?: "Không có nội dung",
-                                                fontSize = 14.sp,
-                                                color = Color.Black
-                                            )
-                                            Spacer(modifier = Modifier.height(4.dp))
-                                            Text(
-                                                text = "Ngày: ${
-                                                    SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(
-                                                        SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(review.NgayDanhGia) ?: Date()
-                                                    )
-                                                }",
-                                                fontSize = 12.sp,
-                                                color = Color.Gray
-                                            )
-                                        }
-                                    }
+                                  LazyColumn( modifier = Modifier
+                                      .fillMaxWidth()
+                                      .heightIn(max = 400.dp),
+                                      verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                                      items(reviews) { review ->
+                                          Card (
+                                              modifier = Modifier.fillMaxWidth(),
+                                              colors = CardDefaults.cardColors(containerColor = Color(0xFFF8F8F8))
+                                          ){
+                                             Column(modifier = Modifier.padding(12.dp)) {
+                                                 Row(
+                                                     verticalAlignment = Alignment.CenterVertically,
+                                                     horizontalArrangement = Arrangement.SpaceBetween,
+                                                     modifier = Modifier.fillMaxWidth()
+                                                 ) {
+                                                     Text(
+                                                         text = review.TenKhachHang ?: "Khách ẩn danh",
+                                                         fontWeight = FontWeight.SemiBold
+                                                     )
+                                                     Text(text = "${review.SoSao} ⭐")
+                                                 }
+                                                 Spacer(modifier = Modifier.height(4.dp))
+                                                 Text(text = review.NoiDung ?: "Không có nội dung")
+                                                 Spacer(modifier = Modifier.height(4.dp))
+                                                 Text(
+                                                     text = "Ngày: ${review.NgayDanhGia}",
+                                                     fontSize = 12.sp,
+                                                     color = Color.Gray,
+                                                     modifier = Modifier.align(Alignment.End)
+                                                 )
+                                             }
+                                             }
+                                          }
+                                  }
                                 }
                             }
                         }

@@ -14,25 +14,39 @@ import kotlinx.coroutines.withContext
 
 
 class BinhLuanViewModel : ViewModel() {
+
     private val _reviewsByProductId = MutableStateFlow<List<BinhLuanDanhGia>>(emptyList())
     val reviewsByProductId: StateFlow<List<BinhLuanDanhGia>> = _reviewsByProductId.asStateFlow()
 
     private val _danhGiaList = MutableStateFlow<List<BinhLuanDanhGia>>(emptyList())
     val danhGiaList: StateFlow<List<BinhLuanDanhGia>> = _danhGiaList
-
     fun getReviewsByProductId(productId: Int?) {
         if (productId == null || productId <= 0) {
             Log.e("BinhLuanViewModel", "Invalid productId: $productId")
+            _reviewsByProductId.value = emptyList()
             return
         }
+
         viewModelScope.launch {
             try {
                 val response = withContext(Dispatchers.IO) {
-                    LaptopStoreRetrofitClient.binhLuanAPIService.getBinhLuanBySanPham(productId)
+                    LaptopStoreRetrofitClient.binhLuanAPIService.getDanhGiaByMaSanPham(productId)
                 }
-                _reviewsByProductId.value = response.binhluan
+
+                if (response.success && response.data != null) {
+                    _reviewsByProductId.value = response.data
+                    _danhGiaList.value = response.data
+                    Log.d("BinhLuanViewModel", "Fetched ${response.data.size} đánh giá")
+                } else {
+                    _reviewsByProductId.value = emptyList()
+                    _danhGiaList.value = emptyList()
+                    Log.d("BinhLuanViewModel", "Không có đánh giá hoặc phản hồi thất bại")
+                }
+
             } catch (e: Exception) {
                 Log.e("BinhLuanViewModel", "Error fetching reviews: ${e.message}")
+                _reviewsByProductId.value = emptyList()
+                _danhGiaList.value = emptyList()
             }
         }
     }
@@ -52,6 +66,7 @@ class BinhLuanViewModel : ViewModel() {
             }
         }
     }
+
     fun createReview(review: BinhLuanDanhGia) {
         viewModelScope.launch {
             try {
