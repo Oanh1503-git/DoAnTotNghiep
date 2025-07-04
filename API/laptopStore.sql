@@ -114,6 +114,7 @@ CREATE TABLE `hoadon` (
   `MaHoaDon` int(11) NOT NULL AUTO_INCREMENT,
   `MaKhachHang` varchar(50) NOT NULL,
   `NgayDatHang` date NOT NULL,
+  'NgayGiaoHang' DATE DEFAULT NULL,
   `MaDiaChi` int(11) DEFAULT NULL,
   `TongTien` int(11) DEFAULT NULL,
   `PhuongThucThanhToan` varchar(50) NOT NULL,

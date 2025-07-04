@@ -28,7 +28,7 @@ if ($binhluan->MaBinhLuan) {
         'MaBinhLuan' => $binhluan->MaBinhLuan,
         'MaKhachHang' => $binhluan->MaKhachHang,
         'MaSanPham' => $binhluan->MaSanPham,
-        'MaDonHang' => $binhluan->MaDonHang,
+        'MaHoaDon' => $binhluan->MaHoaDon,
         'SoSao' => $binhluan->SoSao,
         'NoiDung' => $binhluan->NoiDung,
         'NgayDanhGia' => $binhluan->NgayDanhGia,

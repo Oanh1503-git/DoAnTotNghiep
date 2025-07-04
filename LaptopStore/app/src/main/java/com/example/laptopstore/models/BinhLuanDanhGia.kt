@@ -6,8 +6,9 @@ import kotlinx.serialization.Serializable
 data class BinhLuanDanhGia(
     val MaBinhLuan: Int,
     val MaKhachHang: String,
+    val TenKhachHang: String?,
     val MaSanPham: Int,
-    val MaHoaDonBan: Int,
+    val MaHoaDon: Int,
     val SoSao: Int,
     val NoiDung: String?,
     val NgayDanhGia: String,

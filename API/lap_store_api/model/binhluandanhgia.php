@@ -6,7 +6,7 @@ class binhluandanhgia{
     public $MaBinhLuan;
     public $MaKhachHang;
     public $MaSanPham;
-    public $MaDonHang;
+    public $MaHoaDon;
     public $SoSao;
     public $NoiDung;
     public $NgayDanhGia;
@@ -35,7 +35,7 @@ class binhluandanhgia{
         $this->MaBinhLuan = $row['MaBinhLuan'];
         $this->MaKhachHang = $row['MaKhachHang'];
         $this->MaSanPham = $row['MaSanPham'];
-        $this->MaDonHang = $row['MaDonHang'];
+        $this->MaHoaDon = $row['MaHoaDon'];
         $this->SoSao = $row['SoSao'];
         $this->NoiDung = $row['NoiDung'];
         $this->NgayDanhGia = $row['NgayDanhGia'];
@@ -46,7 +46,7 @@ class binhluandanhgia{
     $query = "INSERT INTO binhluandanhgia 
               SET MaKhachHang=:MaKhachHang, 
                   MaSanPham=:MaSanPham, 
-                  MaDonHang=:MaDonHang, 
+                  MaHoaDon=:MaHoaDon, 
                   SoSao=:SoSao, 
                   NoiDung=:NoiDung, 
                   NgayDanhGia=:NgayDanhGia, 
@@ -56,7 +56,7 @@ class binhluandanhgia{
 
     $this->MaKhachHang = htmlspecialchars(strip_tags($this->MaKhachHang));
     $this->MaSanPham = htmlspecialchars(strip_tags($this->MaSanPham));
-    $this->MaDonHang = htmlspecialchars(strip_tags($this->MaDonHang));
+    $this->MaHoaDon = htmlspecialchars(strip_tags($this->MaHoaDon));
     $this->SoSao = htmlspecialchars(strip_tags($this->SoSao));
     $this->NoiDung = htmlspecialchars(strip_tags($this->NoiDung));
     $this->NgayDanhGia = htmlspecialchars(strip_tags($this->NgayDanhGia));
@@ -64,7 +64,7 @@ class binhluandanhgia{
 
     $stmt->bindParam(':MaKhachHang', $this->MaKhachHang);
     $stmt->bindParam(':MaSanPham', $this->MaSanPham);
-    $stmt->bindParam(':MaDonHang', $this->MaDonHang);
+    $stmt->bindParam(':MaHoaDon', $this->MaHoaDon);
     $stmt->bindParam(':SoSao', $this->SoSao);
     $stmt->bindParam(':NoiDung', $this->NoiDung);
     $stmt->bindParam(':NgayDanhGia', $this->NgayDanhGia);
@@ -79,7 +79,7 @@ class binhluandanhgia{
 
 
     public function UpdateBinhLuanDanhGia() {
-        $query = "UPDATE binhluandanhgia SET MaKhachHang=:MaKhachHang, MaSanPham=:MaSanPham, MaDonHang=:MaDonHang, SoSao=:SoSao, NoiDung=:NoiDung, NgayDanhGia=:NgayDanhGia, TrangThai=:TrangThai WHERE MaBinhLuan=:MaBinhLuan";
+        $query = "UPDATE binhluandanhgia SET MaKhachHang=:MaKhachHang, MaSanPham=:MaSanPham, MaHoaDon=:MaHoaDon, SoSao=:SoSao, NoiDung=:NoiDung, NgayDanhGia=:NgayDanhGia, TrangThai=:TrangThai WHERE MaBinhLuan=:MaBinhLuan";
 
         $stmt = $this->conn->prepare($query);
 
@@ -87,7 +87,7 @@ class binhluandanhgia{
         $this->MaBinhLuan = htmlspecialchars(strip_tags($this->MaBinhLuan));
         $this->MaKhachHang = htmlspecialchars(strip_tags($this->MaKhachHang));
         $this->MaSanPham = htmlspecialchars(strip_tags($this->MaSanPham));
-        $this->MaDonHang = htmlspecialchars(strip_tags($this->MaDonHang));
+        $this->MaHoaDon = htmlspecialchars(strip_tags($this->MaHoaDon));
         $this->SoSao = htmlspecialchars(strip_tags($this->SoSao));
         $this->NoiDung = htmlspecialchars(strip_tags($this->NoiDung));
         $this->NgayDanhGia = htmlspecialchars(strip_tags($this->NgayDanhGia));
@@ -97,7 +97,7 @@ class binhluandanhgia{
         $stmt->bindParam(':MaBinhLuan', $this->MaBinhLuan);
         $stmt->bindParam(':MaKhachHang', $this->MaKhachHang);
         $stmt->bindParam(':MaSanPham', $this->MaSanPham);
-        $stmt->bindParam(':MaDonHang', $this->MaDonHang);
+        $stmt->bindParam(':MaHoaDon', $this->MaHoaDon);
         $stmt->bindParam(':SoSao', $this->SoSao);
         $stmt->bindParam(':NoiDung', $this->NoiDung);
         $stmt->bindParam(':NgayDanhGia', $this->NgayDanhGia);
@@ -125,5 +125,20 @@ class binhluandanhgia{
         printf("Error: %s.\n", $stmt->error);
         return false;
     }
+public function getDanhGiaByMaSanPham($MaSanPham)
+{
+ $query = "SELECT bl.*, kh.HoTen AS TenKhachHang
+          FROM binhluandanhgia bl
+          JOIN khachhang kh ON bl.MaKhachHang = kh.MaKhachHang
+          WHERE bl.MaSanPham = :MaSanPham
+          ORDER BY bl.NgayDanhGia DESC";
+
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(':MaSanPham', $MaSanPham, PDO::PARAM_INT);
+    $stmt->execute();
+
+    return $stmt;
+}
+
 }
 ?>

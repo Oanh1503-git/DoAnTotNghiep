@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -116,6 +117,10 @@ fun ProductDetail(
     val sl=soluongkho.value
     val cartItems by gioHangViewModel.listGioHang.collectAsState(initial = emptyList())
     val isInCart = cartItems.any {it.MaSanPham == product?.MaSanPham}
+    val maSanPham= product?.MaSanPham
+    LaunchedEffect(maSanPham) {
+        binhLuanViewModel.getDanhGiaByMaSanPham(maSanPham ?: 0)
+    }
     LaunchedEffect(taikhoan) {
         Log.d("ProductDetail", "TaiKhoan changed: $taikhoan")
         Log.d("ProductDetail", "MaKhachHang: $maKhachHang")
@@ -153,6 +158,7 @@ fun ProductDetail(
             isLoading = false
         }
     }
+
 
     val productOrDefault = product ?: SanPham(
         MaSanPham = 0,
@@ -223,13 +229,16 @@ fun ProductDetail(
             }
         )
     }
-
     LaunchedEffect(giohangAddResult) {
         if (giohangAddResult.isNotEmpty()) {
             isAddingToCart = false
             Toast.makeText(context, "Thêm thành công", Toast.LENGTH_SHORT).show()
+            maKhachHang?.let {
+                gioHangViewModel.getGioHangByKhachHang(it)
+            }
         }
     }
+
 
     Scaffold(
         topBar = {
@@ -414,6 +423,7 @@ fun ProductDetail(
                                         HinhAnh = productOrDefault.HinhAnh
                                     )
                                     gioHangViewModel.addToCart(gioHang)
+                                    gioHangViewModel.getGioHangByKhachHang(maKhachHang)
                                 }
                             },
                             modifier = Modifier
@@ -536,83 +546,10 @@ fun ProductDetail(
                                     fontSize = 18.sp,
                                     fontWeight = FontWeight.Bold
                                 )
-                                Spacer(modifier = Modifier.height(8.dp))
-                                // Form thêm bình luận
-                                Column(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .background(Color(0xFFF5F5F5), RoundedCornerShape(8.dp))
-                                        .padding(12.dp)
-                                ) {
-                                    Text(
-                                        text = "Thêm đánh giá của bạn",
-                                        fontSize = 16.sp,
-                                        fontWeight = FontWeight.Medium
-                                    )
-                                    Spacer(modifier = Modifier.height(8.dp))
-                                    Row(
-                                        horizontalArrangement = Arrangement.spacedBy(4.dp),
-                                        modifier = Modifier.fillMaxWidth()
-                                    ) {
-                                        (1..5).forEach { star ->
-                                            Icon(
-                                                imageVector = Icons.Default.Star,
-                                                contentDescription = "Sao $star",
-                                                tint = if (star <= rating) Color(0xFFFFD700) else Color.Gray,
-                                                modifier = Modifier
-                                                    .size(24.dp)
-                                                    .clickable { rating = star }
-                                            )
-                                        }
-                                    }
-                                    Spacer(modifier = Modifier.height(8.dp))
-                                    OutlinedTextField(
-                                        value = commentText,
-                                        onValueChange = { commentText = it },
-                                        label = { Text("Nhập bình luận") },
-                                        modifier = Modifier.fillMaxWidth(),
-                                        maxLines = 3
-                                    )
-                                    Spacer(modifier = Modifier.height(8.dp))
-                                    Button(
-                                        onClick = {
-                                            if (commentText.isNotBlank() && !isSubmitting) {
-                                                isSubmitting = true
-                                                val review = BinhLuanDanhGia(
-                                                    MaBinhLuan = 1,
-                                                    MaKhachHang = maKhachHang ?: "",
-                                                    MaSanPham = productId,
-                                                    MaHoaDonBan = 19, // Giả định chưa có hóa đơn
-                                                    SoSao = rating,
-                                                    NoiDung = commentText,
-                                                    NgayDanhGia = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date()),
-                                                    TrangThai = 1
-                                                )
-                                                binhLuanViewModel.createReview(review)
-                                                commentText = ""
-                                                rating = 5
-                                                Toast.makeText(context, "Đã gửi bình luận", Toast.LENGTH_SHORT).show()
-                                                isSubmitting = false
-                                            } else if (commentText.isBlank()) {
-                                                Toast.makeText(context, "Vui lòng nhập bình luận", Toast.LENGTH_SHORT).show()
-                                            }
-                                        },
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .height(48.dp),
-                                        colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
-                                        shape = RoundedCornerShape(8.dp),
-                                        enabled = !isSubmitting
-                                    ) {
-                                        Text(
-                                            text = "Gửi đánh giá",
-                                            color = Color.White,
-                                            fontSize = 16.sp
-                                        )
-                                    }
-                                }
                                 Spacer(modifier = Modifier.height(16.dp))
                                 // Danh sách bình luận
+                                ReviewListScreen(maSanPham = maSanPham ?: 0, viewModel = binhLuanViewModel)
+
                                 if (reviews.isEmpty()) {
                                     Text(
                                         text = "Chưa có đánh giá nào cho sản phẩm này.",
@@ -674,5 +611,56 @@ fun ProductDetail(
                 }
             }
         }
+    }
+}
+@Composable
+fun ReviewListScreen(
+    maSanPham: Int,
+    viewModel: BinhLuanViewModel
+) {
+    val reviews by viewModel.reviewsByProductId.collectAsState()
+
+    // Gọi API khi load màn hình
+    LaunchedEffect(maSanPham) {
+        viewModel.getDanhGiaByMaSanPham(maSanPham)
+    }
+
+    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+        Text(
+            text = "Đánh giá sản phẩm",
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(bottom = 12.dp)
+        )
+
+        if (reviews.isEmpty()) {
+            Text("Chưa có đánh giá nào cho sản phẩm này.")
+        } else {
+            LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                items(reviews) { review ->
+                    ReviewItem(review)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun ReviewItem(review: BinhLuanDanhGia) {
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                text = review.TenKhachHang?: "Khách hàng ẩn danh",
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.weight(1f)
+            )
+            Text("${review.SoSao} ⭐")
+        }
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(text = review.NoiDung?: "Không có nội dung")
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            text = "Ngày: ${review.NgayDanhGia}",
+            modifier = Modifier.align(Alignment.End)
+        )
     }
 }

@@ -272,7 +272,7 @@ fun AccountScreens(
                     item {
                         AccountItem(
                             icon = Icons.Default.Receipt,
-                            text = "Đơn Hàng Mua",
+                            text = "Đơn hàng đã mua",
                             onClick = {
                                 navHostController.navigate(Screens.ORDERDELIVEREDSCREEN.createRoute(maKhachHang))
                             }

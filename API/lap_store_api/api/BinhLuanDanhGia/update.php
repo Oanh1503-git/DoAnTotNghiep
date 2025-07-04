@@ -30,7 +30,7 @@ error_reporting(E_ALL);
     $binhluan->MaBinhLuan = $data->MaBinhLuan;
     $binhluan->MaKhachHang = $data->MaKhachHang;
     $binhluan->MaSanPham = $data->MaSanPham;
-    $binhluan->MaDonHang = $data->MaDonHang;
+    $binhluan->MaHoaDon = $data->MaHoaDon;
     $binhluan->SoSao = $data->SoSao;
     $binhluan->NoiDung = $data->NoiDung;
     $binhluan->NgayDanhGia = $data->NgayDanhGia;

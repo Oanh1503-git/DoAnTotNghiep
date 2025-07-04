@@ -5,6 +5,10 @@ import LoginScreen
 import ResetPasswordScreen
 import android.util.Log
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import com.example.laptopstore.views.HOMEPAGE
@@ -21,12 +25,16 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.lapstore.viewmodels.HoaDonViewModel
 import com.example.laptopstore.AddressScreen
 import com.example.laptopstore.screens.OrderStatusScreen
+import com.example.laptopstore.viewmodels.BinhLuanViewModel
 import com.example.laptopstore.viewmodels.ChiTietHoaDonViewmodel
+import com.example.laptopstore.viewmodels.DataStoreManager
 
 import com.example.laptopstore.viewmodels.GioHangViewModel
 import com.example.laptopstore.viewmodels.OTPViewModel
 import com.example.laptopstore.viewmodels.SanPhamYeuThichViewModel
 import com.example.laptopstore.views.*
+import java.text.NumberFormat
+import java.util.Locale
 
 @Composable
 fun NavigationGraph(
@@ -242,16 +250,19 @@ fun NavigationGraph(
             SeachSanphamScreen(navHostController,sanphamViewModel,hinhAnhViewModel,gioHangViewModel)
         }
         composable(
-            route = Screens.ORDERDELIVEREDSCREEN.route
-        ) {
+            route = Screens.ORDERDELIVEREDSCREEN.route,
+            arguments = listOf(navArgument("maKhachHang") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val maKhachHang = backStackEntry.arguments?.getString("maKhachHang") ?: ""
+
+            // Gọi màn hình OrderDeliveredScreen
             OrderDeliveredScreen(
                 viewModel = hoaDonBanViewModel,
                 sanPhamViewModel = sanphamViewModel,
-                chiTietHoaDonViewmodel,
+                chitietdonhang = chiTietHoaDonViewmodel,
                 navController = navHostController
             )
         }
-
 
 
     }

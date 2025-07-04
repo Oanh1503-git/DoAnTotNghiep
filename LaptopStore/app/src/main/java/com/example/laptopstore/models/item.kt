@@ -1,5 +1,6 @@
 package com.example.laptopstore.models
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -21,6 +23,9 @@ import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
@@ -28,6 +33,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -55,6 +61,8 @@ import com.example.laptopstore.R
 import com.example.laptopstore.viewmodels.GioHangViewModel
 import kotlinx.coroutines.delay
 import java.text.NumberFormat
+import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 
 @Composable
@@ -127,18 +135,18 @@ fun MenuBottomNavBar(navController: NavHostController, gioHangViewModel: GioHang
                             )
                             Box(
                                 modifier = Modifier
-                                    .align(Alignment.TopEnd)
-                                    .offset(x = 10.dp, y = (-4).dp)
-                                    .size(16.dp)
-                                    .background(Color.Red, shape = RoundedCornerShape(8.dp)),
+                                    .align(Alignment.Center)
+                                    .offset(x = 12.dp, y = (-10).dp)
+                                    .size(19.dp)
+                                    .background(Color.Red, shape = RoundedCornerShape(8.dp)), // <-- chỉnh ở đây để bo tròn 2 đầu
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
                                     text = uniqueProductCount.toString(),
                                     color = Color.White,
-                                    fontSize = 10.sp,
+                                    fontSize = 12.sp,
                                     fontWeight = FontWeight.Bold,
-                                    textAlign = TextAlign.Justify   ,
+                                    textAlign = TextAlign.Center,
                                     modifier = Modifier.fillMaxSize()
                                 )
                             }

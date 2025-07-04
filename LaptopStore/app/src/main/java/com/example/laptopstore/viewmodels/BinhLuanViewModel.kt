@@ -17,6 +17,9 @@ class BinhLuanViewModel : ViewModel() {
     private val _reviewsByProductId = MutableStateFlow<List<BinhLuanDanhGia>>(emptyList())
     val reviewsByProductId: StateFlow<List<BinhLuanDanhGia>> = _reviewsByProductId.asStateFlow()
 
+    private val _danhGiaList = MutableStateFlow<List<BinhLuanDanhGia>>(emptyList())
+    val danhGiaList: StateFlow<List<BinhLuanDanhGia>> = _danhGiaList
+
     fun getReviewsByProductId(productId: Int?) {
         if (productId == null || productId <= 0) {
             Log.e("BinhLuanViewModel", "Invalid productId: $productId")
@@ -34,6 +37,21 @@ class BinhLuanViewModel : ViewModel() {
         }
     }
 
+    fun getDanhGiaByMaSanPham(maSanPham: Int) {
+        viewModelScope.launch {
+            try {
+                val response = LaptopStoreRetrofitClient.binhLuanAPIService.getDanhGiaByMaSanPham(maSanPham)
+                if (response.success && response.data != null) {
+                    _danhGiaList.value = response.data
+                } else {
+                    _danhGiaList.value = emptyList()
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                _danhGiaList.value = emptyList()
+            }
+        }
+    }
     fun createReview(review: BinhLuanDanhGia) {
         viewModelScope.launch {
             try {

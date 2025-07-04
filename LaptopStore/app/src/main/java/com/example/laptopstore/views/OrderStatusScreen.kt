@@ -1,5 +1,6 @@
 package com.example.laptopstore.screens
 
+import DonHangDayDuItem
 import DonHangDayDuResponse
 import android.util.Log
 import androidx.compose.foundation.layout.*
@@ -34,7 +35,7 @@ fun OrderStatusScreen(
 ) {
     var selectedTabIndex by remember { mutableStateOf(0) }
     val tabTitles = listOf("Chờ xác nhận", "Đã duyệt", "Đang vận chuyển", "Đã hủy")
-    val donHangList by viewModel.donHangDayDu.collectAsState(initial = emptyList())
+    val donHangList by viewModel.donHangList.collectAsState()
     val context = LocalContext.current
     val dataStoreManager = remember { DataStoreManager(context) }
     val customerId by dataStoreManager.customerId.collectAsState(initial = null)
@@ -43,8 +44,8 @@ fun OrderStatusScreen(
 
     LaunchedEffect(maKhachHang) {
         if (maKhachHang != null) {
-            viewModel.getDonHangDayDu(maKhachHang)
-            Log.d("OrderStatusScreen", "Fetching orders for customerId: $maKhachHang")
+            viewModel.getDonHangDayDuTheoKhachHang(maKhachHang)
+            Log.d("OrderDeliveredScreen", "Fetching orders for customerId: $maKhachHang")
         }
     }
     Scaffold(
@@ -89,7 +90,7 @@ fun OrderStatusScreen(
 }
 @Composable
 fun OrderCard(
-    donHang: DonHangDayDuResponse,
+    donHang: DonHangDayDuItem,
     tabIndex: Int,
     viewModel: HoaDonViewModel,
     navController: NavHostController

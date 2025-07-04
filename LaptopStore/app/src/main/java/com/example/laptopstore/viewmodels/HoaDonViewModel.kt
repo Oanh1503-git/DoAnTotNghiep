@@ -1,6 +1,6 @@
 package com.example.lapstore.viewmodels
 
-import DonHangDayDuResponse
+import DonHangDayDuItem
 import HoaDonDeleteRequest
 import HoaDonUpdateTrangThaiRequest
 import android.util.Log
@@ -17,11 +17,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class HoaDonViewModel: ViewModel() {
-    // Kết quả thêm hóa đơn
-    var hoadonAddResult by mutableStateOf("")
+class HoaDonViewModel : ViewModel() {
 
-    // Thay đổi danh sách hóa đơn thành StateFlow
+    // ================
+    // STATE FLOW DATA
+    // ================
+
     private val _danhSachHoaDonCuaKhachHang = MutableStateFlow<List<HoaDon>>(emptyList())
     val danhSachHoaDonCuaKhachHang: StateFlow<List<HoaDon>> = _danhSachHoaDonCuaKhachHang
 
@@ -29,57 +30,85 @@ class HoaDonViewModel: ViewModel() {
     val danhSachHoaDonTheoTrangThai: StateFlow<List<HoaDon>> = _danhSachHoaDonTheoTrangThai
 
     private val _maHoaDonState = MutableStateFlow<Int?>(null)
-    val maHoaDonState: StateFlow<Int?>get() = _maHoaDonState
-
+    val maHoaDonState: StateFlow<Int?> = _maHoaDonState
 
     private val _addHoaDonMessage = MutableStateFlow<String?>(null)
     val addHoaDonMessage: StateFlow<String?> = _addHoaDonMessage
 
-    var maHoaDon = maHoaDonState.value
-
-    var HoaDonBan by mutableStateOf<HoaDon?>(null)
-        private set
-    private val _donHangDayDu = MutableStateFlow<List<DonHangDayDuResponse>>(emptyList())
-    val donHangDayDu: StateFlow<List<DonHangDayDuResponse>> = _donHangDayDu
+    private val _donHangList = MutableStateFlow<List<DonHangDayDuItem>>(emptyList())
+    val donHangList: StateFlow<List<DonHangDayDuItem>> = _donHangList
 
     private val _error = MutableStateFlow<String?>(null)
     val error: StateFlow<String?> = _error
 
-    // Lấy hóa đơn theo khách hàng
-    fun getHoaDonTheoKhachHang(MaKhachHang: String, TrangThai: Int) {
+    var HoaDonBan by mutableStateOf<HoaDon?>(null)
+        private set
+
+    // ===================
+    // FUNCTIONALITY
+    // ===================
+
+    fun getHoaDonTheoKhachHang(maKhachHang: String, trangThai: Int) {
         viewModelScope.launch {
             try {
                 val response = withContext(Dispatchers.IO) {
-                    LaptopStoreRetrofitClient.hoaDonAPIService.getHoaDoByKhachHang(MaKhachHang, TrangThai)
+                    LaptopStoreRetrofitClient.hoaDonAPIService.getHoaDonByKhachHang(maKhachHang, trangThai)
                 }
-                _danhSachHoaDonCuaKhachHang.value = response.hoadon ?: emptyList() // Cập nhật StateFlow
+                _danhSachHoaDonCuaKhachHang.value = response.hoadon ?: emptyList()
             } catch (e: Exception) {
-                Log.e("HoaDon Error", "Lỗi khi lấy hoadon: ${e.message}")
-                _danhSachHoaDonCuaKhachHang.value = emptyList() // Gán danh sách rỗng khi có lỗi
+                Log.e("HoaDonViewModel", "Lỗi khi lấy hoadon: ${e.message}")
+                _danhSachHoaDonCuaKhachHang.value = emptyList()
             }
         }
     }
 
-    fun getHoaDonTheoTrangThai(TrangThai: Int) {
+    fun getHoaDonTheoTrangThai(trangThai: Int) {
         viewModelScope.launch {
             try {
                 val response = withContext(Dispatchers.IO) {
-                    LaptopStoreRetrofitClient.hoaDonAPIService.getHoaDonTheoTrangThai(TrangThai)
+                    LaptopStoreRetrofitClient.hoaDonAPIService.getHoaDonTheoTrangThai(trangThai)
                 }
                 _danhSachHoaDonTheoTrangThai.value = response.hoadon ?: emptyList()
             } catch (e: Exception) {
-                Log.e("HoaDon Error", "Lỗi khi lấy hoadon: ${e.message}")
+                Log.e("HoaDonViewModel", "Lỗi khi lấy hoadon theo trạng thái: ${e.message}")
                 _danhSachHoaDonTheoTrangThai.value = emptyList()
             }
         }
     }
+
+    fun getDonHangDayDuTheoKhachHang(maKhachHang: String) {
+        viewModelScope.launch {
+            try {
+                val response = LaptopStoreRetrofitClient.hoaDonAPIService.getDonHangDayDuTheoKhachHang(maKhachHang)
+                if (response.isSuccessful) {
+                    val body = response.body()
+                    if (body?.success == true) {
+                        _donHangList.value = body.data ?: emptyList()
+                        Log.d("HoaDonViewModel", "Loaded ${_donHangList.value.size} đơn hàng")
+                    } else {
+                        val errorMessage = body?.message ?: "API trả về success = false nhưng không có message"
+                        _error.value = errorMessage
+                        Log.e("HoaDonViewModel", "API error: $errorMessage")
+                    }
+                } else {
+                    _error.value = "Response failed: ${response.code()} ${response.message()}"
+                    Log.e("HoaDonViewModel", "API call failed: ${response.code()} ${response.message()}")
+                }
+
+            } catch (e: Exception) {
+                _error.value = "Exception: ${e.message}"
+                Log.e("HoaDonViewModel", "Exception: ${e.message}")
+            }
+        }
+    }
+
     fun updateTrangThai(maHoaDon: Int, trangThai: Int) {
         viewModelScope.launch {
             try {
                 val request = HoaDonUpdateTrangThaiRequest(maHoaDon, trangThai)
                 val response = LaptopStoreRetrofitClient.hoaDonAPIService.updateTrangThai(request)
                 if (response.success) {
-                    // Reload dữ liệu
+                    // Cập nhật trạng thái trong danh sách
                     _danhSachHoaDonCuaKhachHang.value = _danhSachHoaDonCuaKhachHang.value.map {
                         if (it.MaHoaDon == maHoaDon) it.copy(TrangThai = trangThai) else it
                     }
@@ -90,25 +119,6 @@ class HoaDonViewModel: ViewModel() {
         }
     }
 
-    fun getDonHangDayDu(maKhachHang: String) {
-        viewModelScope.launch {
-            try {
-                val response = LaptopStoreRetrofitClient.hoaDonAPIService.getDonHangDayDuTheoKhachHang(maKhachHang)
-                if (response.isSuccessful && response.body() != null) {
-                    _donHangDayDu.value = response.body()!!
-                } else {
-                    _error.value = response.message()
-                }
-            } catch (e: Exception) {
-                _error.value = "Lỗi: ${e.message}"
-            }
-        }
-    }
-
-    fun resetTrangThai() {
-        _addHoaDonMessage.value = null
-        _maHoaDonState.value = null
-    }
     suspend fun addHoaDon(hoaDon: HoaDon): Int? {
         return try {
             val response = LaptopStoreRetrofitClient.hoaDonAPIService.addHoaDon(hoaDon)
@@ -121,62 +131,68 @@ class HoaDonViewModel: ViewModel() {
                 null
             }
         } catch (e: Exception) {
-            Log.e("HoaDonBanViewModel", "Lỗi khi thêm hóa đơn: ${e.message}")
+            Log.e("HoaDonViewModel", "Lỗi khi thêm hóa đơn: ${e.message}")
             _addHoaDonMessage.value = "Lỗi kết nối: ${e.message}"
             null
         }
     }
 
-    // Xóa hóa đơn
-    fun deleteHoaDon(mahoadon: Int) {
+    fun deleteHoaDon(maHoaDon: Int) {
         viewModelScope.launch {
             try {
-                val deleteRequest = HoaDonDeleteRequest(mahoadon)
+                val deleteRequest = HoaDonDeleteRequest(maHoaDon)
                 val response = LaptopStoreRetrofitClient.hoaDonAPIService.deleteHoaDon(deleteRequest)
                 if (response.isSuccessful) {
                     val apiResponse = response.body()
                     if (apiResponse?.message == "Gio Hang Deleted") {
-                        Log.d("GioHangViewModel", "Giỏ hàng đã được xóa")
-                        // Cập nhật danh sách sau khi xóa
-                        _danhSachHoaDonCuaKhachHang.value = _danhSachHoaDonCuaKhachHang.value.filter { it.MaHoaDon != mahoadon }
+                        Log.d("HoaDonViewModel", "Đã xóa hóa đơn")
+                        _danhSachHoaDonCuaKhachHang.value = _danhSachHoaDonCuaKhachHang.value.filter { it.MaHoaDon != maHoaDon }
                     } else {
-                        Log.e("GioHangViewModel", "Lỗi: ${apiResponse?.message}")
+                        Log.e("HoaDonViewModel", "Lỗi xóa: ${apiResponse?.message}")
                     }
                 } else {
-                    Log.e("GioHangViewModel", "Error: ${response.message()}")
+                    Log.e("HoaDonViewModel", "Response error: ${response.message()}")
                 }
             } catch (e: Exception) {
-                Log.e("GioHangViewModel", "Exception: ${e.message}")
+                Log.e("HoaDonViewModel", "Exception: ${e.message}")
             }
         }
     }
 
-    // Cập nhật hóa đơn
-    fun updateHoaDonBan(hoadon: HoaDon) {
+    fun updateHoaDon(hoaDon: HoaDon) {
         viewModelScope.launch {
             try {
                 val response = withContext(Dispatchers.IO) {
-                    LaptopStoreRetrofitClient.hoaDonAPIService.updateHoaDon(hoadon)
+                    LaptopStoreRetrofitClient.hoaDonAPIService.updateHoaDon(hoaDon)
                 }
-                hoadonAddResult = if (response.success) {
-                    "Cập nhật thành công: ${response.message}"
+                if (response.success) {
+                    _addHoaDonMessage.value = "Cập nhật thành công: ${response.message}"
                 } else {
-                    "Cập nhật thất bại: ${response.message}"
+                    _addHoaDonMessage.value = "Cập nhật thất bại: ${response.message}"
                 }
             } catch (e: Exception) {
-                hoadonAddResult = "Lỗi khi cập nhật giỏ hàng: ${e.message}"
-                Log.e("GioHang Error", "Lỗi khi cập nhật giỏ hàng: ${e.message}")
+                _addHoaDonMessage.value = "Lỗi khi cập nhật hóa đơn: ${e.message}"
+                Log.e("HoaDonViewModel", "Lỗi khi cập nhật hóa đơn: ${e.message}")
             }
         }
     }
 
-    fun getHoaDonByMaHoaDon(mahoadon: Int) {
+    fun getHoaDonByMaHoaDon(maHoaDon: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                HoaDonBan = LaptopStoreRetrofitClient.hoaDonAPIService.getHoaDonByMaHoaDon(mahoadon)
+                HoaDonBan = LaptopStoreRetrofitClient.hoaDonAPIService.getHoaDonByMaHoaDon(maHoaDon)
             } catch (e: Exception) {
-                Log.e("HoaDonBan ViewModel", "Error getting HoaDon", e)
+                Log.e("HoaDonViewModel", "Error getting HoaDon: ${e.message}")
             }
         }
+    }
+
+    fun clearError() {
+        _error.value = null
+    }
+
+    fun resetTrangThai() {
+        _addHoaDonMessage.value = null
+        _maHoaDonState.value = null
     }
 }

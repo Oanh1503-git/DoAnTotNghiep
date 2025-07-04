@@ -198,7 +198,7 @@ fun CheckoutScreen(navController: NavHostController,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             item {
-                Text("Địa chỉ giao hàng", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                Text("Địa chỉ giao hàng(chọn địa chỉ khác hoặc thêm địa chỉ mới nếu chưa có )", fontSize = 18.sp, fontWeight = FontWeight.Bold)
 
                 Card(
                     modifier = Modifier
