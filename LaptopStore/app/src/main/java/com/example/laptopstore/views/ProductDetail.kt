@@ -37,6 +37,7 @@ import com.example.laptopstore.models.GioHang
 import com.example.laptopstore.models.HinhAnh
 import com.example.laptopstore.models.MenuBottomNavBar
 import com.example.laptopstore.models.Product
+import com.example.laptopstore.models.ReusableAlertDialog
 import com.example.laptopstore.models.SanPham
 import com.example.laptopstore.models.Screens
 import com.example.laptopstore.viewmodels.BinhLuanViewModel
@@ -118,19 +119,20 @@ fun ProductDetail(
     val cartItems by gioHangViewModel.listGioHang.collectAsState(initial = emptyList())
     val isInCart = cartItems.any {it.MaSanPham == product?.MaSanPham}
     val maSanPham= product?.MaSanPham
-
-
+    val soluongtronggiohang by gioHangViewModel.soLuong.collectAsState(initial = 0)
+    var showDialog by remember { mutableStateOf(false) }
+    Log.d("ProductDetail", "ma khach hang: $soluongtronggiohang")
     Log.d("ProductDetail", "ma san pham: $maSanPham")
     LaunchedEffect(taikhoan) {
         Log.d("ProductDetail", "TaiKhoan changed: $taikhoan")
         Log.d("ProductDetail", "MaKhachHang: $maKhachHang")
+        Log.d("ProductDetail", "so luong trong kho: $sl")
     }
     LaunchedEffect(maSanPham) {
         if(maSanPham!=null){
             binhLuanViewModel.getReviewsByProductId(maSanPham)
+            sanPhamViewModel.kiemTraSoLuongSanPham(maSanPham)
         }
-
-
     }
     val listdanhgia = binhLuanViewModel.reviewsByProductId.collectAsState()
     Log.d("ProductDetail", "list danh gia: ${listdanhgia.value}")
@@ -160,6 +162,7 @@ fun ProductDetail(
                 Log.d("ProductDetail", "Loading data for MaKhachHang: $maKhachHang")
                 sanPhamYeuThichViewModel.checkFavorite(productId, maKhachHang)
                 gioHangViewModel.getGioHangByKhachHang(maKhachHang)
+                gioHangViewModel.kiemtrasoluong(maKhachHang, productId)
             } else {
                 Log.d("ProductDetail", "MaKhachHang is null or empty")
             }
@@ -412,31 +415,37 @@ fun ProductDetail(
                                     return@Button
                                 }
                                 if (sl !=null && sl <= 0) {
+                                    showDialog = true
                                     errorMessage = "Sản phẩm đã hết hàng"
                                     return@Button
+                                }else if(sl != null && soluongtronggiohang != null && sl <= soluongtronggiohang!!){
+                                    errorMessage = "giỏ hàng đã vượt quá số lượng Sản phẩm tối đã"
+                                    return@Button
                                 }
-                                // Kiểm tra sản phẩm đã có trong giỏ hàng chưa
-                                val existingCartItem = cartItems.find { it.MaSanPham == productOrDefault.MaSanPham }
-                                if (existingCartItem != null) {
-                                    // Nếu đã có, tăng số lượng
-                                    val updatedGioHang = existingCartItem.copy(SoLuong = existingCartItem.SoLuong + 1)
-                                    gioHangViewModel.updateGioHang(updatedGioHang)
-                                    Toast.makeText(context, "Đã tăng số lượng sản phẩm trong giỏ hàng", Toast.LENGTH_SHORT).show()
-                                } else {
-                                    // Nếu chưa có, thêm mới
-                                    val gioHang = GioHang(
-                                        MaGioHang = 0,
-                                        MaSanPham = productOrDefault.MaSanPham,
-                                        MaKhachHang = maKhachHang,
-                                        SoLuong = 1,
-                                        TrangThai = 1,
-                                        TenSanPham = productOrDefault.TenSanPham,
-                                        Gia = productOrDefault.Gia.toDouble(),
-                                        HinhAnh = productOrDefault.HinhAnh
-                                    )
-                                    gioHangViewModel.addToCart(gioHang)
-                                    gioHangViewModel.getGioHangByKhachHang(maKhachHang)
+                                else{
+                                    val existingCartItem = cartItems.find { it.MaSanPham == productOrDefault.MaSanPham }
+                                    if (existingCartItem != null) {
+                                        // Nếu đã có, tăng số lượng
+                                        val updatedGioHang = existingCartItem.copy(SoLuong = existingCartItem.SoLuong + 1)
+                                        gioHangViewModel.updateGioHang(updatedGioHang)
+                                        Toast.makeText(context, "Đã tăng số lượng sản phẩm trong giỏ hàng", Toast.LENGTH_SHORT).show()
+                                    } else {
+                                        // Nếu chưa có, thêm mới
+                                        val gioHang = GioHang(
+                                            MaGioHang = 0,
+                                            MaSanPham = productOrDefault.MaSanPham,
+                                            MaKhachHang = maKhachHang,
+                                            SoLuong = 1,
+                                            TrangThai = 1,
+                                            TenSanPham = productOrDefault.TenSanPham,
+                                            Gia = productOrDefault.Gia.toDouble(),
+                                            HinhAnh = productOrDefault.HinhAnh
+                                        )
+                                        gioHangViewModel.addToCart(gioHang)
+                                        gioHangViewModel.getGioHangByKhachHang(maKhachHang)
+                                    }
                                 }
+
                             },
                             modifier = Modifier
                                 .weight(1f)
@@ -452,6 +461,7 @@ fun ProductDetail(
                                 fontWeight = FontWeight.Medium
                             )
                         }
+
                         Button(
                             onClick = {
                                 if (maKhachHang.isNullOrEmpty()) {
@@ -509,6 +519,20 @@ fun ProductDetail(
                                 color = Color.White,
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.Medium
+                            )
+                        }
+                        if(showDialog){
+                            ReusableAlertDialog(
+                                showDialog = showDialog,
+                                onDismiss = { showDialog = false },
+                                title = "Thông báo",
+                                message = errorMessage ?: "",
+                                confirmButtonText = "Đóng",
+                                confirmButtonColor = Color.Red,
+                                onConfirm = {
+                                    showDialog = false
+                                }
+
                             )
                         }
                     }

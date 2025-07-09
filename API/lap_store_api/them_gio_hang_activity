@@ -1,0 +1,28 @@
+// Activity Diagram - Thêm vào giỏ hàng
+digraph {
+	rankdir=TB size="8,10"
+	Start [label="" fillcolor=black shape=circle style=filled]
+	A [label="Chọn số lượng và nhấn \"Thêm vào giỏ hàng\"" shape=box]
+	B [label="Người dùng đã đăng nhập?" shape=diamond]
+	C1 [label="Hiển thị: Vui lòng đăng nhập" shape=box]
+	D [label="Sản phẩm còn hàng?" shape=diamond]
+	C2 [label="Hiển thị: Sản phẩm hết hàng" shape=box]
+	E [label="Sản phẩm đã có trong giỏ hàng?" shape=diamond]
+	F1 [label="Cập nhật số lượng sản phẩm" shape=box]
+	F2 [label="Thêm sản phẩm mới vào giỏ hàng" shape=box]
+	G [label="Hiển thị: Đã thêm vào giỏ hàng" shape=box]
+	End [label="" shape=doublecircle]
+	Start -> A
+	A -> B
+	B -> C1 [label=No]
+	B -> D [label=Yes]
+	D -> C2 [label=No]
+	D -> E [label=Yes]
+	E -> F1 [label=Yes]
+	E -> F2 [label=No]
+	F1 -> G
+	F2 -> G
+	C1 -> End
+	C2 -> End
+	G -> End
+}

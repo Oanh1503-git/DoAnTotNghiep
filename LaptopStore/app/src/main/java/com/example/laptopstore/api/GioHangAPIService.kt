@@ -25,7 +25,9 @@ data class DeleteGioHangResponse(
 data class DeleteRequest(
     val MaGioHang: Int
 )
-
+data class SoLuongResponse(
+    val SoLuong: Int
+)
 interface GioHangAPIService {
     @GET("GioHang/getgiohangtheomakhachhang.php")
     suspend fun getGioHangByKhachHang(
@@ -51,5 +53,9 @@ interface GioHangAPIService {
     suspend fun deleteSanPhamTrongGio(
         @Body request: DeleteGioHangRequest
     ): Response<DeleteGioHangResponse>
-
+    @GET("giohang/get_soluong_giohang.php")
+    suspend fun getSoLuongTrongGio(
+        @Query("MaKhachHang") maKhachHang: String,
+        @Query("MaSanPham") maSanPham: Int
+    ): Response<SoLuongResponse>
 }

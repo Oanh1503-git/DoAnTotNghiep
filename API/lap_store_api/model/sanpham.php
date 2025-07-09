@@ -341,6 +341,25 @@ public function getSanPhamByPriceRange($minPrice, $maxPrice)
             ];
         }
     }
+public function getSoLuongKho($MaSanPham) {
+    try {
+        $query = "SELECT SoLuong FROM sanpham WHERE MaSanPham = :MaSanPham LIMIT 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':MaSanPham', $MaSanPham);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($row) {
+            return $row['SoLuong'];
+        } else {
+            return null;
+        }
+    } catch (PDOException $e) {
+        error_log("Lỗi khi lấy số lượng tồn kho: " . $e->getMessage());
+        return null;
+    }
+}
+
     public function truSoLuongTrongKho($soLuongCanTru) {
     // Bước 1: Lấy số lượng hiện tại từ CSDL
     $query = "SELECT SoLuong FROM sanpham WHERE MaSanPham = ?";
@@ -386,6 +405,8 @@ public function getSanPhamByPriceRange($minPrice, $maxPrice)
         ];
     }
 }
+
+
 
 }
 ?>

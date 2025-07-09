@@ -23,7 +23,7 @@ object Constants {
 
 object LaptopStoreRetrofitClient {
 
-    private val gson = GsonBuilder()
+    val gson = GsonBuilder()
         .setLenient()
         .create()
 

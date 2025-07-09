@@ -172,7 +172,7 @@ class SanPhamViewModel : ViewModel() {
             try {
                 val response = LaptopStoreRetrofitClient.sanphamAPIService.kiemTraSoLuongTonKho(maSanPham)
                 if (response.success) {
-                    val tonKho = response.SoLuongTonKho ?: 0
+                    val tonKho = response.SoLuongTonKho
                     _soLuongTonKhoState.value = tonKho
                     Log.d("TonKho", "✅ Số lượng tồn kho: $tonKho")
                 } else {

@@ -570,7 +570,6 @@ fun CartItemCard(
                     }
                     IconButton(
                         onClick = {
-
                                 onQuantityChange(gioHang.SoLuong + 1)
                         },
                         enabled = gioHang.SoLuong < sanPham.SoLuong

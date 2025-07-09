@@ -24,6 +24,9 @@ class GioHangViewModel : ViewModel() {
     private val _giohangAddResult = MutableStateFlow("")
     val giohangAddResult: StateFlow<String> = _giohangAddResult.asStateFlow()
 
+    private val _soLuong = MutableStateFlow<Int?>(0)
+    val soLuong = _soLuong.asStateFlow()
+
     fun getGioHangByKhachHang(MaKhachHang: String) {
         if (MaKhachHang.isNullOrBlank()) {
             _giohangUpdateResult.value = "MaKhachHang không hợp lệ"
@@ -205,4 +208,20 @@ class GioHangViewModel : ViewModel() {
 
         }
     }
+    fun kiemtrasoluong(maKhachHang: String, maSanPham: Int){
+        viewModelScope.launch {
+            try {
+                val response=LaptopStoreRetrofitClient.giohangAPIService.getSoLuongTrongGio(maKhachHang, maSanPham)
+                if(response.isSuccessful){
+                    val soLuong=response.body()?.SoLuong
+                    _soLuong.value=soLuong
+                }else{
+                    _soLuong.value=0
+                }
+            }catch (e: Exception){
+                _soLuong.value=0
+            }
+        }
+    }
+
 }

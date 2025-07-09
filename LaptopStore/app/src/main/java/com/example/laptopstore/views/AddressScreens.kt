@@ -18,6 +18,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavHostController
 import com.example.lapstore.viewmodels.DiaChiViewmodel
+import com.example.laptopstore.api.District
+import com.example.laptopstore.api.Province
+import com.example.laptopstore.api.Ward
 import com.example.laptopstore.models.DiaChi
 import com.example.laptopstore.models.Screens
 import com.example.laptopstore.viewmodels.DataStoreManager
@@ -237,6 +240,7 @@ fun AddressScreen(
                 DiaChiForm(
                     diaChi = editingDiaChi,
                     maKhachHang = maKhachHang,
+                    diaChiViewModel = diaChiViewModel,
                     onSubmit = { diaChi ->
                         if (editingDiaChi == null) {
                             diaChiViewModel.addDiaChi(diaChi.copy(MaKhachHang = maKhachHang), maKhachHang)
@@ -255,24 +259,70 @@ fun AddressScreen(
         }
     }
 }
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DiaChiForm(
     diaChi: DiaChi?,
     maKhachHang: String,
+    diaChiViewModel: DiaChiViewmodel, // Thêm ViewModel này
     onSubmit: (DiaChi) -> Unit,
     onCancel: () -> Unit
 ) {
+
     var tenNguoiNhan by remember { mutableStateOf(diaChi?.TenNguoiNhan ?: "") }
     var soDienThoai by remember { mutableStateOf(diaChi?.SoDienThoai ?: "") }
-    var thongTinDiaChi by remember { mutableStateOf(diaChi?.ThongTinDiaChi ?: "") }
+    var expandedProvince by remember { mutableStateOf(false) }
+    var expandedDistrict by remember { mutableStateOf(false) }
+    var expandedWard by remember { mutableStateOf(false) }
+    // Province selection
+    val provinces by diaChiViewModel.provinces.collectAsState()
+    val districts by diaChiViewModel.districts.collectAsState()
+    val wards by diaChiViewModel.wards.collectAsState()
+    var selectedProvince by remember { mutableStateOf<Province?>(null) }
+    var selectedDistrict by remember { mutableStateOf<District?>(null) }
+    var selectedWard by remember { mutableStateOf<Ward?>(null) }
+    var thongtinbosung by remember { mutableStateOf(diaChi?.ThongTinDiaChi ?: "") }
+
+    LaunchedEffect(Unit) {
+        diaChiViewModel.fetchProvinces()
+    }
+    LaunchedEffect(diaChi) {
+        diaChi?.let {
+            // 1. Fetch tất cả provinces trước
+            diaChiViewModel.fetchProvinces()
+
+            // 2. Sau khi fetch xong, chọn province khớp với diaChi
+            val province = diaChiViewModel.provinces.value.find { province ->
+                province.code == diaChi.provinceId // provinceId là tên field bạn lưu
+            }
+            selectedProvince = province
+
+            // 3. Nếu có province, fetch districts
+            province?.let {
+                diaChiViewModel.fetchDistricts(province.code)
+
+                // 4. Sau khi fetch xong, chọn district
+                val district = diaChiViewModel.districts.value.find { district ->
+                    district.code == diaChi.districtId
+                }
+                selectedDistrict = district
+
+                // 5. Nếu có district, fetch wards
+                district?.let {
+                    diaChiViewModel.fetchWards(district.code)
+
+                    // 6. Sau khi fetch xong, chọn ward
+                    val ward = diaChiViewModel.wards.value.find { ward ->
+                        ward.code == diaChi.wardId
+                    }
+                    selectedWard = ward
+                }
+            }
+        }
+    }
 
     Column(modifier = Modifier.padding(16.dp)) {
-        Text(
-            text = if (diaChi == null) "Thêm địa chỉ" else "Sửa địa chỉ",
-            style = MaterialTheme.typography.titleMedium
-        )
-
-        Spacer(modifier = Modifier.height(12.dp))
+        // ... Tên người nhận và SĐT như cũ
 
         OutlinedTextField(
             value = tenNguoiNhan,
@@ -292,24 +342,123 @@ fun DiaChiForm(
 
         Spacer(modifier = Modifier.height(8.dp))
 
+        // Dropdown Province
+        ExposedDropdownMenuBox(
+            expanded = expandedProvince,
+            onExpandedChange = { expandedProvince = !expandedProvince }
+        ) {
+            OutlinedTextField(
+                value = selectedProvince?.name ?: "",
+                onValueChange = {},
+                readOnly = true,
+                label = { Text("Tỉnh/Thành Phố") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .menuAnchor() // ⚠️ Cần thêm menuAnchor() trong Compose Material3
+            )
+
+            ExposedDropdownMenu(
+                expanded = expandedProvince,
+                onDismissRequest = { expandedProvince = false }
+            ) {
+                provinces.forEach { province ->
+                    DropdownMenuItem(
+                        text = { Text(province.name) },
+                        onClick = {
+                            selectedProvince = province
+
+                            expandedProvince = false // Đóng menu sau khi chọn
+                            diaChiViewModel.fetchDistricts(province.code)
+                        }
+                    )
+                }
+            }
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+
+        ExposedDropdownMenuBox(
+            expanded = expandedDistrict,
+            onExpandedChange = { expandedDistrict = !expandedDistrict }
+        ) {
+            OutlinedTextField(
+                value = selectedDistrict?.name ?: "",
+                onValueChange = {},
+                readOnly = true,
+                label = { Text("Quận/Huyện") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .menuAnchor()
+            )
+
+            ExposedDropdownMenu(
+                expanded = expandedDistrict,
+                onDismissRequest = { expandedDistrict = false }
+            ) {
+                districts.forEach { district ->
+                    DropdownMenuItem(
+                        text = { Text(district.name) },
+                        onClick = {
+                            selectedDistrict = district
+                            expandedDistrict = false
+                            diaChiViewModel.fetchWards(district.code)
+                        }
+                    )
+                }
+            }
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+
+        ExposedDropdownMenuBox(
+            expanded = expandedWard,
+            onExpandedChange = { expandedWard = !expandedWard }
+        ) {
+            OutlinedTextField(
+                value = selectedWard?.name ?: "",
+                onValueChange = {},
+                readOnly = true,
+                label = { Text("Phường/Xã") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .menuAnchor()
+            )
+
+            ExposedDropdownMenu(
+                expanded = expandedWard,
+                onDismissRequest = { expandedWard = false }
+            ) {
+                wards.forEach { ward ->
+                    DropdownMenuItem(
+                        text = { Text(ward.name) },
+                        onClick = {
+                            selectedWard = ward
+                            expandedWard = false
+                        }
+                    )
+                }
+            }
+        }
+
+
+        Spacer(modifier = Modifier.height(8.dp))
+
         OutlinedTextField(
-            value = thongTinDiaChi,
-            onValueChange = { thongTinDiaChi = it },
-            label = { Text("Địa chỉ") },
+            value = thongtinbosung,
+            onValueChange = { thongtinbosung = it },
+            label = { Text("thông tin bổ sung ") },
             modifier = Modifier.fillMaxWidth()
         )
-
         Spacer(modifier = Modifier.height(16.dp))
 
         Row {
             Button(
                 onClick = {
+                    val fullAddress = "${selectedWard?.name ?: ""}, ${selectedDistrict?.name ?: ""}, ${selectedProvince?.name ?: ""},${thongtinbosung}"
                     val diaChiMoi = DiaChi(
                         MaDiaChi = diaChi?.MaDiaChi ?: 0,
                         MaKhachHang = maKhachHang,
                         TenNguoiNhan = tenNguoiNhan,
                         SoDienThoai = soDienThoai,
-                        ThongTinDiaChi = thongTinDiaChi,
+                        ThongTinDiaChi = fullAddress,
                         MacDinh = diaChi?.MacDinh ?: 0
                     )
                     onSubmit(diaChiMoi)
@@ -330,6 +479,7 @@ fun DiaChiForm(
         }
     }
 }
+
 
 @Composable
 fun DiaChiItem(

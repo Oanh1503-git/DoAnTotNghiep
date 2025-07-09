@@ -78,11 +78,6 @@ fun AccountScreens(
                     }) {
                         Icon(Icons.Default.ArrowBackIosNew, contentDescription = "Back")
                     }
-                },
-                actions = {
-                    IconButton(onClick = { /* search */ }) {
-                        Icon(Icons.Default.Search, contentDescription = "Search")
-                    }
                 }
             )
         }

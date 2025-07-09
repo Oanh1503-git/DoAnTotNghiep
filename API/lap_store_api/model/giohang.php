@@ -223,5 +223,28 @@ public function checkSanPhamExistsInGioHang() {
         return false;
     }
 }
+public function getSoLuongTrongGioHang($MaKhachHang, $MaSanPham) {
+    try {
+        $query = "SELECT SoLuong 
+                  FROM giohang 
+                  WHERE MaKhachHang = :MaKhachHang AND MaSanPham = :MaSanPham";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':MaKhachHang', $MaKhachHang);
+        $stmt->bindParam(':MaSanPham', $MaSanPham);
+        $stmt->execute();
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($row) {
+            return $row['SoLuong'];
+        } else {
+            return 0; // Không có trong giỏ
+        }
+    } catch (PDOException $e) {
+        error_log("Lỗi getSoLuongTrongGioHang: " . $e->getMessage());
+        return 0;
+    }
+}
+
 
 }

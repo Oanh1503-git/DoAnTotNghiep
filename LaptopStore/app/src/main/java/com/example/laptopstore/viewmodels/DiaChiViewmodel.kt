@@ -9,6 +9,10 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.laptopstore.RetrofitClient.LaptopStoreRetrofitClient
+import com.example.laptopstore.RetrofitClient.ProvinceRetrofitClient
+import com.example.laptopstore.api.District
+import com.example.laptopstore.api.Province
+import com.example.laptopstore.api.Ward
 import com.example.laptopstore.models.DiaChi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,6 +21,13 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class DiaChiViewmodel : ViewModel() {
+
+    private val _provinces = MutableStateFlow<List<Province>>(emptyList())
+    val provinces: StateFlow<List<Province>> = _provinces
+
+    val districts = MutableStateFlow<List<District>>(emptyList())
+    val wards = MutableStateFlow<List<Ward>>(emptyList())
+
 
     // StateFlow quản lý danh sách địa chỉ phục vụ cho UI Compose auto update
     private val _listDiaChi = MutableStateFlow<List<DiaChi>>(emptyList())
@@ -38,6 +49,38 @@ class DiaChiViewmodel : ViewModel() {
                 diaChi = result
             } catch (e: Exception) {
                 Log.e("DiaChiViewmodel", "Error getting DiaChi by ID: ${e.message}")
+            }
+        }
+    }
+    fun fetchProvinces() {
+        viewModelScope.launch {
+            try {
+                val response = ProvinceRetrofitClient.apiService.getAllProvinces()
+                _provinces.value = response
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+    fun fetchDistricts(provinceId: String) {
+        viewModelScope.launch {
+            try {
+                val response = ProvinceRetrofitClient.apiService.getProvinceWithDistricts(provinceId)
+                districts.value = response.districts ?: emptyList()
+            } catch (e: Exception) {
+                Log.e("DiaChiViewmodel", "Error fetching districts: ${e.message}")
+                districts.value = emptyList()
+            }
+        }
+    }
+    fun fetchWards(districtId: String) {
+        viewModelScope.launch {
+            try {
+                val response = ProvinceRetrofitClient.apiService.getDistrictWithWards(districtId)
+                wards.value = response.wards ?: emptyList()
+            } catch (e: Exception) {
+                Log.e("DiaChiViewmodel", "Error fetching wards: ${e.message}")
+                wards.value = emptyList()
             }
         }
     }

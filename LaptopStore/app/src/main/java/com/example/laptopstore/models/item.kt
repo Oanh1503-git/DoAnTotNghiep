@@ -24,6 +24,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -273,5 +274,40 @@ fun BannerSection() {
             delay(3000)
             pagerState.animateScrollToPage((pagerState.currentPage + 1) % images.size)
         }
+    }
+}
+@Composable
+fun ReusableAlertDialog(
+    showDialog: Boolean,
+    onDismiss: () -> Unit,
+    title: String,
+    message: String,
+    confirmButtonText: String,
+    confirmButtonColor: Color = Color.Red,
+    onConfirm: () -> Unit,
+    dismissButtonText: String = "Đóng"
+) {
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { onDismiss() },
+            title = { Text(title) },
+            text = { Text(message) },
+            confirmButton = {
+                Button(
+                    onClick = onConfirm,
+                    colors = ButtonDefaults.buttonColors(containerColor = confirmButtonColor)
+                ) {
+                    Text(confirmButtonText)
+                }
+            },
+            dismissButton = {
+                Button(
+                    onClick = onDismiss,
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Gray)
+                ) {
+                    Text(dismissButtonText)
+                }
+            }
+        )
     }
 }

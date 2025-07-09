@@ -19,6 +19,7 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.lapstore.viewmodels.HoaDonViewModel
+import com.example.laptopstore.models.ReusableAlertDialog
 import com.example.laptopstore.viewmodels.ChiTietHoaDonViewmodel
 import com.example.laptopstore.viewmodels.DataStoreManager
 import com.example.laptopstore.viewmodels.SanPhamViewModel
@@ -33,6 +34,7 @@ fun OrderStatusScreen(
     chitietdonhang: ChiTietHoaDonViewmodel,
     navController: NavHostController
 ) {
+
     var selectedTabIndex by remember { mutableStateOf(0) }
     val tabTitles = listOf("Chờ xác nhận", "Đã duyệt", "Đang vận chuyển", "Đã hủy")
     val donHangList by viewModel.donHangList.collectAsState()
@@ -95,7 +97,7 @@ fun OrderCard(
     viewModel: HoaDonViewModel,
     navController: NavHostController
 ) {
-
+    var showdialog by remember { mutableStateOf(false) }
     val currencyFormatter = NumberFormat.getInstance(Locale("vi", "VN")).apply {
         maximumFractionDigits = 0 // Không hiển thị phần thập phân
     }
@@ -126,11 +128,27 @@ fun OrderCard(
             if (tabIndex == 0) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Button(onClick = {
-                    viewModel.updateTrangThai(donHang.MaHoaDon, 4)
+                    showdialog = true
+
                 }) {
                     Text("Hủy đơn hàng")
+                }
+                if (showdialog){
+                    ReusableAlertDialog(
+                        showDialog = showdialog,
+                        onDismiss = { showdialog = false },
+                        title = "Xác nhận hủy đơn hàng",
+                        message = "Bạn có chắc chắn muốn hủy đơn hàng này?",
+                        confirmButtonText = "Xác nhận",
+                        confirmButtonColor = MaterialTheme.colorScheme.error,
+                        onConfirm = {
+                            viewModel.updateTrangThai(donHang.MaHoaDon, 4)
+                            showdialog = false
+                        }
+                    )
                 }
             }
         }
     }
 }
+

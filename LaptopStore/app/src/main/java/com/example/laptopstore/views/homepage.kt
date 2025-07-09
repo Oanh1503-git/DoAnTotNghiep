@@ -105,7 +105,7 @@ fun HOMEPAGE(navController: NavHostController,
     // Lấy tham số từ navigation
     LaunchedEffect(navController.currentBackStackEntry) {
         // Đợi dữ liệu từ getAllSanPham hoàn tất
-        while (sanPhamViewModel.danhSachAllSanPham.value.isEmpty() && !sanPhamViewModel.isLoading) {
+        while (sanPhamViewModel.danhSachAllSanPham .value.isEmpty() && !sanPhamViewModel.isLoading) {
             delay(100) // Chờ ngắn để tránh vòng lặp vô hạn
         }
 
@@ -144,7 +144,7 @@ fun HOMEPAGE(navController: NavHostController,
                             if (searchQuery.isNotEmpty()) {
                                 isSearching = true
                                 performSearch(searchQuery, sanPhamViewModel)
-                                navController.navigate("homepage?searchQuery=$searchQuery") {
+                                navController.navigate("SEACHSCREENS?searchQuery=$searchQuery") {
                                     popUpTo(navController.graph.startDestinationId)
                                     launchSingleTop = true
                                 }
