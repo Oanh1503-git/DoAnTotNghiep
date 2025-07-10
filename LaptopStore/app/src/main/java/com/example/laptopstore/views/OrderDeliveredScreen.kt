@@ -46,7 +46,6 @@ fun OrderDeliveredScreen(
     navController: NavHostController
 ) {
 
-
     val context = LocalContext.current
     val dataStoreManager = remember { DataStoreManager(context) }
     val customerId by dataStoreManager.customerId.collectAsState(initial = null)
@@ -56,8 +55,6 @@ fun OrderDeliveredScreen(
     val currencyFormatter = NumberFormat.getInstance(Locale("vi", "VN")).apply {
         maximumFractionDigits = 0
     }
-
-
     LaunchedEffect(maKhachHang) {
         if (maKhachHang != null) {
             viewModel.getDonHangDayDuTheoKhachHang(maKhachHang)
@@ -123,6 +120,11 @@ fun DeliveredOrderCard(
 
     // State chung cho comment & rating (nếu muốn tách riêng từng sản phẩm cần tạo StateHolder riêng)
     var isSubmitting by remember { mutableStateOf(false) }
+    Text(
+        text = "Ngay giao hang: ${donHang.NgayGiaoHang}",
+        fontSize = 12.sp,
+        color = Color.Gray
+    )
 
     if (distinctMaSanPhamCount > 1) {
         sanPhamList.forEach { sp ->

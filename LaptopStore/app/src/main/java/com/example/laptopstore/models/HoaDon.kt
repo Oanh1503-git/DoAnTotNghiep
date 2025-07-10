@@ -4,6 +4,7 @@ data class HoaDon(
     val MaHoaDon: Int,
     val MaKhachHang: String,
     val NgayDatHang: String,
+    val NgayGiaoHang:String,
     val MaDiaChi: Int,
     val TongTien: Int,
     val PhuongThucThanhToan: String,

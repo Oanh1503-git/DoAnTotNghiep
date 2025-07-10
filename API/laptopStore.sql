@@ -214,44 +214,7 @@ CREATE TABLE `otp` (
   `is_used` TINYINT(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Cấu trúc bảng cho tin nhắn
-CREATE TABLE `tin_nhan` (
-  `id` INT AUTO_INCREMENT PRIMARY KEY,
-  `MaKhachHang` VARCHAR(50) NOT NULL,
-  `NguoiGui` ENUM('admin', 'khach') NOT NULL,
-  `NoiDung` TEXT NOT NULL,
-  `ThoiGianGui` DATETIME DEFAULT CURRENT_TIMESTAMP,
-  `LoaiTinNhan` ENUM('bao_hanh', 'khieu_nai', 'khac') DEFAULT 'khac'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Cấu trúc bảng cho giao dịch MoMo
-CREATE TABLE `giaodich_momo` (
-  `id` INT AUTO_INCREMENT PRIMARY KEY,
-  `MaHoaDon` INT NOT NULL,
-  `orderId` VARCHAR(100) NOT NULL,
-  `requestId` VARCHAR(100) NOT NULL,
-  `amount` INT NOT NULL,
-  `orderInfo` TEXT,
-  `resultCode` INT,
-  `message` VARCHAR(255),
-  `payType` VARCHAR(50),
-  `transId` VARCHAR(100),
-  `signature` TEXT,
-  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-CREATE TABLE `baohanh` (
-  `MaBaoHanh` INT NOT NULL AUTO_INCREMENT,
-  `MaHoaDon` INT NOT NULL,
-  `MaSanPham` INT NOT NULL,
-  `NgayMua` DATE NOT NULL,
-  `ThoiGianBaoHanh` INT NOT NULL, -- đơn vị: tháng
-  `NgayHetHan` DATE NOT NULL,
-  `TrangThai` VARCHAR(50) DEFAULT 'Đang bảo hành',
-  PRIMARY KEY (`MaBaoHanh`),
-  FOREIGN KEY (`MaHoaDon`) REFERENCES `hoadon`(`MaHoaDon`),
-  FOREIGN KEY (`MaSanPham`) REFERENCES `sanpham`(`MaSanPham`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
 INSERT INTO `khachhang` (`MaKhachHang`, `HoTen`, `GioiTinh`, `NgaySinh`, `Email`, `SoDienThoai`) VALUES
@@ -457,7 +420,7 @@ ALTER TABLE `Sanphamyeuthich`
 --
 ALTER TABLE `chitiethoadon`
   ADD KEY `FK_ChiTietHoaDon_HoaDon` (`MaHoaDon`),
-  ADD KEY `FK_ChiTietHoaDon_SanPham` (`MaSanPham`);
+  ADD KEY ` ` (`MaSanPham`);
 
 --
 -- Chỉ mục cho bảng `diachi`
@@ -559,11 +522,11 @@ ALTER TABLE `binhluandanhgia`
 ALTER TABLE `otp`
   ADD KEY `IDX_Otp_TenTaiKhoan` (`TenTaiKhoan`);
 
--- Thêm index cho tin_nhan
-ALTER TABLE `tin_nhan`
-  ADD KEY `IDX_TinNhan_MaKhachHang` (`MaKhachHang`);
+-- -- Thêm index cho tin_nhan
+-- ALTER TABLE `tin_nhan`
+--   ADD KEY `IDX_TinNhan_MaKhachHang` (`MaKhachHang`);
 
--- Thêm index cho giaodich_momo
-ALTER TABLE `giaodich_momo`
-  ADD KEY `IDX_GiaoDichMoMo_MaHoaDon` (`MaHoaDon`);
+-- -- Thêm index cho giaodich_momo
+-- ALTER TABLE `giaodich_momo`
+--   ADD KEY `IDX_GiaoDichMoMo_MaHoaDon` (`MaHoaDon`);
 

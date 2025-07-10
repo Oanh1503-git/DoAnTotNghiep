@@ -8,12 +8,12 @@ data class DiaChi(
     val TenNguoiNhan: String,
     val SoDienThoai: String,
     val MacDinh: Int,
-    val provinceId: String?,
-    val districtId: String?,
-    val wardId: String?
+    val provinceId: Int?,
+    val districtId: Int?,
+    val wardId: Int?
 )
 {
     companion object {
-        val EMPTY = DiaChi(0,"","","","",0,"","","")
+        val EMPTY = DiaChi(0,"","","","",0,0,0,0)
     }
 }

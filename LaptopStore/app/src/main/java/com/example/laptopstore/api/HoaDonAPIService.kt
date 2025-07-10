@@ -43,6 +43,7 @@ data class DonHangDayDuResponse(
 data class DonHangDayDuItem(
     val MaHoaDon: Int,
     val NgayDatHang: String,
+    val NgayGiaoHang: String,
     val TongTien: String,
     val TrangThai: String,
     val PhuongThucThanhToan: String,

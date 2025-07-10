@@ -19,6 +19,7 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.lapstore.viewmodels.HoaDonViewModel
+import com.example.laptopstore.models.HoaDon
 import com.example.laptopstore.models.ReusableAlertDialog
 import com.example.laptopstore.viewmodels.ChiTietHoaDonViewmodel
 import com.example.laptopstore.viewmodels.DataStoreManager
@@ -97,6 +98,10 @@ fun OrderCard(
     viewModel: HoaDonViewModel,
     navController: NavHostController
 ) {
+    val context = LocalContext.current
+    val dataStoreManager = remember { DataStoreManager(context) }
+    val customerId by dataStoreManager.customerId.collectAsState(initial = null)
+    val maKhachHang = customerId
     var showdialog by remember { mutableStateOf(false) }
     val currencyFormatter = NumberFormat.getInstance(Locale("vi", "VN")).apply {
         maximumFractionDigits = 0 // Không hiển thị phần thập phân
@@ -142,7 +147,8 @@ fun OrderCard(
                         confirmButtonText = "Xác nhận",
                         confirmButtonColor = MaterialTheme.colorScheme.error,
                         onConfirm = {
-                            viewModel.updateTrangThai(donHang.MaHoaDon, 4)
+                           viewModel.updateTrangThai(donHang.MaHoaDon,4)
+                            viewModel.getDonHangDayDuTheoKhachHang(maKhachHang?: "")
                             showdialog = false
                         }
                     )

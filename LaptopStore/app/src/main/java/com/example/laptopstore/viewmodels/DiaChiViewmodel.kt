@@ -62,7 +62,7 @@ class DiaChiViewmodel : ViewModel() {
             }
         }
     }
-    fun fetchDistricts(provinceId: String) {
+    fun fetchDistricts(provinceId: Int) {
         viewModelScope.launch {
             try {
                 val response = ProvinceRetrofitClient.apiService.getProvinceWithDistricts(provinceId)
@@ -73,7 +73,7 @@ class DiaChiViewmodel : ViewModel() {
             }
         }
     }
-    fun fetchWards(districtId: String) {
+    fun fetchWards(districtId: Int) {
         viewModelScope.launch {
             try {
                 val response = ProvinceRetrofitClient.apiService.getDistrictWithWards(districtId)
@@ -114,7 +114,18 @@ class DiaChiViewmodel : ViewModel() {
             }
         }
     }
+    suspend fun loadDiaChiFull(diaChi: DiaChi){
+        fetchProvinces()
+        val provinceId = provinces.value.find { it.code == diaChi.provinceId }
+        provinceId?.let {
+            fetchDistricts(it.code)
+            val districtId = districts.value.find { d->d.code == diaChi.districtId }
+            districtId?.let {
+                fetchWards(it.code)
+            }
+        }
 
+    }
     // Làm mới danh sách địa chỉ (gọi lại API)
     fun refreshDiaChiKhachHang(maKhachHang: String?) {
         getDiaChiKhachHang(maKhachHang)
@@ -150,7 +161,10 @@ class DiaChiViewmodel : ViewModel() {
                         TenNguoiNhan = "",        // Hoặc giá trị hợp lệ
                         SoDienThoai = "",
                         ThongTinDiaChi = "",
-                        MacDinh = 1               // Vì bạn đang muốn đặt mặc định
+                        MacDinh = 1,
+                        provinceId = 0,
+                        districtId = 0,
+                        wardId = 0
                     )
 
                     val response = LaptopStoreRetrofitClient.diaChiAPIService.setdiachimacdich(diaChiRequest)

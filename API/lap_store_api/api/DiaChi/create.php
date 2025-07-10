@@ -23,6 +23,10 @@ error_reporting(E_ALL);
     $diachi->TenNguoiNhan = $data->TenNguoiNhan;
     $diachi->SoDienThoai = $data->SoDienThoai;
     $diachi->MacDinh = $data->MacDinh;
+    $diachi->provinceId = $data->provinceId;
+    $diachi->districtId = $data->districtId;
+    $diachi->wardId = $data->wardId;
+    
 
 
     if($diachi->AddDiaChi()){

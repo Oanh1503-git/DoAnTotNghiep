@@ -281,48 +281,50 @@ fun DiaChiForm(
     var selectedProvince by remember { mutableStateOf<Province?>(null) }
     var selectedDistrict by remember { mutableStateOf<District?>(null) }
     var selectedWard by remember { mutableStateOf<Ward?>(null) }
-    var thongtinbosung by remember { mutableStateOf(diaChi?.ThongTinDiaChi ?: "") }
+    var thongtinbosung by remember {
+        mutableStateOf(
+            diaChi?.ThongTinDiaChi?.split(",")?.let {
+                if (it.size >= 4) it.subList(3, it.size).joinToString(",").trim() else ""
+            } ?: ""
+        )
+    }
 
+    LaunchedEffect(diaChi) {
+        diaChi?.let {
+            diaChiViewModel.loadDiaChiFull(it)
+            selectedProvince = diaChiViewModel.provinces.value.find { p -> p.code == it.provinceId }
+            selectedDistrict = diaChiViewModel.districts.value.find { d -> d.code == it.districtId }
+            selectedWard = diaChiViewModel.wards.value.find { w -> w.code == it.wardId }
+        }
+    }
     LaunchedEffect(Unit) {
         diaChiViewModel.fetchProvinces()
     }
-    LaunchedEffect(diaChi) {
-        diaChi?.let {
-            // 1. Fetch tất cả provinces trước
-            diaChiViewModel.fetchProvinces()
 
-            // 2. Sau khi fetch xong, chọn province khớp với diaChi
-            val province = diaChiViewModel.provinces.value.find { province ->
-                province.code == diaChi.provinceId // provinceId là tên field bạn lưu
-            }
-            selectedProvince = province
-
-            // 3. Nếu có province, fetch districts
-            province?.let {
-                diaChiViewModel.fetchDistricts(province.code)
-
-                // 4. Sau khi fetch xong, chọn district
-                val district = diaChiViewModel.districts.value.find { district ->
-                    district.code == diaChi.districtId
-                }
-                selectedDistrict = district
-
-                // 5. Nếu có district, fetch wards
-                district?.let {
-                    diaChiViewModel.fetchWards(district.code)
-
-                    // 6. Sau khi fetch xong, chọn ward
-                    val ward = diaChiViewModel.wards.value.find { ward ->
-                        ward.code == diaChi.wardId
-                    }
-                    selectedWard = ward
-                }
+    LaunchedEffect(provinces, diaChi) {
+        if (provinces.isNotEmpty()) {
+            if (diaChi != null) {
+                selectedProvince = provinces.find { it.code == diaChi.provinceId }
+                selectedProvince?.let { diaChiViewModel.fetchDistricts(it.code) }
+            } else {
+                selectedProvince = null
             }
         }
     }
 
+    LaunchedEffect(districts, diaChi) {
+        if (districts.isNotEmpty() && diaChi != null) {
+            selectedDistrict = districts.find { it.code == diaChi?.districtId }
+            selectedDistrict?.let { diaChiViewModel.fetchWards(it.code) }
+        }
+    }
+    LaunchedEffect(wards, diaChi) {
+        if (wards.isNotEmpty() && diaChi != null) {
+            selectedWard = wards.find { it.code == diaChi?.wardId }
+        }
+    }
+
     Column(modifier = Modifier.padding(16.dp)) {
-        // ... Tên người nhận và SĐT như cũ
 
         OutlinedTextField(
             value = tenNguoiNhan,
@@ -354,7 +356,7 @@ fun DiaChiForm(
                 label = { Text("Tỉnh/Thành Phố") },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .menuAnchor() // ⚠️ Cần thêm menuAnchor() trong Compose Material3
+                    .menuAnchor()
             )
 
             ExposedDropdownMenu(
@@ -366,10 +368,10 @@ fun DiaChiForm(
                         text = { Text(province.name) },
                         onClick = {
                             selectedProvince = province
-
-                            expandedProvince = false // Đóng menu sau khi chọn
+                            expandedProvince = false
                             diaChiViewModel.fetchDistricts(province.code)
                         }
+
                     )
                 }
             }
@@ -448,18 +450,23 @@ fun DiaChiForm(
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(16.dp))
-
+        Log.d("address","tinh thanh pho ${selectedProvince?.code}")
+        Log.d("address","quan huyen ${selectedDistrict?.code}")
+        Log.d("address","phuong xa${selectedWard?.code}")
         Row {
             Button(
                 onClick = {
-                    val fullAddress = "${selectedWard?.name ?: ""}, ${selectedDistrict?.name ?: ""}, ${selectedProvince?.name ?: ""},${thongtinbosung}"
+                    val fullAddress = "${selectedProvince?.name ?: ""}, ${selectedDistrict?.name ?: ""}, ${selectedWard?.name ?: ""},${thongtinbosung}"
                     val diaChiMoi = DiaChi(
                         MaDiaChi = diaChi?.MaDiaChi ?: 0,
                         MaKhachHang = maKhachHang,
                         TenNguoiNhan = tenNguoiNhan,
                         SoDienThoai = soDienThoai,
                         ThongTinDiaChi = fullAddress,
-                        MacDinh = diaChi?.MacDinh ?: 0
+                        MacDinh = diaChi?.MacDinh ?: 0,
+                        provinceId = selectedProvince?.code,
+                        districtId = selectedDistrict?.code,
+                        wardId = selectedWard?.code
                     )
                     onSubmit(diaChiMoi)
                 },

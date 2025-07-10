@@ -10,7 +10,9 @@ class DiaChi{
     public$SoDienThoai;
     public$MacDinh;
     //connect db
-
+    public $provinceId;
+    public $districtId;
+    public $wardId;
     public function __construct($database){
         $this->conn = $database;
     }
@@ -86,29 +88,47 @@ public function SetDiaChiMacDinh() {
     }
 }
 
-    public function AddDiaChi() {
-    $query = "INSERT INTO diachi SET  ThongTinDiaChi=:ThongTinDiaChi,MaKhachHang =:MaKhachHang, TenNguoiNhan =:TenNguoiNhan, SoDienThoai =:SoDienThoai, MacDinh =:MacDinh";
+public function AddDiaChi() {
+    $query = "INSERT INTO diachi 
+        SET 
+            ThongTinDiaChi = :ThongTinDiaChi,
+            MaKhachHang = :MaKhachHang,
+            TenNguoiNhan = :TenNguoiNhan,
+            SoDienThoai = :SoDienThoai,
+            MacDinh = :MacDinh,
+            provinceId = :provinceId,
+            districtId = :districtId,
+            wardId = :wardId";
 
     $stmt = $this->conn->prepare($query);
+
+    // Clean data
     $this->ThongTinDiaChi = htmlspecialchars(strip_tags($this->ThongTinDiaChi));
     $this->MaKhachHang = htmlspecialchars(strip_tags($this->MaKhachHang));
     $this->TenNguoiNhan = htmlspecialchars(strip_tags($this->TenNguoiNhan));
     $this->SoDienThoai = htmlspecialchars(strip_tags($this->SoDienThoai));
     $this->MacDinh = htmlspecialchars(strip_tags($this->MacDinh));
+    $this->provinceId = htmlspecialchars(strip_tags($this->provinceId));
+    $this->districtId = htmlspecialchars(strip_tags($this->districtId));
+    $this->wardId = htmlspecialchars(strip_tags($this->wardId));
 
+    // Bind params
     $stmt->bindParam(':ThongTinDiaChi', $this->ThongTinDiaChi);
     $stmt->bindParam(':MaKhachHang', $this->MaKhachHang);
     $stmt->bindParam(':TenNguoiNhan', $this->TenNguoiNhan);
     $stmt->bindParam(':SoDienThoai', $this->SoDienThoai);
     $stmt->bindParam(':MacDinh', $this->MacDinh);
+    $stmt->bindParam(':provinceId', $this->provinceId);
+    $stmt->bindParam(':districtId', $this->districtId);
+    $stmt->bindParam(':wardId', $this->wardId);
 
     if ($stmt->execute()) {
         return true;
     }
+
     printf("Error: %s.\n", $stmt->error);
     return false;
 }
-
 
     public function UpdateDiaChi(){
         $query = "UPDATE diachi SET ThongTinDiaChi=:ThongTinDiaChi, MaKhachHang =:MaKhachHang, TenNguoiNhan =:TenNguoiNhan, SoDienThoai =:SoDienThoai, MacDinh =:MacDinh WHERE MaDiaChi =:MaDiaChi";

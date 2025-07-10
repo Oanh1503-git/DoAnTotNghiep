@@ -186,16 +186,29 @@ class HoaDon
             return null;
         }
     }
-        public function updateTrangThai() {
+    public function updateTrangThai() {
     $query = "UPDATE hoadon SET TrangThai = :TrangThai WHERE MaHoaDon = :MaHoaDon";
     $stmt = $this->conn->prepare($query);
+
+    // Sanitize data
+    $this->TrangThai = htmlspecialchars(strip_tags($this->TrangThai));
+    $this->MaHoaDon = htmlspecialchars(strip_tags($this->MaHoaDon));
 
     // Bind data
     $stmt->bindParam(":TrangThai", $this->TrangThai);
     $stmt->bindParam(":MaHoaDon", $this->MaHoaDon);
 
-    return $stmt->execute();
+    if ($stmt->execute()) {
+        return $stmt->rowCount() > 0; // Trả về true nếu có dòng được cập nhật
+    } else {
+        // Ghi log lỗi chi tiết
+        $errorInfo = $stmt->errorInfo();
+        error_log("updateTrangThai SQL error: " . implode(" | ", $errorInfo));
+        return false;
+    }
 }
+
+
 
 public function getDonHangDayDuTheoKhachHang($MaKhachHang)
 {

@@ -1,0 +1,26 @@
+# Bật chế độ rewrite (đảm bảo Apache đã bật mod_rewrite)
+RewriteEngine On
+
+# Nếu không phải file hoặc thư mục vật lý thì chuyển hướng về index.php (dành cho route như Laravel hoặc REST API tùy chỉnh)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [QSA,L]
+
+# Tăng giới hạn upload nếu cần
+php_value upload_max_filesize 20M
+php_value post_max_size 25M
+php_value max_execution_time 300
+php_value max_input_time 300
+
+# Bật hiển thị lỗi (chỉ nên bật trong môi trường dev)
+php_flag display_errors On
+php_value error_reporting 32767
+
+# Set charset mặc định
+AddDefaultCharset UTF-8
+
+# Bảo vệ file nhạy cảm
+<FilesMatch "\.(htaccess|htpasswd|ini|phps|fla|psd|log|sh)$">
+  Order Allow,Deny
+  Deny from all
+</FilesMatch>
