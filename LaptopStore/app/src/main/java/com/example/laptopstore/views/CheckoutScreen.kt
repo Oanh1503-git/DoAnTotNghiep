@@ -241,20 +241,7 @@ fun CheckoutScreen(navController: NavHostController,
                         modifier = Modifier.padding(start = 8.dp)
                     )
                 }
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    RadioButton(
-                        selected = selectedPaymentMethod == "Card",
-                        onClick = { selectedPaymentMethod = "Card" }
-                    )
-                    Text(
-                        text = "Thanh toán qua thẻ",
-                        fontSize = 16.sp,
-                        modifier = Modifier.padding(start = 8.dp)
-                    )
-                }
+
             }
             items(cartItems) { cartItem ->
                 Card(
@@ -341,6 +328,7 @@ fun CheckoutScreen(navController: NavHostController,
                                     MaHoaDon = 0, // để backend tự sinh
                                     MaKhachHang = maKhachHang,
                                     NgayDatHang = ngaytaohoadon,
+                                    NgayGiaoHang = "",
                                     MaDiaChi = diaChiDuocChon.MaDiaChi,
                                     TongTien = totalPrice,
                                     PhuongThucThanhToan = selectedPaymentMethod,
@@ -380,19 +368,12 @@ fun CheckoutScreen(navController: NavHostController,
                                     }.all { it }
 
                                     if (allSuccess) {
-                                        // Hiển thị thông báo thành công
-                                        Log.d("Checkout", "Đặt hàng thành công! Đang xóa sản phẩm khỏi giỏ hàng...")
-                                        Log.d("ChiTietHoaDon", " maKhachHang-> : $maKhachHang")
 
                                         cartItems.forEach { cartItem ->
                                             sanPhamViewModel.truSoLuongTrongKho(cartItem.MaSanPham, cartItem.SoLuong)
-                                            // Chỉ xóa khỏi giỏ hàng nếu sản phẩm thực sự có trong giỏ hàng
-                                            Log.d("ChiTietHoaDon", " maKhachHang-> : $maKhachHang,${cartItem.MaSanPham}")
                                             if (cartItem.MaGioHang > 0) {
-                                                Log.d("ChiTietHoaDon", " maKhachHang-> : $maKhachHang,${cartItem.MaSanPham}")
                                                 gioHangViewModel.deleteOnCartByID(maKhachHang, cartItem.MaSanPham)
 
-                                                Log.d("ChiTietHoaDon", " maKhachHang-> : $maKhachHang,${cartItem.MaSanPham}")
                                             }
                                         }
                                         // Đợi một chút để các thao tác xóa hoàn thành trước khi refresh

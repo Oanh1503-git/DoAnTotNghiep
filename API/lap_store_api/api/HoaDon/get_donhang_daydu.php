@@ -38,6 +38,7 @@ if ($stmt && $stmt->rowCount() > 0) {
             $result[$maHD] = [
                 "MaHoaDon" => $row['MaHoaDon'],
                 "NgayDatHang" => $row['NgayDatHang'],
+                "NgayGiaoHang" => $row['NgayGiaoHang'],
                 "TongTien" => $row['TongTien'],
                 "TrangThai" => $row['TrangThai'],
                 "PhuongThucThanhToan" => $row['PhuongThucThanhToan'],

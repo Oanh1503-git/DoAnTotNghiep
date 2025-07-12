@@ -215,7 +215,7 @@ public function getDonHangDayDuTheoKhachHang($MaKhachHang)
     try {
         $query = "
             SELECT 
-                hd.MaHoaDon, hd.NgayDatHang, hd.TongTien, hd.TrangThai, hd.PhuongThucThanhToan,
+                hd.MaHoaDon, hd.NgayDatHang, hd.TongTien, hd.TrangThai, hd.PhuongThucThanhToan, hd.NgayGiaoHang,
                 sp.TenSanPham, sp.Gia, cthd.SoLuong, cthd.ThanhTien, cthd.MaSanPham,
                 ha.DuongDan AS HinhAnh
             FROM hoadon hd

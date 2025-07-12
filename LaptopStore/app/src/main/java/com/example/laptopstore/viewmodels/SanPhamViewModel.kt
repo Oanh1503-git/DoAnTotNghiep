@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.laptopstore.models.SanPham
 import com.example.laptopstore.RetrofitClient.LaptopStoreRetrofitClient
+import com.example.laptopstore.api.CongSoLuongRequest
 import com.example.laptopstore.api.TruSoLuongRequest
 import com.example.laptopstore.api.TruSoLuongTonKhoRequest
 import com.example.laptopstore.api.TruSoLuongTonKhoResponse
@@ -221,16 +222,22 @@ class SanPhamViewModel : ViewModel() {
                         TruSoLuongRequest(maSanPham, soLuongCanTru)
                     )
 
-                    if (response.isSuccessful && response.body()?.success == true) {
-                        // Thành công, có thể cập nhật UI hoặc thông báo
-                    } else {
-                        // Xử lý lỗi
-                    }
                 } catch (e: Exception) {
-                    // Xử lý lỗi mạng hoặc exception
+
                 }
             }
         }
+    fun CongSoLuongTrongKho(maSanPham: Int, soLuongCanTru: Int) {
+        viewModelScope.launch {
+            try {
+                val response = LaptopStoreRetrofitClient.sanphamAPIService.congSoLuongSanPham(
+                    CongSoLuongRequest(maSanPham, soLuongCanTru)
+                )
+            } catch (e: Exception) {
+
+            }
+        }
+    }
 
         suspend fun getSanPhamTrongHoaDon(maHoaDon: Int): List<SanPham> {
             return try {

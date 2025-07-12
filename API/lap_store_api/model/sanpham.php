@@ -417,6 +417,43 @@ public function getSanPhamTheoKhoangGia($minPrice, $maxPrice)
     $stmt->execute();
     return $stmt;
 }
+public function congSoLuongTrongKho($soLuongCanCong)
+{
+    // Lấy số lượng hiện tại
+    $query = "SELECT SoLuong FROM sanpham WHERE MaSanPham = :MaSanPham";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(':MaSanPham', $this->MaSanPham);
+    $stmt->execute();
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($row) {
+        // Cộng số lượng
+        $newSoLuong = $row['SoLuong'] + $soLuongCanCong;
+        $updateQuery = "UPDATE sanpham SET SoLuong = :newSoLuong WHERE MaSanPham = :MaSanPham";
+        $updateStmt = $this->conn->prepare($updateQuery);
+        $updateStmt->bindParam(':newSoLuong', $newSoLuong);
+        $updateStmt->bindParam(':MaSanPham', $this->MaSanPham);
+
+        if ($updateStmt->execute()) {
+            return [
+                "success" => true,
+                "message" => "Đã cộng số lượng, tồn kho mới: $newSoLuong"
+            ];
+        } else {
+            return [
+                "success" => false,
+                "message" => "Cập nhật thất bại"
+            ];
+        }
+    } else {
+        return [
+            "success" => false,
+            "message" => "Không tìm thấy sản phẩm"
+        ];
+    }
+}
+
+
 
 
 }

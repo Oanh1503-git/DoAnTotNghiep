@@ -48,6 +48,15 @@ data class TruSoLuongResponse(
     val success: Boolean,
     val message: String
 )
+data class CongSoLuongRequest(
+    val MaSanPham: Int,
+    val SoLuongCanCong: Int
+)
+data class CongSoLuongResponse(
+    val success: Boolean,
+    val message: String
+)
+
 interface SanPhamAPIService{
     @GET("SanPham/read.php")
     suspend fun getAllSanPham(): SanPhamResponse
@@ -106,4 +115,8 @@ interface SanPhamAPIService{
     suspend fun truSoLuongTrongKho(
         @Body request: TruSoLuongRequest
     ): Response<TruSoLuongResponse>
+
+    @POST("api/SanPham/cong_soluong.php")
+    suspend fun congSoLuongSanPham(@Body request: CongSoLuongRequest): Response<CongSoLuongResponse>
+
 }
