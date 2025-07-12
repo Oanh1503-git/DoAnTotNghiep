@@ -405,7 +405,18 @@ public function getSoLuongKho($MaSanPham) {
         ];
     }
 }
-
+public function getSanPhamTheoKhoangGia($minPrice, $maxPrice)
+{
+    $query = "SELECT sp.MaSanPham, sp.TenSanPham, sp.Gia, sp.MoTa, ha.DuongDan
+              FROM sanpham sp
+              LEFT JOIN hinhanh ha ON sp.MaSanPham = ha.MaSanPham AND ha.MacDinh = 1
+              WHERE sp.Gia BETWEEN :minPrice AND :maxPrice";    
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(':minPrice', $minPrice);
+    $stmt->bindParam(':maxPrice', $maxPrice);
+    $stmt->execute();
+    return $stmt;
+}
 
 
 }

@@ -24,3 +24,4 @@ $sanPham->MaSanPham = $_GET['MaSanPham'];
 // Gọi hàm kiểm tra
 $result = $sanPham->KiemTraSoLuong();
 echo json_encode($result, JSON_UNESCAPED_UNICODE);
+

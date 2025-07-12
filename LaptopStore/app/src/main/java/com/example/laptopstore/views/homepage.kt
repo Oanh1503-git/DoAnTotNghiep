@@ -144,6 +144,7 @@ fun HOMEPAGE(navController: NavHostController,
                             if (searchQuery.isNotEmpty()) {
                                 isSearching = true
                                 performSearch(searchQuery, sanPhamViewModel)
+                                sanPhamViewModel.getquery(searchQuery)
                                 navController.navigate("SEACHSCREENS?searchQuery=$searchQuery") {
                                     popUpTo(navController.graph.startDestinationId)
                                     launchSingleTop = true

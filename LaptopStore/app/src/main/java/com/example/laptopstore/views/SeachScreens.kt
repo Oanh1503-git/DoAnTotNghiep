@@ -69,7 +69,7 @@ fun SeachSanphamScreen(navController: NavHostController,
     Scaffold (
         topBar = {
             TopAppBar(
-                title = { Text(text = "Kết quả tìm kiếm", fontWeight = FontWeight.Bold, fontSize = 18.sp)},
+                title = { Text(text = "Kết quả tìm kiếm :${sanPhamViewModel.searchQuery}", fontWeight = FontWeight.Bold, fontSize = 18.sp)},
                 navigationIcon ={
                     IconButton(onClick = {
                         navController.navigate(Screens.CATAGORIES.route)
@@ -105,7 +105,12 @@ fun SeachSanphamScreen(navController: NavHostController,
         ){
             if (isLoading) {
                 item {
-                    Text("Đang tải...", modifier = Modifier.padding(16.dp))
+                    Text(
+                        text = "Đang tìm kiếm: ${sanPhamViewModel.searchQuery}",
+                        modifier = Modifier.padding(16.dp),
+                        fontWeight = FontWeight.Medium,
+                        fontSize = 16.sp
+                    )
                 }
             }
             errorMessage?.let { error ->
@@ -124,25 +129,30 @@ fun SeachSanphamScreen(navController: NavHostController,
                 }
             } else {
                 items((searchResults?: emptyList()).chunked(2)) { productRow ->
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 8.dp),
-                        horizontalArrangement = Arrangement.spacedBy(16.dp)
-                    ) {
-                        productRow.forEach { product ->
-                            ProductCard(
-                                product = product,
-                                navController = navController,
-                                images = productImages.filter { it.MaSanPham == product.MaSanPham },
-                                modifier = Modifier.weight(1f).padding(horizontal = 4.dp)
-                            )
+                    Column {
+                        Spacer(modifier = Modifier.weight(1f))
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp),
+                            horizontalArrangement = Arrangement.spacedBy(16.dp)
+                        ) {
+                            
+                            productRow.forEach { product ->
+                                ProductCard(
+                                    product = product,
+                                    navController = navController,
+                                    images = productImages.filter { it.MaSanPham == product.MaSanPham },
+                                    modifier = Modifier.weight(1f).padding(horizontal = 4.dp)
+                                )
 
-                        }
-                        if (productRow.size == 1) {
-                            Spacer(modifier = Modifier.weight(1f))
+                            }
+                            if (productRow.size == 1) {
+                                Spacer(modifier = Modifier.weight(1f))
+                            }
                         }
                     }
+
                 }
             }
         }

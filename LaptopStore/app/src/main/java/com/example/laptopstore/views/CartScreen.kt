@@ -456,15 +456,8 @@ fun CartScreen(
             }
         )
     }
-    
-    // Hiển thị thông báo từ GioHangViewModel
-    if (gioHangUpdateResult.isNotEmpty()) {
-        LaunchedEffect(gioHangUpdateResult) {
-            if (gioHangUpdateResult.contains("thất bại") || gioHangUpdateResult.contains("Lỗi")) {
-                errorMessage = gioHangUpdateResult
-            }
-        }
-    }
+
+
     
     if (errorMessage != null) {
         AlertDialog(

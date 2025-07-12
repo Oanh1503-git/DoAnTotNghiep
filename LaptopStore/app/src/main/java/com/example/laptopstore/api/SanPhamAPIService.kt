@@ -15,7 +15,11 @@ data class SeachSanphamResponse(
     val status: String,
     val data: List<SanPham>
 )
-
+data class SeachGiaSanphamResponse(
+    val success:Boolean,
+    val data: List<SanPham>,
+    val message: String? = null
+)
 data class SoLuongCheckResponse(
     val status: String,
     val message: String,
@@ -24,7 +28,6 @@ data class SoLuongCheckResponse(
 )
 data class SoLuongTonKhoResponse(
     val success: Boolean,
-    val MaSanPham: Int? = null,
     val SoLuongTonKho: Int,
     val message: String? = null
 )
@@ -63,6 +66,12 @@ interface SanPhamAPIService{
     suspend fun getSanPhamById(
         @Query("MaSanPham") MaSanPham: String
     ): SanPham
+
+    @GET("SanPham/get_sanpham_khoanggia.php")
+    suspend fun getSanPhamTheoKhoangGia(
+        @Query("minPrice") minPrice: Int,
+        @Query("maxPrice") maxPrice: Int
+    ): SeachGiaSanphamResponse
 
 
     @GET("SanPham/searchTenSanPham.php")

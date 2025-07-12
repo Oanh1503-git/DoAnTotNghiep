@@ -29,12 +29,16 @@ class SanPhamViewModel : ViewModel() {
     private val _danhSachSanPhamVanPhong = MutableStateFlow<List<SanPham>>(emptyList())
     val danhSachSanPhamVanPhong: StateFlow<List<SanPham>> = _danhSachSanPhamVanPhong
 
+    private val _danhSachSanPham= MutableStateFlow<List<SanPham>>(emptyList())
+    val danhSachSanPham: StateFlow<List<SanPham>> = _danhSachSanPham
+
     var danhSachSanPhamCuaKhachHang by mutableStateOf<List<SanPham>>(emptyList())
         private set
+    var searchQuery by mutableStateOf("")
+        private set
 
-
-    private val _soLuongTonKhoState = MutableStateFlow<Int?>(null)
-    val soLuongTonKhoState: StateFlow<Int?> get() = _soLuongTonKhoState
+        private val _soLuongTonKhoState = MutableStateFlow<Int?>(0)
+        val soLuongTonKhoState: StateFlow<Int?> get() = _soLuongTonKhoState
 
     var sanPham by mutableStateOf<SanPham?>(null)
         private set
@@ -133,107 +137,19 @@ class SanPhamViewModel : ViewModel() {
             }
         }
     }
-
-
-
-    fun clearTrangThai() {
-        _trangThaiTruSoLuong.value = null
-        _error.value = null
-    }
-    fun getSanPhamTheoLoaiVanPhong() {
+    fun getSanPhamTheoKhoangGia(minPrice: Int, maxPrice: Int) {
         viewModelScope.launch {
             try {
-                val response = withContext(Dispatchers.IO) {
-                    LaptopStoreRetrofitClient.sanphamAPIService.getSanPhamTheoLoai(1)
-                }
-                _danhSachSanPhamVanPhong.value = response.sanpham ?: emptyList()
-            } catch (e: Exception) {
-                Log.e("SanPham Error", "Lỗi khi lấy sanpham: ${e.message}")
-                _danhSachSanPhamVanPhong.value = emptyList()
-            }
-        }
-    }
-
-    fun getSanPhamTheoGioHang(MaKhachHang: String) {
-        viewModelScope.launch {
-            try {
-                val response = withContext(Dispatchers.IO) {
-                    LaptopStoreRetrofitClient.sanphamAPIService.getSanPhamByGioHang(MaKhachHang)
-                }
-                danhSachSanPhamCuaKhachHang = response.sanpham
-            } catch (e: Exception) {
-                Log.e("SanPham Error", "Lỗi khi lấy sản phẩm: ${e.message}")
-            }
-        }
-    }
-
-    fun kiemTraSoLuongSanPham(maSanPham: Int) {
-        viewModelScope.launch {
-            try {
-                val response = LaptopStoreRetrofitClient.sanphamAPIService.kiemTraSoLuongTonKho(maSanPham)
-                if (response.success) {
-                    val tonKho = response.SoLuongTonKho
-                    _soLuongTonKhoState.value = tonKho
-                    Log.d("TonKho", "✅ Số lượng tồn kho: $tonKho")
+                isLoading = true
+                val response = LaptopStoreRetrofitClient.sanphamAPIService.getSanPhamTheoKhoangGia(minPrice, maxPrice)
+                if (response.success && response.data != null) {
+                    _danhSach.value = response.data
                 } else {
-                    Log.w("TonKho", "⚠️ Lỗi logic API: ${response.message}")
-                    _soLuongTonKhoState.value = null
+                    _danhSach.value = emptyList()
                 }
             } catch (e: Exception) {
-                Log.e("TonKho", "❌ Lỗi mạng: ${e.message}")
-                _soLuongTonKhoState.value = null
-            }
-        }
-    }
-    fun truSoLuongTrongKho(maSanPham: Int, soLuongCanTru: Int) {
-        viewModelScope.launch {
-            try {
-                val response = LaptopStoreRetrofitClient.sanphamAPIService.truSoLuongTrongKho( TruSoLuongRequest(maSanPham, soLuongCanTru))
-
-                if (response.isSuccessful && response.body()?.success == true) {
-                    // Thành công, có thể cập nhật UI hoặc thông báo
-                } else {
-                    // Xử lý lỗi
-                }
-            } catch (e: Exception) {
-                // Xử lý lỗi mạng hoặc exception
-            }
-        }
-    }
-
-    suspend fun getSanPhamTrongHoaDon(maHoaDon: Int): List<SanPham> {
-        return try {
-            val response = LaptopStoreRetrofitClient.sanphamAPIService.getSanPhamTheoHoaDon(maHoaDon)
-            response.sanpham
-        } catch (e: Exception) {
-            e.printStackTrace()
-            emptyList()
-        }
-    }
-
-
-    fun checkProductAndCart(maKhachHang: String, maSanPham: Int) {
-        viewModelScope.launch {
-            isLoading = true
-            errorMessage = null
-            try {
-                val response = LaptopStoreRetrofitClient.sanphamAPIService.kiemTraSoLuong(maKhachHang, maSanPham)
-                if (response.isSuccessful) {
-                    val body = response.body()
-                    if (body?.status == "success") {
-                        soLuong = body.soLuongKho
-                        Log.d("SanPhamViewModel", "Số lượng kho: ${body.soLuongKho}")
-                    } else {
-                        errorMessage = body?.message ?: "Có lỗi xảy ra"
-                        Log.e("SanPhamViewModel", "Lỗi từ API: $errorMessage")
-                    }
-                } else {
-                    errorMessage = "Lỗi server: ${response.code()}"
-                    Log.e("SanPhamViewModel", "Response error: $errorMessage")
-                }
-            } catch (e: Exception) {
-                errorMessage = "Lỗi kết nối: ${e.localizedMessage}"
-                Log.e("SanPhamViewModel", "Exception: $errorMessage")
+                Log.e("SanPhamViewModel", "Lỗi: ${e.message}")
+                _danhSach.value = emptyList()
             } finally {
                 isLoading = false
             }
@@ -241,4 +157,123 @@ class SanPhamViewModel : ViewModel() {
     }
 
 
-}
+
+    fun getquery(query: String) {
+            searchQuery = query
+        }
+
+        fun clearTrangThai() {
+            _trangThaiTruSoLuong.value = null
+            _error.value = null
+        }
+
+        fun getSanPhamTheoLoaiVanPhong() {
+            viewModelScope.launch {
+                try {
+                    val response = withContext(Dispatchers.IO) {
+                        LaptopStoreRetrofitClient.sanphamAPIService.getSanPhamTheoLoai(1)
+                    }
+                    _danhSachSanPhamVanPhong.value = response.sanpham ?: emptyList()
+                } catch (e: Exception) {
+                    Log.e("SanPham Error", "Lỗi khi lấy sanpham: ${e.message}")
+                    _danhSachSanPhamVanPhong.value = emptyList()
+                }
+            }
+        }
+
+        fun getSanPhamTheoGioHang(MaKhachHang: String) {
+            viewModelScope.launch {
+                try {
+                    val response = withContext(Dispatchers.IO) {
+                        LaptopStoreRetrofitClient.sanphamAPIService.getSanPhamByGioHang(MaKhachHang)
+                    }
+                    danhSachSanPhamCuaKhachHang = response.sanpham
+                } catch (e: Exception) {
+                    Log.e("SanPham Error", "Lỗi khi lấy sản phẩm: ${e.message}")
+                }
+            }
+        }
+
+        fun kiemTraSoLuongSanPham(maSanPham: Int) {
+            viewModelScope.launch {
+                try {
+                    val response =
+                        LaptopStoreRetrofitClient.sanphamAPIService.kiemTraSoLuongTonKho(maSanPham)
+                    if (response.success) {
+                        val tonKho = response.SoLuongTonKho
+                        _soLuongTonKhoState.value = tonKho
+                        Log.d("TonKho", "✅ Số lượng tồn kho: $tonKho")
+                    } else {
+                        Log.w("TonKho", "⚠️ Lỗi logic API: ${response.message}")
+                        _soLuongTonKhoState.value = null
+                    }
+                } catch (e: Exception) {
+                    Log.e("TonKho", "❌ Lỗi mạng: ${e.message}")
+                    _soLuongTonKhoState.value = null
+                }
+            }
+        }
+
+        fun truSoLuongTrongKho(maSanPham: Int, soLuongCanTru: Int) {
+            viewModelScope.launch {
+                try {
+                    val response = LaptopStoreRetrofitClient.sanphamAPIService.truSoLuongTrongKho(
+                        TruSoLuongRequest(maSanPham, soLuongCanTru)
+                    )
+
+                    if (response.isSuccessful && response.body()?.success == true) {
+                        // Thành công, có thể cập nhật UI hoặc thông báo
+                    } else {
+                        // Xử lý lỗi
+                    }
+                } catch (e: Exception) {
+                    // Xử lý lỗi mạng hoặc exception
+                }
+            }
+        }
+
+        suspend fun getSanPhamTrongHoaDon(maHoaDon: Int): List<SanPham> {
+            return try {
+                val response =
+                    LaptopStoreRetrofitClient.sanphamAPIService.getSanPhamTheoHoaDon(maHoaDon)
+                response.sanpham
+            } catch (e: Exception) {
+                e.printStackTrace()
+                emptyList()
+            }
+        }
+
+
+        fun checkProductAndCart(maKhachHang: String, maSanPham: Int) {
+            viewModelScope.launch {
+                isLoading = true
+                errorMessage = null
+                try {
+                    val response = LaptopStoreRetrofitClient.sanphamAPIService.kiemTraSoLuong(
+                        maKhachHang,
+                        maSanPham
+                    )
+                    if (response.isSuccessful) {
+                        val body = response.body()
+                        if (body?.status == "success") {
+                            soLuong = body.soLuongKho
+                            Log.d("SanPhamViewModel", "Số lượng kho: ${body.soLuongKho}")
+                        } else {
+                            errorMessage = body?.message ?: "Có lỗi xảy ra"
+                            Log.e("SanPhamViewModel", "Lỗi từ API: $errorMessage")
+                        }
+                    } else {
+                        errorMessage = "Lỗi server: ${response.code()}"
+                        Log.e("SanPhamViewModel", "Response error: $errorMessage")
+                    }
+                } catch (e: Exception) {
+                    errorMessage = "Lỗi kết nối: ${e.localizedMessage}"
+                    Log.e("SanPhamViewModel", "Exception: $errorMessage")
+                } finally {
+                    isLoading = false
+                }
+            }
+        }
+
+
+    }

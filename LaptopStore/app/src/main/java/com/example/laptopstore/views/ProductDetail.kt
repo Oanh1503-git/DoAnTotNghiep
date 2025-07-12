@@ -102,10 +102,11 @@ fun ProductDetail(
     // Get MaKhachHang safely
 
     var isAddingToCart by remember { mutableStateOf(false) }
-
+    var showDialog by remember { mutableStateOf(false) }
     var isLoading by remember { mutableStateOf(true) }
-    var errorMessage by remember { mutableStateOf<String?>(null) }
     var showLoginDialog by remember { mutableStateOf(false) }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
+
     // State cho form bình luận
     var commentText by remember { mutableStateOf("") }
     var rating by remember { mutableStateOf(5) }
@@ -114,19 +115,18 @@ fun ProductDetail(
     val dataStoreManager = remember { DataStoreManager(context) }
     val customerId by dataStoreManager.customerId.collectAsState(initial = null)
     val maKhachHang = customerId
-    val soluongkho =sanPhamViewModel.soLuongTonKhoState.collectAsState()
-    val sl=soluongkho.value
+    val soluongkho by sanPhamViewModel.soLuongTonKhoState.collectAsState(initial = 0)
+    val slkho=soluongkho.toString().toInt()
     val cartItems by gioHangViewModel.listGioHang.collectAsState(initial = emptyList())
     val isInCart = cartItems.any {it.MaSanPham == product?.MaSanPham}
     val maSanPham= product?.MaSanPham
     val soluongtronggiohang by gioHangViewModel.soLuong.collectAsState(initial = 0)
-    var showDialog by remember { mutableStateOf(false) }
-    Log.d("ProductDetail", "ma khach hang: $soluongtronggiohang")
-    Log.d("ProductDetail", "ma san pham: $maSanPham")
-    LaunchedEffect(taikhoan) {
-        Log.d("ProductDetail", "TaiKhoan changed: $taikhoan")
-        Log.d("ProductDetail", "MaKhachHang: $maKhachHang")
-        Log.d("ProductDetail", "so luong trong kho: $sl")
+
+
+    LaunchedEffect(Unit) {
+        Log.d("ProductDetail", "ma san pham: $maSanPham")
+        Log.d("ProductDetail", "san pham trong gio hang: $soluongtronggiohang")
+        Log.d("ProductDetail", "so luong trong kho: $soluongkho")
     }
     LaunchedEffect(maSanPham) {
         if(maSanPham!=null){
@@ -135,10 +135,6 @@ fun ProductDetail(
         }
     }
     val listdanhgia = binhLuanViewModel.reviewsByProductId.collectAsState()
-    Log.d("ProductDetail", "list danh gia: ${listdanhgia.value}")
-    listdanhgia.value.forEach {
-        Log.d("ProductDetail", "Đánh giá: ${it.TenKhachHang} - ${it.NoiDung}")
-    }
 
     LaunchedEffect(customerId){
         Log.d("ProductDetail","$customerId")
@@ -414,11 +410,11 @@ fun ProductDetail(
                                     Log.d("ProductDetail", "Login state invalid, showing login dialog")
                                     return@Button
                                 }
-                                if (sl !=null && sl <= 0) {
-                                    showDialog = true
+                                if (soluongkho !=null && soluongkho == 0 && slkho < 0) {
                                     errorMessage = "Sản phẩm đã hết hàng"
+                                    showDialog = true
                                     return@Button
-                                }else if(sl != null && soluongtronggiohang != null && sl <= soluongtronggiohang!!){
+                                }else if(soluongkho != null && soluongtronggiohang != null &&   slkho <= soluongtronggiohang!!){
                                     errorMessage = "giỏ hàng đã vượt quá số lượng Sản phẩm tối đã"
                                     return@Button
                                 }
@@ -461,6 +457,20 @@ fun ProductDetail(
                                 fontWeight = FontWeight.Medium
                             )
                         }
+                        if(showDialog){
+                            ReusableAlertDialog(
+                                showDialog = showDialog,
+                                onDismiss = { showDialog = false },
+                                title = "Thông báo",
+                                message = errorMessage ?: "",
+                                confirmButtonText = "Đóng",
+                                confirmButtonColor = Color.Red,
+                                onConfirm = {
+                                    showDialog = false
+                                }
+
+                            )
+                        }
 
                         Button(
                             onClick = {
@@ -468,8 +478,9 @@ fun ProductDetail(
                                     showLoginDialog = true
                                 } else {
                                     try {
-                                        if (sl !=null && sl <= 0) {
+                                        if (slkho !=null && slkho <= 0) {
                                             errorMessage = "Sản phẩm đã hết hàng"
+                                            showDialog=true
                                             return@Button
                                             // hoặc return nếu trong suspend hoặc lambda
                                         } else {
@@ -535,6 +546,7 @@ fun ProductDetail(
 
                             )
                         }
+
                     }
                     Spacer(modifier = Modifier.height(24.dp))
                     var selectedTabIndex by remember { mutableStateOf(0) }

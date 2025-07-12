@@ -53,7 +53,7 @@ interface GioHangAPIService {
     suspend fun deleteSanPhamTrongGio(
         @Body request: DeleteGioHangRequest
     ): Response<DeleteGioHangResponse>
-    @GET("giohang/get_soluong_giohang.php")
+    @GET("GioHang/get_soluong_giohang.php")
     suspend fun getSoLuongTrongGio(
         @Query("MaKhachHang") maKhachHang: String,
         @Query("MaSanPham") maSanPham: Int

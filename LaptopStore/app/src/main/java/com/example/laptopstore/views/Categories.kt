@@ -44,6 +44,7 @@ import com.example.laptopstore.R
 import com.example.laptopstore.models.MenuBottomNavBar
 import com.example.laptopstore.viewmodels.GioHangViewModel
 import com.example.laptopstore.viewmodels.SanPhamViewModel
+import org.checkerframework.checker.units.qual.min
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -68,6 +69,8 @@ fun Categories(navController: NavHostController,
                         onSearch = {
                             if (searchQuery.isNotEmpty()) {
                                 performSearch(searchQuery, sanPhamViewModel)
+                                sanPhamViewModel.getSanPhamSearch(searchQuery)
+                                sanPhamViewModel.getquery(searchQuery)
                                 navController.navigate("SEACHSCREENS?searchQuery=$searchQuery")
                             }
                         }
@@ -163,7 +166,10 @@ fun BrandFilterSection(selectedBrand: String,sanPhamViewModel: SanPhamViewModel,
 
     )
     LaunchedEffect (selectedBrand)
-    { sanPhamViewModel.getSanPhamSearch(selectedBrand) }
+    {
+        sanPhamViewModel.getquery(selectedBrand)
+        sanPhamViewModel.getSanPhamSearch(selectedBrand)
+    }
 
     Column(
         modifier = Modifier
@@ -219,6 +225,22 @@ fun PriceRangeFilterSection(selectedPriceRange: String,sanPhamViewModel: SanPham
     val priceRanges = listOf(
         "Dưới 10 triệu", "Từ 10 - 15 triệu", "Từ 15 - 20 triệu", "Từ 25 - 30 triệu"
     )
+    LaunchedEffect(selectedPriceRange) {
+        sanPhamViewModel.getquery(selectedPriceRange)
+
+        val priceRangesMap = mapOf(
+            "Dưới 10 triệu" to (0 to 10_000_000),
+            "Từ 10 - 15 triệu" to (10_000_000 to 15_000_000),
+            "Từ 15 - 20 triệu" to (15_000_000 to 20_000_000),
+            "Từ 25 - 30 triệu" to (25_000_000 to 30_000_000)
+        )
+
+        priceRangesMap[selectedPriceRange]?.let { (min, max) ->
+            sanPhamViewModel.getSanPhamTheoKhoangGia(min, max)
+            Log.d("PriceFilter", "Gọi API với min=$min max=$max")
+        }
+    }
+
 
     Column(
         modifier = Modifier
@@ -287,7 +309,8 @@ fun UsageFilterSection(selectedUsage: String, onUsageSelected: (String) -> Unit)
 fun ChipFilterSection(selectedChip: String, sanPhamViewModel:SanPhamViewModel, onChipSelected: (String) -> Unit) {
     val chips = listOf("Intel Core i3", "Intel Core i5", "Intel Core i7", "AMD Ryzen 5", "AMD Ryzen 7", "Apple M1", "Apple M2")
     LaunchedEffect(selectedChip)
-    { sanPhamViewModel.getSanPhamSearch(selectedChip) }
+    { sanPhamViewModel.getquery(selectedChip)
+        sanPhamViewModel.getSanPhamSearch(selectedChip) }
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -319,6 +342,7 @@ fun ScreenSizeFilterSection(selectedScreenSize: String,sanPhamViewModel: SanPham
     val screenSizes = listOf("13 inch", "14 inch", "15 inch", "16 inch", "17 inch")
 
     LaunchedEffect(selectedScreenSize) {
+        sanPhamViewModel.getquery(selectedScreenSize)
         sanPhamViewModel.getSanPhamSearch(selectedScreenSize)
     }
     Column(
