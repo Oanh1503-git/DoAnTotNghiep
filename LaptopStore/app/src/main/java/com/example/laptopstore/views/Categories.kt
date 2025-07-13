@@ -111,14 +111,6 @@ fun Categories(navController: NavHostController,
                 )
             }
             item {
-                UsageFilterSection(
-                    selectedUsage = selectedUsage,
-                    onUsageSelected = { usage ->
-                        selectedUsage = usage
-                        applyFiltersAndNavigate(navController, selectedBrand, selectedPriceRange, selectedUsage, selectedChip, selectedScreenSize)                    }
-                )
-            }
-            item {
                 ChipFilterSection(
                     selectedChip = selectedChip,
                     sanPhamViewModel=sanPhamViewModel,
@@ -262,43 +254,6 @@ fun PriceRangeFilterSection(selectedPriceRange: String,sanPhamViewModel: SanPham
                     text = range,
                     isSelected = selectedPriceRange == range,
                     onClick = { onPriceRangeSelected(range) }
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun UsageFilterSection(selectedUsage: String, onUsageSelected: (String) -> Unit) {
-    val usages = listOf(
-        Usage("Văn phòng", "https://i.postimg.cc/KjV6SpNP/asus-vivobook-go15.jpg", ""),
-        Usage("Gaming", "https://i.postimg.cc/RVZxD87n/msi-modern-15.jpg", ""),
-        Usage("Mỏng nhẹ", "https://i.postimg.cc/DyVrzkzt/hp-15-fc0085au-r5.jpg", ""),
-        Usage("Cảm ứng", "https://i.postimg.cc/52b8wBLg/macbook-air-m4.jpg", ""),
-        Usage("Laptop AI", "https://i.postimg.cc/RVZxD87n/msi-modern-15.jpg", "MỚI"),
-        Usage("Mac CTO - Nâng cấp theo cách của bạn", "https://i.postimg.cc/KjV6SpNP/asus-vivobook-go15.jpg", "HOT")
-    )
-
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = 16.dp)
-    ) {
-        Text(
-            text = "Nhu cầu sử dụng",
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            contentPadding = PaddingValues(horizontal = 8.dp)
-        ) {
-            items(usages) { usage ->
-                UsageChip(
-                    usage = usage,
-                    isSelected = selectedUsage == usage.name,
-                    onClick = { onUsageSelected(usage.name) }
                 )
             }
         }

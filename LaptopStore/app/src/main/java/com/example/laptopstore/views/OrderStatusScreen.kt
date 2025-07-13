@@ -98,6 +98,7 @@ fun OrderCard(
     viewModel: HoaDonViewModel,
     navController: NavHostController
 ) {
+    val sanPhamViewModel: SanPhamViewModel = remember { SanPhamViewModel() }
     val context = LocalContext.current
     val dataStoreManager = remember { DataStoreManager(context) }
     val customerId by dataStoreManager.customerId.collectAsState(initial = null)
@@ -147,7 +148,11 @@ fun OrderCard(
                         confirmButtonText = "Xác nhận",
                         confirmButtonColor = MaterialTheme.colorScheme.error,
                         onConfirm = {
-                           viewModel.updateTrangThai(donHang.MaHoaDon,4)
+                            viewModel.updateTrangThai(donHang.MaHoaDon,4)
+                            donHang.SanPham?.forEach { sp ->
+                                sanPhamViewModel.CongSoLuongTrongKho(sp.MaSanPham, sp.SoLuong)
+                            }
+
                             viewModel.getDonHangDayDuTheoKhachHang(maKhachHang?: "")
                             showdialog = false
                         }

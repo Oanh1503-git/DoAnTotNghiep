@@ -54,7 +54,7 @@ data class SanPhamItem(
     val MaSanPham: Int,
     val TenSanPham: String,
     val Gia: Int,
-    val SoLuong: String,
+    val SoLuong: Int,
     val ThanhTien: String,
     val HinhAnh: String
 )

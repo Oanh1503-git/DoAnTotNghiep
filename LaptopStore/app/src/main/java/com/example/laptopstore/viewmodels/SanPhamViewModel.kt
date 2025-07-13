@@ -253,11 +253,11 @@ class SanPhamViewModel : ViewModel() {
                 }
             }
         }
-    fun CongSoLuongTrongKho(maSanPham: Int, soLuongCanTru: Int) {
+    fun CongSoLuongTrongKho(maSanPham: Int, soLuong: Int) {
         viewModelScope.launch {
             try {
                 val response = LaptopStoreRetrofitClient.sanphamAPIService.congSoLuongSanPham(
-                    CongSoLuongRequest(maSanPham, soLuongCanTru)
+                    CongSoLuongRequest(maSanPham, soLuong)
                 )
             } catch (e: Exception) {
 

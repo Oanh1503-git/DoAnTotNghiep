@@ -72,7 +72,7 @@ fun SeachSanphamScreen(navController: NavHostController,
                 title = { Text(text = "Kết quả tìm kiếm :${sanPhamViewModel.searchQuery}", fontWeight = FontWeight.Bold, fontSize = 18.sp)},
                 navigationIcon ={
                     IconButton(onClick = {
-                        navController.navigate(Screens.CATAGORIES.route)
+                        navController.popBackStack()
                     }
                     ) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Back")
