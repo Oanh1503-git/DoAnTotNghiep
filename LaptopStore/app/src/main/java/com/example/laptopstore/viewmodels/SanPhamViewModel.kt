@@ -158,7 +158,6 @@ class SanPhamViewModel : ViewModel() {
     }
 
 
-
     fun getquery(query: String) {
             searchQuery = query
         }

@@ -366,6 +366,7 @@ fun CartScreen(
                                             if (newQuantity <= 0) {
                                                 taikhoan?.MaKhachHang?.let { maKhachHang ->
                                                     gioHangViewModel.deleteOnCartByID(maKhachHang, gioHang.MaSanPham)
+                                                    sanPhamViewModel.kiemTraSoLuongSanPham(gioHang.MaSanPham)
                                                 }
                                                 selectedItems.remove(gioHang.MaGioHang)
                                             } else if (newQuantity <= sanPham.SoLuong) {
@@ -486,6 +487,7 @@ fun CartItemCard(
     val currencyFormatter = NumberFormat.getInstance(Locale("vi", "VN")).apply {
         maximumFractionDigits = 0 // Không hiển thị phần thập phân
     }
+    val sanPhamViewModel: SanPhamViewModel = viewModel()
     var showDeleteDialog by remember { mutableStateOf(false) }
     Card(
         modifier = Modifier
@@ -586,6 +588,7 @@ fun CartItemCard(
                         Button(
                             onClick = {
                                 onQuantityChange(0)
+                                sanPhamViewModel.kiemTraSoLuongSanPham(sanPham.MaSanPham)
                                 showDeleteDialog = false
                             },
                             colors = ButtonDefaults.buttonColors(containerColor = Color.Red)

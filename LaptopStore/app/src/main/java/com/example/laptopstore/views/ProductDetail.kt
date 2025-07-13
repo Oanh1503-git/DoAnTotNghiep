@@ -414,8 +414,8 @@ fun ProductDetail(
                                     errorMessage = "Sản phẩm đã hết hàng"
                                     showDialog = true
                                     return@Button
-                                }else if(soluongkho != null && soluongtronggiohang != null &&   slkho <= soluongtronggiohang!!){
-                                    errorMessage = "giỏ hàng đã vượt quá số lượng Sản phẩm tối đã"
+                                }else if(soluongkho != null && soluongtronggiohang != null &&   slkho < soluongtronggiohang!!){
+                                    errorMessage = "sản phẩm đã hết hàng "
                                     return@Button
                                 }
                                 else{
@@ -441,6 +441,12 @@ fun ProductDetail(
                                         gioHangViewModel.getGioHangByKhachHang(maKhachHang)
                                     }
                                 }
+                                maKhachHang?.let{
+                                    gioHangViewModel.getGioHangByKhachHang(it)
+                                    gioHangViewModel.kiemtrasoluong(it, productOrDefault.MaSanPham)
+                                }
+                                sanPhamViewModel.kiemTraSoLuongSanPham(productOrDefault.MaSanPham)
+                                sanPhamViewModel.checkProductAndCart(maKhachHang,productOrDefault.MaSanPham)
 
                             },
                             modifier = Modifier
