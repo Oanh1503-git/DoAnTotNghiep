@@ -78,6 +78,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.text.NumberFormat
 import java.util.Locale
+import kotlinx.coroutines.flow.collect
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -108,6 +109,7 @@ fun CheckoutScreen(navController: NavHostController,
 
     val soluongkho = sanPhamViewModel.soLuongTonKhoState.collectAsState()
     val sl=soluongkho.value
+    val soLuongTonKhoMap by sanPhamViewModel.soLuongTonKhoMap.collectAsState()
     LaunchedEffect(customerId) {
         if (!customerId.isNullOrBlank()) {
             diaChiViewmodel.getDiaChiKhachHang(customerId)
@@ -121,6 +123,7 @@ fun CheckoutScreen(navController: NavHostController,
             diaChiDuocChon =danhSachDiaChi.firstOrNull{it.MacDinh == 1} ?: DiaChi.EMPTY
         }
     }
+    
     fun getCurrentDateTimeFormatted(): String {
         val current = LocalDateTime.now()
         val formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")
@@ -138,6 +141,12 @@ fun CheckoutScreen(navController: NavHostController,
         Log.e("CheckoutScreen", "Error decoding cart items: ${e.message}")
         errorMessage = "Lỗi khi xử lý dữ liệu giỏ hàng"
         emptyList()
+    }
+    // Bổ sung: Gọi kiểm tra số lượng kho cho từng sản phẩm trong giỏ khi vào trang
+    LaunchedEffect(cartItems) {
+        cartItems.forEach { cartItem ->
+            sanPhamViewModel.kiemTraSoLuongSanPham(cartItem.MaSanPham)
+        }
     }
     if (errorMessage != null) {
         AlertDialog(
@@ -305,27 +314,39 @@ fun CheckoutScreen(navController: NavHostController,
                 Button(
                     onClick = {
                         scope.launch {
+                            errorMessage = null // Reset lỗi trước
+
+                            // ✅ Kiểm tra địa chỉ giao hàng
                             if (diaChiDuocChon.MaDiaChi == 0) {
                                 errorMessage = "Vui lòng chọn địa chỉ giao hàng"
                                 return@launch
                             }
 
+                            // ✅ Kiểm tra giỏ hàng rỗng
                             if (cartItems.isEmpty()) {
                                 errorMessage = "Giỏ hàng trống"
                                 return@launch
                             }
 
+                            // ✅ Kiểm tra khách hàng
                             if (maKhachHang.isNullOrBlank()) {
                                 errorMessage = "Không xác định được khách hàng"
                                 return@launch
                             }
-                            if (sl !=null && sl <= 0){
-                                errorMessage = "Sản phẩm đã hết hàng"
-                                return@launch
-                            }else{
 
+                            // ✅ Kiểm tra tồn kho từng sản phẩm
+                            for (cartItem in cartItems) {
+                                val slkho = soLuongTonKhoMap[cartItem.MaSanPham] ?: 0
+                                if (slkho < cartItem.SoLuong) {
+                                    errorMessage = "Không đủ số lượng"
+                                    return@launch
+                                }
+                            }
+
+                            try {
+                                // ✅ Tạo hóa đơn mới
                                 val newHoaDonBan = HoaDon(
-                                    MaHoaDon = 0, // để backend tự sinh
+                                    MaHoaDon = 0, // backend tự sinh
                                     MaKhachHang = maKhachHang,
                                     NgayDatHang = ngaytaohoadon,
                                     NgayGiaoHang = "",
@@ -336,60 +357,53 @@ fun CheckoutScreen(navController: NavHostController,
                                 )
 
                                 val maHoaDonMoi = hoaDonBanViewModel.addHoaDon(newHoaDonBan)
-                                Log.d("checkout", "Tạo hóa đơn thành công - Mã: $maHoaDonMoi")
+                                Log.d("Checkout", "✅ Tạo hóa đơn thành công: $maHoaDonMoi")
 
                                 if (maHoaDonMoi != null) {
                                     val allSuccess = cartItems.map { cartItem ->
-                                        Log.d("ChiTietHoaDon", """
-                                             Thêm sản phẩm:
-                                                 - Mã SP: ${cartItem.MaSanPham}
-                                                - Số lượng: ${cartItem.SoLuong}
-                                                     - Giá: ${cartItem.Gia}
-                                        - Giảm giá: ${cartItem.GiamGia}
-                                    - Thành tiền: ${cartItem.SoLuong * (cartItem.Gia ?: 0).toDouble() - (cartItem.GiamGia ?: 0).toDouble()}
-                                    """.trimIndent())
-
-                                        Log.d("chitiethoadon", "Tạo hóa đơn thành công - Mã: $maHoaDonMoi")
+                                        // ✅ Thêm chi tiết hóa đơn
                                         val success = chiTietHoaDonViewmodel.addHoaDonChiTiet(
                                             ChiTietHoaDon(
                                                 MaChiTietHoaDon = 0,
                                                 MaHoaDon = maHoaDonMoi,
                                                 MaSanPham = cartItem.MaSanPham,
                                                 SoLuong = cartItem.SoLuong,
-                                                DonGia = (cartItem.Gia ?: cartItem.product?.Gia?.toDouble() ?: 0.0),
-                                                GiamGia = (cartItem.GiamGia ?: cartItem.product?.GiamGia?.toDouble() ?: 0.0),
-                                                ThanhTien = cartItem.SoLuong * (cartItem.Gia ?: cartItem.product?.Gia?.toDouble() ?: 0.0) - (cartItem.GiamGia ?: cartItem.product?.GiamGia?.toDouble() ?: 0.0)
+                                                DonGia = cartItem.Gia ?: cartItem.product?.Gia?.toDouble() ?: 0.0,
+                                                GiamGia = cartItem.GiamGia ?: cartItem.product?.GiamGia?.toDouble() ?: 0.0,
+                                                ThanhTien = (cartItem.SoLuong * (cartItem.Gia ?: cartItem.product?.Gia?.toDouble() ?: 0.0)) -
+                                                        (cartItem.GiamGia ?: cartItem.product?.GiamGia?.toDouble() ?: 0.0)
                                             )
                                         )
-
-                                        Log.d("ChiTietHoaDon", "SP: ${cartItem.MaSanPham} -> success: $success")
+                                        Log.d("ChiTietHoaDon", "✅ SP ${cartItem.MaSanPham} thêm thành công: $success")
                                         success
-
                                     }.all { it }
 
                                     if (allSuccess) {
-
+                                        // ✅ Cập nhật tồn kho và xóa giỏ hàng
                                         cartItems.forEach { cartItem ->
                                             sanPhamViewModel.truSoLuongTrongKho(cartItem.MaSanPham, cartItem.SoLuong)
                                             if (cartItem.MaGioHang > 0) {
                                                 gioHangViewModel.deleteOnCartByID(maKhachHang, cartItem.MaSanPham)
-
                                             }
                                         }
-                                        // Đợi một chút để các thao tác xóa hoàn thành trước khi refresh
-                                        delay(500)
-                                        // Refresh lại danh sách giỏ hàng sau khi xóa
-                                        gioHangViewModel.getGioHangByKhachHang(maKhachHang)
+
+                                        delay(500) // Đợi thao tác xóa hoàn thành
+                                        gioHangViewModel.getGioHangByKhachHang(maKhachHang) // Refresh giỏ hàng
+
+                                        // ✅ Điều hướng đến màn hình thành công
                                         navController.navigate(Screens.ORDERSUCCESSSCREEN.route)
+
                                     } else {
                                         errorMessage = "Lỗi khi thêm chi tiết hóa đơn"
                                     }
-
                                 } else {
                                     errorMessage = "Tạo hóa đơn thất bại"
                                 }
-                            }
 
+                            } catch (e: Exception) {
+                                Log.e("Checkout", "❌ Lỗi đặt hàng: ${e.message}")
+                                errorMessage = "Có lỗi xảy ra khi đặt hàng"
+                            }
                         }
                     },
                     modifier = Modifier
@@ -405,6 +419,7 @@ fun CheckoutScreen(navController: NavHostController,
                         fontWeight = FontWeight.Medium
                     )
                 }
+
 
             }
         }

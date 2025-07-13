@@ -115,18 +115,21 @@ fun ProductDetail(
     val dataStoreManager = remember { DataStoreManager(context) }
     val customerId by dataStoreManager.customerId.collectAsState(initial = null)
     val maKhachHang = customerId
-    val soluongkho by sanPhamViewModel.soLuongTonKhoState.collectAsState(initial = 0)
-    val slkho=soluongkho.toString().toInt()
+
+
     val cartItems by gioHangViewModel.listGioHang.collectAsState(initial = emptyList())
     val isInCart = cartItems.any {it.MaSanPham == product?.MaSanPham}
     val maSanPham= product?.MaSanPham
+    val tonKhoMap by sanPhamViewModel.soLuongTonKhoMap.collectAsState()
+
+    val tonKho = tonKhoMap[maSanPham] ?: 0
     val soluongtronggiohang by gioHangViewModel.soLuong.collectAsState(initial = 0)
 
 
     LaunchedEffect(Unit) {
         Log.d("ProductDetail", "ma san pham: $maSanPham")
         Log.d("ProductDetail", "san pham trong gio hang: $soluongtronggiohang")
-        Log.d("ProductDetail", "so luong trong kho: $soluongkho")
+        Log.d("ProductDetail", "so luong trong kho: $tonKho")
     }
     LaunchedEffect(maSanPham) {
         if(maSanPham!=null){
@@ -410,11 +413,13 @@ fun ProductDetail(
                                     Log.d("ProductDetail", "Login state invalid, showing login dialog")
                                     return@Button
                                 }
-                                if (soluongkho !=null && soluongkho == 0 && slkho < 0) {
+                                val soluongtronggiohang = cartItems.find { it.MaSanPham == productOrDefault.MaSanPham }?.SoLuong ?: 0
+
+                                if (tonKho <= 0) {
                                     errorMessage = "Sản phẩm đã hết hàng"
                                     showDialog = true
                                     return@Button
-                                }else if(soluongkho != null && soluongtronggiohang != null &&   slkho < soluongtronggiohang!!){
+                                }else if(soluongtronggiohang >= tonKho){
                                     errorMessage = "sản phẩm đã hết hàng "
                                     return@Button
                                 }
@@ -443,10 +448,9 @@ fun ProductDetail(
                                 }
                                 maKhachHang?.let{
                                     gioHangViewModel.getGioHangByKhachHang(it)
-                                    gioHangViewModel.kiemtrasoluong(it, productOrDefault.MaSanPham)
                                 }
                                 sanPhamViewModel.kiemTraSoLuongSanPham(productOrDefault.MaSanPham)
-                                sanPhamViewModel.checkProductAndCart(maKhachHang,productOrDefault.MaSanPham)
+
 
                             },
                             modifier = Modifier
@@ -477,51 +481,49 @@ fun ProductDetail(
 
                             )
                         }
-
                         Button(
                             onClick = {
                                 if (maKhachHang.isNullOrEmpty()) {
                                     showLoginDialog = true
-                                } else {
-                                    try {
-                                        if (slkho !=null && slkho <= 0) {
-                                            errorMessage = "Sản phẩm đã hết hàng"
-                                            showDialog=true
-                                            return@Button
-                                            // hoặc return nếu trong suspend hoặc lambda
-                                        } else {
-                                            val cartItems = listOf(
-                                                CartItem(
-                                                    MaGioHang = 0,
-                                                    MaSanPham = productOrDefault.MaSanPham,
-                                                    SoLuong = 1,
-                                                    product = productOrDefault,
-                                                    Gia = productOrDefault.Gia.toDouble()
-                                                )
-                                            )
+                                    Log.d("ProductDetail", "User not logged in, showing login dialog")
+                                    return@Button
+                                }
+                                if(tonKho <=0){
+                                    Log.d("ProductDetail", "Sản phẩm đã hết hàng: $tonKho")
+                                    errorMessage = "Sản phẩm đã hết hàng"
+                                    showDialog = true
+                                    return@Button
+                                }
+                                try {
+                                    // Tạo danh sách cartItems (mua ngay chỉ 1 sản phẩm)
+                                    val cartItems = listOf(
+                                        CartItem(
+                                            MaGioHang = 0,
+                                            MaSanPham = productOrDefault.MaSanPham,
+                                            SoLuong = 1,
+                                            product = productOrDefault,
+                                            Gia = productOrDefault.Gia.toDouble()
+                                        )
+                                    )
 
+                                    val totalPrice = productOrDefault.Gia
+                                    val cartItemsJson = Json.encodeToString(cartItems)
+                                    val encodedJson = URLEncoder.encode(cartItemsJson, StandardCharsets.UTF_8.toString())
 
-                                            val totalPrice = productOrDefault.Gia
-                                            val cartItemsJson = Json.encodeToString(cartItems)
-                                            val encodedJson = URLEncoder.encode(
-                                                cartItemsJson,
-                                                StandardCharsets.UTF_8.toString()
-                                            )
-                                            // Kiểm tra độ dài URL
-                                            if (encodedJson.length > 500000) {
-                                                Toast.makeText(
-                                                    context,
-                                                    "Dữ liệu sản phẩm quá lớn",
-                                                    Toast.LENGTH_SHORT
-                                                ).show()
-                                                return@Button
-                                            }
-                                            navController.navigate("checkout/$totalPrice/$encodedJson")
-                                        }
-                                    } catch (e: Exception) {
-                                        Log.e("ProductDetail", "Lỗi chuyển trang checkout: ${e.message}")
-                                        Toast.makeText(context, "Có lỗi xảy ra khi xử lý đơn hàng", Toast.LENGTH_SHORT).show()
+                                    if (encodedJson.length > 500000) {
+                                        Toast.makeText(context, "Dữ liệu sản phẩm quá lớn", Toast.LENGTH_SHORT).show()
+                                        return@Button
                                     }
+
+                                    // ✅ Gọi API kiểm tra tồn kho trước khi chuyển trang (đảm bảo tồn kho mới nhất)
+                                    sanPhamViewModel.kiemTraSoLuongSanPham(productOrDefault.MaSanPham)
+
+                                    // ✅ Điều hướng sang màn checkout
+                                    navController.navigate("checkout/$totalPrice/$encodedJson")
+
+                                } catch (e: Exception) {
+                                    Log.e("ProductDetail", "Lỗi chuyển trang checkout: ${e.message}")
+                                    Toast.makeText(context, "Có lỗi xảy ra khi xử lý đơn hàng", Toast.LENGTH_SHORT).show()
                                 }
                             },
                             modifier = Modifier

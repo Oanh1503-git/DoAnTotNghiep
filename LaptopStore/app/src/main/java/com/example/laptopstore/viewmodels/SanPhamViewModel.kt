@@ -33,13 +33,16 @@ class SanPhamViewModel : ViewModel() {
     private val _danhSachSanPham= MutableStateFlow<List<SanPham>>(emptyList())
     val danhSachSanPham: StateFlow<List<SanPham>> = _danhSachSanPham
 
+    private val _soLuongTonKhoMap = MutableStateFlow<Map<Int, Int>>(emptyMap())
+    val soLuongTonKhoMap: StateFlow<Map<Int, Int>> get() = _soLuongTonKhoMap
+
     var danhSachSanPhamCuaKhachHang by mutableStateOf<List<SanPham>>(emptyList())
         private set
     var searchQuery by mutableStateOf("")
         private set
 
-        private val _soLuongTonKhoState = MutableStateFlow<Int?>(0)
-        val soLuongTonKhoState: StateFlow<Int?> get() = _soLuongTonKhoState
+    private val _soLuongTonKhoState = MutableStateFlow<Int?>(0)
+    val soLuongTonKhoState: StateFlow<Int?> get() = _soLuongTonKhoState
 
     var sanPham by mutableStateOf<SanPham?>(null)
         private set
@@ -87,6 +90,7 @@ class SanPhamViewModel : ViewModel() {
             }
         }
     }
+
 
     fun getSanPhamSearch(search: String) {
         viewModelScope.launch {
@@ -194,25 +198,48 @@ class SanPhamViewModel : ViewModel() {
             }
         }
 
-        fun kiemTraSoLuongSanPham(maSanPham: Int) {
-            viewModelScope.launch {
-                try {
-                    val response =
-                        LaptopStoreRetrofitClient.sanphamAPIService.kiemTraSoLuongTonKho(maSanPham)
-                    if (response.success) {
-                        val tonKho = response.SoLuongTonKho
+
+    fun kiemTraSoLuongSanPham(maSanPham: Int) {
+        viewModelScope.launch {
+            try {
+                val response =  LaptopStoreRetrofitClient.sanphamAPIService.kiemTraSoLuongTonKho(maSanPham)
+
+                if (response == null) {
+                    Log.e("TonKho", "❌ Response null từ API")
+                    _soLuongTonKhoState.value = null
+                    return@launch
+                }
+
+                if (response.success) {
+                    val tonKho = response.SoLuongTonKho
+
+                    if (tonKho != null) {
+                        _soLuongTonKhoMap.update { currentMap ->
+                            Log.d("TonKhoUpdate", "⭐ Map trước update: $currentMap")
+                            val updatedMap = currentMap + (maSanPham to tonKho)
+                            Log.d("TonKhoUpdate", "✅ Map sau update: $updatedMap")
+                            updatedMap
+                        }
                         _soLuongTonKhoState.value = tonKho
+
+                        Log.d("TonKho", "✅ Mã sản phẩm: $maSanPham")
                         Log.d("TonKho", "✅ Số lượng tồn kho: $tonKho")
                     } else {
-                        Log.w("TonKho", "⚠️ Lỗi logic API: ${response.message}")
+                        Log.w("TonKho", "⚠️ Số lượng tồn kho null cho sản phẩm $maSanPham")
                         _soLuongTonKhoState.value = null
                     }
-                } catch (e: Exception) {
-                    Log.e("TonKho", "❌ Lỗi mạng: ${e.message}")
+
+                } else {
+                    Log.w("TonKho", "⚠️ Lỗi logic API: ${response.message}")
                     _soLuongTonKhoState.value = null
                 }
+
+            } catch (e: Exception) {
+                Log.e("TonKho", "❌ Lỗi mạng: ${e.message}")
+                _soLuongTonKhoState.value = null
             }
         }
+    }
 
         fun truSoLuongTrongKho(maSanPham: Int, soLuongCanTru: Int) {
             viewModelScope.launch {

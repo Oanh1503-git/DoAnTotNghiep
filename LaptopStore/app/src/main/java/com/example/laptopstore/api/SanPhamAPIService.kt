@@ -100,7 +100,7 @@ interface SanPhamAPIService{
         @Body sanpham: SanPham
     ): BaseResponse
 
-    @GET("kiem_tra_soluong.php")
+    @GET("SanPham/kiem_tra_soluong.php")
     suspend fun kiemTraSoLuong(
         @Query("MaKhachHang") maKhachHang: String,
         @Query("MaSanPham") maSanPham: Int
@@ -116,7 +116,7 @@ interface SanPhamAPIService{
         @Body request: TruSoLuongRequest
     ): Response<TruSoLuongResponse>
 
-    @POST("api/SanPham/cong_soluong.php")
+    @POST("SanPham/cong_soluong.php")
     suspend fun congSoLuongSanPham(@Body request: CongSoLuongRequest): Response<CongSoLuongResponse>
 
 }

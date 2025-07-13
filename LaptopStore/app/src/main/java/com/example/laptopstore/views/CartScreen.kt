@@ -36,6 +36,7 @@ import com.example.laptopstore.models.SanPham
 import com.example.laptopstore.viewmodels.GioHangViewModel
 import com.example.laptopstore.viewmodels.SanPhamViewModel
 import com.example.laptopstore.viewmodels.TaiKhoanViewModel
+import kotlinx.coroutines.delay
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.net.URLEncoder
@@ -366,6 +367,7 @@ fun CartScreen(
                                             if (newQuantity <= 0) {
                                                 taikhoan?.MaKhachHang?.let { maKhachHang ->
                                                     gioHangViewModel.deleteOnCartByID(maKhachHang, gioHang.MaSanPham)
+
                                                     sanPhamViewModel.kiemTraSoLuongSanPham(gioHang.MaSanPham)
                                                 }
                                                 selectedItems.remove(gioHang.MaGioHang)
