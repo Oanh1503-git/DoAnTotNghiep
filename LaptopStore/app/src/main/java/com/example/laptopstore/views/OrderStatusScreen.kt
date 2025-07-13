@@ -24,6 +24,7 @@ import com.example.laptopstore.models.ReusableAlertDialog
 import com.example.laptopstore.viewmodels.ChiTietHoaDonViewmodel
 import com.example.laptopstore.viewmodels.DataStoreManager
 import com.example.laptopstore.viewmodels.SanPhamViewModel
+import kotlinx.coroutines.launch
 import java.text.NumberFormat
 import java.util.Locale
 
@@ -98,6 +99,7 @@ fun OrderCard(
     viewModel: HoaDonViewModel,
     navController: NavHostController
 ) {
+    val coroutineScope = rememberCoroutineScope()
     val sanPhamViewModel: SanPhamViewModel = remember { SanPhamViewModel() }
     val context = LocalContext.current
     val dataStoreManager = remember { DataStoreManager(context) }
@@ -148,13 +150,16 @@ fun OrderCard(
                         confirmButtonText = "Xác nhận",
                         confirmButtonColor = MaterialTheme.colorScheme.error,
                         onConfirm = {
-                            viewModel.updateTrangThai(donHang.MaHoaDon,4)
-                            donHang.SanPham?.forEach { sp ->
-                                sanPhamViewModel.CongSoLuongTrongKho(sp.MaSanPham, sp.SoLuong)
+                            showdialog = false
+                            coroutineScope.launch {
+                                viewModel.updateTrangThai(donHang.MaHoaDon,4)
+                                donHang.SanPham?.forEach { sp ->
+                                    sanPhamViewModel.CongSoLuongTrongKho(sp.MaSanPham, sp.SoLuong)
+                                }
+
+                                viewModel.getDonHangDayDuTheoKhachHang(maKhachHang?: "")
                             }
 
-                            viewModel.getDonHangDayDuTheoKhachHang(maKhachHang?: "")
-                            showdialog = false
                         }
                     )
                 }

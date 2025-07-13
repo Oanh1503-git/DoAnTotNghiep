@@ -119,15 +119,7 @@ fun Categories(navController: NavHostController,
                         applyFiltersAndNavigate(navController, selectedBrand, selectedPriceRange, selectedUsage, selectedChip, selectedScreenSize)                    }
                 )
             }
-            item {
-                ScreenSizeFilterSection(
-                    selectedScreenSize = selectedScreenSize,
-                    sanPhamViewModel= sanPhamViewModel,
-                    onScreenSizeSelected = { size ->
-                        selectedScreenSize = size
-                        applyFiltersAndNavigate(navController, selectedBrand, selectedPriceRange, selectedUsage, selectedChip, selectedScreenSize)                    }
-                )
-            }
+          
         }
     }
 }
@@ -292,39 +284,6 @@ fun ChipFilterSection(selectedChip: String, sanPhamViewModel:SanPhamViewModel, o
     }
 }
 
-@Composable
-fun ScreenSizeFilterSection(selectedScreenSize: String,sanPhamViewModel: SanPhamViewModel,onScreenSizeSelected: (String) -> Unit) {
-    val screenSizes = listOf("13 inch", "14 inch", "15 inch", "16 inch", "17 inch")
-
-    LaunchedEffect(selectedScreenSize) {
-        sanPhamViewModel.getquery(selectedScreenSize)
-        sanPhamViewModel.getSanPhamSearch(selectedScreenSize)
-    }
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = 16.dp)
-    ) {
-        Text(
-            text = "Kích thước màn hình",
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            contentPadding = PaddingValues(horizontal = 8.dp)
-        ) {
-            items(screenSizes) { size ->
-                FilterChip(
-                    text = size,
-                    isSelected = selectedScreenSize == size,
-                    onClick = { onScreenSizeSelected(size) }
-                )
-            }
-        }
-    }
-}
 
 @Composable
 fun FilterChip(text: String, isSelected: Boolean, onClick: () -> Unit) {
